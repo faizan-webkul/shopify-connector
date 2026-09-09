@@ -21,37 +21,16 @@ class Importer extends AbstractImporter
 
     public const BATCH_SIZE = 10;
 
-    /**
-     * cursor position
-     */
     public $cursor = null;
 
-    /**
-     * locales storage
-     */
     protected array $locales = [];
 
-    /**
-     * Shopify job Locale.
-     *
-     * @var mixed
-     */
     protected $locale;
 
     protected array $attrStrore = [];
 
-    /**
-     * Shopify credential.
-     *
-     * @var mixed
-     */
     protected $credential;
 
-    /**
-     * Shopify credential as array for api request.
-     *
-     * @var mixed
-     */
     protected $credentialArray;
 
     public function __construct(

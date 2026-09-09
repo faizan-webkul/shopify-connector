@@ -12,20 +12,11 @@ use Webkul\Shopify\Http\Controllers\OptionController;
 use Webkul\Shopify\Http\Controllers\SaasAutoLoginController;
 use Webkul\Shopify\Http\Controllers\SettingController;
 
-/**
- * Public Shopify-initiated auto-login. Lives outside the admin middleware so
- * Shopify can land users here without an existing UnoPim session; the HMAC
- * itself is what authenticates the request.
- */
 Route::get('shopify/saas/secure-login', [SaasAutoLoginController::class, 'login'])
     ->name('shopify.saas.secure-login');
 
-/**
- * Catalog routes.
- */
 Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], function () {
     Route::prefix('shopify')->group(function () {
-
         Route::controller(CredentialController::class)->prefix('credentials')->group(function () {
             Route::get('', 'index')->name('shopify.credentials.index');
 
@@ -85,7 +76,6 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
         });
 
         Route::controller(OptionController::class)->group(function () {
-
             Route::get('get-attribute', 'listAttributes')->name('admin.shopify.get-attribute');
 
             Route::get('get-category-field', 'listCategoryFields')->name('admin.shopify.get-category-field');

@@ -9,18 +9,6 @@ use Webkul\DataTransfer\Repositories\JobTrackRepository;
 use Webkul\Shopify\Models\ShopifyBulkOperation;
 use Webkul\Shopify\Repositories\ShopifyBulkOperationRepository;
 
-/**
- * Tracks Shopify follow-up phase progress for a JobTrack.
- *
- * Storage layout:
- * - Counter lives on each core bulk op's meta as `unfinished_phase_jobs` so it
- *   survives Export::completed() (which wipes JobTrack.summary). Total = sum
- *   across all core ops for the JobTrack.
- * - JobTrack.summary.current_phase is a best-effort UI hint; if Export::completed
- *   wipes it, the next phase write restores it.
- * - JobTrack.summary.follow_up_phases_finalize_pending is set by the deferral
- *   listener so the last markFinishedForCore knows to flip state back to completed.
- */
 class PhaseProgressTracker
 {
     public const PHASES_PER_BATCH = 3;

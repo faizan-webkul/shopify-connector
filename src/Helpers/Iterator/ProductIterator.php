@@ -8,13 +8,13 @@ class ProductIterator implements \Iterator
 {
     use ShopifyGraphqlRequest;
 
-    private $cursor;                // Tracks the current cursor for pagination
+    private $cursor;
 
-    private $currentPageData;       // Holds data for the current page
+    private $currentPageData;
 
-    private $currentKey;            // Tracks the current index within the current page
+    private $currentKey;
 
-    private $credential;            // Credentials for Shopify API
+    private $credential;
 
     private ?string $shopifyLocale;
 
@@ -26,7 +26,7 @@ class ProductIterator implements \Iterator
     {
         $this->credential = $credential;
         $this->shopifyLocale = $shopifyLocale;
-        $this->cursor = null;       // Start with no cursor (first page)
+        $this->cursor = null;
         $this->currentPageData = [];
         $this->currentKey = 0;
         $this->fetchByCursor();
@@ -55,10 +55,10 @@ class ProductIterator implements \Iterator
         if ($this->currentKey == 0) {
             return;
         }
-        $this->cursor = null;       // Reset to the first page
+        $this->cursor = null;
         $this->currentPageData = [];
         $this->currentKey = 0;
-        $this->fetchByCursor();     // Fetch the first page again
+        $this->fetchByCursor();
     }
 
     public function valid(): bool
@@ -69,7 +69,7 @@ class ProductIterator implements \Iterator
     public function setCursor($cursor): void
     {
         $this->cursor = $cursor;
-        $this->fetchByCursor();     // Fetch data based on the provided cursor
+        $this->fetchByCursor();
     }
 
     public function getCursor(): ?string
@@ -102,7 +102,7 @@ class ProductIterator implements \Iterator
             }
 
             $this->currentPageData = $graphqlProducts;
-            // Update the cursor for the next page
+
             $this->cursor = ! empty($graphqlProducts) ? end($graphqlProducts)['cursor'] : null;
         } catch (\Exception $e) {
             error_log($e->getMessage());
@@ -153,9 +153,7 @@ class ProductIterator implements \Iterator
     }
 
     /**
-     * Prefetch translations for every product in the current page in ONE GraphQL
-     * call via translatableResourcesByIds. Falls back silently if the bulk call
-     * errors — the per-resource getTranslations() path will still run.
+     * Prime the page translations; on failure the per resource fallback in getTranslations() runs.
      */
     protected function primeTranslationsForPage(array $edges): void
     {
@@ -208,15 +206,12 @@ class ProductIterator implements \Iterator
                     ->toArray();
             }
 
-            // Resources that did not come back have no translations — cache an
-            // empty result so the per-resource path doesn't re-query.
             foreach ($resourceIds as $rid) {
                 if (! isset($returnedIds[$rid])) {
                     $this->translationCache[$rid.'|'.$this->shopifyLocale] = [];
                 }
             }
         } catch (\Throwable) {
-            // swallow — per-resource fallback in getTranslations() will run
         }
     }
 

@@ -6,19 +6,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Webkul\Shopify\Contracts\ShopifyClient;
 
-/**
- * Client for the published Shopify SaaS proxy app.
- *
- * Calls to Shopify for SaaS-installed credentials go through this proxy
- * (which holds the real shpca_/shpat_ token on its side and forwards to
- * Shopify on the merchant's behalf). The proxy authenticates UnoPim using
- * the JWT it issued at install time.
- *
- * As the SaaS implementation of the ShopifyClient contract, request() routes
- * export operations and returns the Shopify GraphQL-shaped envelope. The
- * remaining methods serve the credential page (shop locales, publications,
- * locations, revoke, sync) and return data shaped for the views.
- */
 class SaasProxyClient implements ShopifyClient
 {
     /**
@@ -64,7 +51,6 @@ class SaasProxyClient implements ShopifyClient
             'rename' => ['input' => 'definition'],
         ],
 
-        // --- Product (bulk) export -----------------------------------------
         'stagedUploadsCreate' => [
             'path'   => '/graphql/api/stagedUploadsCreate.json',
             'method' => 'POST',
@@ -101,7 +87,6 @@ class SaasProxyClient implements ShopifyClient
             'rename' => ['input' => 'productSet'],
         ],
 
-        // --- Translations --------------------------------------------------
         'createTranslation' => [
             'path'         => '/graphql/api/translationsRegister.json',
             'method'       => 'POST',
@@ -319,7 +304,6 @@ class SaasProxyClient implements ShopifyClient
                 ->post($url, ['domain' => $domain]);
 
             if ($response->successful()) {
-
                 return true;
             }
 
@@ -430,8 +414,6 @@ class SaasProxyClient implements ShopifyClient
                 );
             }
 
-            // Paginated list reads (import iterators) are reshaped into the
-            // Shopify GraphQL connection envelope; single results pass through.
             if (isset($definition['connection'])) {
                 return [
                     'code' => $response->status(),
@@ -518,7 +500,7 @@ class SaasProxyClient implements ShopifyClient
             : [];
 
         if (isset($container['edges']) && is_array($container['edges'])) {
-            // Already edge-shaped — keep any proxy-supplied per-edge cursor.
+
             $edges = array_values(array_map(function ($edge) {
                 if (is_array($edge) && array_key_exists('node', $edge)) {
                     return ['cursor' => $edge['cursor'] ?? null, 'node' => $edge['node']];
@@ -527,7 +509,7 @@ class SaasProxyClient implements ShopifyClient
                 return ['cursor' => null, 'node' => $edge];
             }, $container['edges']));
         } else {
-            // {nodes:[...]}, a bare list, or a single object.
+
             $nodes = $container['nodes'] ?? $container;
 
             if ($this->isAssoc($nodes)) {

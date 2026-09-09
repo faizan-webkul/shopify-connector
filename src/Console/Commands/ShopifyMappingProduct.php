@@ -20,11 +20,6 @@ class ShopifyMappingProduct extends Command
 
     public const UNOPIM_ENTITY_NAME = 'product';
 
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'shopify-mapping:products {shopUrl} {--onlynew=false}';
 
     protected $description = 'Mapping products';
@@ -62,7 +57,7 @@ class ShopifyMappingProduct extends Command
 
         $jobTrackHighestId = DB::table('job_track')
             ->select('id')
-            ->orderByDesc('id') // Order by ID in descending order
+            ->orderByDesc('id')
             ->first();
 
         $this->jobinstanceId = $jobTrackHighestId->id + 1;

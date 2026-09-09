@@ -30,28 +30,12 @@ class Exporter extends AbstractExporter
 
     public const NOT_FOUND_DEFINITION = 'Definition not found.';
 
-    /**
-     * Shopify credential.
-     *
-     * @var mixed
-     */
     protected $credential;
 
-    /**
-     * Shopify credential as array for api request.
-     *
-     * @var mixed
-     */
     protected $credentialArray;
 
-    /**
-     * Default locale of shopify store
-     */
     protected $shopifyDefaultLocale;
 
-    /**
-     * Shopify metafield type data.
-     */
     protected $shoifyMetaFieldTypeData;
 
     protected bool $exportsFile = false;
@@ -143,9 +127,6 @@ class Exporter extends AbstractExporter
 
         $this->syncMetafieldExtras($batch->data);
 
-        /**
-         * Update export batch process state summary
-         */
         $this->updateBatchState($batch->id, ExportHelper::STATE_PROCESSED);
 
         Event::dispatch('shopify.metafield.export.after', $batch);
@@ -252,7 +233,6 @@ class Exporter extends AbstractExporter
         $userErrors = $resultCollection['userErrors'] ?? [];
 
         if (! empty($responseData['body']['errors'])) {
-
             $this->handleErrors($responseData['body']['errors'], $rawData['code']);
 
             return;

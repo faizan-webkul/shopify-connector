@@ -11,18 +11,6 @@ use Webkul\Shopify\Services\ShopifyClientFactory;
 use Webkul\Shopify\Traits\ShopifyGraphqlRequest;
 use Webkul\Shopify\Traits\StagesShopifyAsset;
 
-/**
- * Uploads UnoPim file/image/video metafield values to Shopify and returns a
- * `assetPath => File GID` map for the product exporter to inject.
- *
- * Manual credentials create each file directly via `fileCreate`. SaaS routes
- * through the proxy (which does not expose `fileCreate`), so its files are
- * created with one `bulkOperationRunMutation` over a staged JSONL — the same
- * bulk pieces the proxy already exposes for product export.
- *
- * Both paths dedupe within a run and cache GIDs in wk_shopify_data_mapping
- * (entityType `shopify_file`) so the same asset is never re-uploaded.
- */
 class FileReferenceUploader
 {
     use ShopifyGraphqlRequest;
@@ -144,8 +132,6 @@ class FileReferenceUploader
                 continue;
             }
 
-            // Shopify rejects video external URLs; each video must be staged
-            // uploaded on its own so one bad video never fails the image batch.
             if (($meta['content_type'] ?? '') === 'VIDEO') {
                 $gid = $this->createVideoViaStaged($path, $credential);
                 if ($gid) {

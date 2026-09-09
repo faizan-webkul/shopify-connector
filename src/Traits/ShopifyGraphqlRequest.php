@@ -9,9 +9,6 @@ use Webkul\DataTransfer\Models\JobTrack;
 use Webkul\Shopify\Exceptions\InvalidCredential;
 use Webkul\Shopify\Services\ShopifyClientFactory;
 
-/**
- * Trait for making GraphQL API requests to Shopify.
- */
 trait ShopifyGraphqlRequest
 {
     /**
@@ -53,7 +50,6 @@ trait ShopifyGraphqlRequest
      */
     public function handleUrlField(mixed $imageUrl, string $imagePath): string|bool
     {
-
         try {
             $response = Http::get($imageUrl);
 

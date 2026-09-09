@@ -8,9 +8,6 @@ use Webkul\Shopify\Repositories\ShopifyCredentialRepository;
 
 class ShopifyAccessTokenManager
 {
-    /**
-     * In-memory credential cache to avoid repeated DB hits in a single process.
-     */
     protected static array $credentialCache = [];
 
     public function __construct(

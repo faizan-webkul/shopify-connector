@@ -41,8 +41,6 @@ class RunMediaPhase implements ShouldQueue
         try {
             $result = $phaseService->handle($bulkOperation, $operationData);
         } catch (BulkMutationInProgressException $e) {
-            // A sibling phase still holds Shopify's single bulk-mutation slot.
-            // Release back to the queue and retry once it frees.
             $this->release(random_int(20, 60));
 
             return;
@@ -50,17 +48,11 @@ class RunMediaPhase implements ShouldQueue
 
         $this->storeResult($bulkOperation, $result);
 
-        // Chain the media_update phase only when build() actually found images to
-        // update. Register it (+1) BEFORE this media phase decrements below so the
-        // core op does not flip to completed before the updates run.
         if ($phaseService->hasPendingUpdate()) {
             $tracker->registerPhaseJobsForCore((int) $bulkOperation->id, 1);
             RunMediaUpdatePhase::dispatch((int) $bulkOperation->id);
         }
 
-        // When media was created inline by the core productSet (no productCreateMedia
-        // op here), the variant-media phase is chained from this point; otherwise it
-        // is chained when the productCreateMedia op finalizes.
         if (empty($result['phase_bulk_operation_id']) && ! empty($operationData['manifest']['media_created'])) {
             $tracker->registerPhaseJobsForCore((int) $bulkOperation->id, 1);
             RunVariantMediaPhase::dispatch((int) $bulkOperation->id);

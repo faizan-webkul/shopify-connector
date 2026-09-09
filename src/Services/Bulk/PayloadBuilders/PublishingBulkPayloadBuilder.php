@@ -25,7 +25,6 @@ class PublishingBulkPayloadBuilder
             return [];
         }
 
-        // Normalize to array of GIDs
         $publicationIds = is_array($publicationIds)
             ? $publicationIds
             : array_filter(explode(',', $publicationIds));
@@ -34,7 +33,6 @@ class PublishingBulkPayloadBuilder
             return [];
         }
 
-        // Ensure all are GIDs
         $publicationIds = array_map(fn ($id) => $this->ensureGid($id, 'Publication'), $publicationIds);
 
         $lines = [];
@@ -46,7 +44,6 @@ class PublishingBulkPayloadBuilder
 
             $productId = $entry['product']['id'];
 
-            // Build input array: [ ['publicationId' => '...'], ... ]
             $input = array_map(fn ($pid) => ['publicationId' => $pid], $publicationIds);
 
             $line = [

@@ -7,11 +7,6 @@ use Webkul\Attribute\Repositories\AttributeRepository;
 
 class ShopifyInstaller extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'shopify-package:install';
 
     protected $description = 'Install the Shopify package';

@@ -28,37 +28,18 @@ class Importer extends AbstractImporter
 
     public const UNOPIM_ENTITY_NAME = 'familyCount';
 
-    /**
-     * cursor position
-     */
     public $cursor = null;
 
-    /**
-     * locales storage
-     */
     protected array $locales = [];
 
-    /**
-     * job locale
-     */
     private $locale;
 
     protected array $familyCode = [];
 
-    /**
-     * Shopify credential.
-     *
-     * @var mixed
-     */
     protected $credential;
 
     protected $defintiionMapping;
 
-    /**
-     * Shopify credential as array for api request.
-     *
-     * @var mixed
-     */
     protected $credentialArray;
 
     protected $importMapping;
@@ -204,7 +185,6 @@ class Importer extends AbstractImporter
             $allIdss = [];
 
             foreach ($allIds as $groupId) {
-
                 $attributeIdss = DB::table('attribute_group_mappings')
                     ->whereIn('attribute_family_group_id', [$groupId])
                     ->pluck('attribute_id')->toArray();
@@ -248,8 +228,6 @@ class Importer extends AbstractImporter
                 return trim(preg_replace('/[^A-Za-z0-9]+/', '_', $value), '_');
             }, $optionName);
 
-            // Shopify exposes option values as `values`; the SaaS proxy's
-            // product list returns them only under `optionValues`.
             $optionValues = [];
             foreach ($productOptions as $productOption) {
                 $optionValues = array_merge(
@@ -322,9 +300,7 @@ class Importer extends AbstractImporter
         $batchRows = [];
 
         $source->rewind();
-        /**
-         * Clean previous saved batches
-         */
+
         $this->importBatchRepository->deleteWhere([
             'job_track_id' => $this->import->id,
         ]);

@@ -12,16 +12,6 @@ use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Shopify\Models\ShopifyMappingConfig;
 use Webkul\Shopify\Repositories\ShopifyMappingRepository;
 
-/**
- * Per-batch lookup cache for the Shopify product importer.
- *
- * Replaces N+1 calls to findOneByField('sku', ...), categoryRepository->where('code', ...),
- * shopifyMappingRepository->where('code', ...), and attribute->options()->where('code', ...)
- * with single bulk SELECTs per batch.
- *
- * Each map is null until prime() is called; methods fall back to a live DB read so the
- * cache is purely additive — callers without a primed cache still work.
- */
 class BatchImportCache
 {
     /** @var array<string, mixed>|null SKU → Product model */
@@ -57,10 +47,6 @@ class BatchImportCache
     {
         $this->shopUrl = $shopUrl;
 
-        // Initialize every map so subsequent getX() lookups can cache misses.
-        // Without this, a default property value of null would make the "cache
-        // a miss" branch never run for maps that aren't bulk-primed below
-        // (e.g. familiesById is filled lazily, not from the batch rows).
         $this->productsBySku ??= [];
         $this->categoryCodes ??= [];
         $this->mappingsByCode ??= [];
@@ -152,8 +138,6 @@ class BatchImportCache
 
     public function hasCategoryCode(string $code): bool
     {
-        // Primed miss (null) and primed hit (string) are both stored — use
-        // array_key_exists so null entries don't silently fall through.
         if ($this->categoryCodes !== null && array_key_exists($code, $this->categoryCodes)) {
             return $this->categoryCodes[$code] !== null;
         }
@@ -177,7 +161,7 @@ class BatchImportCache
         }
 
         if ($this->mappingsByCode !== null && array_key_exists($code, $this->mappingsByCode)) {
-            // primed and confirmed empty
+
             return [];
         }
 
@@ -250,8 +234,6 @@ class BatchImportCache
 
         $map = $this->productsBySku ?? [];
 
-        // Initialize every requested SKU as a confirmed miss so the cache short-circuits
-        // a per-row findOneByField call instead of falling through to the DB.
         foreach ($skus as $sku) {
             if (! array_key_exists($sku, $map)) {
                 $map[$sku] = null;
@@ -292,7 +274,6 @@ class BatchImportCache
             }
         }
 
-        // Mark misses so hasCategoryCode() can answer without hitting the DB.
         foreach ($codes as $code) {
             if (! isset($map[$code])) {
                 $map[$code] = null;

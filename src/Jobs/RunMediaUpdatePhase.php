@@ -14,11 +14,6 @@ use Webkul\Shopify\Services\BulkOperationResultReader;
 use Webkul\Shopify\Services\PhaseProgressTracker;
 use Webkul\Shopify\Traits\HandlesPhaseJobFailure;
 
-/**
- * Runs the media-update phase: updates already-mapped product images whose source
- * path changed. Dispatched as a sibling of the media phase with the core bulk
- * operation id, mirroring the other follow-up phase jobs.
- */
 class RunMediaUpdatePhase implements ShouldQueue
 {
     use Dispatchable, HandlesPhaseJobFailure, InteractsWithQueue, Queueable, SerializesModels;
@@ -44,8 +39,6 @@ class RunMediaUpdatePhase implements ShouldQueue
         try {
             $result = $phaseService->handle($bulkOperation, $resultReader->read($bulkOperation));
         } catch (BulkMutationInProgressException $e) {
-            // A sibling phase still holds Shopify's single bulk-mutation slot.
-            // Release back to the queue and retry once it frees.
             $this->release(random_int(20, 60));
 
             return;

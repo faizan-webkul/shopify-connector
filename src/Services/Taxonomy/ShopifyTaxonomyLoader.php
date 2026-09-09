@@ -42,8 +42,6 @@ class ShopifyTaxonomyLoader
                     continue;
                 }
 
-                // First whitespace-free token is the GID (contains no spaces); the
-                // path follows the aligned `:` separator.
                 if (! preg_match('/^(\S+)\s*:\s*(.+)$/', $line, $m)) {
                     continue;
                 }

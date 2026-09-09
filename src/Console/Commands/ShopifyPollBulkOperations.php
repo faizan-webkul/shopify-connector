@@ -8,11 +8,6 @@ use Webkul\Shopify\Repositories\ShopifyBulkOperationRepository;
 
 class ShopifyPollBulkOperations extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'shopify:bulk-operations:poll {operationId?}';
 
     protected $description = 'Poll Shopify bulk operations and finalize completed core product syncs.';

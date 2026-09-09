@@ -2,9 +2,6 @@
 
 namespace Webkul\Shopify\Traits;
 
-/**
- * data mapping
- */
 trait DataMappingTrait
 {
     /**
@@ -152,8 +149,6 @@ trait DataMappingTrait
 
             $this->shopifyMappingRepository->update($mappingData, $mapping[0]['id']);
         } else {
-            // Update failed (userErrors, collection null): return the response so the
-            // caller skips and logs instead of crashing on a null collection.
             return $data[0];
         }
 

@@ -12,16 +12,6 @@ use Webkul\Completeness\Jobs\ProductCompletenessJob;
 use Webkul\ElasticSearch\Observers\Product;
 use Webkul\Product\Models\ProductProxy;
 
-/**
- * Post-batch fan-out job that runs the per-product side-effects we suppressed
- * inline during a Shopify product import:
- *
- *  - Completeness recalculation (one ProductCompletenessJob per chunk of IDs)
- *  - Elasticsearch indexing (if enabled)
- *
- * Mirrors the exporter's PhaseOrchestrator pattern (publish/inventory/translation
- * phases dispatched in parallel after the bulk operation submission).
- */
 class RefreshImportedProducts implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -46,6 +36,9 @@ class RefreshImportedProducts implements ShouldQueue
         return now()->addMinutes(30);
     }
 
+    /**
+     * Reindex the imported products, ignoring single row failures so the rest of the batch still indexes.
+     */
     public function handle(): void
     {
         $productIds = array_values(array_unique(array_filter($this->productIds)));
@@ -57,10 +50,6 @@ class RefreshImportedProducts implements ShouldQueue
             && config('elasticsearch.enabled')
             && class_exists(Product::class);
 
-        // While we touch() each product for ES reindexing, suppress the
-        // completeness observer so it doesn't queue a redundant per-product
-        // ProductCompletenessJob in addition to the explicit chunked dispatch
-        // below. Always re-enable in finally{} even if a touch throws.
         $disabledCompletenessObserver = false;
 
         try {
@@ -83,7 +72,6 @@ class RefreshImportedProducts implements ShouldQueue
                                 try {
                                     $product->touch();
                                 } catch (\Throwable) {
-                                    // ignore single-row failures so the rest of the batch indexes
                                 }
                             });
                     }

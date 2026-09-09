@@ -71,12 +71,12 @@ class ShopifyServiceProvider extends ServiceProvider
             $viewRenderEventManager->addTemplate('shopify::catalog.products.metaobject-control');
         });
 
-        Event::listen('unopim.admin.settings.data_transfer.exports.create.card.scope.after', static function (ViewRenderEventManager $viewRenderEventManager) {
-            $viewRenderEventManager->addTemplate('shopify::data-transfer.export-filters');
+        Event::listen('unopim.admin.settings.data_transfer.exports.create.card.accordion.filters.after', static function (ViewRenderEventManager $viewRenderEventManager) {
+            $viewRenderEventManager->addTemplate('shopify::data-transfer.export-credentials');
         });
 
-        Event::listen('unopim.admin.settings.data_transfer.exports.edit.card.general.after', static function (ViewRenderEventManager $viewRenderEventManager) {
-            $viewRenderEventManager->addTemplate('shopify::data-transfer.export-filters-edit');
+        Event::listen('unopim.admin.settings.data_transfer.exports.edit.card.accordion.filters.after', static function (ViewRenderEventManager $viewRenderEventManager) {
+            $viewRenderEventManager->addTemplate('shopify::data-transfer.export-credentials-edit');
         });
 
         Event::listen('unopim.admin.catalog.attributes.create.card.label.after', static function (ViewRenderEventManager $viewRenderEventManager) {

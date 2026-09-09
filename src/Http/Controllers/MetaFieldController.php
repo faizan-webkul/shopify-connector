@@ -525,9 +525,9 @@ class MetaFieldController extends Controller
             $formattedValue = preg_replace('/,/', ', ', $formattedValue);
             $requestData['validations'] = $formattedValue;
         }
-        // Prepare options if they exist.
+
         if (isset($requestData['adminFilterable']) || isset($requestData['smartCollectionCondition'])) {
-            // Encode with pretty formatting
+
             $formatted = json_encode([
                 'adminFilterable'          => $requestData['adminFilterable'] ?? null,
                 'smartCollectionCondition' => $requestData['smartCollectionCondition'] ?? null,
@@ -537,7 +537,6 @@ class MetaFieldController extends Controller
             $requestData['options'] = $formatted;
         }
 
-        // Additional validations for description and attribute length.
         if (isset($requestData['description']) && strlen($requestData['description']) > 100) {
             $errors['description'] = trans('Description must be a maximum of 100 characters');
         }
@@ -565,7 +564,6 @@ class MetaFieldController extends Controller
         $requestData['ownerTypeName'] = $requestData['ownerTypeName'] ?? ($requestData['ownerType'] ?? '');
         $requestData['attributeLabel'] = $requestData['attributeLabel'] ?? ($requestData['attribute'] ?? '');
 
-        // Proceed to update after validation passes.
         $this->shopifyMetaFieldRepository->update($requestData, $id);
 
         if (request()->expectsJson()) {

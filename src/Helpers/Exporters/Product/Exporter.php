@@ -3,6 +3,7 @@
 namespace Webkul\Shopify\Helpers\Exporters\Product;
 
 use Illuminate\Contracts\Cache\LockTimeoutException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -14,10 +15,13 @@ use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\DAM\Repositories\AssetRepository;
 use Webkul\DataTransfer\Contracts\JobTrackBatch as JobTrackBatchContract;
+use Webkul\DataTransfer\Enums\ProductFilter;
 use Webkul\DataTransfer\Helpers\Export as ExportHelper;
 use Webkul\DataTransfer\Helpers\Exporters\AbstractExporter;
+use Webkul\DataTransfer\Helpers\Sources\Export\Filters\ProductExportFilter;
 use Webkul\DataTransfer\Jobs\Export\File\FlatItemBuffer as FileExportFileBuffer;
 use Webkul\DataTransfer\Repositories\JobTrackBatchRepository;
+use Webkul\Product\Models\Product;
 use Webkul\Shopify\Exceptions\InvalidCredential;
 use Webkul\Shopify\Exceptions\InvalidLocale;
 use Webkul\Shopify\Jobs\PollBulkShopifyOperation;
@@ -60,17 +64,10 @@ class Exporter extends AbstractExporter
 
     protected $imageData = [];
 
-    /**
-     * Cached count of product rows (simple + configurable + variants) in this
-     * export, used to pick the core path.
-     */
     protected ?int $totalExportProductCount = null;
 
     public const BATCH_SIZE = 500;
 
-    /**
-     * @var array
-     */
     protected $childImageAttr = [];
 
     protected $removeImgAttr = [];
@@ -81,14 +78,8 @@ class Exporter extends AbstractExporter
 
     protected bool $exportsFile = false;
 
-    /**
-     * @var array
-     */
     protected $currencies = [];
 
-    /**
-     * @var array
-     */
     protected $attributes = [];
 
     protected $currency;
@@ -183,9 +174,9 @@ class Exporter extends AbstractExporter
     {
         $filters = $this->getFilters();
 
-        $this->currency = $filters['currency'];
+        $this->currency = $filters['currencies'];
 
-        $this->jobChannel = $filters['channel'];
+        $this->jobChannel = $filters['channels'];
 
         $this->credential = $this->shopifyRepository->find($filters['credentials']);
         $this->definitionMapping = $this->credential?->extras;
@@ -270,9 +261,6 @@ class Exporter extends AbstractExporter
         $this->initilize();
         $products = $this->prepareProductsForShopify($batch, $filePath);
 
-        /**
-         * Update export batch process state summary
-         */
         $this->updateBatchState($batch->id, ExportHelper::STATE_PROCESSED);
 
         Event::dispatch('shopify.product.export.after', $batch);
@@ -304,11 +292,8 @@ class Exporter extends AbstractExporter
         }
 
         $filters = $this->getFilters();
-        $hasProductFilter = ! empty($filters['productfilter']);
-        $hasStatusFilter = in_array($filters['productstatus'] ?? null, ['enable', 'disable'], true);
 
-        // No filter: the whole catalog — every simple, configurable, and variant.
-        if (! $hasProductFilter && ! $hasStatusFilter) {
+        if (! $this->hasProductFilters($filters)) {
             return $this->totalExportProductCount = DB::table('products')->count();
         }
 
@@ -317,21 +302,12 @@ class Exporter extends AbstractExporter
                 $q->whereNull('parent_id')->orWhere('parent_id', 0);
             });
 
-        $this->applyStatusFilter($rootIdsQuery, $filters);
-
-        if ($hasProductFilter) {
-            $rootSkus = $this->resolveFilterSkusToRoots($filters['productfilter']);
-
-            if (empty($rootSkus)) {
-                return $this->totalExportProductCount = 0;
-            }
-
-            $rootIdsQuery->whereIn('sku', $rootSkus);
+        if (! $this->applyProductFilters($rootIdsQuery, $filters)) {
+            return $this->totalExportProductCount = 0;
         }
 
         $rootIds = $rootIdsQuery->pluck('id');
 
-        // Roots (simple + configurable) plus all variants belonging to them.
         return $this->totalExportProductCount = DB::table('products')
             ->where(function ($q) use ($rootIds) {
                 $q->whereIn('id', $rootIds)
@@ -347,8 +323,6 @@ class Exporter extends AbstractExporter
         try {
             $lock->block(90);
         } catch (LockTimeoutException $e) {
-            // Another batch is still submitting the export-wide bulk op; its
-            // JSONL already covers this batch's products, so nothing to do.
             $this->markBatchAsNoOp($batch->id);
 
             return;
@@ -486,17 +460,9 @@ class Exporter extends AbstractExporter
                 $q->whereNull('parent_id')->orWhere('parent_id', 0);
             });
 
-        if (! empty($filters['productfilter'])) {
-            $rootSkus = $this->resolveFilterSkusToRoots($filters['productfilter']);
-
-            if (empty($rootSkus)) {
-                return [];
-            }
-
-            $query->whereIn('sku', $rootSkus);
+        if (! $this->applyProductFilters($query, $filters)) {
+            return [];
         }
-
-        $this->applyStatusFilter($query, $filters);
 
         return $query->get()
             ->map(fn ($row) => ['sku' => $row->sku])
@@ -509,16 +475,12 @@ class Exporter extends AbstractExporter
      * authoritative, so a variant must always be exported as part of its full
      * parent product to avoid deleting siblings on Shopify.
      *
+     * @param  array<int, string>  $skus
      * @return array<int, string>
      */
-    protected function resolveFilterSkusToRoots(string $productFilter): array
+    protected function resolveFilterSkusToRoots(array $skus): array
     {
-        $skus = array_values(array_filter(
-            array_map('trim', explode(',', $productFilter)),
-            fn ($s) => $s !== ''
-        ));
-
-        if (empty($skus)) {
+        if ($skus === []) {
             return [];
         }
 
@@ -534,18 +496,80 @@ class Exporter extends AbstractExporter
     }
 
     /**
-     * Apply the optional UnoPim product-status filter to a root-product query.
-     * Absent or unrecognised value leaves the query untouched (every status).
+     * Constrain a root-product query to the job's filters.
+     *
+     * Core's ProductExportFilter needs an Eloquent builder because it calls
+     * whereHas(); this exporter builds on the query builder. The id subquery
+     * bridges the two in one statement, with no id list held in PHP.
+     *
+     * The sku filter is applied here rather than delegated, because Shopify's
+     * productSet treats the variants list as authoritative: a variant SKU must
+     * pull in its configurable parent or exporting it would delete its siblings.
+     *
+     * @return bool false when a sku filter matched nothing, so the caller
+     *              should return an empty result instead of running the query
      */
-    protected function applyStatusFilter($query, array $filters): void
+    protected function applyProductFilters($query, array $filters): bool
     {
-        $status = $filters['productstatus'] ?? null;
+        $filter = resolve(ProductExportFilter::class);
 
-        if ($status === 'enable') {
-            $query->where('status', 1);
-        } elseif ($status === 'disable') {
-            $query->where('status', 0);
+        $skus = $filter->skuValues($filters);
+
+        if ($skus !== []) {
+            $rootSkus = $this->resolveFilterSkusToRoots($skus);
+
+            if ($rootSkus === []) {
+                return false;
+            }
+
+            $query->whereIn('sku', $rootSkus);
         }
+
+        $delegated = Arr::except($filters, [ProductFilter::SKU->value]);
+
+        if ($this->hasDelegatedFilters($delegated)) {
+            $query->whereIn('id', Product::query()
+                ->select('id')
+                ->tap(fn ($builder) => $filter->applyToQuery($builder, $delegated)));
+        }
+
+        return true;
+    }
+
+    /**
+     * Whether any filter narrows the export below the whole catalogue.
+     */
+    protected function hasProductFilters(array $filters): bool
+    {
+        return resolve(ProductExportFilter::class)->skuValues($filters) !== []
+            || $this->hasDelegatedFilters($filters);
+    }
+
+    /**
+     * Whether any filter core's ProductExportFilter understands carries a value.
+     *
+     * Without this guard an unfiltered export would still run the id subquery
+     * against every product for no benefit.
+     */
+    protected function hasDelegatedFilters(array $filters): bool
+    {
+        foreach ([
+            ProductFilter::STATUS,
+            ProductFilter::ATTRIBUTE_FAMILIES,
+            ProductFilter::CATEGORIES,
+            ProductFilter::COMPLETENESS,
+            ProductFilter::UPDATED_AFTER,
+            ProductFilter::UPDATED_BEFORE,
+            ProductFilter::CUSTOM_ATTRIBUTES,
+        ] as $case) {
+            $value = $filters[$case->value] ?? null;
+
+            if (is_array($value) ? array_filter($value) !== [] : ! in_array($value, [null, '', 'none'], true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function getResults()
@@ -558,17 +582,9 @@ class Exporter extends AbstractExporter
                 $q->whereNull('parent_id')->orWhere('parent_id', 0);
             });
 
-        if (isset($filters['productfilter']) && ! empty($filters['productfilter'])) {
-            $rootSkus = $this->resolveFilterSkusToRoots($filters['productfilter']);
-
-            if (empty($rootSkus)) {
-                return new \ArrayIterator([]);
-            }
-
-            $query->whereIn('sku', $rootSkus);
+        if (! $this->applyProductFilters($query, $filters)) {
+            return new \ArrayIterator([]);
         }
-
-        $this->applyStatusFilter($query, $filters);
 
         $rows = $query->get();
 
@@ -607,7 +623,6 @@ class Exporter extends AbstractExporter
                 'products.updated_at',
                 'aft.code as attribute_family_code',
 
-                // Parent Product Data
                 'parent_products.id as parent_id',
                 'parent_products.sku as parent_sku',
                 'parent_products.type as parent_type',
@@ -615,7 +630,6 @@ class Exporter extends AbstractExporter
                 'parent_products.values as parent_values',
                 'parent_products.attribute_family_id as parent_attribute_family_id',
 
-                // Fetch super attributes, ensuring they are retrieved from the parent
                 DB::raw("COALESCE(GROUP_CONCAT(DISTINCT {$tablePrefix}attr.code ORDER BY {$tablePrefix}attr.code ASC SEPARATOR ','), '') as super_attributes")
             )
             ->where(function ($query) use ($skus) {
@@ -774,12 +788,7 @@ class Exporter extends AbstractExporter
                 ['variantId' => $variantId, 'optionsGetting' => $optionsGetting, 'productId' => $productId] = $createResult;
             } else {
                 $variantData = $variantData + $productOptionValues;
-                // For a simple product the mapping row encodes both GIDs: the bulk
-                // path stores externalId=variant GID and relatedId=product GID. Use
-                // relatedId first so we resolve the product GID regardless of which
-                // path created the mapping (sequential stores externalId=product GID,
-                // relatedId=null). Parent mappings always have relatedId=null, so
-                // configurable handling is unchanged.
+
                 $productId = ! empty($parentMapping)
                     ? ($parentMapping[0]['relatedId'] ?? $parentMapping[0]['externalId'])
                     : ($mapping[0]['relatedId'] ?? $mapping[0]['externalId']);
@@ -910,7 +919,6 @@ class Exporter extends AbstractExporter
         if (! empty($parentData)) {
             $this->parentMapping($rowData['sku'], $variantId, $this->export->id, $productId);
         } else {
-
             $existing = $this->shopifyMappingRepository->where('code', $rowData['sku'])
                 ->where('entityType', self::UNOPIM_ENTITY_NAME)
                 ->where('apiUrl', $this->credential->shopUrl)
@@ -1001,7 +1009,7 @@ class Exporter extends AbstractExporter
                     $galleryAttr = true;
                 }
 
-                $mediaAttr = array_merge($mediaAttr, $this->assetAttr); // Working on this point
+                $mediaAttr = array_merge($mediaAttr, $this->assetAttr);
                 $allimageAttr = $this->getAllImageMappingBySku('productImage', $productId, $mediaAttr, $galleryAttr);
                 $deleteIds = array_merge(array_column($allimageAttr, 'externalId'), $this->removeImgAttr);
                 if (! empty($deleteIds)) {
@@ -1924,7 +1932,7 @@ class Exporter extends AbstractExporter
 
         $imagesAttr = explode(',', $mediaMapping['mediaAttributes']);
         foreach ($imagesAttr as $imageAttr) {
-            // Process parent data
+
             if (! empty($parentRawData[$imageAttr])) {
                 $medias = $this->handleImageAttribute(
                     $imageAttr,
@@ -1938,7 +1946,6 @@ class Exporter extends AbstractExporter
                 $this->removeIfMappedInDb($imageAttr, $parentRawData['sku'] ?? null);
             }
 
-            // Process child data
             if (! empty($rawData[$imageAttr])) {
                 $medias = $this->handleImageAttribute(
                     $imageAttr,
@@ -2050,7 +2057,7 @@ class Exporter extends AbstractExporter
             ];
 
             $response = Http::withOptions([
-                'headers' => ['Accept' => '*/*'], // Optional but safe
+                'headers' => ['Accept' => '*/*'],
             ])->asMultipart()->post($stagedTarget['url'], $multipart);
 
             if ($response->failed()) {
@@ -2084,7 +2091,7 @@ class Exporter extends AbstractExporter
         $allRemoveGallery = [];
 
         foreach ($imageAttrs as $imageAttr) {
-            // Process child data
+
             if (! empty($rawData)) {
                 $this->processGalleryAttribute(
                     $rawData,
@@ -2096,7 +2103,6 @@ class Exporter extends AbstractExporter
                 );
             }
 
-            // Process parent data
             if (! empty($parentRawData) && ! $skipParent) {
                 $this->processGalleryAttribute(
                     $parentRawData,

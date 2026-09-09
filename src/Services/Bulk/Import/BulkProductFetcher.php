@@ -8,18 +8,6 @@ use Illuminate\Support\Str;
 use Webkul\Shopify\Services\BulkOperationService;
 use Webkul\Shopify\Traits\ShopifyGraphqlRequest;
 
-/**
- * Submits Shopify bulkOperationRunQuery passes for the product import, polls
- * each to completion, and downloads the resulting JSONL files locally.
- *
- * Two passes are needed because Shopify caps bulk queries at 5 connections:
- *   - "core"       — products + variants + nested-under-variant data
- *   - "relations"  — product-level media / metafields / collections / publications
- *
- * The two JSONL files are merged by BulkOperationProductIterator using the
- * product id (and __parentId chain) — children land under the same product
- * regardless of which pass produced them.
- */
 class BulkProductFetcher
 {
     use ShopifyGraphqlRequest;
@@ -30,11 +18,6 @@ class BulkProductFetcher
 
     public const PRODUCT_FILTER_PLACEHOLDER = '%PRODUCT_FILTER%';
 
-    /**
-     * Ordered list of bulk-query template config keys to fetch sequentially.
-     * Only the first uses the locale placeholder — relations pass has no
-     * translations field so the placeholder substitution is a no-op there.
-     */
     protected const QUERY_KEYS = [
         'productImportBulkQueryCore',
         'productImportBulkQueryRelations',

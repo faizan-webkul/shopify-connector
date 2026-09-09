@@ -4,9 +4,6 @@ namespace Webkul\Shopify\Traits;
 
 use Webkul\Shopify\Contracts\ShopifyCredentialsConfig;
 
-/**
- * Trait for handling Shopify translation requests.
- */
 trait TranslationTrait
 {
     protected $translationShopifyFields = [
@@ -35,7 +32,6 @@ trait TranslationTrait
         if ($storeloacleMapping) {
             $commonFields = $this->getCommonFields($rowData);
             foreach ($addedmetafields as $keydMeta => $addedMetaField) {
-
                 $formatedVariable = [
                     'id'           => $addedMetaField['node']['id'],
                     'translations' => [],
@@ -156,7 +152,6 @@ trait TranslationTrait
         $storeloacleMapping = $credential->storelocaleMapping;
         if ($storeloacleMapping && $optionResult) {
             foreach ($optionResult as $key => $option) {
-
                 $formatedVariable = [
                     'id'           => $option['id'],
                     'translations' => [],
@@ -261,11 +256,6 @@ trait TranslationTrait
                 'translations' => [],
             ];
 
-            /**
-             * Map of collection mapping key => Shopify translation key and the
-             * digest source. Digests are computed once since $collectionResult
-             * is constant across locales.
-             */
             $translatableFields = [
                 'title'           => ['key' => 'title', 'digest' => hash('sha256', $collectionResult['title'] ?? '')],
                 'descriptionHtml' => ['key' => 'body_html', 'digest' => hash('sha256', $collectionResult['descriptionHtml'] ?? '')],

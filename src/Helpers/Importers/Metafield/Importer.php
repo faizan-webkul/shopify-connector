@@ -8,7 +8,6 @@ use Webkul\Core\Repositories\LocaleRepository;
 use Webkul\DataTransfer\Contracts\JobTrackBatch as JobTrackBatchContract;
 use Webkul\DataTransfer\Helpers\Import;
 use Webkul\DataTransfer\Helpers\Importers\AbstractImporter;
-use Webkul\DataTransfer\Helpers\Importers\Category\Storage;
 use Webkul\DataTransfer\Helpers\Source;
 use Webkul\DataTransfer\Repositories\JobTrackBatchRepository;
 use Webkul\Shopify\Helpers\MetaobjectFieldType;
@@ -24,21 +23,10 @@ class Importer extends AbstractImporter
 
     public const BATCH_SIZE = 10;
 
-    /**
-     * cursor position
-     */
     public $cursor = null;
 
-    /**
-     * locales storage
-     */
     protected array $locales = [];
 
-    /**
-     * Shopify job Locale.
-     *
-     * @var mixed
-     */
     protected $locale;
 
     protected array $attrStrore = [];
@@ -69,18 +57,8 @@ class Importer extends AbstractImporter
 
     protected $decimalType = ['number_decimal'];
 
-    /**
-     * Shopify credential.
-     *
-     * @var mixed
-     */
     protected $credential;
 
-    /**
-     * Shopify credential as array for api request.
-     *
-     * @var mixed
-     */
     protected $credentialArray;
 
     protected ?array $metaobjectTypeByGid = null;
@@ -430,7 +408,6 @@ class Importer extends AbstractImporter
             'apiUrl'          => json_encode([$this->credentialArray['shopUrl'] => $node['id']]),
         ];
 
-        // Handle rating validations efficiently
         if ($typeName === 'rating') {
             $validations = collect($node['validations']);
             $scaleMin = $validations->firstWhere('name', 'scale_min')['value'] ?? 0;
@@ -463,8 +440,6 @@ class Importer extends AbstractImporter
             $hasImage = str_contains($fileTypesRaw, 'Image');
             $hasVideo = str_contains($fileTypesRaw, 'Video');
 
-            // Image+video restriction is a generic File type limited to media;
-            // a single kind maps to that content type; none means any file type.
             if ($hasImage && $hasVideo) {
                 $validations = ['content_type' => 'FILE', 'file_types' => ['Image', 'Video']];
             } elseif ($hasImage) {
@@ -568,9 +543,7 @@ class Importer extends AbstractImporter
         $batchRows = [];
 
         $source->rewind();
-        /**
-         * Clean previous saved batches
-         */
+
         $this->importBatchRepository->deleteWhere([
             'job_track_id' => $this->import->id,
         ]);

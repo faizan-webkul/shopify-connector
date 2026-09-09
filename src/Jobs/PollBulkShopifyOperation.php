@@ -170,14 +170,13 @@ class PollBulkShopifyOperation implements ShouldQueue
     }
 
     /**
-     * Emit a warning without letting a logger failure interrupt polling.
+     * Log a warning, swallowing logging failures so they never break bulk polling.
      */
     protected function safeWarn(string $message): void
     {
         try {
             $this->jobLogger?->warning($message);
         } catch (\Throwable $e) {
-            // Logging must never break the bulk polling flow.
         }
     }
 

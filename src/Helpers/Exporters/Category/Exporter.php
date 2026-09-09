@@ -28,46 +28,20 @@ class Exporter extends AbstractExporter
 
     public const COLLECTION_NOT_EXIST = 'Collection does not exist';
 
-    /**
-     * unopim entity name.
-     *
-     * @var string
-     */
     public const UNOPIM_ENTITY_NAME = 'category';
 
     public const UPDATE_PUBLISH_CHANNEL = 'publishablePublish';
 
     public const UPDATE_UNPUBLISH_CHANNEL = 'unpublishableUnpublish';
 
-    /**
-     * Shopify credential.
-     *
-     * @var mixed
-     */
     protected $credential;
 
-    /**
-     * Shopify credential as array for api request.
-     *
-     * @var mixed
-     */
     protected $credentialArray;
 
-    /**
-     * Shopify sales channel publication ids
-     */
     protected $publicationId = [];
 
-    /**
-     * Default locale of shopify store
-     */
     protected $shopifyDefaultLocale;
 
-    /**
-     * Collection mapping config (row id 4).
-     *
-     * @var mixed
-     */
     protected $collectionMapping;
 
     protected bool $exportsFile = false;
@@ -176,9 +150,6 @@ class Exporter extends AbstractExporter
 
         $this->prepareCategoriesShopify($batch, $filePath);
 
-        /**
-         * Update export batch process state summary
-         */
         $this->updateBatchState($batch->id, ExportHelper::STATE_PROCESSED);
 
         Event::dispatch('shopify.category.export.after', $batch);

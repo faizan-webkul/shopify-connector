@@ -10,9 +10,6 @@ use Webkul\Shopify\Repositories\ShopifyExportMappingRepository;
 
 class CollectionMappingController extends Controller
 {
-    /**
-     * Config row id that stores the collection mapping.
-     */
     public const CONFIG_ID = 4;
 
     public function __construct(

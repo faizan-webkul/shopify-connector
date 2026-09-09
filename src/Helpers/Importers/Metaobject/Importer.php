@@ -370,9 +370,6 @@ class Importer extends AbstractImporter
     }
 
     /**
-     * @return array<int, string>
-     */
-    /**
      * Reverse a Shopify scalar element to the plain value the entry UI edits:
      * measurement/rating objects collapse to their value, money to "amount CUR".
      */

@@ -7,11 +7,6 @@ use Webkul\Shopify\Models\ShopifyMetaFieldsConfig;
 
 class ShopifyMetaFieldFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = ShopifyMetaFieldsConfig::class;
 
     /**

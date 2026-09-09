@@ -4,9 +4,6 @@ namespace Webkul\Shopify\Helpers;
 
 class ShoifyMetaFieldType
 {
-    /**
-     * Shopify MetaField Type.
-     */
     public array $metaFieldType = [
         'text' => [
             [

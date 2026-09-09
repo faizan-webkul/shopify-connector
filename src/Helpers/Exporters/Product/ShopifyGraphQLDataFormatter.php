@@ -33,29 +33,13 @@ class ShopifyGraphQLDataFormatter
     /** @var array<string, string> assetPath => Shopify File GID */
     protected array $fileReferenceMap = [];
 
-    /**
-     * Resolved attribute labels memoized per "code|locale". The label is an
-     * export-wide constant, but translate() is costly (~17ms), so resolving it
-     * once instead of per product removes it from the hot path.
-     *
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     protected array $attributeLabelCache = [];
 
-    /**
-     * Option code => translated label maps memoized per "attributeCode|locale".
-     * Option labels are export-wide constants, but resolving them queried the
-     * options + translations on every product; caching removes that N+1.
-     *
-     * @var array<string, array<string, string>>
-     */
+    /** @var array<string, array<string, string>> */
     protected array $optionLabelCache = [];
 
-    /**
-     * Memoized option code => swatch hex map, keyed by attribute code.
-     *
-     * @var array<string, array<string, string>>
-     */
+    /** @var array<string, array<string, string>> */
     protected array $swatchHexCache = [];
 
     /**

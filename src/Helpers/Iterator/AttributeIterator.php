@@ -24,7 +24,7 @@ class AttributeIterator implements \Iterator
     {
         $this->credential = $credential;
         $this->shopifyLocale = $shopifyLocale;
-        $this->cursor = null;       // Start with no cursor (first page)
+        $this->cursor = null;
         $this->currentPageData = [];
         $this->currentKey = 0;
         $this->fetchByCursor();
@@ -53,10 +53,10 @@ class AttributeIterator implements \Iterator
         if ($this->currentKey == 0) {
             return;
         }
-        $this->cursor = null;       // Reset to the first page
+        $this->cursor = null;
         $this->currentPageData = [];
         $this->currentKey = 0;
-        $this->fetchByCursor();     // Fetch the first page again
+        $this->fetchByCursor();
     }
 
     public function valid(): bool
@@ -67,7 +67,7 @@ class AttributeIterator implements \Iterator
     public function setCursor($cursor): void
     {
         $this->cursor = $cursor;
-        $this->fetchByCursor();     // Fetch data based on the provided cursor
+        $this->fetchByCursor();
     }
 
     public function getCursor(): ?string
@@ -96,13 +96,10 @@ class AttributeIterator implements \Iterator
                 $edges = $graphResponse['body']['data']['products']['edges'] ?? [];
 
                 $previousCursor = $this->cursor;
-                // Update the cursor for the next page
+
                 $this->cursor = ! empty($edges) ? end($edges)['cursor'] : null;
                 $this->currentPageData = $this->formatedAttributeAndOption($edges);
 
-                // A page can hold only simple products (no variant options) and
-                // so yield no attributes. Keep paging until attributes are found
-                // or the product list is exhausted, instead of ending early.
             } while (
                 empty($this->currentPageData)
                 && ! empty($edges)
@@ -125,9 +122,7 @@ class AttributeIterator implements \Iterator
         foreach ($options as $option) {
             $productOptions = $option['node']['options'] ?? [];
             foreach ($productOptions as $productOption) {
-                // Shopify exposes option values as `values`; the SaaS proxy's
-                // product list returns them only under `optionValues`. Derive
-                // the value names from whichever the response carries.
+
                 $optionValueNames = $productOption['values']
                     ?? array_column($productOption['optionValues'] ?? [], 'name');
 

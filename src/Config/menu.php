@@ -1,9 +1,7 @@
 <?php
 
 return [
-    /**
-     * Shopify.
-     */
+
     [
         'key'   => 'shopify',
         'name'  => 'shopify::app.components.layouts.sidebar.shopify',

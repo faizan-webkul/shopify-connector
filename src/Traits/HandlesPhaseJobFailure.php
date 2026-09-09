@@ -7,31 +7,17 @@ use Webkul\Shopify\Models\ShopifyBulkOperation;
 use Webkul\Shopify\Repositories\ShopifyBulkOperationRepository;
 use Webkul\Shopify\Services\PhaseProgressTracker;
 
-/**
- * Adds resilience for Shopify follow-up phase jobs:
- *  - retry transient failures (e.g. cURL/SSL timeouts to Shopify staged uploads)
- *  - on permanent failure, still decrement the PhaseProgressTracker counter
- *    so the JobTrack does not hang in "processing" forever
- *  - lock-safe per-phase result store on the core bulk op's meta, so concurrent
- *    phase jobs do not clobber each other's updates (and, more importantly,
- *    do not clobber PhaseProgressTracker's `unfinished_phase_jobs` counter)
- *
- * Using classes must define `protected int $bulkOperationId` and a
- * class-level `PHASE` constant.
- */
 trait HandlesPhaseJobFailure
 {
-    /**
-     * Allow many attempts: a phase that loses the single bulk-mutation slot
-     * releases & retries until it frees. Genuine errors still fail fast via
-     * $maxExceptions — releasing for contention does not raise an exception.
-     */
     public $tries = 30;
 
     public $maxExceptions = 3;
 
     public $backoff = [10, 30, 60];
 
+    /**
+     * Mark the phase failed, letting cleanup errors pass so the original failure is never masked.
+     */
     public function failed(\Throwable $exception): void
     {
         try {
@@ -50,7 +36,6 @@ trait HandlesPhaseJobFailure
                 static::PHASE,
             );
         } catch (\Throwable $e) {
-            // Best-effort cleanup — never mask the original failure
         }
     }
 

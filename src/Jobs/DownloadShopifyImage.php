@@ -11,13 +11,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Async download of a Shopify product image to the public disk.
- *
- * The Shopify importer computes the deterministic storage path during the import
- * batch and queues this job to fetch the bytes in the background — turning the
- * 30-second-per-image worst case into a non-blocking dispatch.
- */
 class DownloadShopifyImage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;

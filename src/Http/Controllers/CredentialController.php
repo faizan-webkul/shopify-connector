@@ -365,13 +365,7 @@ class CredentialController extends Controller
         $isSaas = ! empty($credential->extras['saas']);
 
         if ($isSaas) {
-            /**
-             * SaaS credentials authenticate through the Shopify proxy, so the
-             * connection fields are shown read-only on the edit screen. Ignore
-             * whatever the form posts for them and keep the stored values —
-             * only the publishing channel, location and locale mapping (the
-             * three configurable APIs) may be reconfigured here.
-             */
+
             $requestData['shopUrl'] = $credential->shopUrl;
             $requestData['clientId'] = $credential->clientId;
             $requestData['clientSecret'] = $credential->clientSecret;

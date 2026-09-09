@@ -39,8 +39,6 @@ class RunPublishingPhase implements ShouldQueue
         try {
             $result = $phaseService->handle($bulkOperation, $resultReader->read($bulkOperation));
         } catch (BulkMutationInProgressException $e) {
-            // A sibling phase still holds Shopify's single bulk-mutation slot.
-            // Release back to the queue and retry once it frees.
             $this->release(random_int(20, 60));
 
             return;

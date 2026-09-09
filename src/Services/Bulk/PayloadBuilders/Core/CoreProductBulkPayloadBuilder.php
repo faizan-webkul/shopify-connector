@@ -110,19 +110,7 @@ class CoreProductBulkPayloadBuilder
         $products = $this->fetchProducts($batchRows);
         $groupedProducts = $this->groupProducts($products);
 
-        $fileReference = $this->collectFileReferenceValues($products);
-
-        $fileReferenceMap = $this->fileReferenceUploader->buildGidMap(
-            $fileReference['values'],
-            $this->credentialAsArray,
-            $jobTrackId,
-        );
-
-        foreach ($fileReference['aliases'] as $assetId => $path) {
-            if (isset($fileReferenceMap[$path])) {
-                $fileReferenceMap[(string) $assetId] = $fileReferenceMap[$path];
-            }
-        }
+        $fileReferenceMap = $this->fileReferenceGidMap($products, $jobTrackId);
 
         $this->fileReferenceMap = $fileReferenceMap;
 
@@ -160,26 +148,101 @@ class CoreProductBulkPayloadBuilder
         return [
             'lines'               => $lines,
             'metafield_selection' => $metafieldSelection['selection'],
-            'manifest'            => [
-                'job_track_id'      => $jobTrackId,
-                'shop_url'          => $this->credential?->shopUrl,
-                'credential_id'     => $this->credential?->id,
-                'credential'        => $this->credentialAsArray,
-                'channel'           => $this->jobChannel,
-                'currency'          => $this->currency,
-                'phase'             => BulkOperationService::CORE_PRODUCT_PHASE,
-                'media_created'     => $mediaCreated,
-                'metafield_aliases' => $metafieldSelection['aliases'],
-                'follow_up_context' => [
-                    'publishing'      => true,
-                    'media'           => true,
-                    'translations'    => count($this->credential?->storelocaleMapping ?? []) > 1,
-                    'publication_ids' => $this->credential?->extras['salesChannel'] ?? '',
-                ],
-                'lines' => $manifestLines,
+            'manifest'            => $this->bulkMeta($jobTrackId, $mediaCreated, $metafieldSelection, $manifestLines),
+            'summary'             => $summary,
+            'credential'          => $this->credentialAsArray,
+        ];
+    }
+
+    /**
+     * Collect the productSet media files and media-phase plan items for a product.
+     *
+     * Extracted from buildPayloadForGroup() so extending packages can suppress
+     * media without reimplementing the payload build. SaaS stores get no inline
+     * files: the proxy handles media through its own phase.
+     *
+     * @param  array<int, string>  $variantSkus
+     * @return array{files: array<int, mixed>, planItems: array<int, mixed>}
+     */
+    protected function collectProductSetMedia(string $productSku, array $variantSkus): array
+    {
+        if (! empty($this->credential->extras['saas'])) {
+            return ['files' => [], 'planItems' => []];
+        }
+
+        $media = $this->mediaBulkPayloadBuilder->collectProductSetFiles(
+            $productSku,
+            $variantSkus,
+            (int) $this->credential->id,
+            $this->credential->shopUrl,
+            $this->jobChannel ?? 'default',
+            $this->currency ?? 'USD',
+            $this->credentialAsArray,
+        );
+
+        return [
+            'files'     => $media['files'] ?? [],
+            'planItems' => $media['planItems'] ?? [],
+        ];
+    }
+
+    /**
+     * Pre-upload every file_reference value and return the assetPath => Shopify
+     * File GID map the formatter resolves those metafields through.
+     *
+     * Extracted from build() so extending packages can suppress the upload.
+     *
+     * @param  array<int, mixed>  $products
+     * @return array<string, string>
+     */
+    protected function fileReferenceGidMap(array $products, int $jobTrackId): array
+    {
+        $fileReference = $this->collectFileReferenceValues($products);
+
+        $fileReferenceMap = $this->fileReferenceUploader->buildGidMap(
+            $fileReference['values'],
+            $this->credentialAsArray,
+            $jobTrackId,
+        );
+
+        foreach ($fileReference['aliases'] as $assetId => $path) {
+            if (isset($fileReferenceMap[$path])) {
+                $fileReferenceMap[(string) $assetId] = $fileReferenceMap[$path];
+            }
+        }
+
+        return $fileReferenceMap;
+    }
+
+    /**
+     * Manifest stored alongside the core bulk operation.
+     *
+     * Extracted from build() so extending packages can contribute manifest keys
+     * without reimplementing the payload build.
+     *
+     * @param  array{selection: string, aliases: array<string, string>}  $metafieldSelection
+     * @param  array<int, mixed>  $manifestLines
+     * @return array<string, mixed>
+     */
+    protected function bulkMeta(int $jobTrackId, bool $mediaCreated, array $metafieldSelection, array $manifestLines): array
+    {
+        return [
+            'job_track_id'      => $jobTrackId,
+            'shop_url'          => $this->credential?->shopUrl,
+            'credential_id'     => $this->credential?->id,
+            'credential'        => $this->credentialAsArray,
+            'channel'           => $this->jobChannel,
+            'currency'          => $this->currency,
+            'phase'             => BulkOperationService::CORE_PRODUCT_PHASE,
+            'media_created'     => $mediaCreated,
+            'metafield_aliases' => $metafieldSelection['aliases'],
+            'follow_up_context' => [
+                'publishing'      => true,
+                'media'           => true,
+                'translations'    => count($this->credential?->storelocaleMapping ?? []) > 1,
+                'publication_ids' => $this->credential?->extras['salesChannel'] ?? '',
             ],
-            'summary'    => $summary,
-            'credential' => $this->credentialAsArray,
+            'lines' => $manifestLines,
         ];
     }
 
@@ -224,8 +287,8 @@ class CoreProductBulkPayloadBuilder
      */
     protected function initialize(array $filters, JobTrackContract $jobTrack): void
     {
-        $this->currency = $filters['currency'] ?? null;
-        $this->jobChannel = $filters['channel'] ?? null;
+        $this->currency = $filters['currencies'] ?? null;
+        $this->jobChannel = $filters['channels'] ?? null;
         $this->credential = $this->shopifyCredentialRepository->find($filters['credentials'] ?? null);
 
         if (! $this->credential?->active) {
@@ -325,8 +388,7 @@ class CoreProductBulkPayloadBuilder
                     $path = (string) $single;
                     $values[$path] = [
                         'path' => $path,
-                        // Gallery holds mixed media, so detect each file's type from its
-                        // extension rather than the definition's single content_type.
+
                         'content_type' => $attributeType === 'gallery'
                             ? $this->pathFileContentType($path)
                             : $contentType,
@@ -758,8 +820,7 @@ class CoreProductBulkPayloadBuilder
         }
 
         $productInput = $this->normalizeProductInput($formattedProduct, $productOptions);
-        // Only send a handle when one is mapped; otherwise let Shopify auto-generate it from
-        // the title. Slugify so it matches Shopify's stored handle for recreate-by-handle.
+
         if (! empty($productInput['handle'])) {
             $productInput['handle'] = Str::slug($productInput['handle']);
         }
@@ -823,25 +884,13 @@ class CoreProductBulkPayloadBuilder
 
         $productInput['variants'] = $variants;
 
-        $mediaPlanItems = [];
+        $media = $this->collectProductSetMedia($productSku, array_column($variantManifest, 'sku'));
 
-        if (empty($this->credential->extras['saas'])) {
-            $media = $this->mediaBulkPayloadBuilder->collectProductSetFiles(
-                $productSku,
-                array_column($variantManifest, 'sku'),
-                (int) $this->credential->id,
-                $this->credential->shopUrl,
-                $this->jobChannel ?? 'default',
-                $this->currency ?? 'USD',
-                $this->credentialAsArray,
-            );
-
-            if (! empty($media['files'])) {
-                $productInput['files'] = $media['files'];
-            }
-
-            $mediaPlanItems = $media['planItems'];
+        if (! empty($media['files'])) {
+            $productInput['files'] = $media['files'];
         }
+
+        $mediaPlanItems = $media['planItems'];
 
         return [
             'variables' => [
@@ -1021,15 +1070,12 @@ class CoreProductBulkPayloadBuilder
             'inventoryPolicy' => $variantPayload['inventoryPolicy'] ?? null,
             'metafields'      => $includeVariantMetafields ? ($variantMetafields ?: null) : null,
             'inventoryItem'   => empty($inventoryItem) ? null : $inventoryItem,
-            // Inventory quantities are synced inline through productSet; there is
-            // no separate inventory phase, so this is the single source of truth.
+
             'inventoryQuantities'  => $variantPayload['inventoryQuantities'] ?? null,
             'unitPriceMeasurement' => $variantPayload['unitPriceMeasurement'] ?? null,
             'showUnitPrice'        => $variantPayload['showUnitPrice'] ?? null,
         ], fn ($value) => ! is_null($value) && $value !== []);
 
-        // Shopify's productSet bulk input expects optionValues to be present
-        // for variant rows, even when the product has no configurable options.
         $variantInput['optionValues'] = array_values($optionValues);
 
         return $variantInput;

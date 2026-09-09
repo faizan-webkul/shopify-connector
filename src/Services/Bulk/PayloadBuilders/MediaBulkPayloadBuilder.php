@@ -14,26 +14,8 @@ class MediaBulkPayloadBuilder
     use ShopifyGraphqlRequest;
     use StagesShopifyAsset;
 
-    /**
-     * entityType used to store media mappings in wk_shopify_data_mapping.
-     *
-     * A media mapping row is keyed by:
-     *   - code          => "<attribute><CODE_SEPARATOR><image path>"
-     *   - relatedSource => product SKU
-     *   - externalId    => Shopify Media ID
-     *   - relatedId     => Shopify Product ID
-     *   - apiUrl        => shop URL
-     *
-     * The attribute code and the source image path are concatenated into the
-     * existing `code` column (no schema change) so a mapping is uniquely
-     * identified by both — letting re-exports skip media whose path is unchanged.
-     */
     protected const MEDIA_ENTITY_TYPE = 'productImage';
 
-    /**
-     * Separator joining the attribute code and image path inside `code`.
-     * Chosen to be absent from attribute codes and storage paths.
-     */
     protected const CODE_SEPARATOR = '|';
 
     /**
@@ -75,15 +57,8 @@ class MediaBulkPayloadBuilder
      */
     protected array $updateLines = [];
 
-    /**
-     * Mime types resolved as Shopify IMAGE media when expanding DAM assets.
-     * Mirrors the non-bulk export path's allow-list.
-     */
     protected array $imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg'];
 
-    /**
-     * Lazily-resolved DAM AssetRepository, or null when DAM is not installed.
-     */
     protected ?AssetRepository $resolvedAssetRepository = null;
 
     protected bool $assetRepositoryResolved = false;
@@ -151,7 +126,6 @@ class MediaBulkPayloadBuilder
         $this->updatePlan = [];
         $lines = [];
 
-        // Cache parsed mappings per SKU within this build to avoid repeat queries.
         $mappingsBySku = [];
 
         foreach ($entries as $entry) {
@@ -170,18 +144,13 @@ class MediaBulkPayloadBuilder
                 $item = $match['item'];
 
                 if ($match['exact']) {
-                    // Mapping already exists for this image path + attribute —
-                    // nothing changed, skip entirely.
                     continue;
                 }
 
                 $mediaContentType = $item['mediaContentType'] ?? 'IMAGE';
 
                 if ($mediaContentType === 'IMAGE' && $match['byAttribute'] && ! empty($match['byAttribute']['row']->externalId)) {
-                    // Media already exists for this attribute but the image path
-                    // changed — record an in-place update for the media_update phase.
-                    // (Videos cannot be updated via previewImageSource, so they
-                    // always fall through to a fresh create here.)
+
                     $mediaId = $match['byAttribute']['row']->externalId;
 
                     $previewSource = ! empty($item['asset'])
@@ -198,8 +167,6 @@ class MediaBulkPayloadBuilder
                         'alt'                => $item['sku'].' - '.$item['code'],
                     ];
 
-                    // Refresh the mapping `code` with the new path once the update
-                    // completes (BulkResultFinalizer reads this from the manifest).
                     $this->updatePlan[$mediaId] = [
                         'rowId' => $match['byAttribute']['row']->id,
                         'code'  => $this->buildCode($item['code'], $item['path']),
@@ -208,9 +175,6 @@ class MediaBulkPayloadBuilder
                     continue;
                 }
 
-                // Resolve the source Shopify will fetch. Videos cannot be served
-                // from an arbitrary URL — the bytes must be pushed to a staged
-                // upload target first and referenced by its resourceUrl.
                 $originalSource = $item['url'] ?? '';
 
                 if ($mediaContentType === 'VIDEO' || ! empty($item['asset'])) {
@@ -221,8 +185,6 @@ class MediaBulkPayloadBuilder
                     continue;
                 }
 
-                // No mapping for this attribute — create the media. The finalizer
-                // stores the mapping (composite code) once Shopify returns the id.
                 $createMedia[] = [
                     'originalSource'   => $originalSource,
                     'mediaContentType' => $mediaContentType,
@@ -439,10 +401,6 @@ class MediaBulkPayloadBuilder
             return null;
         }
 
-        // Prefer the bulk-result product id. If the line failed (e.g. stale
-        // mapping), BulkResultFinalizer may have recreated the product
-        // out-of-band and written the new id to wk_shopify_data_mapping.
-        // Fall back to that mapping so recreated products still get media.
         $productId = $entry['product']['id'] ?? null;
 
         if (empty($productId)) {
@@ -645,11 +603,6 @@ class MediaBulkPayloadBuilder
                     continue;
                 }
 
-                // Asset attributes hold DAM asset IDs (not storage paths) and may
-                // reference several assets — images and/or videos. Expand each via
-                // the DAM repository, mirroring the non-bulk export path. DAM is an
-                // optional module, so resolveAssetMediaItems() yields nothing when
-                // it is not installed.
                 if (($attributes[$code]->type ?? null) === 'asset') {
                     foreach ($this->resolveAssetMediaItems($sku, $code, $rawValue) as $assetItem) {
                         $items[] = $assetItem;
@@ -659,8 +612,6 @@ class MediaBulkPayloadBuilder
                 }
 
                 if ($mediaType === 'gallery') {
-                    // Gallery: one media per slot — keyed "code_<index>" to match
-                    // the convention used by the non-bulk export path.
                     $paths = is_array($rawValue) ? array_values($rawValue) : [$rawValue];
 
                     foreach ($paths as $index => $path) {
@@ -754,8 +705,6 @@ class MediaBulkPayloadBuilder
                 continue;
             }
 
-            // Key per asset id so re-exports can match a single asset within a
-            // multi-asset attribute, mirroring the non-bulk path's "<code>_<id>".
             $assetCode = $code.'_'.$asset['id'];
 
             if ($mimeType === 'video/mp4') {

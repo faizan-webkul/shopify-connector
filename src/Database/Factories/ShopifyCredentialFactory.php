@@ -7,11 +7,6 @@ use Webkul\Shopify\Models\ShopifyCredentialsConfig;
 
 class ShopifyCredentialFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = ShopifyCredentialsConfig::class;
 
     /**

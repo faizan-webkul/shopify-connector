@@ -31,37 +31,16 @@ class Importer extends AbstractImporter
 
     public const UNOPIM_ENTITY_NAME = 'category';
 
-    /**
-     * cursor position
-     */
     public $cursor = null;
 
     protected array $categoryFields;
 
-    /**
-     * locales storage
-     */
     protected array $locales = [];
 
-    /**
-     * Shopify credential.
-     *
-     * @var mixed
-     */
     protected $credential;
 
-    /**
-     * Shopify job Locale.
-     *
-     * @var mixed
-     */
     protected $locale;
 
-    /**
-     * Shopify credential as array for api request.
-     *
-     * @var mixed
-     */
     protected $credentialArray;
 
     protected $cachedCategoryFields = [];
@@ -149,7 +128,7 @@ class Importer extends AbstractImporter
      */
     public function saveCategories(array $categories): void
     {
-        /** single insert/update in the db because of parent  */
+
         if (! empty($categories['update'])) {
             $this->updatedItemsCount += count($categories['update']);
             foreach ($categories['update'] as $code => $category) {
@@ -211,9 +190,7 @@ class Importer extends AbstractImporter
             }
             $this->saveCategories($categories);
         }
-        /**
-         * Update import batch summary
-         */
+
         $batch = $this->importBatchRepository->update([
             'state'   => Import::STATE_PROCESSED,
             'summary' => [
@@ -246,10 +223,6 @@ class Importer extends AbstractImporter
             $fieldMap['title'] => $node['title'] ?? '',
         ];
 
-        /**
-         * Direct mapping key => Shopify node value. Each is written only when
-         * the field is mapped, preserving the original insertion order.
-         */
         $directFields = [
             'descriptionHtml' => $node['descriptionHtml'] ?? '',
             'seoTitle'        => $node['seo']['title'] ?? '',
@@ -308,9 +281,7 @@ class Importer extends AbstractImporter
     }
 
     /**
-     * Override mapped text values with the current locale's Shopify translations.
-     * For a non-default Shopify locale with no translation, the value is cleared
-     * so the default-locale text is not copied across locales.
+     * Apply the collection translations, keeping the default locale values when the fetch fails.
      */
     protected function applyCollectionTranslations(array $node, array $fieldMap, array &$values): void
     {
@@ -349,7 +320,6 @@ class Importer extends AbstractImporter
                 }
             }
         } catch (\Throwable $e) {
-            // Keep default-locale values on translation fetch failure.
         }
     }
 

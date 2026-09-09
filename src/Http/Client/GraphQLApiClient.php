@@ -113,7 +113,6 @@ class GraphQLApiClient
 
         $response = $this->createResponse($request);
 
-        // Rate Limit Handling
         if (isset($response['body']['errors'])) {
             $error = array_column($response['body']['errors'], 'message');
             if (in_array('Throttled', $error)) {
@@ -126,9 +125,6 @@ class GraphQLApiClient
         return $response;
     }
 
-    /**
-     * Stores Grapql mutations
-     */
     protected $endpoints = [
         'getShopPublishedLocales' => [
             'query'  => '{shopLocales (published: true) {locale name primary published } }',
@@ -251,25 +247,21 @@ class GraphQLApiClient
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'productVariantsBulkUpdatewithproduct' => [
             'query'  => 'mutation productVariantsBulkUpdate($productId: ID!, $variants: [ProductVariantsBulkInput!]!, $product: ProductUpdateInput) { productVariantsBulkUpdate(productId: $productId, variants: $variants) { product { id } productVariants { id inventoryItem { id inventoryLevels(first: 10) { edges { node { id location { id name } } } } } metafields(first: 2) { edges { node { namespace key value } } } } userErrors { field message } } productUpdate(product: $product) { product { id } } }',
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'productVariantCreate' => [
             'query'  => 'mutation ProductVariantCreate($input: ProductVariantInput!) { productVariantCreate(input: $input) { productVariant { id price } userErrors { field message } }  }',
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'productVariantDelete' => [
             'query'  => 'mutation ProductVariantDelete($id: ID!) { productVariantDelete(id: $id) { product { id } } }',
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'UpdateCostPerItem' => [
             'query'  => 'mutation inventoryItemUpdate($id: ID!, $input: InventoryItemUpdateInput!) { inventoryItemUpdate(id: $id, input: $input) { inventoryItem { id inventoryLevels(first: 10) { edges { node { id location { id name address { address1 city province country zip } } } } } unitCost { amount } tracked countryCodeOfOrigin provinceCodeOfOrigin harmonizedSystemCode countryHarmonizedSystemCodes(first: 1) { edges { node { harmonizedSystemCode countryCode } } } } userErrors { message } } }',
             'method' => 'POST',
@@ -280,7 +272,6 @@ class GraphQLApiClient
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'updateImageToProduct' => [
             'query'  => 'mutation productAppendImages($inputImg: ProductAppendImagesInput! ) { productAppendImages(input: $inputImg) { newImages { id altText } userErrors { field message } }  }',
             'method' => 'POST',
@@ -291,13 +282,11 @@ class GraphQLApiClient
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'productUpdateWithVariantGetting' => [
             'query'  => 'mutation ProductUpdate($product: ProductUpdateInput!, $media: [CreateMediaInput!]) { productUpdate(product: $product, media: $media) { product { id title handle productType vendor tags descriptionHtml resourcePublications(first: 30) { edges { node { publication { id } } } } options { id name values optionValues { id name hasVariants } } media(first: 30) { nodes { id } } collections(first: 10) { edges { node { id handle title } } } variants(first: 10) { edges { node { id }  } } } userErrors { field message } } }',
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'productImageUpdate' => [
             'query'  => 'mutation productImageUpdate($productId: ID!, $image: ImageInput!) { productImageUpdate(productId: $productId, image: $image) { image { id altText src } userErrors { field message } } }',
             'method' => 'POST',
@@ -318,13 +307,11 @@ class GraphQLApiClient
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'getFullfillmentAndLocation' => [
             'query'  => '{ locations(first: 10) { edges { node { id name } } } shop { fulfillmentServices { id serviceName handle inventoryManagement } } }',
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'inventoryBulkToggleActivation' => [
             'query'  => 'mutation InventoryBulkToggleActivation($inventoryItemId: ID!, $inventoryItemUpdates: [InventoryBulkToggleActivationInput!]!) { inventoryBulkToggleActivation(inventoryItemId: $inventoryItemId   inventoryItemUpdates: $inventoryItemUpdates ) {   userErrors {  message     __typename    }   __typename }}',
             'method' => 'POST',
@@ -370,7 +357,6 @@ class GraphQLApiClient
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'deleteMetafield' => [
             'query'  => 'mutation metafieldDelete($input: MetafieldDeleteInput!) { metafieldDelete(input: $input) { deletedId userErrors { field message } } }',
             'method' => 'POST',
@@ -391,7 +377,6 @@ class GraphQLApiClient
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'productUpdateMedia' => [
             'query'  => 'mutation productUpdateMedia($media: [UpdateMediaInput!]!, $productId: ID!) { productUpdateMedia(media: $media, productId: $productId) { media { alt id } mediaUserErrors { field message } } }',
             'method' => 'POST',
@@ -417,7 +402,6 @@ class GraphQLApiClient
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'productDelete' => [
             'query'  => 'mutation productDelete($input: ProductDeleteInput!) { productDelete(input: $input) { deletedProductId userErrors { field message } } }',
             'method' => 'POST',
@@ -474,7 +458,6 @@ class GraphQLApiClient
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'publishableUnpublish' => [
             'query'  => 'mutation PublishableUnpublish($id: ID!, $input: [PublicationInput!]!) { publishableUnpublish(id: $id, input: $input) { userErrors { field message } } }',
             'method' => 'POST',
@@ -485,7 +468,6 @@ class GraphQLApiClient
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'collectionRemoveProducts' => [
             'query'  => 'mutation collectionRemoveProducts($id: ID!, $productIds: [ID!]!) { collectionRemoveProducts(id: $id, productIds: $productIds) { job { id done } userErrors { field message } } }',
             'method' => 'POST',
@@ -496,38 +478,31 @@ class GraphQLApiClient
             'method' => 'POST',
         ],
 
-        // UNUSED: defined here but never called by any exporter/importer/service (cross-check 2026-05-15).
         'inventorySetQuantities' => [
             'query'  => 'mutation InventorySet($input: InventorySetQuantitiesInput!) { inventorySetQuantities(input: $input) { userErrors { field message } inventoryAdjustmentGroup { createdAt reason referenceDocumentUri changes { name delta } } } }',
             'method' => 'POST',
         ],
 
-        // Bulk operation mutations
-        // UNUSED: superseded by Config/bulk_mutations.php — the bulk flow reads the config copy, not this endpoint (cross-check 2026-05-15).
         'productSetBulk' => [
             'query'  => 'mutation productSetBulk($identifier: ProductSetIdentifiers, $input: ProductSetInput!) { productSet(identifier: $identifier, input: $input) { userErrors { field message } products { id handle title status resourcePublications(first: 30) { edges { node { publication { id } } } } } } }',
             'method' => 'POST',
         ],
 
-        // UNUSED: superseded by Config/bulk_mutations.php — the bulk flow reads the config copy, not this endpoint (cross-check 2026-05-15).
         'publishablePublishBulk' => [
             'query'  => 'mutation publishablePublishBulk($id: ID!, $input: [PublicationInput!]!) { publishablePublish(id: $id, input: $input) { userErrors { field message } } }',
             'method' => 'POST',
         ],
 
-        // UNUSED: superseded by Config/bulk_mutations.php — the bulk flow reads the config copy, not this endpoint (cross-check 2026-05-15).
         'collectionAddProductsBulk' => [
             'query'  => 'mutation collectionAddProducts($id: ID!, $productIds: [ID!]!) { collectionAddProducts(id: $id, productIds: $productIds) { userErrors { field message } } }',
             'method' => 'POST',
         ],
 
-        // UNUSED: superseded by Config/bulk_mutations.php — the bulk flow reads the config copy, not this endpoint (cross-check 2026-05-15).
         'translationsRegisterBulk' => [
             'query'  => 'mutation translationsRegisterBulk($resourceId: ID!, $translations: [TranslationInput!]!) { translationsRegister(resourceId: $resourceId, translations: $translations) { userErrors { field message } translations { locale key value } } }',
             'method' => 'POST',
         ],
 
-        // UNUSED: superseded by Config/bulk_mutations.php — the bulk flow reads the config copy, not this endpoint (cross-check 2026-05-15).
         'inventorySetOnHandQuantitiesBulk' => [
             'query'  => 'mutation inventorySetOnHandQuantitiesBulk($input: InventorySetOnHandQuantitiesInput!) { inventorySetOnHandQuantities(input: $input) { userErrors { field message } } }',
             'method' => 'POST',

@@ -8,20 +8,20 @@ class CategoryIterator implements \Iterator
 {
     use ShopifyGraphqlRequest;
 
-    private $cursor;                // Tracks the current cursor for pagination
+    private $cursor;
 
-    private $currentPageData;       // Holds data for the current page
+    private $currentPageData;
 
-    private $currentKey;            // Tracks the current index within the current page
+    private $currentKey;
 
-    private $credential;            // Credentials for Shopify API
+    private $credential;
 
     private $mergedOptions;
 
     public function __construct($credential)
     {
         $this->credential = $credential;
-        $this->cursor = null;       // Start with no cursor (first page)
+        $this->cursor = null;
         $this->currentPageData = [];
         $this->currentKey = 0;
         $this->fetchByCursor();
@@ -51,10 +51,10 @@ class CategoryIterator implements \Iterator
         if ($this->currentKey == 0) {
             return;
         }
-        $this->cursor = null;       // Reset to the first page
+        $this->cursor = null;
         $this->currentPageData = [];
         $this->currentKey = 0;
-        $this->fetchByCursor();     // Fetch the first page again
+        $this->fetchByCursor();
     }
 
     public function valid(): bool
@@ -65,7 +65,7 @@ class CategoryIterator implements \Iterator
     public function setCursor($cursor): void
     {
         $this->cursor = $cursor;
-        $this->fetchByCursor();     // Fetch data based on the provided cursor
+        $this->fetchByCursor();
     }
 
     public function getCursor(): ?string
@@ -94,7 +94,7 @@ class CategoryIterator implements \Iterator
             $edges = $graphResponse['body']['data']['collections']['edges'] ?? [];
 
             $this->currentPageData = $edges;
-            // Update the cursor for the next page
+
             $this->cursor = ! empty($edges) ? end($edges)['cursor'] : null;
 
         } catch (\Exception $e) {
