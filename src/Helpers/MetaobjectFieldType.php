@@ -2,6 +2,8 @@
 
 namespace Webkul\Shopify\Helpers;
 
+use Webkul\Shopify\Services\Measurement\MeasurementTypeRegistry;
+
 class MetaobjectFieldType
 {
     public const EMAIL_REGEX = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$';
@@ -25,6 +27,6 @@ class MetaobjectFieldType
             $types[$key] = trans('shopify::app.shopify.metaobject.types.'.$key);
         }
 
-        return $types;
+        return $types + (new MeasurementTypeRegistry)->metaobjectTypes();
     }
 }

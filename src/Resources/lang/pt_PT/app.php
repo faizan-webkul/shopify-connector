@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Escolha uma unidade para o(s) campo(s) de medida: :fields.',
+        'measurement-not-numeric' => 'O valor de ":field" tem de ser um número.',
+        'measurement-min'         => 'O valor de ":field" tem de ser :min ou superior.',
+        'measurement-max'         => 'O valor de ":field" tem de ser :max ou inferior.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Montante',
+        ],
+
+        'measurement' => [
+            'minimum' => ':type mínima',
+            'maximum' => ':type máxima',
+            'types'   => [
+                'antenna_gain'            => 'Ganho da antena',
+                'area'                    => 'Área',
+                'battery_charge_capacity' => 'Capacidade de carga da bateria',
+                'battery_energy_capacity' => 'Capacidade energética da bateria',
+                'capacitance'             => 'Capacitância',
+                'concentration'           => 'Concentração',
+                'data_storage_capacity'   => 'Capacidade de armazenamento de dados',
+                'data_transfer_rate'      => 'Velocidade de transferência de dados',
+                'dimension'               => 'Dimensão',
+                'display_density'         => 'Densidade do ecrã',
+                'distance'                => 'Distância',
+                'duration'                => 'Duração',
+                'electric_current'        => 'Corrente elétrica',
+                'electrical_resistance'   => 'Resistência elétrica',
+                'energy'                  => 'Energia',
+                'frequency'               => 'Frequência',
+                'illuminance'             => 'Iluminância',
+                'inductance'              => 'Indutância',
+                'luminous_flux'           => 'Fluxo luminoso',
+                'mass_flow_rate'          => 'Caudal mássico',
+                'power'                   => 'Potência',
+                'pressure'                => 'Pressão',
+                'resolution'              => 'Resolução',
+                'rotational_speed'        => 'Velocidade de rotação',
+                'sound_level'             => 'Nível sonoro',
+                'speed'                   => 'Velocidade',
+                'temperature'             => 'Temperatura',
+                'thermal_power'           => 'Potência térmica',
+                'voltage'                 => 'Tensão',
+                'volume'                  => 'Volume',
+                'volumetric_flow_rate'    => 'Caudal volúmico',
+                'weight'                  => 'Peso',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Agendamento',
+            'preset'    => 'Agendamentos Predefinidos',
+            'cron'      => 'Expressão Cron',
+            'cron-info' => 'Requer que o agendador do servidor e um worker de fila estejam a funcionar.',
+            'timezone'  => 'Fuso Horário',
+            'type'      => 'Tipo de Agendamento',
+
+            'presets' => [
+                'disabled'         => 'Desativado',
+                'every-minute'     => 'A Cada Minuto (* * * * *)',
+                'every-5-minutes'  => 'A Cada 5 Minutos (*/5 * * * *)',
+                'every-15-minutes' => 'A Cada 15 Minutos (*/15 * * * *)',
+                'every-30-minutes' => 'A Cada 30 Minutos (*/30 * * * *)',
+                'hourly'           => 'A Cada Hora (0 * * * *)',
+                'daily-midnight'   => 'Diariamente à Meia-Noite (0 0 * * *)',
+                'daily-6am'        => 'Diariamente às 6h (0 6 * * *)',
+                'weekly-monday'    => 'Semanalmente à Segunda-Feira (0 0 * * 1)',
+                'monthly'          => 'Mensalmente (0 0 1 * *)',
+                'custom'           => 'Personalizado',
+            ],
+
+            'types' => [
+                'recurring' => 'Recorrente',
+                'one-time'  => 'Único',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'A exportar produto',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Catálogos Shopify',
             'product'     => 'Produto Shopify',
             'category'    => 'Categoria Shopify',
             'metafields'  => 'Definição de Metafields do Shopify',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Produto Shopify',
-            'category'   => 'Categoria Shopify',
-            'attribute'  => 'Atributo Shopify',
-            'family'     => 'Atribuição de atributos de variante de família do Shopify',
-            'metafield'  => 'Definições de Metafield do Shopify',
-            'metaobject' => 'Metaobject do Shopify',
+            'catalog'       => 'Catálogos Shopify',
+            'catalog-price' => 'Preços dos catálogos Shopify',
+            'product'       => 'Produto Shopify',
+            'category'      => 'Categoria Shopify',
+            'attribute'     => 'Atributo Shopify',
+            'family'        => 'Atribuição de atributos de variante de família do Shopify',
+            'metafield'     => 'Definições de Metafield do Shopify',
+            'metaobject'    => 'Metaobject do Shopify',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Definições',
+                'upgrade'               => 'Atualizar para Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Credenciais',
                 'export-mappings'       => 'Mapeamentos de exportação',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Mapeamento de média externa',
+            'image'       => 'Atributo de URL da imagem',
+            'image-info'  => 'Um atributo url com uma ligação de imagem acessível à Shopify. As imagens carregadas continuam a usar o mapeamento de média acima.',
+            'video'       => 'Atributo de URL do vídeo',
+            'video-info'  => 'Um atributo url com ligações do YouTube ou do Vimeo. A Shopify não suporta qualquer outro serviço de vídeo.',
+            'unsupported' => ':sku: :count ligação(ões) de vídeo ignorada(s), só o YouTube e o Vimeo são suportados.',
+            'unreachable' => ':sku: :count ligação(ões) de imagem ignorada(s), a Shopify não conseguiu aceder-lhes.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Mapeamento de associações',
+            'related-products'       => 'Produtos relacionados',
+            'complementary-products' => 'Produtos complementares',
+            'unopim-association'     => 'Associação UnoPim',
+            'bundle-products'        => 'Produtos do conjunto',
+        ],
+
+        'realtime' => [
+            'title'       => 'Sincronização em tempo real',
+            'channel'     => 'Canal',
+            'currency'    => 'Moeda',
+            'enable'      => 'Sincronizar os produtos com esta loja ao guardar',
+            'enable-info' => 'Um produto guardado chega a esta loja em segundos. Só são atualizados os produtos já exportados para a Shopify.',
+            'enabled'     => 'A sincronização em tempo real está ativa.',
+            'disabled'    => 'A sincronização em tempo real está desativada.',
+
+            'blocked' => [
+                'locale'   => 'Defina primeiro um idioma predefinido nestas credenciais.',
+                'settings' => 'Defina primeiro o canal e a moeda no separador Sincronização em tempo real.',
+            ],
+
+            'settings-saved'      => 'Definições da sincronização em tempo real guardadas.',
+            'settings-incomplete' => 'Escolha um canal e uma moeda, ou deixe ambos vazios.',
+            'settings-in-use'     => 'Desative primeiro a sincronização em tempo real nestas credenciais: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Catálogos',
+            'breadcrumb'      => 'Catálogos Shopify',
+            'edit-title'      => 'Editar catálogo | :name',
+            'create'          => 'Criar catálogo',
+            'create-success'  => 'Catálogo criado.',
+            'update-success'  => 'Catálogo atualizado.',
+            'delete-success'  => 'Catálogo eliminado.',
+            'duplicate-title' => 'Esta loja já tem um catálogo com esse título.',
+
+            'acl' => [
+                'create' => 'Criar catálogo',
+                'edit'   => 'Editar catálogo',
+                'delete' => 'Eliminar catálogo',
+            ],
+
+            'status' => [
+                'active'   => 'Ativo',
+                'draft'    => 'Rascunho',
+                'archived' => 'Arquivado',
+            ],
+
+            'form' => [
+                'save'                      => 'Guardar catálogo',
+                'store'                     => 'Loja',
+                'general'                   => 'Geral',
+                'title'                     => 'Título',
+                'status'                    => 'Estado',
+                'markets'                   => 'Mercados',
+                'kind'                      => 'Tipo de catálogo',
+                'kind-info'                 => 'Os catálogos por região definem preços para um país ou área. Os catálogos B2B definem preços para a localização de uma empresa, pelo que mostram apenas os mercados marcados como B2B pela Shopify.',
+                'kind-mismatch'             => 'Esses mercados não correspondem ao tipo de catálogo escolhido.',
+                'auto-publish'              => 'Incluir automaticamente novos produtos',
+                'markets-info'              => 'Os mercados para os quais este catálogo define preços, lidos em direto da loja. Um catálogo pode servir vários mercados.',
+                'price-list-name'           => 'Nome da lista de preços',
+                'pricing'                   => 'Preços',
+                'currency'                  => 'Definir preços em',
+                'pricing-strategy'          => 'Preços',
+                'adjustment-type'           => 'Tipo de ajuste',
+                'adjustment-value'          => 'Percentagem de ajuste',
+                'price-attribute'           => 'Atributo de preço',
+                'price-attribute-info'      => 'O atributo de preço do UnoPim a que este catálogo vende, por exemplo um preço de revendedor. Deixe vazio para usar o atributo de preço do mapeamento de exportação.',
+                'compare-at-attribute'      => 'Atributo de preço de comparação',
+                'compare-at-attribute-info' => 'O atributo de preço do UnoPim mostrado riscado ao lado do preço deste catálogo. Deixe vazio para usar o preço de comparação do mapeamento de exportação.',
+            ],
+
+            'kinds' => [
+                'region' => 'Região',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Ajuste percentual',
+                'fixed'              => 'Preços fixos do UnoPim',
+                'adjustment-summary' => 'Ajuste :direction:value%',
+                'fixed-summary'      => 'Preços fixos (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Diminuir',
+                'increase' => 'Aumentar',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Título',
+                'status'     => 'Estado',
+                'kind'       => 'Tipo',
+                'currency'   => 'Moeda',
+                'markets'    => 'Mercados',
+                'pricing'    => 'Preços',
+                'synced'     => 'Sincronizado',
+                'synced-yes' => 'Sim',
+                'synced-no'  => 'Não',
+            ],
+
+            'import' => [
+                'unsupported' => 'Os catálogos exigem credenciais Shopify manuais. O proxy SaaS ainda não disponibiliza as operações de catálogo nem de lista de preços.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Se o preço já existir',
+                'skip'          => 'Manter o preço do UnoPim',
+                'overwrite'     => 'Substituir pelo preço da Shopify',
+                'no-mapping'    => 'Importação de preços de catálogo ignorada: o mapeamento de importação não tem atributo de preço.',
+                'unknown-sku'   => 'Preço de catálogo ignorado: o SKU :sku não existe no UnoPim.',
+                'kept-existing' => ':count preços de catálogo foram mantidos como estavam, porque os produtos já têm preço nessa moeda.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Fase de preços de catálogo do Shopify Pro ignorada: o manifesto de exportação não tem credenciais utilizáveis.',
+                'saas-unsupported'   => 'Fase de preços de catálogo do Shopify Pro ignorada: o proxy SaaS não disponibiliza as operações de lista de preços.',
+                'no-price'           => 'O catálogo :catalog ignorou o SKU :sku: não tem preço em :currency.',
+                'no-response'        => 'A Shopify não devolveu uma resposta utilizável ao definir os preços do catálogo :catalog.',
+                'rejected'           => 'A Shopify rejeitou os preços do catálogo :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'O catálogo :catalog não tem mercado, por isso a Shopify não tem nada para definir preços.',
+                'no-currency'   => 'O catálogo :catalog não tem moeda, e a Shopify exige uma em todas as listas de preços.',
+                'no-adjustment' => 'O catálogo :catalog usa um ajuste percentual mas não tem tipo de ajuste.',
+                'no-response'   => 'A Shopify não devolveu uma resposta utilizável para :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Atualizar para Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Os filtros de exportação avançados estão disponíveis no Shopify Pro.',
+            'types-note'                => 'Os tipos monetário e de medida estão disponíveis no Shopify Pro.',
+            'association-mapping'       => 'Mapeamento de associações',
+            'association-note'          => 'O mapeamento de associações do UnoPim para produtos relacionados e complementares do Shopify está disponível no Shopify Pro.',
+            'external-media'            => 'Mapeamento de média externa',
+            'media-note'                => 'Os atributos de URL de imagem e vídeo estão disponíveis no Shopify Pro.',
+            'catalogs'                  => 'Catálogos e sincronização em tempo real',
+            'catalogs-note'             => 'Os catálogos, os seus preços e a sincronização de produtos em tempo real estão disponíveis no Shopify Pro.',
+            'schedule-note'             => 'Executar uma exportação automaticamente segundo um agendamento está disponível no Shopify Pro.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Estas funcionalidades fazem parte do Shopify Pro. Os ecrãs abaixo aparecem, mas ficam apenas de leitura até o Pro ser instalado.',
+            'realtime'                  => 'Sincronização em tempo real',
+            'realtime-note'             => 'Sincronizar um produto com a Shopify no momento em que é guardado está disponível no Shopify Pro.',
+            'schedule'                  => 'Exportações agendadas',
+            'export-filters'            => 'Filtros de exportação avançados',
+            'attribute-conditions'      => 'Condições de atributo',
+            'conditions-note'           => 'Filtrar uma exportação por condições de atributo está disponível no Shopify Pro.',
+            'metafield-types'           => 'Tipos de metacampo',
+        ],
+
         'acl' => [
             'saas-credentials' => 'Credenciais SaaS',
             'credential'       => [

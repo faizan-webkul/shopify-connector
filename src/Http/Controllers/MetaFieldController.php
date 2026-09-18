@@ -3,6 +3,7 @@
 namespace Webkul\Shopify\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Admin\Http\Requests\MassDestroyRequest;
 use Webkul\Attribute\Repositories\AttributeRepository;
@@ -16,6 +17,7 @@ use Webkul\Shopify\Repositories\ShopifyMetaobjectAttributeRepository;
 use Webkul\Shopify\Repositories\ShopifyMetaobjectDefinitionRepository;
 use Webkul\Shopify\Repositories\ShopifyMetaobjectMappingRepository;
 use Webkul\Shopify\Services\Taxonomy\ShopifyTaxonomyLoader;
+use Webkul\Shopify\Support\ProFeatures;
 
 class MetaFieldController extends Controller
 {
@@ -433,6 +435,11 @@ class MetaFieldController extends Controller
     public function update(int $id)
     {
         $requestData = request()->except(['_token', '_method', 'listvalue']);
+
+        request()->validate(
+            ['type' => ['nullable', Rule::notIn(resolve(ProFeatures::class)->lockedMetafieldTypes())]],
+            ['type.not_in' => trans('shopify::app.shopify.pro.types-note')],
+        );
 
         if (array_key_exists('taxonomy_category', $requestData)) {
             $requestData['taxonomy_category'] = $this->decodeTaxonomyCategory($requestData['taxonomy_category']);

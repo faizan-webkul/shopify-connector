@@ -17,6 +17,7 @@ use Webkul\Shopify\Repositories\ShopifyMetaobjectAttributeRepository;
 use Webkul\Shopify\Repositories\ShopifyMetaobjectDefinitionRepository;
 use Webkul\Shopify\Repositories\ShopifyMetaobjectEntryMappingRepository;
 use Webkul\Shopify\Repositories\ShopifyMetaobjectEntryRepository;
+use Webkul\Shopify\Support\ProFeatures;
 
 class MetaobjectController extends Controller
 {
@@ -362,12 +363,13 @@ class MetaobjectController extends Controller
     {
         $built = [];
         $usedKeys = [];
+        $locked = resolve(ProFeatures::class)->lockedMetafieldTypes();
 
         foreach ($fields as $field) {
             $name = trim($field['name'] ?? '');
             $type = $field['type'] ?? '';
 
-            if ($name === '' || $type === '') {
+            if ($name === '' || $type === '' || in_array($type, $locked, true)) {
                 continue;
             }
 

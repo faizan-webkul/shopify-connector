@@ -10,6 +10,7 @@ use Webkul\Shopify\Helpers\ShoifyMetaFieldType;
 use Webkul\Shopify\Helpers\ShopifyFields;
 use Webkul\Shopify\Http\Requests\ExportMappingForm;
 use Webkul\Shopify\Repositories\ShopifyExportMappingRepository;
+use Webkul\Shopify\Support\ShopifyMapping;
 
 class MappingController extends Controller
 {
@@ -123,7 +124,7 @@ class MappingController extends Controller
 
         session()->flash('success', trans('shopify::app.shopify.export.mapping.created'));
 
-        return redirect()->route('admin.shopify.export-mappings', 1);
+        return redirect()->route('admin.shopify.export-mappings', ShopifyMapping::EXPORT_ID);
     }
 
     public function formatMediaMapping(array &$filteredData, array &$mappingFields)

@@ -2,15 +2,16 @@
 
 namespace Webkul\Shopify\Services\Bulk\PayloadBuilders;
 
-use Webkul\DAM\Repositories\AssetRepository;
 use Webkul\Shopify\Repositories\ShopifyMappingRepository;
 use Webkul\Shopify\Services\Bulk\Media\AssetUrlResolver;
 use Webkul\Shopify\Services\ProductPhaseDataService;
+use Webkul\Shopify\Traits\ResolvesDamAssetRepository;
 use Webkul\Shopify\Traits\ShopifyGraphqlRequest;
 use Webkul\Shopify\Traits\StagesShopifyAsset;
 
 class MediaBulkPayloadBuilder
 {
+    use ResolvesDamAssetRepository;
     use ShopifyGraphqlRequest;
     use StagesShopifyAsset;
 
@@ -59,41 +60,11 @@ class MediaBulkPayloadBuilder
 
     protected array $imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg'];
 
-    protected ?AssetRepository $resolvedAssetRepository = null;
-
-    protected bool $assetRepositoryResolved = false;
-
     public function __construct(
         protected ProductPhaseDataService $productPhaseDataService,
         protected ShopifyMappingRepository $shopifyMappingRepository,
         protected AssetUrlResolver $assetUrlResolver,
     ) {}
-
-    /**
-     * Resolve the DAM AssetRepository on demand, or null when DAM is absent.
-     *
-     * Resolved lazily rather than constructor-injected: DAM is an optional
-     * module, and a nullable constructor default would make Laravel's container
-     * short-circuit the parameter to null anyway — it only auto-builds defaulted
-     * params for *bound* classes, and the concrete AssetRepository is not bound.
-     * A direct container make() builds it correctly.
-     */
-    protected function assetRepository(): ?AssetRepository
-    {
-        if (! $this->assetRepositoryResolved) {
-            $this->assetRepositoryResolved = true;
-
-            if (class_exists(AssetRepository::class)) {
-                try {
-                    $this->resolvedAssetRepository = app(AssetRepository::class);
-                } catch (\Throwable $e) {
-                    $this->resolvedAssetRepository = null;
-                }
-            }
-        }
-
-        return $this->resolvedAssetRepository;
-    }
 
     /**
      * Build JSONL payload lines for productCreateMedia.

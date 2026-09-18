@@ -1,5 +1,8 @@
 <?php
 
+use Webkul\Shopify\Helpers\Exporters\Pro\UnavailableExporter;
+use Webkul\Shopify\Validators\JobInstances\ProFeatureValidator;
+
 return [
     'shopifyProduct' => [
         'title'     => 'shopify::app.exporters.shopify.product',
@@ -117,6 +120,26 @@ return [
                 [
                     'name'       => 'credentials',
                     'title'      => 'Shopify credentials',
+                    'required'   => true,
+                    'validation' => 'required',
+                    'type'       => 'select',
+                    'async'      => true,
+                    'track_by'   => 'id',
+                    'label_by'   => 'label',
+                    'list_route' => 'shopify.credential.fetch-all',
+                ],
+            ],
+        ],
+    ],
+    'shopifyCatalog' => [
+        'title'     => 'shopify::app.exporters.shopify.catalog',
+        'exporter'  => UnavailableExporter::class,
+        'validator' => ProFeatureValidator::class,
+        'filters'   => [
+            'fields' => [
+                [
+                    'name'       => 'credentials',
+                    'title'      => 'shopify::app.shopify.job.credentials',
                     'required'   => true,
                     'validation' => 'required',
                     'type'       => 'select',

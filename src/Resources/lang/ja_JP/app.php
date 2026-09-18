@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => '測定フィールドの単位を選択してください: :fields。',
+        'measurement-not-numeric' => '「:field」の値は数値である必要があります。',
+        'measurement-min'         => '「:field」の値は :min 以上である必要があります。',
+        'measurement-max'         => '「:field」の値は :max 以下である必要があります。',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => '金額',
+        ],
+
+        'measurement' => [
+            'minimum' => ':type の最小値',
+            'maximum' => ':type の最大値',
+            'types'   => [
+                'antenna_gain'            => 'アンテナ利得',
+                'area'                    => '面積',
+                'battery_charge_capacity' => 'バッテリー充電容量',
+                'battery_energy_capacity' => 'バッテリーエネルギー容量',
+                'capacitance'             => '静電容量',
+                'concentration'           => '濃度',
+                'data_storage_capacity'   => 'データ保存容量',
+                'data_transfer_rate'      => 'データ転送速度',
+                'dimension'               => '寸法',
+                'display_density'         => 'ディスプレイ密度',
+                'distance'                => '距離',
+                'duration'                => '時間',
+                'electric_current'        => '電流',
+                'electrical_resistance'   => '電気抵抗',
+                'energy'                  => 'エネルギー',
+                'frequency'               => '周波数',
+                'illuminance'             => '照度',
+                'inductance'              => 'インダクタンス',
+                'luminous_flux'           => '光束',
+                'mass_flow_rate'          => '質量流量',
+                'power'                   => '電力',
+                'pressure'                => '圧力',
+                'resolution'              => '解像度',
+                'rotational_speed'        => '回転速度',
+                'sound_level'             => '音圧レベル',
+                'speed'                   => '速度',
+                'temperature'             => '温度',
+                'thermal_power'           => '熱出力',
+                'voltage'                 => '電圧',
+                'volume'                  => '体積',
+                'volumetric_flow_rate'    => '体積流量',
+                'weight'                  => '重量',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'スケジュール',
+            'preset'    => 'プリセットスケジュール',
+            'cron'      => 'Cron式',
+            'cron-info' => 'サーバーのスケジューラーとキューワーカーが稼働している必要があります。',
+            'timezone'  => 'タイムゾーン',
+            'type'      => 'スケジュールタイプ',
+
+            'presets' => [
+                'disabled'         => '無効',
+                'every-minute'     => '毎分 (* * * * *)',
+                'every-5-minutes'  => '5分ごと (*/5 * * * *)',
+                'every-15-minutes' => '15分ごと (*/15 * * * *)',
+                'every-30-minutes' => '30分ごと (*/30 * * * *)',
+                'hourly'           => '毎時 (0 * * * *)',
+                'daily-midnight'   => '毎日0時 (0 0 * * *)',
+                'daily-6am'        => '毎日午前6時 (0 6 * * *)',
+                'weekly-monday'    => '毎週月曜日 (0 0 * * 1)',
+                'monthly'          => '毎月 (0 0 1 * *)',
+                'custom'           => 'カスタム',
+            ],
+
+            'types' => [
+                'recurring' => '定期実行',
+                'one-time'  => '一回限り',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => '商品をエクスポート中',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Shopify カタログ',
             'product'     => 'Shopify 商品',
             'category'    => 'Shopify カテゴリー',
             'metafields'  => 'Shopify メタフィールド定義',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Shopify 商品',
-            'category'   => 'Shopify カテゴリー',
-            'attribute'  => 'Shopify 属性',
-            'family'     => 'Shopify ファミリーバリアント属性の割り当て',
-            'metafield'  => 'Shopify メタフィールド定義',
-            'metaobject' => 'Shopify メタオブジェクト',
+            'catalog'       => 'Shopify カタログ',
+            'catalog-price' => 'Shopify カタログ価格',
+            'product'       => 'Shopify 商品',
+            'category'      => 'Shopify カテゴリー',
+            'attribute'     => 'Shopify 属性',
+            'family'        => 'Shopify ファミリーバリアント属性の割り当て',
+            'metafield'     => 'Shopify メタフィールド定義',
+            'metaobject'    => 'Shopify メタオブジェクト',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => '設定',
+                'upgrade'               => 'Pro にアップグレード',
                 'shopify'               => 'Shopify',
                 'credentials'           => '認証情報',
                 'export-mappings'       => 'エクスポートマッピング',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => '外部メディアマッピング',
+            'image'       => '画像 URL 属性',
+            'image-info'  => 'Shopify がアクセスできる画像リンクを保持する url 属性です。アップロード済みの画像は上のメディアマッピングを引き続き使用します。',
+            'video'       => '動画 URL 属性',
+            'video-info'  => 'YouTube または Vimeo のリンクを保持する url 属性です。Shopify はこれら以外の動画サービスに対応していません。',
+            'unsupported' => ':sku: :count 件の動画リンクをスキップしました。対応しているのは YouTube と Vimeo のみです。',
+            'unreachable' => ':sku: :count 件の画像リンクをスキップしました。Shopify からアクセスできませんでした。',
+        ],
+
+        'association-mapping' => [
+            'title'                  => '関連付けマッピング',
+            'related-products'       => '関連商品',
+            'complementary-products' => '補完商品',
+            'unopim-association'     => 'UnoPim の関連付け',
+            'bundle-products'        => 'バンドル商品',
+        ],
+
+        'realtime' => [
+            'title'       => 'リアルタイム同期',
+            'channel'     => 'チャネル',
+            'currency'    => '通貨',
+            'enable'      => '商品の保存時にこのストアへ同期する',
+            'enable-info' => '保存された商品は数秒でこのストアに反映されます。すでに Shopify へエクスポート済みの商品のみが更新されます。',
+            'enabled'     => 'リアルタイム同期は有効です。',
+            'disabled'    => 'リアルタイム同期は無効です。',
+
+            'blocked' => [
+                'locale'   => '先にこの認証情報の既定ロケールを設定してください。',
+                'settings' => '先に「リアルタイム同期」タブでチャネルと通貨を設定してください。',
+            ],
+
+            'settings-saved'      => 'リアルタイム同期の設定を保存しました。',
+            'settings-incomplete' => 'チャネルと通貨の両方を選択するか、両方を空にしてください。',
+            'settings-in-use'     => '先に次の認証情報でリアルタイム同期を無効にしてください: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'カタログ',
+            'breadcrumb'      => 'Shopify カタログ',
+            'edit-title'      => 'カタログを編集 | :name',
+            'create'          => 'カタログを作成',
+            'create-success'  => 'カタログを作成しました。',
+            'update-success'  => 'カタログを更新しました。',
+            'delete-success'  => 'カタログを削除しました。',
+            'duplicate-title' => 'このストアには同じタイトルのカタログがすでに存在します。',
+
+            'acl' => [
+                'create' => 'カタログを作成',
+                'edit'   => 'カタログを編集',
+                'delete' => 'カタログを削除',
+            ],
+
+            'status' => [
+                'active'   => '有効',
+                'draft'    => '下書き',
+                'archived' => 'アーカイブ済み',
+            ],
+
+            'form' => [
+                'save'                      => 'カタログを保存',
+                'store'                     => 'ストア',
+                'general'                   => '基本情報',
+                'title'                     => 'タイトル',
+                'status'                    => 'ステータス',
+                'markets'                   => 'マーケット',
+                'kind'                      => 'カタログの種類',
+                'kind-info'                 => '地域カタログは国や地域の価格を設定します。B2B カタログは会社の拠点の価格を設定するため、Shopify が B2B と設定したマーケットのみが表示されます。',
+                'kind-mismatch'             => '選択したマーケットはカタログの種類と一致しません。',
+                'auto-publish'              => '新しい商品を自動的に含める',
+                'markets-info'              => 'このカタログが価格を設定するマーケットで、ストアからリアルタイムに読み込まれます。1つのカタログで複数のマーケットに対応できます。',
+                'price-list-name'           => '価格リスト名',
+                'pricing'                   => '価格設定',
+                'currency'                  => '価格の通貨',
+                'pricing-strategy'          => '価格設定',
+                'adjustment-type'           => '調整の種類',
+                'adjustment-value'          => '調整率',
+                'price-attribute'           => '価格属性',
+                'price-attribute-info'      => 'このカタログで販売する UnoPim の価格属性です（卸価格など）。空欄にするとエクスポートマッピングの価格属性が使われます。',
+                'compare-at-attribute'      => '比較価格属性',
+                'compare-at-attribute-info' => 'このカタログの価格の横に取り消し線付きで表示される UnoPim の価格属性です。空欄にするとエクスポートマッピングの比較価格が使われます。',
+            ],
+
+            'kinds' => [
+                'region' => '地域',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => '率による調整',
+                'fixed'              => 'UnoPim の固定価格',
+                'adjustment-summary' => '調整 :direction:value%',
+                'fixed-summary'      => '固定価格 (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => '値下げ',
+                'increase' => '値上げ',
+            ],
+
+            'datagrid' => [
+                'title'      => 'タイトル',
+                'status'     => 'ステータス',
+                'kind'       => '種類',
+                'currency'   => '通貨',
+                'markets'    => 'マーケット',
+                'pricing'    => '価格設定',
+                'synced'     => '同期済み',
+                'synced-yes' => 'はい',
+                'synced-no'  => 'いいえ',
+            ],
+
+            'import' => [
+                'unsupported' => 'カタログには手動の Shopify 認証情報が必要です。SaaS プロキシはまだカタログおよび価格リストの操作を公開していません。',
+            ],
+
+            'price-import' => [
+                'on-existing'   => '既存の価格がある場合',
+                'skip'          => 'UnoPim の価格を維持する',
+                'overwrite'     => 'Shopify の価格で上書きする',
+                'no-mapping'    => 'カタログ価格のインポートをスキップしました: インポートマッピングに価格属性がありません。',
+                'unknown-sku'   => 'カタログ価格をスキップしました: SKU :sku は UnoPim にありません。',
+                'kept-existing' => ':count 件のカタログ価格はそのまま維持されました。対象の商品にはその通貨の価格がすでに存在します。',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Shopify Pro のカタログ価格フェーズをスキップしました: エクスポートマニフェストに使用可能な認証情報がありません。',
+                'saas-unsupported'   => 'Shopify Pro のカタログ価格フェーズをスキップしました: SaaS プロキシは価格リストの操作を公開していません。',
+                'no-price'           => 'カタログ :catalog は SKU :sku をスキップしました: :currency の価格がありません。',
+                'no-response'        => 'カタログ :catalog の価格設定中、Shopify から有効な応答がありませんでした。',
+                'rejected'           => 'Shopify がカタログ :catalog の価格を拒否しました: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'カタログ :catalog にマーケットがないため、Shopify には価格を設定する対象がありません。',
+                'no-currency'   => 'カタログ :catalog に通貨がありません。Shopify はすべての価格リストに通貨を必要とします。',
+                'no-adjustment' => 'カタログ :catalog は率による調整を使用していますが、調整の種類が設定されていません。',
+                'no-response'   => ':operation に対して Shopify から有効な応答がありませんでした。',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Pro にアップグレード',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => '高度なエクスポートフィルターは Shopify Pro でご利用いただけます。',
+            'types-note'                => '金額型と計測型は Shopify Pro でご利用いただけます。',
+            'association-mapping'       => '関連付けマッピング',
+            'association-note'          => 'UnoPim の関連付けを Shopify の関連商品・補完商品にマッピングする機能は Shopify Pro でご利用いただけます。',
+            'external-media'            => '外部メディアのマッピング',
+            'media-note'                => '画像と動画の URL 属性は Shopify Pro でご利用いただけます。',
+            'catalogs'                  => 'カタログとリアルタイム同期',
+            'catalogs-note'             => 'カタログ、カタログ価格、商品のリアルタイム同期は Shopify Pro でご利用いただけます。',
+            'schedule-note'             => 'スケジュールに沿ってエクスポートを自動実行する機能は Shopify Pro でご利用いただけます。',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'これらの機能は Shopify Pro に含まれます。以下の画面は表示されますが、Pro をインストールするまでは閲覧のみとなります。',
+            'realtime'                  => 'リアルタイム同期',
+            'realtime-note'             => '商品を保存した瞬間に Shopify へ同期する機能は Shopify Pro でご利用いただけます。',
+            'schedule'                  => 'スケジュール実行のエクスポート',
+            'export-filters'            => '高度なエクスポートフィルター',
+            'attribute-conditions'      => '属性条件',
+            'conditions-note'           => '属性条件でエクスポートを絞り込む機能は Shopify Pro でご利用いただけます。',
+            'metafield-types'           => 'メタフィールドの種類',
+        ],
+
         'acl' => [
             'saas-credentials' => 'SaaS 認証情報',
             'credential'       => [

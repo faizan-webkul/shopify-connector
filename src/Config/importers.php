@@ -1,5 +1,8 @@
 <?php
 
+use Webkul\Shopify\Helpers\Importers\Pro\UnavailableImporter;
+use Webkul\Shopify\Validators\JobInstances\ProFeatureValidator;
+
 return [
     'shopifyCategories' => [
         'title'     => 'shopify::app.importers.shopify.category',
@@ -221,6 +224,77 @@ return [
                     'track_by'   => 'id',
                     'label_by'   => 'label',
                     'list_route' => 'shopify.credential.fetch-all',
+                ],
+            ],
+        ],
+    ],
+    'shopifyCatalog' => [
+        'title'     => 'shopify::app.importers.shopify.catalog',
+        'importer'  => UnavailableImporter::class,
+        'validator' => ProFeatureValidator::class,
+        'filters'   => [
+            'fields' => [
+                [
+                    'name'       => 'credentials',
+                    'title'      => 'shopify::app.shopify.job.credentials',
+                    'required'   => true,
+                    'validation' => 'required',
+                    'type'       => 'select',
+                    'async'      => true,
+                    'track_by'   => 'id',
+                    'label_by'   => 'label',
+                    'list_route' => 'shopify.credential.fetch-all',
+                ],
+            ],
+        ],
+    ],
+
+    'shopifyCatalogPrice' => [
+        'title'     => 'shopify::app.importers.shopify.catalog-price',
+        'importer'  => UnavailableImporter::class,
+        'validator' => ProFeatureValidator::class,
+        'filters'   => [
+            'fields' => [
+                [
+                    'name'       => 'credentials',
+                    'title'      => 'shopify::app.shopify.job.credentials',
+                    'required'   => true,
+                    'validation' => 'required',
+                    'type'       => 'select',
+                    'async'      => true,
+                    'track_by'   => 'id',
+                    'label_by'   => 'label',
+                    'list_route' => 'shopify.credential.fetch-all',
+                ], [
+                    'name'       => 'channel',
+                    'title'      => 'shopify::app.shopify.job.channel',
+                    'required'   => true,
+                    'validation' => 'required',
+                    'type'       => 'select',
+                    'async'      => true,
+                    'track_by'   => 'id',
+                    'label_by'   => 'label',
+                    'list_route' => 'shopify.channel.fetch-all',
+                ], [
+                    'name'       => 'locale',
+                    'title'      => 'shopify::app.shopify.job.locale',
+                    'required'   => true,
+                    'validation' => 'required',
+                    'type'       => 'select',
+                    'async'      => true,
+                    'track_by'   => 'id',
+                    'label_by'   => 'label',
+                    'list_route' => 'shopify.locale.fetch-all',
+                    'dependent'  => ['credentials', 'channel'],
+                ], [
+                    'name'     => 'on_existing_price',
+                    'title'    => 'shopify::app.shopify.catalogs.price-import.on-existing',
+                    'required' => false,
+                    'type'     => 'select',
+                    'options'  => [
+                        ['label' => 'shopify::app.shopify.catalogs.price-import.skip', 'value' => 'skip'],
+                        ['label' => 'shopify::app.shopify.catalogs.price-import.overwrite', 'value' => 'overwrite'],
+                    ],
                 ],
             ],
         ],

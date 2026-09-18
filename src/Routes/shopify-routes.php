@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Webkul\Shopify\Http\Controllers\CatalogController;
+use Webkul\Shopify\Http\Controllers\CatalogOptionController;
 use Webkul\Shopify\Http\Controllers\CollectionMappingController;
 use Webkul\Shopify\Http\Controllers\CredentialController;
 use Webkul\Shopify\Http\Controllers\ImportMappingController;
@@ -9,8 +11,10 @@ use Webkul\Shopify\Http\Controllers\MetaFieldController;
 use Webkul\Shopify\Http\Controllers\MetaobjectController;
 use Webkul\Shopify\Http\Controllers\MetaobjectEntryController;
 use Webkul\Shopify\Http\Controllers\OptionController;
+use Webkul\Shopify\Http\Controllers\RealtimeController;
 use Webkul\Shopify\Http\Controllers\SaasAutoLoginController;
 use Webkul\Shopify\Http\Controllers\SettingController;
+use Webkul\Shopify\Http\Controllers\UpgradeController;
 
 Route::get('shopify/saas/secure-login', [SaasAutoLoginController::class, 'login'])
     ->name('shopify.saas.secure-login');
@@ -45,6 +49,31 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
             Route::delete('delete/{id}', 'destroy')->name('shopify.metafield.delete');
 
             Route::post('mass-delete', 'massDestroy')->name('shopify.metafield.mass_delete');
+        });
+
+        Route::get('upgrade', [UpgradeController::class, 'index'])->name('shopify.upgrade');
+
+        Route::get('shopify/credentials/{credentialId}/realtime', [RealtimeController::class, 'credential'])
+            ->name('shopify.credentials.realtime.index');
+
+        Route::put('shopify/credentials/{credentialId}/realtime', [RealtimeController::class, 'toggle'])
+            ->name('shopify.credentials.realtime.toggle');
+
+        Route::get('shopify/realtime', [RealtimeController::class, 'index'])->name('shopify.realtime.index');
+        Route::put('shopify/realtime', [RealtimeController::class, 'store'])->name('shopify.realtime.store');
+
+        Route::prefix('shopify/credentials/{credentialId}/catalogs')->group(function (): void {
+            Route::controller(CatalogController::class)->group(function (): void {
+                Route::get('', 'index')->name('shopify.credentials.catalogs.index');
+                Route::post('create', 'store')->name('shopify.credentials.catalogs.store');
+                Route::get('edit/{id}', 'edit')->name('shopify.credentials.catalogs.edit');
+                Route::put('edit/{id}', 'update')->name('shopify.credentials.catalogs.update');
+                Route::delete('{id}', 'destroy')->name('shopify.credentials.catalogs.destroy');
+                Route::post('mass-destroy', 'massDestroy')->name('shopify.credentials.catalogs.mass_destroy');
+            });
+
+            Route::get('options/markets', [CatalogOptionController::class, 'markets'])
+                ->name('shopify.credentials.catalogs.options.markets');
         });
 
         Route::prefix('export')->group(function () {

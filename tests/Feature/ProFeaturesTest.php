@@ -1,0 +1,243 @@
+<?php
+
+use Illuminate\Support\Facades\Blade;
+use Webkul\Shopify\Helpers\ShoifyMetaFieldType;
+use Webkul\Shopify\Models\ShopifyCredentialsConfigProxy;
+use Webkul\Shopify\Support\ProFeatures;
+use Webkul\Shopify\Support\ShopifyMapping;
+
+use function Pest\Laravel\get;
+
+/**
+ * The Pro package ships in this repository, so its absence is simulated by
+ * clearing the flag it sets while booting.
+ */
+function withoutShopifyPro(): void
+{
+    config(['shopify.pro.installed' => false]);
+}
+
+it('detects the installed pro package', function () {
+    expect(app(ProFeatures::class)->isInstalled())->toBeTrue();
+});
+
+it('detects an absent pro package', function () {
+    withoutShopifyPro();
+
+    expect(app(ProFeatures::class)->isInstalled())->toBeFalse();
+});
+
+it('renders the pro badge while the pro package is installed', function () {
+    $badge = Blade::render('<x-shopify::pro-badge />');
+
+    expect($badge)
+        ->toContain(trans('shopify::app.shopify.pro.badge'))
+        ->toContain('bg-blue-100')
+        ->not->toContain('bg-amber-100');
+});
+
+it('renders the upgrade badge while the pro package is absent', function () {
+    withoutShopifyPro();
+
+    $badge = Blade::render('<x-shopify::pro-badge />');
+
+    expect($badge)
+        ->toContain(trans('shopify::app.shopify.pro.upgrade'))
+        ->toContain('bg-amber-100')
+        ->not->toContain('bg-blue-100');
+});
+
+it('decorates the pro export filter labels while the pro package is installed', function () {
+    $html = view('shopify::data-transfer.pro-filter-badges')->render();
+
+    expect($html)
+        ->toContain('v-shopify-pro-filter-badges')
+        ->toContain('shopify-pro-badge')
+        ->toContain(':locked="false"');
+});
+
+it('locks the pro filters while the pro package is absent', function () {
+    withoutShopifyPro();
+
+    $html = view('shopify::data-transfer.pro-filter-badges')->render();
+
+    expect($html)
+        ->toContain('v-shopify-pro-filter-badges')
+        ->toContain(':locked="true"')
+        ->toContain(trans('shopify::app.shopify.pro.upgrade'));
+});
+
+function proNote(string $titleKey, string $noteKey): string
+{
+    return Blade::render(
+        '<x-shopify::pro-note :title="trans($titleKey)" :note="trans($noteKey)" />',
+        compact('titleKey', 'noteKey'),
+    );
+}
+
+it('hides an upgrade card while the pro package is installed', function () {
+    expect(trim(proNote('shopify::app.shopify.pro.association-mapping', 'shopify::app.shopify.pro.association-note')))->toBe('');
+});
+
+it('offers an upgrade card for each pro feature while the package is absent', function (string $titleKey, string $noteKey) {
+    withoutShopifyPro();
+
+    expect(proNote($titleKey, $noteKey))
+        ->toContain(e(trans($titleKey)))
+        ->toContain(e(trans($noteKey)))
+        ->toContain(trans('shopify::app.shopify.pro.upgrade'));
+})->with([
+    ['shopify::app.shopify.pro.association-mapping', 'shopify::app.shopify.pro.association-note'],
+    ['shopify::app.shopify.pro.external-media', 'shopify::app.shopify.pro.media-note'],
+    ['shopify::app.shopify.pro.catalogs', 'shopify::app.shopify.pro.catalogs-note'],
+]);
+
+it('names only filters the export screens actually render', function () {
+    $map = app(ProFeatures::class)->exportFilterMap();
+
+    expect($map)->not->toBeEmpty();
+
+    foreach ($map as $entityType => $names) {
+        $rendered = array_column((array) config("exporters.{$entityType}.filters.fields", []), 'name');
+
+        expect(array_diff($names, $rendered))->toBe([]);
+    }
+});
+
+it('badges no core shopify export filter', function () {
+    $coreExporters = require base_path('packages/Webkul/Shopify/src/Config/exporters.php');
+
+    foreach (app(ProFeatures::class)->exportFilterMap() as $entityType => $names) {
+        $coreNames = array_column($coreExporters[$entityType]['filters']['fields'] ?? [], 'name');
+
+        expect(array_intersect($names, $coreNames))->toBe([]);
+    }
+});
+
+it('treats currencies as core on the product export and pro on the metaobject export', function () {
+    $map = app(ProFeatures::class)->exportFilterMap();
+
+    expect($map['shopifyProduct'])->not->toContain('currencies')
+        ->and($map['shopifyMetaobject'])->toContain('currencies');
+});
+
+it('serves the shopify screens while the pro package is absent', function () {
+    withoutShopifyPro();
+
+    $this->loginAsAdmin();
+
+    get(route('admin.shopify.export-mappings', 1))
+        ->assertOk()
+        ->assertSeeText(trans('shopify::app.shopify.pro.association-note'));
+
+    get(route('admin.shopify.import-mappings', 3))
+        ->assertOk()
+        ->assertSeeText(trans('shopify::app.shopify.pro.association-note'));
+
+    get(route('shopify.metafield.index'))
+        ->assertOk()
+        ->assertSeeText(trans('shopify::app.shopify.pro.types-note'));
+
+    get(route('shopify.metaobject.index'))
+        ->assertOk()
+        ->assertSeeText(trans('shopify::app.shopify.pro.types-note'));
+
+    get(route('admin.settings.data_transfer.exports.create'))
+        ->assertOk()
+        ->assertSee(':locked="true"', false);
+});
+
+it('names every pro feature on the upgrade page while the package is absent', function () {
+    withoutShopifyPro();
+
+    $this->loginAsAdmin();
+
+    $page = get(route('shopify.upgrade'))->assertOk();
+
+    foreach (['catalogs', 'realtime', 'schedule', 'external-media', 'export-filters', 'attribute-conditions', 'metafield-types'] as $feature) {
+        $page->assertSeeText(trans('shopify::app.shopify.pro.'.$feature));
+    }
+
+    $page->assertSeeText(trans('shopify::app.shopify.pro.upgrade'));
+});
+
+it('keeps the upgrade menu entry out of the sidebar while pro is installed', function () {
+    expect(collect(config('menu.admin'))->pluck('key'))->not->toContain('shopify.upgrade')
+        ->and(collect(config('acl'))->pluck('key'))->not->toContain('shopify.upgrade');
+});
+
+it('offers the catalog screen without its list while the pro package is absent', function () {
+    withoutShopifyPro();
+
+    $this->loginAsAdmin();
+
+    $credential = ShopifyCredentialsConfigProxy::query()->firstOrFail();
+
+    get(route('shopify.credentials.catalogs.index', $credential->id))
+        ->assertOk()
+        ->assertSeeText(trans('shopify::app.shopify.pro.catalogs-note'))
+        ->assertDontSeeText(trans('shopify::app.shopify.catalogs.create'));
+});
+
+it('offers the real time screens read only while the pro package is absent', function () {
+    withoutShopifyPro();
+
+    $this->loginAsAdmin();
+
+    $credential = ShopifyCredentialsConfigProxy::query()->firstOrFail();
+
+    get(route('shopify.realtime.index'))
+        ->assertOk()
+        ->assertSeeText(trans('shopify::app.shopify.pro.realtime-note'));
+
+    get(route('shopify.credentials.realtime.index', $credential->id))
+        ->assertOk()
+        ->assertSeeText(trans('shopify::app.shopify.pro.realtime-note'));
+});
+
+it('offers the mapping sections and the schedule read only while the pro package is absent', function () {
+    withoutShopifyPro();
+
+    $this->loginAsAdmin();
+
+    get(route('admin.shopify.export-mappings', ShopifyMapping::EXPORT_ID))
+        ->assertOk()
+        ->assertSeeText(trans('shopify::app.shopify.association-mapping.title'))
+        ->assertSeeText(trans('shopify::app.shopify.external-media.title'))
+        ->assertSeeText(trans('shopify::app.shopify.pro.media-note'));
+
+    get(route('admin.settings.data_transfer.exports.create'))
+        ->assertOk()
+        ->assertSeeText(trans('shopify::app.export.schedule.title'))
+        ->assertSeeText(trans('shopify::app.shopify.pro.schedule-note'));
+});
+
+it('refuses a pro metafield type while the package is absent', function () {
+    withoutShopifyPro();
+
+    $this->loginAsAdmin();
+
+    $this->post(route('shopify.metafield.store'), [
+        'ownerType' => 'PRODUCT',
+        'code'      => 'pro_locked_'.uniqid(),
+        'type'      => 'money',
+    ])->assertSessionHasErrors('type');
+
+    expect(resolve(ProFeatures::class)->lockedMetafieldTypes())
+        ->toContain('money')
+        ->toContain('area');
+});
+
+it('marks the pro types unselectable while the package is absent', function () {
+    withoutShopifyPro();
+
+    $types = resolve(ShoifyMetaFieldType::class)->getMetaFieldType();
+
+    expect($types['price'][0])->toHaveKey('$isDisabled')
+        ->and($types['measurement'][0])->toHaveKey('$isDisabled');
+});
+
+it('names the filters core renders under a heading instead of a label', function () {
+    expect(resolve(ProFeatures::class)->exportFilterHeadings())
+        ->toBe([trans('admin::app.settings.data-transfer.exports.create.attribute-conditions') => 'custom_attributes']);
+});

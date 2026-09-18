@@ -1,4 +1,4 @@
-<x-admin::layouts.with-history :history-id="$credential->id">
+<x-admin::layouts.with-history :history-id="$credential->id" :tab-items="$tabItems ?? []">
     <x-slot:entityName>
         shopify_credentials
     </x-slot>
@@ -308,6 +308,5 @@
                 </div>
             </div>
         </div>
-    </x-admin::form> 
-    
+    </x-admin::form>
 </x-admin::layouts.with-history>

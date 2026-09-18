@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Pilih satuan untuk bidang pengukuran: :fields.',
+        'measurement-not-numeric' => 'Nilai ":field" harus berupa angka.',
+        'measurement-min'         => 'Nilai ":field" harus :min atau lebih.',
+        'measurement-max'         => 'Nilai ":field" harus :max atau kurang.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Nominal Uang',
+        ],
+
+        'measurement' => [
+            'minimum' => ':type Minimum',
+            'maximum' => ':type Maksimum',
+            'types'   => [
+                'antenna_gain'            => 'Penguatan Antena',
+                'area'                    => 'Luas',
+                'battery_charge_capacity' => 'Kapasitas Pengisian Baterai',
+                'battery_energy_capacity' => 'Kapasitas Energi Baterai',
+                'capacitance'             => 'Kapasitansi',
+                'concentration'           => 'Konsentrasi',
+                'data_storage_capacity'   => 'Kapasitas Penyimpanan Data',
+                'data_transfer_rate'      => 'Laju Transfer Data',
+                'dimension'               => 'Dimensi',
+                'display_density'         => 'Kerapatan Layar',
+                'distance'                => 'Jarak',
+                'duration'                => 'Durasi',
+                'electric_current'        => 'Arus Listrik',
+                'electrical_resistance'   => 'Hambatan Listrik',
+                'energy'                  => 'Energi',
+                'frequency'               => 'Frekuensi',
+                'illuminance'             => 'Iluminansi',
+                'inductance'              => 'Induktansi',
+                'luminous_flux'           => 'Fluks Cahaya',
+                'mass_flow_rate'          => 'Laju Aliran Massa',
+                'power'                   => 'Daya',
+                'pressure'                => 'Tekanan',
+                'resolution'              => 'Resolusi',
+                'rotational_speed'        => 'Kecepatan Putar',
+                'sound_level'             => 'Tingkat Suara',
+                'speed'                   => 'Kecepatan',
+                'temperature'             => 'Suhu',
+                'thermal_power'           => 'Daya Termal',
+                'voltage'                 => 'Tegangan',
+                'volume'                  => 'Volume',
+                'volumetric_flow_rate'    => 'Laju Aliran Volume',
+                'weight'                  => 'Berat',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Jadwal',
+            'preset'    => 'Jadwal Preset',
+            'cron'      => 'Ekspresi Cron',
+            'cron-info' => 'Memerlukan penjadwal server dan pekerja antrean yang sedang berjalan.',
+            'timezone'  => 'Zona Waktu',
+            'type'      => 'Tipe Jadwal',
+
+            'presets' => [
+                'disabled'         => 'Nonaktif',
+                'every-minute'     => 'Setiap Menit (* * * * *)',
+                'every-5-minutes'  => 'Setiap 5 Menit (*/5 * * * *)',
+                'every-15-minutes' => 'Setiap 15 Menit (*/15 * * * *)',
+                'every-30-minutes' => 'Setiap 30 Menit (*/30 * * * *)',
+                'hourly'           => 'Setiap Jam (0 * * * *)',
+                'daily-midnight'   => 'Setiap Hari pada Tengah Malam (0 0 * * *)',
+                'daily-6am'        => 'Setiap Hari pukul 6 Pagi (0 6 * * *)',
+                'weekly-monday'    => 'Setiap Minggu pada Hari Senin (0 0 * * 1)',
+                'monthly'          => 'Setiap Bulan (0 0 1 * *)',
+                'custom'           => 'Kustom',
+            ],
+
+            'types' => [
+                'recurring' => 'Berulang',
+                'one-time'  => 'Sekali Jalan',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Mengekspor Produk',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Katalog Shopify',
             'product'     => 'Produk Shopify',
             'category'    => 'Kategori Shopify',
             'metafields'  => 'Definisi Metafield Shopify',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Produk Shopify',
-            'category'   => 'Kategori Shopify',
-            'attribute'  => 'Atribut Shopify',
-            'family'     => 'Penetapan Atribut Varian Family Shopify',
-            'metafield'  => 'Definisi Metafield Shopify',
-            'metaobject' => 'Metaobject Shopify',
+            'catalog'       => 'Katalog Shopify',
+            'catalog-price' => 'Harga Katalog Shopify',
+            'product'       => 'Produk Shopify',
+            'category'      => 'Kategori Shopify',
+            'attribute'     => 'Atribut Shopify',
+            'family'        => 'Penetapan Atribut Varian Family Shopify',
+            'metafield'     => 'Definisi Metafield Shopify',
+            'metaobject'    => 'Metaobject Shopify',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Pengaturan',
+                'upgrade'               => 'Tingkatkan ke Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Kredensial',
                 'export-mappings'       => 'Pemetaan Ekspor',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Pemetaan Media Eksternal',
+            'image'       => 'Atribut URL Gambar',
+            'image-info'  => 'Atribut URL berisi tautan gambar yang dapat dijangkau Shopify. Gambar yang diunggah tetap memakai pemetaan media di atas.',
+            'video'       => 'Atribut URL Video',
+            'video-info'  => 'Atribut URL berisi tautan YouTube atau Vimeo. Shopify tidak menghosting layanan video lain.',
+            'unsupported' => ':sku: :count tautan video dilewati, hanya YouTube dan Vimeo yang didukung.',
+            'unreachable' => ':sku: :count tautan gambar dilewati, Shopify tidak dapat menjangkaunya.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Pemetaan Asosiasi',
+            'related-products'       => 'Produk Terkait',
+            'complementary-products' => 'Produk Pelengkap',
+            'unopim-association'     => 'Asosiasi UnoPim',
+            'bundle-products'        => 'Produk Bundel',
+        ],
+
+        'realtime' => [
+            'title'       => 'Sinkronisasi Waktu Nyata',
+            'channel'     => 'Saluran',
+            'currency'    => 'Mata Uang',
+            'enable'      => 'Sinkronkan produk ke toko ini begitu disimpan',
+            'enable-info' => 'Produk yang disimpan sampai ke toko ini dalam hitungan detik. Hanya produk yang sudah diekspor ke Shopify yang diperbarui.',
+            'enabled'     => 'Sinkronisasi waktu nyata aktif.',
+            'disabled'    => 'Sinkronisasi waktu nyata nonaktif.',
+
+            'blocked' => [
+                'locale'   => 'Tetapkan dulu lokal bawaan pada kredensial ini.',
+                'settings' => 'Tetapkan dulu saluran dan mata uang pada tab Sinkronisasi Waktu Nyata.',
+            ],
+
+            'settings-saved'      => 'Pengaturan sinkronisasi waktu nyata tersimpan.',
+            'settings-incomplete' => 'Pilih saluran dan mata uang sekaligus, atau kosongkan keduanya.',
+            'settings-in-use'     => 'Matikan dulu sinkronisasi waktu nyata untuk kredensial berikut: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Katalog',
+            'breadcrumb'      => 'Katalog Shopify',
+            'edit-title'      => 'Ubah Katalog | :name',
+            'create'          => 'Buat Katalog',
+            'create-success'  => 'Katalog dibuat.',
+            'update-success'  => 'Katalog diperbarui.',
+            'delete-success'  => 'Katalog dihapus.',
+            'duplicate-title' => 'Toko ini sudah memiliki katalog dengan judul tersebut.',
+
+            'acl' => [
+                'create' => 'Buat Katalog',
+                'edit'   => 'Ubah Katalog',
+                'delete' => 'Hapus Katalog',
+            ],
+
+            'status' => [
+                'active'   => 'Aktif',
+                'draft'    => 'Draf',
+                'archived' => 'Diarsipkan',
+            ],
+
+            'form' => [
+                'save'                      => 'Simpan Katalog',
+                'store'                     => 'Toko',
+                'general'                   => 'Umum',
+                'title'                     => 'Judul',
+                'status'                    => 'Status',
+                'markets'                   => 'Pasar',
+                'kind'                      => 'Jenis Katalog',
+                'kind-info'                 => 'Katalog wilayah menetapkan harga untuk suatu negara atau area. Katalog B2B menetapkan harga untuk lokasi perusahaan, sehingga hanya menampilkan pasar yang ditandai Shopify sebagai B2B.',
+                'kind-mismatch'             => 'Pasar tersebut tidak cocok dengan jenis katalog yang dipilih.',
+                'auto-publish'              => 'Sertakan produk baru secara otomatis',
+                'markets-info'              => 'Pasar yang harganya ditetapkan katalog ini, dibaca langsung dari toko. Satu katalog dapat melayani beberapa pasar.',
+                'price-list-name'           => 'Nama Daftar Harga',
+                'pricing'                   => 'Penetapan Harga',
+                'currency'                  => 'Tetapkan harga dalam',
+                'pricing-strategy'          => 'Penetapan Harga',
+                'adjustment-type'           => 'Jenis Penyesuaian',
+                'adjustment-value'          => 'Persentase Penyesuaian',
+                'price-attribute'           => 'Atribut Harga',
+                'price-attribute-info'      => 'Atribut harga UnoPim yang dipakai katalog ini untuk menjual, misalnya harga dealer. Kosongkan untuk memakai atribut harga dari pemetaan ekspor.',
+                'compare-at-attribute'      => 'Atribut Harga Pembanding',
+                'compare-at-attribute-info' => 'Atribut harga UnoPim yang ditampilkan dicoret di samping harga katalog ini. Kosongkan untuk memakai harga pembanding dari pemetaan ekspor.',
+            ],
+
+            'kinds' => [
+                'region' => 'Wilayah',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Penyesuaian persentase',
+                'fixed'              => 'Harga tetap dari UnoPim',
+                'adjustment-summary' => 'Penyesuaian :direction:value%',
+                'fixed-summary'      => 'Harga tetap (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Turunkan',
+                'increase' => 'Naikkan',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Judul',
+                'status'     => 'Status',
+                'kind'       => 'Jenis',
+                'currency'   => 'Mata Uang',
+                'markets'    => 'Pasar',
+                'pricing'    => 'Penetapan Harga',
+                'synced'     => 'Tersinkron',
+                'synced-yes' => 'Ya',
+                'synced-no'  => 'Tidak',
+            ],
+
+            'import' => [
+                'unsupported' => 'Katalog memerlukan kredensial Shopify manual. Proksi SaaS belum menyediakan operasi katalog maupun daftar harga.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Jika Harga Sudah Ada',
+                'skip'          => 'Pertahankan harga UnoPim',
+                'overwrite'     => 'Timpa dengan harga Shopify',
+                'no-mapping'    => 'Impor harga katalog dilewati: pemetaan impor tidak memiliki atribut harga.',
+                'unknown-sku'   => 'Harga katalog dilewati: SKU :sku tidak ada di UnoPim.',
+                'kept-existing' => ':count harga katalog dibiarkan apa adanya, karena produk sudah memiliki harga dalam mata uang tersebut.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Tahap harga katalog Shopify Pro dilewati: manifes ekspor tidak membawa kredensial yang dapat dipakai.',
+                'saas-unsupported'   => 'Tahap harga katalog Shopify Pro dilewati: proksi SaaS tidak menyediakan operasi daftar harga.',
+                'no-price'           => 'Katalog :catalog melewati SKU :sku: tidak ada harga dalam :currency.',
+                'no-response'        => 'Shopify tidak mengembalikan respons yang dapat dipakai saat menetapkan harga katalog :catalog.',
+                'rejected'           => 'Shopify menolak harga untuk katalog :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'Katalog :catalog tidak memiliki pasar, sehingga tidak ada yang dapat diberi harga oleh Shopify.',
+                'no-currency'   => 'Katalog :catalog tidak memiliki mata uang, padahal Shopify mewajibkannya pada setiap daftar harga.',
+                'no-adjustment' => 'Katalog :catalog memakai penyesuaian persentase tetapi tidak memiliki jenis penyesuaian.',
+                'no-response'   => 'Shopify tidak mengembalikan respons yang dapat dipakai untuk :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Tingkatkan ke Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Filter ekspor lanjutan tersedia di Shopify Pro.',
+            'types-note'                => 'Tipe uang dan pengukuran tersedia di Shopify Pro.',
+            'association-mapping'       => 'Pemetaan Asosiasi',
+            'association-note'          => 'Pemetaan asosiasi UnoPim ke produk terkait dan pelengkap Shopify tersedia di Shopify Pro.',
+            'external-media'            => 'Pemetaan media eksternal',
+            'media-note'                => 'Atribut URL gambar dan video tersedia di Shopify Pro.',
+            'catalogs'                  => 'Katalog & sinkronisasi waktu nyata',
+            'catalogs-note'             => 'Katalog, harga katalog, dan sinkronisasi produk waktu nyata tersedia di Shopify Pro.',
+            'schedule-note'             => 'Menjalankan ekspor secara otomatis sesuai jadwal tersedia di Shopify Pro.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Fitur-fitur ini adalah bagian dari Shopify Pro. Layar di bawah ini terlihat, tetapi hanya bisa dibaca sampai Pro dipasang.',
+            'realtime'                  => 'Sinkronisasi waktu nyata',
+            'realtime-note'             => 'Menyinkronkan produk ke Shopify begitu disimpan tersedia di Shopify Pro.',
+            'schedule'                  => 'Ekspor terjadwal',
+            'export-filters'            => 'Filter ekspor lanjutan',
+            'attribute-conditions'      => 'Kondisi atribut',
+            'conditions-note'           => 'Memfilter ekspor berdasarkan kondisi atribut tersedia di Shopify Pro.',
+            'metafield-types'           => 'Tipe metafield',
+        ],
+
         'acl' => [
             'saas-credentials' => 'Kredensial SaaS',
             'credential'       => [

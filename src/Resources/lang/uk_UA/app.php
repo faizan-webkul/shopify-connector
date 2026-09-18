@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Виберіть одиницю вимірювання для полів: :fields.',
+        'measurement-not-numeric' => 'Значення поля «:field» має бути числом.',
+        'measurement-min'         => 'Значення поля «:field» має бути не менше :min.',
+        'measurement-max'         => 'Значення поля «:field» має бути не більше :max.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Сума',
+        ],
+
+        'measurement' => [
+            'minimum' => 'Мінімальне значення: :type',
+            'maximum' => 'Максимальне значення: :type',
+            'types'   => [
+                'antenna_gain'            => 'Коефіцієнт підсилення антени',
+                'area'                    => 'Площа',
+                'battery_charge_capacity' => 'Ємність заряду акумулятора',
+                'battery_energy_capacity' => 'Енергоємність акумулятора',
+                'capacitance'             => 'Електрична ємність',
+                'concentration'           => 'Концентрація',
+                'data_storage_capacity'   => 'Обсяг зберігання даних',
+                'data_transfer_rate'      => 'Швидкість передавання даних',
+                'dimension'               => 'Розмір',
+                'display_density'         => 'Щільність пікселів екрана',
+                'distance'                => 'Відстань',
+                'duration'                => 'Тривалість',
+                'electric_current'        => 'Сила струму',
+                'electrical_resistance'   => 'Електричний опір',
+                'energy'                  => 'Енергія',
+                'frequency'               => 'Частота',
+                'illuminance'             => 'Освітленість',
+                'inductance'              => 'Індуктивність',
+                'luminous_flux'           => 'Світловий потік',
+                'mass_flow_rate'          => 'Масова витрата',
+                'power'                   => 'Потужність',
+                'pressure'                => 'Тиск',
+                'resolution'              => 'Роздільна здатність',
+                'rotational_speed'        => 'Частота обертання',
+                'sound_level'             => 'Рівень звуку',
+                'speed'                   => 'Швидкість',
+                'temperature'             => 'Температура',
+                'thermal_power'           => 'Теплова потужність',
+                'voltage'                 => 'Напруга',
+                'volume'                  => 'Об’єм',
+                'volumetric_flow_rate'    => 'Об’ємна витрата',
+                'weight'                  => 'Вага',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Розклад',
+            'preset'    => 'Готові розклади',
+            'cron'      => 'Cron-вираз',
+            'cron-info' => 'Потрібні запущений планувальник сервера та обробник черги.',
+            'timezone'  => 'Часовий пояс',
+            'type'      => 'Тип розкладу',
+
+            'presets' => [
+                'disabled'         => 'Вимкнено',
+                'every-minute'     => 'Щохвилини (* * * * *)',
+                'every-5-minutes'  => 'Кожні 5 хвилин (*/5 * * * *)',
+                'every-15-minutes' => 'Кожні 15 хвилин (*/15 * * * *)',
+                'every-30-minutes' => 'Кожні 30 хвилин (*/30 * * * *)',
+                'hourly'           => 'Щогодини (0 * * * *)',
+                'daily-midnight'   => 'Щодня опівночі (0 0 * * *)',
+                'daily-6am'        => 'Щодня о 6:00 (0 6 * * *)',
+                'weekly-monday'    => 'Щотижня в понеділок (0 0 * * 1)',
+                'monthly'          => 'Щомісяця (0 0 1 * *)',
+                'custom'           => 'Власний',
+            ],
+
+            'types' => [
+                'recurring' => 'Повторюване',
+                'one-time'  => 'Одноразове',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Експорт товарів',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Каталоги Shopify',
             'product'     => 'Товар Shopify',
             'category'    => 'Категорія Shopify',
             'metafields'  => 'Визначення метаполів Shopify',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Товар Shopify',
-            'category'   => 'Категорія Shopify',
-            'attribute'  => 'Атрибут Shopify',
-            'family'     => 'Призначення атрибутів варіантів родини Shopify',
-            'metafield'  => 'Визначення метаполів Shopify',
-            'metaobject' => 'Метаоб’єкт Shopify',
+            'catalog'       => 'Каталоги Shopify',
+            'catalog-price' => 'Ціни каталогів Shopify',
+            'product'       => 'Товар Shopify',
+            'category'      => 'Категорія Shopify',
+            'attribute'     => 'Атрибут Shopify',
+            'family'        => 'Призначення атрибутів варіантів родини Shopify',
+            'metafield'     => 'Визначення метаполів Shopify',
+            'metaobject'    => 'Метаоб’єкт Shopify',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Налаштування',
+                'upgrade'               => 'Перейти на Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Облікові дані',
                 'export-mappings'       => 'Зіставлення експорту',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Зіставлення зовнішніх медіафайлів',
+            'image'       => 'Атрибут з URL зображення',
+            'image-info'  => 'Атрибут типу url із посиланням на зображення, доступне для Shopify. Завантажені зображення й надалі використовують зіставлення медіа вище.',
+            'video'       => 'Атрибут з URL відео',
+            'video-info'  => 'Атрибут типу url із посиланнями на YouTube або Vimeo. Інших відеосервісів Shopify не підтримує.',
+            'unsupported' => ':sku: пропущено посилань на відео: :count, підтримуються лише YouTube і Vimeo.',
+            'unreachable' => ':sku: пропущено посилань на зображення: :count, Shopify не зміг їх відкрити.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Зіставлення зв’язків',
+            'related-products'       => 'Схожі товари',
+            'complementary-products' => 'Супутні товари',
+            'unopim-association'     => 'Зв’язок UnoPim',
+            'bundle-products'        => 'Товари комплекту',
+        ],
+
+        'realtime' => [
+            'title'       => 'Синхронізація в реальному часі',
+            'channel'     => 'Канал',
+            'currency'    => 'Валюта',
+            'enable'      => 'Синхронізувати товари з цим магазином під час збереження',
+            'enable-info' => 'Збережений товар потрапляє до цього магазину за лічені секунди. Оновлюються лише товари, вже експортовані до Shopify.',
+            'enabled'     => 'Синхронізацію в реальному часі увімкнено.',
+            'disabled'    => 'Синхронізацію в реальному часі вимкнено.',
+
+            'blocked' => [
+                'locale'   => 'Спершу задайте мову за замовчуванням для цих облікових даних.',
+                'settings' => 'Спершу вкажіть канал і валюту на вкладці «Синхронізація в реальному часі».',
+            ],
+
+            'settings-saved'      => 'Налаштування синхронізації в реальному часі збережено.',
+            'settings-incomplete' => 'Виберіть і канал, і валюту або залиште обидва поля порожніми.',
+            'settings-in-use'     => 'Спершу вимкніть синхронізацію в реальному часі для цих облікових даних: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Каталоги',
+            'breadcrumb'      => 'Каталоги Shopify',
+            'edit-title'      => 'Редагування каталогу | :name',
+            'create'          => 'Створити каталог',
+            'create-success'  => 'Каталог створено.',
+            'update-success'  => 'Каталог оновлено.',
+            'delete-success'  => 'Каталог видалено.',
+            'duplicate-title' => 'У цьому магазині вже є каталог із такою назвою.',
+
+            'acl' => [
+                'create' => 'Створити каталог',
+                'edit'   => 'Редагувати каталог',
+                'delete' => 'Видалити каталог',
+            ],
+
+            'status' => [
+                'active'   => 'Активний',
+                'draft'    => 'Чернетка',
+                'archived' => 'В архіві',
+            ],
+
+            'form' => [
+                'save'                      => 'Зберегти каталог',
+                'store'                     => 'Магазин',
+                'general'                   => 'Загальне',
+                'title'                     => 'Назва',
+                'status'                    => 'Статус',
+                'markets'                   => 'Ринки',
+                'kind'                      => 'Тип каталогу',
+                'kind-info'                 => 'Регіональні каталоги задають ціни для країни або території. Каталоги B2B задають ціни для локації компанії, тому показують лише ринки, позначені Shopify як B2B.',
+                'kind-mismatch'             => 'Ці ринки не відповідають обраному типу каталогу.',
+                'auto-publish'              => 'Автоматично додавати нові товари',
+                'markets-info'              => 'Ринки, для яких цей каталог задає ціни; дані зчитуються з магазину наживо. Один каталог може обслуговувати кілька ринків.',
+                'price-list-name'           => 'Назва прайс-листа',
+                'pricing'                   => 'Ціноутворення',
+                'currency'                  => 'Задавати ціни у валюті',
+                'pricing-strategy'          => 'Ціноутворення',
+                'adjustment-type'           => 'Тип коригування',
+                'adjustment-value'          => 'Відсоток коригування',
+                'price-attribute'           => 'Атрибут ціни',
+                'price-attribute-info'      => 'Атрибут ціни UnoPim, за якою продає цей каталог, наприклад дилерська ціна. Залиште порожнім, щоб використати атрибут ціни з налаштувань експорту.',
+                'compare-at-attribute'      => 'Атрибут ціни для порівняння',
+                'compare-at-attribute-info' => 'Атрибут ціни UnoPim, який показується закресленим поряд із ціною цього каталогу. Залиште порожнім, щоб використати ціну для порівняння з налаштувань експорту.',
+            ],
+
+            'kinds' => [
+                'region' => 'Регіон',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Відсоткове коригування',
+                'fixed'              => 'Фіксовані ціни з UnoPim',
+                'adjustment-summary' => 'Коригування :direction:value%',
+                'fixed-summary'      => 'Фіксовані ціни (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Зменшити',
+                'increase' => 'Збільшити',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Назва',
+                'status'     => 'Статус',
+                'kind'       => 'Тип',
+                'currency'   => 'Валюта',
+                'markets'    => 'Ринки',
+                'pricing'    => 'Ціноутворення',
+                'synced'     => 'Синхронізовано',
+                'synced-yes' => 'Так',
+                'synced-no'  => 'Ні',
+            ],
+
+            'import' => [
+                'unsupported' => 'Для каталогів потрібні облікові дані Shopify, додані вручну. SaaS-проксі поки не надає операцій із каталогами та прайс-листами.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Якщо ціна вже є',
+                'skip'          => 'Залишити ціну з UnoPim',
+                'overwrite'     => 'Перезаписати ціною з Shopify',
+                'no-mapping'    => 'Імпорт цін каталогу пропущено: у налаштуваннях імпорту немає атрибута ціни.',
+                'unknown-sku'   => 'Ціну каталогу пропущено: SKU :sku відсутній в UnoPim.',
+                'kept-existing' => 'Ціни каталогу (:count) залишено без змін, бо товари вже мають ціну в цій валюті.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Етап цін каталогу Shopify Pro пропущено: у маніфесті експорту немає придатних облікових даних.',
+                'saas-unsupported'   => 'Етап цін каталогу Shopify Pro пропущено: SaaS-проксі не надає операцій із прайс-листами.',
+                'no-price'           => 'Каталог :catalog пропустив SKU :sku: немає ціни у валюті :currency.',
+                'no-response'        => 'Shopify не повернув придатної відповіді під час встановлення цін каталогу :catalog.',
+                'rejected'           => 'Shopify відхилив ціни каталогу :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'Каталог :catalog не має ринків, тож Shopify немає для чого задавати ціни.',
+                'no-currency'   => 'Каталог :catalog не має валюти, а Shopify вимагає її для кожного прайс-листа.',
+                'no-adjustment' => 'Каталог :catalog використовує відсоткове коригування, але тип коригування не задано.',
+                'no-response'   => 'Shopify не повернув придатної відповіді для операції :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Перейти на Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Розширені фільтри експорту доступні в Shopify Pro.',
+            'types-note'                => 'Грошовий тип і типи вимірювань доступні в Shopify Pro.',
+            'association-mapping'       => 'Зіставлення зв’язків',
+            'association-note'          => 'Зіставлення зв’язків UnoPim із супутніми та додатковими товарами Shopify доступне в Shopify Pro.',
+            'external-media'            => 'Зіставлення зовнішніх медіафайлів',
+            'media-note'                => 'Атрибути з URL зображень і відео доступні в Shopify Pro.',
+            'catalogs'                  => 'Каталоги та синхронізація в реальному часі',
+            'catalogs-note'             => 'Каталоги, ціни каталогів і синхронізація товарів у реальному часі доступні в Shopify Pro.',
+            'schedule-note'             => 'Автоматичний запуск експорту за розкладом доступний у Shopify Pro.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Ці можливості входять до Shopify Pro. Екрани нижче видно, але вони лишаються лише для читання, доки Pro не встановлено.',
+            'realtime'                  => 'Синхронізація в реальному часі',
+            'realtime-note'             => 'Синхронізація товару з Shopify у момент збереження доступна в Shopify Pro.',
+            'schedule'                  => 'Експорт за розкладом',
+            'export-filters'            => 'Розширені фільтри експорту',
+            'attribute-conditions'      => 'Умови за атрибутами',
+            'conditions-note'           => 'Фільтрування експорту за умовами атрибутів доступне в Shopify Pro.',
+            'metafield-types'           => 'Типи метаполів',
+        ],
+
         'acl' => [
             'saas-credentials' => 'Облікові дані SaaS',
             'credential'       => [

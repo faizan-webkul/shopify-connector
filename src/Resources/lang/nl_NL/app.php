@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Kies een eenheid voor de meetveld(en): :fields.',
+        'measurement-not-numeric' => 'De waarde van ":field" moet een getal zijn.',
+        'measurement-min'         => 'De waarde van ":field" moet :min of meer zijn.',
+        'measurement-max'         => 'De waarde van ":field" moet :max of minder zijn.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Bedrag',
+        ],
+
+        'measurement' => [
+            'minimum' => 'Minimale :type',
+            'maximum' => 'Maximale :type',
+            'types'   => [
+                'antenna_gain'            => 'Antenneversterking',
+                'area'                    => 'Oppervlakte',
+                'battery_charge_capacity' => 'Laadcapaciteit van de batterij',
+                'battery_energy_capacity' => 'Energiecapaciteit van de batterij',
+                'capacitance'             => 'Capaciteit',
+                'concentration'           => 'Concentratie',
+                'data_storage_capacity'   => 'Opslagcapaciteit',
+                'data_transfer_rate'      => 'Gegevensoverdrachtssnelheid',
+                'dimension'               => 'Afmeting',
+                'display_density'         => 'Schermdichtheid',
+                'distance'                => 'Afstand',
+                'duration'                => 'Duur',
+                'electric_current'        => 'Elektrische stroom',
+                'electrical_resistance'   => 'Elektrische weerstand',
+                'energy'                  => 'Energie',
+                'frequency'               => 'Frequentie',
+                'illuminance'             => 'Verlichtingssterkte',
+                'inductance'              => 'Inductie',
+                'luminous_flux'           => 'Lichtstroom',
+                'mass_flow_rate'          => 'Massastroom',
+                'power'                   => 'Vermogen',
+                'pressure'                => 'Druk',
+                'resolution'              => 'Resolutie',
+                'rotational_speed'        => 'Rotatiesnelheid',
+                'sound_level'             => 'Geluidsniveau',
+                'speed'                   => 'Snelheid',
+                'temperature'             => 'Temperatuur',
+                'thermal_power'           => 'Thermisch vermogen',
+                'voltage'                 => 'Spanning',
+                'volume'                  => 'Volume',
+                'volumetric_flow_rate'    => 'Volumestroom',
+                'weight'                  => 'Gewicht',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Planning',
+            'preset'    => 'Vooraf Ingestelde Planningen',
+            'cron'      => 'Cron-expressie',
+            'cron-info' => 'Hiervoor moeten de serverplanner en een queue worker draaien.',
+            'timezone'  => 'Tijdzone',
+            'type'      => 'Planningstype',
+
+            'presets' => [
+                'disabled'         => 'Uitgeschakeld',
+                'every-minute'     => 'Elke Minuut (* * * * *)',
+                'every-5-minutes'  => 'Elke 5 Minuten (*/5 * * * *)',
+                'every-15-minutes' => 'Elke 15 Minuten (*/15 * * * *)',
+                'every-30-minutes' => 'Elke 30 Minuten (*/30 * * * *)',
+                'hourly'           => 'Elk Uur (0 * * * *)',
+                'daily-midnight'   => 'Dagelijks Om Middernacht (0 0 * * *)',
+                'daily-6am'        => 'Dagelijks Om 6:00 Uur (0 6 * * *)',
+                'weekly-monday'    => 'Wekelijks Op Maandag (0 0 * * 1)',
+                'monthly'          => 'Maandelijks (0 0 1 * *)',
+                'custom'           => 'Aangepast',
+            ],
+
+            'types' => [
+                'recurring' => 'Terugkerend',
+                'one-time'  => 'Eenmalig',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Producten exporteren',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Shopify-catalogi',
             'product'     => 'Shopify-product',
             'category'    => 'Shopify-categorie',
             'metafields'  => 'Shopify-metavelddefinitie',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Shopify-product',
-            'category'   => 'Shopify-categorie',
-            'attribute'  => 'Shopify-kenmerk',
-            'family'     => 'Shopify familie-variantkenmerktoewijzing',
-            'metafield'  => 'Shopify-metavelddefinities',
-            'metaobject' => 'Shopify-metaobject',
+            'catalog'       => 'Shopify-catalogi',
+            'catalog-price' => 'Prijzen van Shopify-catalogi',
+            'product'       => 'Shopify-product',
+            'category'      => 'Shopify-categorie',
+            'attribute'     => 'Shopify-kenmerk',
+            'family'        => 'Shopify familie-variantkenmerktoewijzing',
+            'metafield'     => 'Shopify-metavelddefinities',
+            'metaobject'    => 'Shopify-metaobject',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Instellingen',
+                'upgrade'               => 'Upgraden naar Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Inloggegevens',
                 'export-mappings'       => 'Exporttoewijzingen',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Koppeling van externe media',
+            'image'       => 'Attribuut met afbeeldings-URL',
+            'image-info'  => 'Een url-attribuut met een afbeeldingslink die Shopify kan bereiken. Geüploade afbeeldingen blijven de mediakoppeling hierboven gebruiken.',
+            'video'       => 'Attribuut met video-URL',
+            'video-info'  => 'Een url-attribuut met YouTube- of Vimeo-links. Shopify ondersteunt geen andere videodienst.',
+            'unsupported' => ':sku: :count videolink(s) overgeslagen, alleen YouTube en Vimeo worden ondersteund.',
+            'unreachable' => ':sku: :count afbeeldingslink(s) overgeslagen, Shopify kon ze niet bereiken.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Koppeling van associaties',
+            'related-products'       => 'Gerelateerde producten',
+            'complementary-products' => 'Aanvullende producten',
+            'unopim-association'     => 'UnoPim-associatie',
+            'bundle-products'        => 'Bundelproducten',
+        ],
+
+        'realtime' => [
+            'title'       => 'Realtime synchronisatie',
+            'channel'     => 'Kanaal',
+            'currency'    => 'Valuta',
+            'enable'      => 'Producten bij het opslaan naar deze winkel synchroniseren',
+            'enable-info' => 'Een opgeslagen product bereikt deze winkel binnen enkele seconden. Alleen producten die al naar Shopify zijn geëxporteerd worden bijgewerkt.',
+            'enabled'     => 'Realtime synchronisatie staat aan.',
+            'disabled'    => 'Realtime synchronisatie staat uit.',
+
+            'blocked' => [
+                'locale'   => 'Stel eerst een standaardtaal in voor deze inloggegevens.',
+                'settings' => 'Stel eerst het kanaal en de valuta in op het tabblad Realtime synchronisatie.',
+            ],
+
+            'settings-saved'      => 'Instellingen voor realtime synchronisatie opgeslagen.',
+            'settings-incomplete' => 'Kies zowel een kanaal als een valuta, of laat beide leeg.',
+            'settings-in-use'     => 'Schakel realtime synchronisatie eerst uit voor deze inloggegevens: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Catalogi',
+            'breadcrumb'      => 'Shopify-catalogi',
+            'edit-title'      => 'Catalogus bewerken | :name',
+            'create'          => 'Catalogus aanmaken',
+            'create-success'  => 'Catalogus aangemaakt.',
+            'update-success'  => 'Catalogus bijgewerkt.',
+            'delete-success'  => 'Catalogus verwijderd.',
+            'duplicate-title' => 'Deze winkel heeft al een catalogus met die titel.',
+
+            'acl' => [
+                'create' => 'Catalogus aanmaken',
+                'edit'   => 'Catalogus bewerken',
+                'delete' => 'Catalogus verwijderen',
+            ],
+
+            'status' => [
+                'active'   => 'Actief',
+                'draft'    => 'Concept',
+                'archived' => 'Gearchiveerd',
+            ],
+
+            'form' => [
+                'save'                      => 'Catalogus opslaan',
+                'store'                     => 'Winkel',
+                'general'                   => 'Algemeen',
+                'title'                     => 'Titel',
+                'status'                    => 'Status',
+                'markets'                   => 'Markten',
+                'kind'                      => 'Soort catalogus',
+                'kind-info'                 => 'Regiocatalogi bepalen de prijs voor een land of gebied. B2B-catalogi bepalen de prijs voor een bedrijfsvestiging en tonen daarom alleen de markten die Shopify als B2B heeft gemarkeerd.',
+                'kind-mismatch'             => 'Die markten passen niet bij de gekozen soort catalogus.',
+                'auto-publish'              => 'Nieuwe producten automatisch opnemen',
+                'markets-info'              => 'De markten waarvoor deze catalogus prijzen bepaalt, live uit de winkel gelezen. Eén catalogus kan meerdere markten bedienen.',
+                'price-list-name'           => 'Naam van de prijslijst',
+                'pricing'                   => 'Prijsstelling',
+                'currency'                  => 'Prijzen instellen in',
+                'pricing-strategy'          => 'Prijsstelling',
+                'adjustment-type'           => 'Soort aanpassing',
+                'adjustment-value'          => 'Aanpassingspercentage',
+                'price-attribute'           => 'Prijsattribuut',
+                'price-attribute-info'      => 'Het UnoPim-prijsattribuut waartegen deze catalogus verkoopt, bijvoorbeeld een dealerprijs. Laat het leeg om het prijsattribuut van de exportkoppeling te gebruiken.',
+                'compare-at-attribute'      => 'Attribuut voor vergelijkingsprijs',
+                'compare-at-attribute-info' => 'Het UnoPim-prijsattribuut dat doorgestreept naast de prijs van deze catalogus wordt getoond. Laat het leeg om de vergelijkingsprijs van de exportkoppeling te gebruiken.',
+            ],
+
+            'kinds' => [
+                'region' => 'Regio',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Procentuele aanpassing',
+                'fixed'              => 'Vaste prijzen uit UnoPim',
+                'adjustment-summary' => 'Aanpassing :direction:value%',
+                'fixed-summary'      => 'Vaste prijzen (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Verlagen',
+                'increase' => 'Verhogen',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Titel',
+                'status'     => 'Status',
+                'kind'       => 'Soort',
+                'currency'   => 'Valuta',
+                'markets'    => 'Markten',
+                'pricing'    => 'Prijsstelling',
+                'synced'     => 'Gesynchroniseerd',
+                'synced-yes' => 'Ja',
+                'synced-no'  => 'Nee',
+            ],
+
+            'import' => [
+                'unsupported' => 'Catalogi vereisen handmatige Shopify-inloggegevens. De SaaS-proxy biedt de catalogus- en prijslijstbewerkingen nog niet aan.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Bij een bestaande prijs',
+                'skip'          => 'De UnoPim-prijs behouden',
+                'overwrite'     => 'Overschrijven met de Shopify-prijs',
+                'no-mapping'    => 'Import van catalogusprijzen overgeslagen: de importkoppeling heeft geen prijsattribuut.',
+                'unknown-sku'   => 'Catalogusprijs overgeslagen: SKU :sku staat niet in UnoPim.',
+                'kept-existing' => ':count catalogusprijzen zijn ongewijzigd gebleven, omdat de producten al een prijs in die valuta hebben.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Catalogusprijsfase van Shopify Pro overgeslagen: het exportmanifest bevat geen bruikbare inloggegevens.',
+                'saas-unsupported'   => 'Catalogusprijsfase van Shopify Pro overgeslagen: de SaaS-proxy biedt de prijslijstbewerkingen niet aan.',
+                'no-price'           => 'Catalogus :catalog heeft SKU :sku overgeslagen: er is geen prijs in :currency.',
+                'no-response'        => 'Shopify gaf geen bruikbaar antwoord tijdens het prijzen van catalogus :catalog.',
+                'rejected'           => 'Shopify weigerde de prijzen voor catalogus :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'Catalogus :catalog heeft geen markt, dus Shopify heeft niets om prijzen voor te bepalen.',
+                'no-currency'   => 'Catalogus :catalog heeft geen valuta, en Shopify vereist er één op elke prijslijst.',
+                'no-adjustment' => 'Catalogus :catalog gebruikt een procentuele aanpassing maar heeft geen soort aanpassing.',
+                'no-response'   => 'Shopify gaf geen bruikbaar antwoord voor :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Upgraden naar Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Geavanceerde exportfilters zijn beschikbaar in Shopify Pro.',
+            'types-note'                => 'Bedrag- en meeteenheidtypen zijn beschikbaar in Shopify Pro.',
+            'association-mapping'       => 'Koppeling van associaties',
+            'association-note'          => 'Het koppelen van UnoPim-associaties aan gerelateerde en aanvullende Shopify-producten is beschikbaar in Shopify Pro.',
+            'external-media'            => 'Koppeling van externe media',
+            'media-note'                => 'Attributen met afbeeldings- en video-URL\'s zijn beschikbaar in Shopify Pro.',
+            'catalogs'                  => 'Catalogi en realtime synchronisatie',
+            'catalogs-note'             => 'Catalogi, catalogusprijzen en realtime productsynchronisatie zijn beschikbaar in Shopify Pro.',
+            'schedule-note'             => 'Een export automatisch volgens een planning uitvoeren is beschikbaar in Shopify Pro.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Deze functies horen bij Shopify Pro. De schermen hieronder zijn zichtbaar, maar blijven alleen-lezen totdat Pro is geïnstalleerd.',
+            'realtime'                  => 'Realtime synchronisatie',
+            'realtime-note'             => 'Een product naar Shopify synchroniseren zodra het wordt opgeslagen is beschikbaar in Shopify Pro.',
+            'schedule'                  => 'Geplande exports',
+            'export-filters'            => 'Geavanceerde exportfilters',
+            'attribute-conditions'      => 'Attribuutvoorwaarden',
+            'conditions-note'           => 'Een export filteren op attribuutvoorwaarden is beschikbaar in Shopify Pro.',
+            'metafield-types'           => 'Metafield-typen',
+        ],
+
         'acl' => [
             'saas-credentials' => 'SaaS-inloggegevens',
             'credential'       => [

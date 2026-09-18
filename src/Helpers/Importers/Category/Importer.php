@@ -17,6 +17,7 @@ use Webkul\Shopify\Helpers\Iterator\CategoryIterator;
 use Webkul\Shopify\Repositories\ShopifyCredentialRepository;
 use Webkul\Shopify\Repositories\ShopifyExportMappingRepository;
 use Webkul\Shopify\Repositories\ShopifyMappingRepository;
+use Webkul\Shopify\Services\Import\DamAssetImporter;
 use Webkul\Shopify\Traits\DataMappingTrait;
 use Webkul\Shopify\Traits\ShopifyGraphqlRequest;
 use Webkul\Shopify\Traits\ValidatedBatched;
@@ -30,6 +31,8 @@ class Importer extends AbstractImporter
     public const BATCH_SIZE = 10;
 
     public const UNOPIM_ENTITY_NAME = 'category';
+
+    public const MEDIA_FIELD_TYPES = ['image', 'file', 'asset'];
 
     public $cursor = null;
 
@@ -380,12 +383,11 @@ class Importer extends AbstractImporter
         foreach ($targetFields as $fieldCode) {
             $field = $this->getCategoryFieldByCode($fieldCode);
 
-            if (! $field || ! in_array($field->type, ['image', 'file'], true)) {
+            if (! $field || ! in_array($field->type, self::MEDIA_FIELD_TYPES, true)) {
                 continue;
             }
 
-            $imagePath = 'category'.DIRECTORY_SEPARATOR.($collection['node']['handle'] ?? 'shopify').DIRECTORY_SEPARATOR.$fieldCode.DIRECTORY_SEPARATOR;
-            $storedPath = $this->handleUrlField($imageUrl, $imagePath);
+            $storedPath = $this->storeCollectionImage($field->type, $imageUrl, $fieldCode, $collection['node']['handle'] ?? 'shopify');
 
             if (! $storedPath) {
                 continue;
@@ -402,6 +404,23 @@ class Importer extends AbstractImporter
     }
 
     /**
+     * Store the Shopify collection image for the mapped field's type and return the
+     * value UnoPim keeps: a DAM asset id for an asset field, a storage path otherwise.
+     */
+    protected function storeCollectionImage(string $type, string $imageUrl, string $fieldCode, string $handle): ?string
+    {
+        if ($type === 'asset') {
+            $assetId = resolve(DamAssetImporter::class)->importFromUrl($imageUrl, $this->credential->shopUrl ?? '');
+
+            return $assetId ? (string) $assetId : null;
+        }
+
+        $imagePath = 'category'.DIRECTORY_SEPARATOR.$handle.DIRECTORY_SEPARATOR.$fieldCode.DIRECTORY_SEPARATOR;
+
+        return $this->handleUrlField($imageUrl, $imagePath) ?: null;
+    }
+
+    /**
      * Clear mapped category image fields when Shopify collection has no image.
      */
     protected function clearMappedCollectionImage(array &$data, array $targetFields): void
@@ -409,7 +428,7 @@ class Importer extends AbstractImporter
         foreach ($targetFields as $fieldCode) {
             $field = $this->getCategoryFieldByCode($fieldCode);
 
-            if (! $field || ! in_array($field->type, ['image', 'file'], true)) {
+            if (! $field || ! in_array($field->type, self::MEDIA_FIELD_TYPES, true)) {
                 continue;
             }
 

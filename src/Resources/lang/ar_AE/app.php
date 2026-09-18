@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'اختر وحدة لحقول القياس: :fields.',
+        'measurement-not-numeric' => 'يجب أن تكون قيمة ":field" رقماً.',
+        'measurement-min'         => 'يجب أن تكون قيمة ":field" :min أو أكثر.',
+        'measurement-max'         => 'يجب أن تكون قيمة ":field" :max أو أقل.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'مبلغ مالي',
+        ],
+
+        'measurement' => [
+            'minimum' => 'الحد الأدنى :type',
+            'maximum' => 'الحد الأقصى :type',
+            'types'   => [
+                'antenna_gain'            => 'كسب الهوائي',
+                'area'                    => 'المساحة',
+                'battery_charge_capacity' => 'سعة شحن البطارية',
+                'battery_energy_capacity' => 'سعة طاقة البطارية',
+                'capacitance'             => 'السعة الكهربائية',
+                'concentration'           => 'التركيز',
+                'data_storage_capacity'   => 'سعة تخزين البيانات',
+                'data_transfer_rate'      => 'معدل نقل البيانات',
+                'dimension'               => 'البُعد',
+                'display_density'         => 'كثافة العرض',
+                'distance'                => 'المسافة',
+                'duration'                => 'المدة',
+                'electric_current'        => 'التيار الكهربائي',
+                'electrical_resistance'   => 'المقاومة الكهربائية',
+                'energy'                  => 'الطاقة',
+                'frequency'               => 'التردد',
+                'illuminance'             => 'شدة الإضاءة',
+                'inductance'              => 'المحاثة',
+                'luminous_flux'           => 'التدفق الضوئي',
+                'mass_flow_rate'          => 'معدل التدفق الكتلي',
+                'power'                   => 'القدرة',
+                'pressure'                => 'الضغط',
+                'resolution'              => 'الدقة',
+                'rotational_speed'        => 'سرعة الدوران',
+                'sound_level'             => 'مستوى الصوت',
+                'speed'                   => 'السرعة',
+                'temperature'             => 'درجة الحرارة',
+                'thermal_power'           => 'القدرة الحرارية',
+                'voltage'                 => 'الجهد الكهربائي',
+                'volume'                  => 'الحجم',
+                'volumetric_flow_rate'    => 'معدل التدفق الحجمي',
+                'weight'                  => 'الوزن',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'الجدولة',
+            'preset'    => 'جداول جاهزة',
+            'cron'      => 'تعبير Cron',
+            'cron-info' => 'يتطلب تشغيل مجدول الخادم وعامل قائمة الانتظار.',
+            'timezone'  => 'المنطقة الزمنية',
+            'type'      => 'نوع الجدولة',
+
+            'presets' => [
+                'disabled'         => 'معطّل',
+                'every-minute'     => 'كل دقيقة (* * * * *)',
+                'every-5-minutes'  => 'كل 5 دقائق (*/5 * * * *)',
+                'every-15-minutes' => 'كل 15 دقيقة (*/15 * * * *)',
+                'every-30-minutes' => 'كل 30 دقيقة (*/30 * * * *)',
+                'hourly'           => 'كل ساعة (0 * * * *)',
+                'daily-midnight'   => 'يوميًا عند منتصف الليل (0 0 * * *)',
+                'daily-6am'        => 'يوميًا الساعة 6 صباحًا (0 6 * * *)',
+                'weekly-monday'    => 'أسبوعيًا يوم الاثنين (0 0 * * 1)',
+                'monthly'          => 'شهريًا (0 0 1 * *)',
+                'custom'           => 'مخصص',
+            ],
+
+            'types' => [
+                'recurring' => 'متكرر',
+                'one-time'  => 'مرة واحدة',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'تصدير المنتجات',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'    => 'كتالوجات Shopify',
             'product'    => 'منتج شوبفاي',
             'category'   => 'فئة شوبفاي',
             'metafields' => 'تعريف حقول Shopify الوصفية',
@@ -20,18 +103,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'منتج شوبيفاي',
-            'category'   => 'فئة شوبيفاي',
-            'attribute'  => 'خاصية شوبيفاي',
-            'family'     => 'عائلة شوبيفاي',
-            'metafield'  => 'تعريفات الحقول الوصفية في شوبيفاي',
-            'metaobject' => 'الكائنات الوصفية في شوبيفاي',
+            'catalog'       => 'كتالوجات Shopify',
+            'catalog-price' => 'أسعار كتالوجات Shopify',
+            'product'       => 'منتج شوبيفاي',
+            'category'      => 'فئة شوبيفاي',
+            'attribute'     => 'خاصية شوبيفاي',
+            'family'        => 'عائلة شوبيفاي',
+            'metafield'     => 'تعريفات الحقول الوصفية في شوبيفاي',
+            'metaobject'    => 'الكائنات الوصفية في شوبيفاي',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'الإعدادات',
+                'upgrade'               => 'الترقية إلى Pro',
                 'shopify'               => 'شوبفاي',
                 'credentials'           => 'بيانات الاعتماد',
                 'export-mappings'       => 'تعيينات التصدير',
@@ -43,6 +129,171 @@ return [
         ],
     ],
     'shopify' => [
+        'external-media' => [
+            'title'       => 'تخطيط الوسائط الخارجية',
+            'image'       => 'سمة رابط الصورة',
+            'image-info'  => 'سمة من نوع رابط تحتوي على رابط صورة يمكن لـ Shopify الوصول إليه. تستمر الصور المرفوعة في استخدام تخطيط الوسائط أعلاه.',
+            'video'       => 'سمة رابط الفيديو',
+            'video-info'  => 'سمة من نوع رابط تحتوي على روابط YouTube أو Vimeo. لا يستضيف Shopify أي خدمة فيديو أخرى.',
+            'unsupported' => ':sku: تم تخطي :count من روابط الفيديو، يُدعم YouTube وVimeo فقط.',
+            'unreachable' => ':sku: تم تخطي :count من روابط الصور، لم يتمكن Shopify من الوصول إليها.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'تخطيط الارتباطات',
+            'related-products'       => 'المنتجات ذات الصلة',
+            'complementary-products' => 'المنتجات المكمّلة',
+            'unopim-association'     => 'ارتباط UnoPim',
+            'bundle-products'        => 'منتجات الحزمة',
+        ],
+
+        'realtime' => [
+            'title'       => 'المزامنة الفورية',
+            'channel'     => 'القناة',
+            'currency'    => 'العملة',
+            'enable'      => 'مزامنة المنتجات مع هذا المتجر فور حفظها',
+            'enable-info' => 'يصل المنتج المحفوظ إلى هذا المتجر خلال ثوانٍ. يتم تحديث المنتجات التي سبق تصديرها إلى Shopify فقط.',
+            'enabled'     => 'المزامنة الفورية مفعّلة.',
+            'disabled'    => 'المزامنة الفورية معطّلة.',
+
+            'blocked' => [
+                'locale'   => 'حدّد لغة افتراضية لبيانات الاعتماد هذه أولاً.',
+                'settings' => 'حدّد القناة والعملة في تبويب المزامنة الفورية أولاً.',
+            ],
+
+            'settings-saved'      => 'تم حفظ إعدادات المزامنة الفورية.',
+            'settings-incomplete' => 'اختر القناة والعملة معاً، أو اترك كليهما فارغاً.',
+            'settings-in-use'     => 'أوقف المزامنة الفورية لبيانات الاعتماد التالية أولاً: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'الكتالوجات',
+            'breadcrumb'      => 'كتالوجات Shopify',
+            'edit-title'      => 'تعديل الكتالوج | :name',
+            'create'          => 'إنشاء كتالوج',
+            'create-success'  => 'تم إنشاء الكتالوج.',
+            'update-success'  => 'تم تحديث الكتالوج.',
+            'delete-success'  => 'تم حذف الكتالوج.',
+            'duplicate-title' => 'يوجد في هذا المتجر كتالوج بالعنوان نفسه بالفعل.',
+
+            'acl' => [
+                'create' => 'إنشاء كتالوج',
+                'edit'   => 'تعديل كتالوج',
+                'delete' => 'حذف كتالوج',
+            ],
+
+            'status' => [
+                'active'   => 'نشط',
+                'draft'    => 'مسودة',
+                'archived' => 'مؤرشف',
+            ],
+
+            'form' => [
+                'save'                      => 'حفظ الكتالوج',
+                'store'                     => 'المتجر',
+                'general'                   => 'عام',
+                'title'                     => 'العنوان',
+                'status'                    => 'الحالة',
+                'markets'                   => 'الأسواق',
+                'kind'                      => 'نوع الكتالوج',
+                'kind-info'                 => 'كتالوجات المناطق تُسعّر دولة أو منطقة. كتالوجات B2B تُسعّر موقع شركة، لذلك تعرض فقط الأسواق التي حدّدها Shopify كـ B2B.',
+                'kind-mismatch'             => 'هذه الأسواق لا تطابق نوع الكتالوج المختار.',
+                'auto-publish'              => 'تضمين المنتجات الجديدة تلقائياً',
+                'markets-info'              => 'الأسواق التي يُسعّر لها هذا الكتالوج، تُقرأ مباشرة من المتجر. يمكن للكتالوج أن يخدم عدة أسواق.',
+                'price-list-name'           => 'اسم قائمة الأسعار',
+                'pricing'                   => 'التسعير',
+                'currency'                  => 'تحديد الأسعار بـ',
+                'pricing-strategy'          => 'التسعير',
+                'adjustment-type'           => 'نوع التعديل',
+                'adjustment-value'          => 'نسبة التعديل',
+                'price-attribute'           => 'سمة السعر',
+                'price-attribute-info'      => 'سمة السعر في UnoPim التي يبيع بها هذا الكتالوج، مثل سعر الموزّع. اتركها فارغة لاستخدام سمة السعر الخاصة بتخطيط التصدير.',
+                'compare-at-attribute'      => 'سمة سعر المقارنة',
+                'compare-at-attribute-info' => 'سمة السعر في UnoPim التي تظهر مشطوبة بجانب سعر هذا الكتالوج. اتركها فارغة لاستخدام سعر المقارنة الخاص بتخطيط التصدير.',
+            ],
+
+            'kinds' => [
+                'region' => 'منطقة',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'تعديل بالنسبة المئوية',
+                'fixed'              => 'أسعار ثابتة من UnoPim',
+                'adjustment-summary' => 'تعديل :direction:value%',
+                'fixed-summary'      => 'أسعار ثابتة (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'خفض',
+                'increase' => 'رفع',
+            ],
+
+            'datagrid' => [
+                'title'      => 'العنوان',
+                'status'     => 'الحالة',
+                'kind'       => 'النوع',
+                'currency'   => 'العملة',
+                'markets'    => 'الأسواق',
+                'pricing'    => 'التسعير',
+                'synced'     => 'متزامن',
+                'synced-yes' => 'نعم',
+                'synced-no'  => 'لا',
+            ],
+
+            'import' => [
+                'unsupported' => 'تحتاج الكتالوجات إلى بيانات اعتماد Shopify يدوية. لا يوفّر وسيط SaaS عمليات الكتالوج أو قوائم الأسعار بعد.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'عند وجود سعر',
+                'skip'          => 'الاحتفاظ بسعر UnoPim',
+                'overwrite'     => 'الاستبدال بسعر Shopify',
+                'no-mapping'    => 'تم تخطي استيراد أسعار الكتالوج: لا يحتوي تخطيط الاستيراد على سمة سعر.',
+                'unknown-sku'   => 'تم تخطي سعر الكتالوج: رمز SKU :sku غير موجود في UnoPim.',
+                'kept-existing' => 'تم الاحتفاظ بـ :count من أسعار الكتالوج كما هي، لأن المنتجات تحمل سعراً بتلك العملة بالفعل.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'تم تخطي مرحلة أسعار كتالوج Shopify Pro: لا يحمل بيان التصدير بيانات اعتماد صالحة.',
+                'saas-unsupported'   => 'تم تخطي مرحلة أسعار كتالوج Shopify Pro: لا يوفّر وسيط SaaS عمليات قوائم الأسعار.',
+                'no-price'           => 'تخطى الكتالوج :catalog رمز SKU :sku: لا يوجد له سعر بعملة :currency.',
+                'no-response'        => 'لم يُرجع Shopify استجابة صالحة أثناء تسعير الكتالوج :catalog.',
+                'rejected'           => 'رفض Shopify أسعار الكتالوج :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'لا يحتوي الكتالوج :catalog على سوق، لذلك لا يوجد ما يُسعّره Shopify.',
+                'no-currency'   => 'لا يحتوي الكتالوج :catalog على عملة، وShopify يتطلب عملة لكل قائمة أسعار.',
+                'no-adjustment' => 'يستخدم الكتالوج :catalog تعديلاً بالنسبة المئوية لكنه لا يحتوي على نوع تعديل.',
+                'no-response'   => 'لم يُرجع Shopify استجابة صالحة للعملية :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'الترقية إلى Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'مرشحات التصدير المتقدمة متاحة في Shopify Pro.',
+            'types-note'                => 'أنواع المبلغ المالي والقياس متاحة في Shopify Pro.',
+            'association-mapping'       => 'ربط الارتباطات',
+            'association-note'          => 'ربط ارتباطات UnoPim بالمنتجات ذات الصلة والمكمّلة في Shopify متاح في Shopify Pro.',
+            'external-media'            => 'ربط الوسائط الخارجية',
+            'media-note'                => 'سمات روابط الصور والفيديو متاحة في Shopify Pro.',
+            'catalogs'                  => 'الكتالوجات والمزامنة الفورية',
+            'catalogs-note'             => 'الكتالوجات وأسعارها ومزامنة المنتجات الفورية متاحة في Shopify Pro.',
+            'schedule-note'             => 'تشغيل التصدير تلقائيًا وفق جدول زمني متاح في Shopify Pro.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'هذه الميزات جزء من Shopify Pro. الشاشات أدناه ظاهرة، لكنها للقراءة فقط حتى يتم تثبيت Pro.',
+            'realtime'                  => 'المزامنة الفورية',
+            'realtime-note'             => 'مزامنة المنتج مع Shopify فور حفظه متاحة في Shopify Pro.',
+            'schedule'                  => 'عمليات تصدير مجدولة',
+            'export-filters'            => 'عوامل تصفية تصدير متقدمة',
+            'attribute-conditions'      => 'شروط السمات',
+            'conditions-note'           => 'تصفية التصدير حسب شروط السمات متاحة في Shopify Pro.',
+            'metafield-types'           => 'أنواع حقول Metafield',
+        ],
+
         'acl' => [
             'credential' => [
                 'create' => 'إنشاء',

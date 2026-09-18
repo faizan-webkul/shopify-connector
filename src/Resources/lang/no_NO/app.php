@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Velg en enhet for målefeltene: :fields.',
+        'measurement-not-numeric' => 'Verdien i ":field" må være et tall.',
+        'measurement-min'         => 'Verdien i ":field" må være :min eller mer.',
+        'measurement-max'         => 'Verdien i ":field" må være :max eller mindre.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Beløp',
+        ],
+
+        'measurement' => [
+            'minimum' => 'Minste :type',
+            'maximum' => 'Største :type',
+            'types'   => [
+                'antenna_gain'            => 'Antenneforsterkning',
+                'area'                    => 'Areal',
+                'battery_charge_capacity' => 'Batteriets ladekapasitet',
+                'battery_energy_capacity' => 'Batteriets energikapasitet',
+                'capacitance'             => 'Kapasitans',
+                'concentration'           => 'Konsentrasjon',
+                'data_storage_capacity'   => 'Lagringskapasitet',
+                'data_transfer_rate'      => 'Dataoverføringshastighet',
+                'dimension'               => 'Dimensjon',
+                'display_density'         => 'Skjermtetthet',
+                'distance'                => 'Avstand',
+                'duration'                => 'Varighet',
+                'electric_current'        => 'Elektrisk strøm',
+                'electrical_resistance'   => 'Elektrisk motstand',
+                'energy'                  => 'Energi',
+                'frequency'               => 'Frekvens',
+                'illuminance'             => 'Belysningsstyrke',
+                'inductance'              => 'Induktans',
+                'luminous_flux'           => 'Lysstrøm',
+                'mass_flow_rate'          => 'Massestrøm',
+                'power'                   => 'Effekt',
+                'pressure'                => 'Trykk',
+                'resolution'              => 'Oppløsning',
+                'rotational_speed'        => 'Rotasjonshastighet',
+                'sound_level'             => 'Lydnivå',
+                'speed'                   => 'Hastighet',
+                'temperature'             => 'Temperatur',
+                'thermal_power'           => 'Termisk effekt',
+                'voltage'                 => 'Spenning',
+                'volume'                  => 'Volum',
+                'volumetric_flow_rate'    => 'Volumstrøm',
+                'weight'                  => 'Vekt',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Tidsplan',
+            'preset'    => 'Forhåndsdefinerte Tidsplaner',
+            'cron'      => 'Cron-uttrykk',
+            'cron-info' => 'Krever at serverplanleggeren og en køarbeider kjører.',
+            'timezone'  => 'Tidssone',
+            'type'      => 'Tidsplantype',
+
+            'presets' => [
+                'disabled'         => 'Deaktivert',
+                'every-minute'     => 'Hvert Minutt (* * * * *)',
+                'every-5-minutes'  => 'Hvert 5. Minutt (*/5 * * * *)',
+                'every-15-minutes' => 'Hvert 15. Minutt (*/15 * * * *)',
+                'every-30-minutes' => 'Hvert 30. Minutt (*/30 * * * *)',
+                'hourly'           => 'Hver Time (0 * * * *)',
+                'daily-midnight'   => 'Daglig Ved Midnatt (0 0 * * *)',
+                'daily-6am'        => 'Daglig Kl. 06:00 (0 6 * * *)',
+                'weekly-monday'    => 'Ukentlig På Mandag (0 0 * * 1)',
+                'monthly'          => 'Månedlig (0 0 1 * *)',
+                'custom'           => 'Egendefinert',
+            ],
+
+            'types' => [
+                'recurring' => 'Gjentakende',
+                'one-time'  => 'Engangs',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Eksporterer produkter',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Shopify-kataloger',
             'product'     => 'Shopify-produkt',
             'category'    => 'Shopify-kategori',
             'metafields'  => 'Shopify metafelt-definisjon',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Shopify-produkt',
-            'category'   => 'Shopify-kategori',
-            'attribute'  => 'Shopify-attributt',
-            'family'     => 'Tildeling av Shopify familievariant-attributt',
-            'metafield'  => 'Shopify metafelt-definisjoner',
-            'metaobject' => 'Shopify-metaobjekt',
+            'catalog'       => 'Shopify-kataloger',
+            'catalog-price' => 'Priser i Shopify-kataloger',
+            'product'       => 'Shopify-produkt',
+            'category'      => 'Shopify-kategori',
+            'attribute'     => 'Shopify-attributt',
+            'family'        => 'Tildeling av Shopify familievariant-attributt',
+            'metafield'     => 'Shopify metafelt-definisjoner',
+            'metaobject'    => 'Shopify-metaobjekt',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Innstillinger',
+                'upgrade'               => 'Oppgrader til Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Legitimasjon',
                 'export-mappings'       => 'Eksportkoblinger',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Kobling av eksterne medier',
+            'image'       => 'Attributt for bilde-URL',
+            'image-info'  => 'Et url-attributt med en bildelenke Shopify får tilgang til. Opplastede bilder bruker fortsatt mediekoblingen ovenfor.',
+            'video'       => 'Attributt for video-URL',
+            'video-info'  => 'Et url-attributt med YouTube- eller Vimeo-lenker. Shopify støtter ingen andre videotjenester.',
+            'unsupported' => ':sku: :count videolenke(r) hoppet over, bare YouTube og Vimeo støttes.',
+            'unreachable' => ':sku: :count bildelenke(r) hoppet over, Shopify fikk ikke tilgang til dem.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Kobling av assosiasjoner',
+            'related-products'       => 'Relaterte produkter',
+            'complementary-products' => 'Utfyllende produkter',
+            'unopim-association'     => 'UnoPim-assosiasjon',
+            'bundle-products'        => 'Pakkeprodukter',
+        ],
+
+        'realtime' => [
+            'title'       => 'Sanntidssynkronisering',
+            'channel'     => 'Kanal',
+            'currency'    => 'Valuta',
+            'enable'      => 'Synkroniser produkter til denne butikken når de lagres',
+            'enable-info' => 'Et lagret produkt når denne butikken i løpet av sekunder. Bare produkter som allerede er eksportert til Shopify blir oppdatert.',
+            'enabled'     => 'Sanntidssynkronisering er på.',
+            'disabled'    => 'Sanntidssynkronisering er av.',
+
+            'blocked' => [
+                'locale'   => 'Angi et standardspråk for denne påloggingen først.',
+                'settings' => 'Angi kanal og valuta under fanen Sanntidssynkronisering først.',
+            ],
+
+            'settings-saved'      => 'Innstillingene for sanntidssynkronisering er lagret.',
+            'settings-incomplete' => 'Velg både kanal og valuta, eller la begge stå tomme.',
+            'settings-in-use'     => 'Slå av sanntidssynkronisering for disse påloggingene først: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Kataloger',
+            'breadcrumb'      => 'Shopify-kataloger',
+            'edit-title'      => 'Rediger katalog | :name',
+            'create'          => 'Opprett katalog',
+            'create-success'  => 'Katalogen er opprettet.',
+            'update-success'  => 'Katalogen er oppdatert.',
+            'delete-success'  => 'Katalogen er slettet.',
+            'duplicate-title' => 'Denne butikken har allerede en katalog med den tittelen.',
+
+            'acl' => [
+                'create' => 'Opprett katalog',
+                'edit'   => 'Rediger katalog',
+                'delete' => 'Slett katalog',
+            ],
+
+            'status' => [
+                'active'   => 'Aktiv',
+                'draft'    => 'Utkast',
+                'archived' => 'Arkivert',
+            ],
+
+            'form' => [
+                'save'                      => 'Lagre katalog',
+                'store'                     => 'Butikk',
+                'general'                   => 'Generelt',
+                'title'                     => 'Tittel',
+                'status'                    => 'Status',
+                'markets'                   => 'Markeder',
+                'kind'                      => 'Katalogtype',
+                'kind-info'                 => 'Regionkataloger setter priser for et land eller område. B2B-kataloger setter priser for en bedriftslokasjon, og viser derfor bare markedene Shopify har merket som B2B.',
+                'kind-mismatch'             => 'De markedene passer ikke med den valgte katalogtypen.',
+                'auto-publish'              => 'Ta automatisk med nye produkter',
+                'markets-info'              => 'Markedene denne katalogen setter priser for, lest direkte fra butikken. Én katalog kan betjene flere markeder.',
+                'price-list-name'           => 'Navn på prisliste',
+                'pricing'                   => 'Prissetting',
+                'currency'                  => 'Sett priser i',
+                'pricing-strategy'          => 'Prissetting',
+                'adjustment-type'           => 'Justeringstype',
+                'adjustment-value'          => 'Justeringsprosent',
+                'price-attribute'           => 'Prisattributt',
+                'price-attribute-info'      => 'UnoPim-prisattributtet denne katalogen selger til, for eksempel en forhandlerpris. La det stå tomt for å bruke prisattributtet fra eksportkoblingen.',
+                'compare-at-attribute'      => 'Attributt for sammenligningspris',
+                'compare-at-attribute-info' => 'UnoPim-prisattributtet som vises overstrøket ved siden av prisen i denne katalogen. La det stå tomt for å bruke sammenligningsprisen fra eksportkoblingen.',
+            ],
+
+            'kinds' => [
+                'region' => 'Region',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Prosentvis justering',
+                'fixed'              => 'Faste priser fra UnoPim',
+                'adjustment-summary' => 'Justering :direction:value%',
+                'fixed-summary'      => 'Faste priser (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Reduser',
+                'increase' => 'Øk',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Tittel',
+                'status'     => 'Status',
+                'kind'       => 'Type',
+                'currency'   => 'Valuta',
+                'markets'    => 'Markeder',
+                'pricing'    => 'Prissetting',
+                'synced'     => 'Synkronisert',
+                'synced-yes' => 'Ja',
+                'synced-no'  => 'Nei',
+            ],
+
+            'import' => [
+                'unsupported' => 'Kataloger krever manuell Shopify-pålogging. SaaS-proxyen tilbyr ennå ikke katalog- eller prislisteoperasjonene.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Ved eksisterende pris',
+                'skip'          => 'Behold UnoPim-prisen',
+                'overwrite'     => 'Overskriv med Shopify-prisen',
+                'no-mapping'    => 'Import av katalogpriser ble hoppet over: importkoblingen har ikke noe prisattributt.',
+                'unknown-sku'   => 'Katalogpris hoppet over: SKU :sku finnes ikke i UnoPim.',
+                'kept-existing' => ':count katalogpriser ble beholdt som de var, fordi produktene allerede har en pris i den valutaen.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Katalogprisfasen i Shopify Pro ble hoppet over: eksportmanifestet inneholder ingen brukbar pålogging.',
+                'saas-unsupported'   => 'Katalogprisfasen i Shopify Pro ble hoppet over: SaaS-proxyen tilbyr ikke prislisteoperasjonene.',
+                'no-price'           => 'Katalogen :catalog hoppet over SKU :sku: den har ingen pris i :currency.',
+                'no-response'        => 'Shopify ga ikke noe brukbart svar under prissettingen av katalogen :catalog.',
+                'rejected'           => 'Shopify avviste prisene for katalogen :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'Katalogen :catalog har ingen markeder, så Shopify har ingenting å prise for.',
+                'no-currency'   => 'Katalogen :catalog mangler valuta, og Shopify krever det på alle prislister.',
+                'no-adjustment' => 'Katalogen :catalog bruker prosentvis justering, men mangler justeringstype.',
+                'no-response'   => 'Shopify ga ikke noe brukbart svar for :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Oppgrader til Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Avanserte eksportfiltre er tilgjengelige i Shopify Pro.',
+            'types-note'                => 'Beløps- og måltyper er tilgjengelige i Shopify Pro.',
+            'association-mapping'       => 'Tilordning av assosiasjoner',
+            'association-note'          => 'Tilordning av UnoPim-assosiasjoner til relaterte og utfyllende Shopify-produkter er tilgjengelig i Shopify Pro.',
+            'external-media'            => 'Kobling av eksterne medier',
+            'media-note'                => 'Attributter med bilde- og video-URL-er er tilgjengelige i Shopify Pro.',
+            'catalogs'                  => 'Kataloger og sanntidssynkronisering',
+            'catalogs-note'             => 'Kataloger, katalogpriser og produktsynkronisering i sanntid er tilgjengelige i Shopify Pro.',
+            'schedule-note'             => 'Å kjøre en eksport automatisk etter en tidsplan er tilgjengelig i Shopify Pro.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Disse funksjonene er en del av Shopify Pro. Skjermbildene nedenfor er synlige, men forblir skrivebeskyttet til Pro er installert.',
+            'realtime'                  => 'Sanntidssynkronisering',
+            'realtime-note'             => 'Å synkronisere et produkt til Shopify i det øyeblikket det lagres er tilgjengelig i Shopify Pro.',
+            'schedule'                  => 'Planlagte eksporter',
+            'export-filters'            => 'Avanserte eksportfiltre',
+            'attribute-conditions'      => 'Attributtbetingelser',
+            'conditions-note'           => 'Å filtrere en eksport etter attributtbetingelser er tilgjengelig i Shopify Pro.',
+            'metafield-types'           => 'Metafelttyper',
+        ],
+
         'acl' => [
             'saas-credentials' => 'SaaS-legitimasjon',
             'credential'       => [

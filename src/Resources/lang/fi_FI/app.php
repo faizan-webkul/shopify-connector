@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Valitse yksikkö mittakentille: :fields.',
+        'measurement-not-numeric' => 'Kentän ”:field” arvon on oltava luku.',
+        'measurement-min'         => 'Kentän ”:field” arvon on oltava vähintään :min.',
+        'measurement-max'         => 'Kentän ”:field” arvon on oltava enintään :max.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Rahamäärä',
+        ],
+
+        'measurement' => [
+            'minimum' => 'Pienin :type',
+            'maximum' => 'Suurin :type',
+            'types'   => [
+                'antenna_gain'            => 'Antennivahvistus',
+                'area'                    => 'Pinta-ala',
+                'battery_charge_capacity' => 'Akun latauskapasiteetti',
+                'battery_energy_capacity' => 'Akun energiakapasiteetti',
+                'capacitance'             => 'Kapasitanssi',
+                'concentration'           => 'Pitoisuus',
+                'data_storage_capacity'   => 'Tallennuskapasiteetti',
+                'data_transfer_rate'      => 'Tiedonsiirtonopeus',
+                'dimension'               => 'Mitta',
+                'display_density'         => 'Näytön tiheys',
+                'distance'                => 'Etäisyys',
+                'duration'                => 'Kesto',
+                'electric_current'        => 'Sähkövirta',
+                'electrical_resistance'   => 'Sähkövastus',
+                'energy'                  => 'Energia',
+                'frequency'               => 'Taajuus',
+                'illuminance'             => 'Valaistusvoimakkuus',
+                'inductance'              => 'Induktanssi',
+                'luminous_flux'           => 'Valovirta',
+                'mass_flow_rate'          => 'Massavirta',
+                'power'                   => 'Teho',
+                'pressure'                => 'Paine',
+                'resolution'              => 'Tarkkuus',
+                'rotational_speed'        => 'Pyörimisnopeus',
+                'sound_level'             => 'Äänitaso',
+                'speed'                   => 'Nopeus',
+                'temperature'             => 'Lämpötila',
+                'thermal_power'           => 'Lämpöteho',
+                'voltage'                 => 'Jännite',
+                'volume'                  => 'Tilavuus',
+                'volumetric_flow_rate'    => 'Tilavuusvirta',
+                'weight'                  => 'Paino',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Aikataulu',
+            'preset'    => 'Esiasetetut aikataulut',
+            'cron'      => 'Cron-lauseke',
+            'cron-info' => 'Edellyttää, että palvelimen ajastin ja jonotyöntekijä ovat käynnissä.',
+            'timezone'  => 'Aikavyöhyke',
+            'type'      => 'Aikataulun tyyppi',
+
+            'presets' => [
+                'disabled'         => 'Ei käytössä',
+                'every-minute'     => 'Joka minuutti (* * * * *)',
+                'every-5-minutes'  => 'Joka 5. minuutti (*/5 * * * *)',
+                'every-15-minutes' => 'Joka 15. minuutti (*/15 * * * *)',
+                'every-30-minutes' => 'Joka 30. minuutti (*/30 * * * *)',
+                'hourly'           => 'Tunneittain (0 * * * *)',
+                'daily-midnight'   => 'Päivittäin keskiyöllä (0 0 * * *)',
+                'daily-6am'        => 'Päivittäin klo 6 (0 6 * * *)',
+                'weekly-monday'    => 'Viikoittain maanantaisin (0 0 * * 1)',
+                'monthly'          => 'Kuukausittain (0 0 1 * *)',
+                'custom'           => 'Mukautettu',
+            ],
+
+            'types' => [
+                'recurring' => 'Toistuva',
+                'one-time'  => 'Kertaluontoinen',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Tuotteiden vienti',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Shopify-luettelot',
             'product'     => 'Shopify-tuote',
             'category'    => 'Shopify-kategoria',
             'metafields'  => 'Shopify-metakenttien määritys',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Shopify-tuote',
-            'category'   => 'Shopify-kategoria',
-            'attribute'  => 'Shopify-attribuutti',
-            'family'     => 'Shopify-perheen varianttiattribuuttien määritys',
-            'metafield'  => 'Shopify-metakenttien määritykset',
-            'metaobject' => 'Shopify-metaobjekti',
+            'catalog'       => 'Shopify-luettelot',
+            'catalog-price' => 'Shopify-luetteloiden hinnat',
+            'product'       => 'Shopify-tuote',
+            'category'      => 'Shopify-kategoria',
+            'attribute'     => 'Shopify-attribuutti',
+            'family'        => 'Shopify-perheen varianttiattribuuttien määritys',
+            'metafield'     => 'Shopify-metakenttien määritykset',
+            'metaobject'    => 'Shopify-metaobjekti',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Asetukset',
+                'upgrade'               => 'Päivitä Pro-versioon',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Tunnistetiedot',
                 'export-mappings'       => 'Vientimääritykset',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Ulkoisen median määritys',
+            'image'       => 'Kuvan URL-attribuutti',
+            'image-info'  => 'URL-attribuutti, jossa on Shopifyn saavutettavissa oleva kuvalinkki. Ladatut kuvat käyttävät edelleen yllä olevaa mediamääritystä.',
+            'video'       => 'Videon URL-attribuutti',
+            'video-info'  => 'URL-attribuutti, jossa on YouTube- tai Vimeo-linkkejä. Shopify ei isännöi muita videopalveluita.',
+            'unsupported' => ':sku: :count videolinkkiä ohitettiin, vain YouTube ja Vimeo ovat tuettuja.',
+            'unreachable' => ':sku: :count kuvalinkkiä ohitettiin, Shopify ei tavoittanut niitä.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Liitosten määritys',
+            'related-products'       => 'Liittyvät tuotteet',
+            'complementary-products' => 'Täydentävät tuotteet',
+            'unopim-association'     => 'UnoPim-liitos',
+            'bundle-products'        => 'Pakettituotteet',
+        ],
+
+        'realtime' => [
+            'title'       => 'Reaaliaikainen synkronointi',
+            'channel'     => 'Kanava',
+            'currency'    => 'Valuutta',
+            'enable'      => 'Synkronoi tuotteet tähän kauppaan heti tallennuksen yhteydessä',
+            'enable-info' => 'Tallennettu tuote päätyy tähän kauppaan sekunneissa. Vain jo Shopifyyn viedyt tuotteet päivitetään.',
+            'enabled'     => 'Reaaliaikainen synkronointi on käytössä.',
+            'disabled'    => 'Reaaliaikainen synkronointi ei ole käytössä.',
+
+            'blocked' => [
+                'locale'   => 'Määritä ensin oletuskieli näille tunnuksille.',
+                'settings' => 'Määritä ensin kanava ja valuutta reaaliaikaisen synkronoinnin välilehdellä.',
+            ],
+
+            'settings-saved'      => 'Reaaliaikaisen synkronoinnin asetukset tallennettiin.',
+            'settings-incomplete' => 'Valitse sekä kanava että valuutta tai tyhjennä molemmat.',
+            'settings-in-use'     => 'Poista reaaliaikainen synkronointi ensin käytöstä näiltä tunnuksilta: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Luettelot',
+            'breadcrumb'      => 'Shopify-luettelot',
+            'edit-title'      => 'Muokkaa luetteloa | :name',
+            'create'          => 'Luo luettelo',
+            'create-success'  => 'Luettelo luotiin.',
+            'update-success'  => 'Luettelo päivitettiin.',
+            'delete-success'  => 'Luettelo poistettiin.',
+            'duplicate-title' => 'Tässä kaupassa on jo samanniminen luettelo.',
+
+            'acl' => [
+                'create' => 'Luo luettelo',
+                'edit'   => 'Muokkaa luetteloa',
+                'delete' => 'Poista luettelo',
+            ],
+
+            'status' => [
+                'active'   => 'Aktiivinen',
+                'draft'    => 'Luonnos',
+                'archived' => 'Arkistoitu',
+            ],
+
+            'form' => [
+                'save'                      => 'Tallenna luettelo',
+                'store'                     => 'Kauppa',
+                'general'                   => 'Yleiset',
+                'title'                     => 'Nimi',
+                'status'                    => 'Tila',
+                'markets'                   => 'Markkinat',
+                'kind'                      => 'Luettelon laji',
+                'kind-info'                 => 'Aluekohtaiset luettelot hinnoittelevat maan tai alueen. B2B-luettelot hinnoittelevat yrityksen toimipaikan, joten niissä näkyvät vain Shopifyn B2B:ksi merkitsemät markkinat.',
+                'kind-mismatch'             => 'Nämä markkinat eivät vastaa valittua luettelon lajia.',
+                'auto-publish'              => 'Sisällytä uudet tuotteet automaattisesti',
+                'markets-info'              => 'Markkinat, joille tämä luettelo hinnoittelee, luettuna suoraan kaupasta. Yksi luettelo voi palvella useita markkinoita.',
+                'price-list-name'           => 'Hinnaston nimi',
+                'pricing'                   => 'Hinnoittelu',
+                'currency'                  => 'Aseta hinnat valuutassa',
+                'pricing-strategy'          => 'Hinnoittelu',
+                'adjustment-type'           => 'Muutoksen tyyppi',
+                'adjustment-value'          => 'Muutosprosentti',
+                'price-attribute'           => 'Hinta-attribuutti',
+                'price-attribute-info'      => 'UnoPimin hinta-attribuutti, jolla tämä luettelo myy, esimerkiksi jälleenmyyjähinta. Jätä tyhjäksi, jos haluat käyttää vientimäärityksen hinta-attribuuttia.',
+                'compare-at-attribute'      => 'Vertailuhinnan attribuutti',
+                'compare-at-attribute-info' => 'UnoPimin hinta-attribuutti, joka näkyy yliviivattuna tämän luettelon hinnan vieressä. Jätä tyhjäksi, jos haluat käyttää vientimäärityksen vertailuhintaa.',
+            ],
+
+            'kinds' => [
+                'region' => 'Alue',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Prosenttimuutos',
+                'fixed'              => 'Kiinteät hinnat UnoPimista',
+                'adjustment-summary' => 'Muutos :direction:value%',
+                'fixed-summary'      => 'Kiinteät hinnat (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Alenna',
+                'increase' => 'Korota',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Nimi',
+                'status'     => 'Tila',
+                'kind'       => 'Laji',
+                'currency'   => 'Valuutta',
+                'markets'    => 'Markkinat',
+                'pricing'    => 'Hinnoittelu',
+                'synced'     => 'Synkronoitu',
+                'synced-yes' => 'Kyllä',
+                'synced-no'  => 'Ei',
+            ],
+
+            'import' => [
+                'unsupported' => 'Luettelot vaativat manuaaliset Shopify-tunnukset. SaaS-välityspalvelin ei vielä tarjoa luettelo- tai hinnastotoimintoja.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Kun hinta on jo olemassa',
+                'skip'          => 'Säilytä UnoPimin hinta',
+                'overwrite'     => 'Korvaa Shopifyn hinnalla',
+                'no-mapping'    => 'Luettelohintojen tuonti ohitettiin: tuontimäärityksessä ei ole hinta-attribuuttia.',
+                'unknown-sku'   => 'Luettelohinta ohitettiin: SKU :sku ei ole UnoPimissa.',
+                'kept-existing' => ':count luettelohintaa säilytettiin ennallaan, koska tuotteilla on jo hinta kyseisessä valuutassa.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Shopify Pron luettelohintavaihe ohitettiin: vientimanifestissa ei ole käyttökelpoisia tunnuksia.',
+                'saas-unsupported'   => 'Shopify Pron luettelohintavaihe ohitettiin: SaaS-välityspalvelin ei tarjoa hinnastotoimintoja.',
+                'no-price'           => 'Luettelo :catalog ohitti SKU:n :sku: sillä ei ole hintaa valuutassa :currency.',
+                'no-response'        => 'Shopify ei palauttanut käyttökelpoista vastausta luettelon :catalog hinnoittelun aikana.',
+                'rejected'           => 'Shopify hylkäsi luettelon :catalog hinnat: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'Luettelolla :catalog ei ole markkinoita, joten Shopifylla ei ole mitään hinnoiteltavaa.',
+                'no-currency'   => 'Luettelolla :catalog ei ole valuuttaa, ja Shopify vaatii sen jokaiselle hinnastolle.',
+                'no-adjustment' => 'Luettelo :catalog käyttää prosenttimuutosta, mutta siltä puuttuu muutoksen tyyppi.',
+                'no-response'   => 'Shopify ei palauttanut käyttökelpoista vastausta toiminnolle :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Päivitä Pro-versioon',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Edistyneet vientisuodattimet ovat käytettävissä Shopify Prossa.',
+            'types-note'                => 'Raha- ja mittatyypit ovat käytettävissä Shopify Prossa.',
+            'association-mapping'       => 'Liitosten määritys',
+            'association-note'          => 'UnoPim-liitosten määrittäminen Shopifyn liittyviin ja täydentäviin tuotteisiin on käytettävissä Shopify Prossa.',
+            'external-media'            => 'Ulkoisen median määritys',
+            'media-note'                => 'Kuva- ja video-URL-attribuutit ovat käytettävissä Shopify Prossa.',
+            'catalogs'                  => 'Luettelot ja reaaliaikainen synkronointi',
+            'catalogs-note'             => 'Luettelot, luettelohinnat ja tuotteiden reaaliaikainen synkronointi ovat käytettävissä Shopify Prossa.',
+            'schedule-note'             => 'Viennin suorittaminen automaattisesti aikataulun mukaan on käytettävissä Shopify Prossa.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Nämä ominaisuudet kuuluvat Shopify Prohon. Alla olevat näkymät näkyvät, mutta ne ovat vain luettavia, kunnes Pro on asennettu.',
+            'realtime'                  => 'Reaaliaikainen synkronointi',
+            'realtime-note'             => 'Tuotteen synkronointi Shopifyyn heti tallennushetkellä on käytettävissä Shopify Prossa.',
+            'schedule'                  => 'Ajastetut viennit',
+            'export-filters'            => 'Edistyneet vientisuodattimet',
+            'attribute-conditions'      => 'Attribuuttiehdot',
+            'conditions-note'           => 'Viennin suodattaminen attribuuttiehdoilla on käytettävissä Shopify Prossa.',
+            'metafield-types'           => 'Metakenttätyypit',
+        ],
+
         'acl' => [
             'saas-credentials' => 'SaaS-tunnistetiedot',
             'credential'       => [

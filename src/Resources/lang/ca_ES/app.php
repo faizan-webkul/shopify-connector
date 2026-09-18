@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Trieu una unitat per als camps de mesura: :fields.',
+        'measurement-not-numeric' => 'El valor de ":field" ha de ser un número.',
+        'measurement-min'         => 'El valor de ":field" ha de ser :min o superior.',
+        'measurement-max'         => 'El valor de ":field" ha de ser :max o inferior.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Diners',
+        ],
+
+        'measurement' => [
+            'minimum' => ':type mínim',
+            'maximum' => ':type màxim',
+            'types'   => [
+                'antenna_gain'            => 'Guany d\'antena',
+                'area'                    => 'Àrea',
+                'battery_charge_capacity' => 'Capacitat de càrrega de la bateria',
+                'battery_energy_capacity' => 'Capacitat energètica de la bateria',
+                'capacitance'             => 'Capacitat elèctrica',
+                'concentration'           => 'Concentració',
+                'data_storage_capacity'   => 'Capacitat d\'emmagatzematge de dades',
+                'data_transfer_rate'      => 'Velocitat de transferència de dades',
+                'dimension'               => 'Dimensió',
+                'display_density'         => 'Densitat de pantalla',
+                'distance'                => 'Distància',
+                'duration'                => 'Durada',
+                'electric_current'        => 'Corrent elèctric',
+                'electrical_resistance'   => 'Resistència elèctrica',
+                'energy'                  => 'Energia',
+                'frequency'               => 'Freqüència',
+                'illuminance'             => 'Il·luminància',
+                'inductance'              => 'Inductància',
+                'luminous_flux'           => 'Flux lluminós',
+                'mass_flow_rate'          => 'Cabal màssic',
+                'power'                   => 'Potència',
+                'pressure'                => 'Pressió',
+                'resolution'              => 'Resolució',
+                'rotational_speed'        => 'Velocitat de rotació',
+                'sound_level'             => 'Nivell sonor',
+                'speed'                   => 'Velocitat',
+                'temperature'             => 'Temperatura',
+                'thermal_power'           => 'Potència tèrmica',
+                'voltage'                 => 'Tensió',
+                'volume'                  => 'Volum',
+                'volumetric_flow_rate'    => 'Cabal volumètric',
+                'weight'                  => 'Pes',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Programació',
+            'preset'    => 'Programacions predefinides',
+            'cron'      => 'Expressió Cron',
+            'cron-info' => 'Cal que el programador del servidor i un treballador de cua estiguin en marxa.',
+            'timezone'  => 'Zona horària',
+            'type'      => 'Tipus de programació',
+
+            'presets' => [
+                'disabled'         => 'Desactivat',
+                'every-minute'     => 'Cada minut (* * * * *)',
+                'every-5-minutes'  => 'Cada 5 minuts (*/5 * * * *)',
+                'every-15-minutes' => 'Cada 15 minuts (*/15 * * * *)',
+                'every-30-minutes' => 'Cada 30 minuts (*/30 * * * *)',
+                'hourly'           => 'Cada hora (0 * * * *)',
+                'daily-midnight'   => 'Diàriament a mitjanit (0 0 * * *)',
+                'daily-6am'        => 'Diàriament a les 6 del matí (0 6 * * *)',
+                'weekly-monday'    => 'Setmanalment els dilluns (0 0 * * 1)',
+                'monthly'          => 'Mensualment (0 0 1 * *)',
+                'custom'           => 'Personalitzat',
+            ],
+
+            'types' => [
+                'recurring' => 'Recurrent',
+                'one-time'  => 'Una sola vegada',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Exportació de productes',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Catàlegs de Shopify',
             'product'     => 'Producte de Shopify',
             'category'    => 'Categoria de Shopify',
             'metafields'  => 'Definició de metacamps de Shopify',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Producte de Shopify',
-            'category'   => 'Categoria de Shopify',
-            'attribute'  => 'Atribut de Shopify',
-            'family'     => 'Assignació d\'atributs de variant de família de Shopify',
-            'metafield'  => 'Definicions de metacamps de Shopify',
-            'metaobject' => 'Metaobjecte de Shopify',
+            'catalog'       => 'Catàlegs de Shopify',
+            'catalog-price' => 'Preus dels catàlegs de Shopify',
+            'product'       => 'Producte de Shopify',
+            'category'      => 'Categoria de Shopify',
+            'attribute'     => 'Atribut de Shopify',
+            'family'        => 'Assignació d\'atributs de variant de família de Shopify',
+            'metafield'     => 'Definicions de metacamps de Shopify',
+            'metaobject'    => 'Metaobjecte de Shopify',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Configuració',
+                'upgrade'               => 'Actualitza a Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Credencials',
                 'export-mappings'       => 'Assignacions d\'exportació',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Mapatge de contingut extern',
+            'image'       => 'Atribut d\'URL d\'imatge',
+            'image-info'  => 'Un atribut d\'URL amb un enllaç d\'imatge que Shopify pugui llegir. Les imatges pujades continuen fent servir el mapatge de contingut de dalt.',
+            'video'       => 'Atribut d\'URL de vídeo',
+            'video-info'  => 'Un atribut d\'URL amb enllaços de YouTube o Vimeo. Shopify no allotja cap altre servei de vídeo.',
+            'unsupported' => ':sku: s\'han omès :count enllaços de vídeo, només s\'admeten YouTube i Vimeo.',
+            'unreachable' => ':sku: s\'han omès :count enllaços d\'imatge, Shopify no hi ha pogut accedir.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Mapatge d\'associacions',
+            'related-products'       => 'Productes relacionats',
+            'complementary-products' => 'Productes complementaris',
+            'unopim-association'     => 'Associació d\'UnoPim',
+            'bundle-products'        => 'Productes del paquet',
+        ],
+
+        'realtime' => [
+            'title'       => 'Sincronització en temps real',
+            'channel'     => 'Canal',
+            'currency'    => 'Moneda',
+            'enable'      => 'Sincronitza els productes amb aquesta botiga en desar-los',
+            'enable-info' => 'Un producte desat arriba a aquesta botiga en pocs segons. Només s\'actualitzen els productes ja exportats a Shopify.',
+            'enabled'     => 'La sincronització en temps real està activada.',
+            'disabled'    => 'La sincronització en temps real està desactivada.',
+
+            'blocked' => [
+                'locale'   => 'Primer definiu una configuració regional per defecte en aquesta credencial.',
+                'settings' => 'Primer definiu el canal i la moneda a la pestanya de sincronització en temps real.',
+            ],
+
+            'settings-saved'      => 'S\'han desat els paràmetres de sincronització en temps real.',
+            'settings-incomplete' => 'Trieu tant un canal com una moneda, o deixeu-los tots dos buits.',
+            'settings-in-use'     => 'Primer desactiveu la sincronització en temps real per a aquestes credencials: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Catàlegs',
+            'breadcrumb'      => 'Catàlegs de Shopify',
+            'edit-title'      => 'Edita el catàleg | :name',
+            'create'          => 'Crea un catàleg',
+            'create-success'  => 'S\'ha creat el catàleg.',
+            'update-success'  => 'S\'ha actualitzat el catàleg.',
+            'delete-success'  => 'S\'ha eliminat el catàleg.',
+            'duplicate-title' => 'Aquesta botiga ja té un catàleg amb aquest títol.',
+
+            'acl' => [
+                'create' => 'Crea un catàleg',
+                'edit'   => 'Edita el catàleg',
+                'delete' => 'Elimina el catàleg',
+            ],
+
+            'status' => [
+                'active'   => 'Actiu',
+                'draft'    => 'Esborrany',
+                'archived' => 'Arxivat',
+            ],
+
+            'form' => [
+                'save'                      => 'Desa el catàleg',
+                'store'                     => 'Botiga',
+                'general'                   => 'General',
+                'title'                     => 'Títol',
+                'status'                    => 'Estat',
+                'markets'                   => 'Mercats',
+                'kind'                      => 'Tipus de catàleg',
+                'kind-info'                 => 'Els catàlegs de regió posen preu a un país o a una àrea. Els catàlegs B2B posen preu a una ubicació d\'empresa, per això només mostren els mercats que Shopify ha marcat com a B2B.',
+                'kind-mismatch'             => 'Aquests mercats no coincideixen amb el tipus de catàleg triat.',
+                'auto-publish'              => 'Inclou automàticament els productes nous',
+                'markets-info'              => 'Els mercats als quals posa preu aquest catàleg, llegits en directe de la botiga. Un catàleg pot servir diversos mercats.',
+                'price-list-name'           => 'Nom de la llista de preus',
+                'pricing'                   => 'Preus',
+                'currency'                  => 'Defineix els preus en',
+                'pricing-strategy'          => 'Preus',
+                'adjustment-type'           => 'Tipus d\'ajust',
+                'adjustment-value'          => 'Percentatge d\'ajust',
+                'price-attribute'           => 'Atribut de preu',
+                'price-attribute-info'      => 'L\'atribut de preu d\'UnoPim amb què ven aquest catàleg, com ara un preu de distribuïdor. Deixeu-lo buit per fer servir l\'atribut de preu del mapatge d\'exportació.',
+                'compare-at-attribute'      => 'Atribut de preu de comparació',
+                'compare-at-attribute-info' => 'L\'atribut de preu d\'UnoPim que es mostra ratllat al costat del preu d\'aquest catàleg. Deixeu-lo buit per fer servir el preu de comparació del mapatge d\'exportació.',
+            ],
+
+            'kinds' => [
+                'region' => 'Regió',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Ajust percentual',
+                'fixed'              => 'Preus fixos d\'UnoPim',
+                'adjustment-summary' => 'Ajust :direction:value%',
+                'fixed-summary'      => 'Preus fixos (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Disminueix',
+                'increase' => 'Augmenta',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Títol',
+                'status'     => 'Estat',
+                'kind'       => 'Tipus',
+                'currency'   => 'Moneda',
+                'markets'    => 'Mercats',
+                'pricing'    => 'Preus',
+                'synced'     => 'Sincronitzat',
+                'synced-yes' => 'Sí',
+                'synced-no'  => 'No',
+            ],
+
+            'import' => [
+                'unsupported' => 'Els catàlegs necessiten una credencial manual de Shopify. El servidor intermediari SaaS encara no exposa les operacions de catàleg ni de llista de preus.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Si ja hi ha preu',
+                'skip'          => 'Mantén el preu d\'UnoPim',
+                'overwrite'     => 'Substitueix pel preu de Shopify',
+                'no-mapping'    => 'S\'ha omès la importació de preus del catàleg: el mapatge d\'importació no té cap atribut de preu.',
+                'unknown-sku'   => 'S\'ha omès el preu del catàleg: l\'SKU :sku no és a UnoPim.',
+                'kept-existing' => 'S\'han mantingut :count preus de catàleg tal com estaven, perquè els productes ja tenen un preu en aquesta moneda.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'S\'ha omès la fase de preus de catàleg de Shopify Pro: el manifest d\'exportació no porta cap credencial utilitzable.',
+                'saas-unsupported'   => 'S\'ha omès la fase de preus de catàleg de Shopify Pro: el servidor intermediari SaaS no exposa les operacions de llista de preus.',
+                'no-price'           => 'El catàleg :catalog ha omès l\'SKU :sku: no té preu en :currency.',
+                'no-response'        => 'Shopify no ha retornat cap resposta utilitzable en posar preu al catàleg :catalog.',
+                'rejected'           => 'Shopify ha rebutjat els preus del catàleg :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'El catàleg :catalog no té cap mercat, de manera que Shopify no té res a posar preu.',
+                'no-currency'   => 'El catàleg :catalog no té moneda, i Shopify en requereix una a cada llista de preus.',
+                'no-adjustment' => 'El catàleg :catalog utilitza un ajust percentual però no té cap tipus d\'ajust.',
+                'no-response'   => 'Shopify no ha retornat cap resposta utilitzable per a :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Actualitza a Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Els filtres d\'exportació avançats estan disponibles a Shopify Pro.',
+            'types-note'                => 'Els tipus de moneda i de mesura estan disponibles a Shopify Pro.',
+            'association-mapping'       => 'Mapatge d’associacions',
+            'association-note'          => 'Mapar associacions d’UnoPim a productes relacionats i complementaris de Shopify està disponible a Shopify Pro.',
+            'external-media'            => 'Mapatge de mèdia externa',
+            'media-note'                => 'Els atributs d\'URL d\'imatge i vídeo estan disponibles a Shopify Pro.',
+            'catalogs'                  => 'Catàlegs i sincronització en temps real',
+            'catalogs-note'             => 'Els catàlegs, els seus preus i la sincronització de productes en temps real estan disponibles a Shopify Pro.',
+            'schedule-note'             => 'Executar una exportació automàticament segons una planificació està disponible a Shopify Pro.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Aquestes funcions formen part de Shopify Pro. Les pantalles següents es veuen, però són només de lectura fins que instal·leu Pro.',
+            'realtime'                  => 'Sincronització en temps real',
+            'realtime-note'             => 'Sincronitzar un producte amb Shopify en el moment de desar-lo està disponible a Shopify Pro.',
+            'schedule'                  => 'Exportacions planificades',
+            'export-filters'            => 'Filtres d\'exportació avançats',
+            'attribute-conditions'      => 'Condicions d\'atribut',
+            'conditions-note'           => 'Filtrar una exportació per condicions d\'atribut està disponible a Shopify Pro.',
+            'metafield-types'           => 'Tipus de metafield',
+        ],
+
         'acl' => [
             'saas-credentials' => 'Credencials SaaS',
             'credential'       => [

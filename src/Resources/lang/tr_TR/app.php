@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Ölçüm alanları için bir birim seçin: :fields.',
+        'measurement-not-numeric' => '":field" değeri sayı olmalıdır.',
+        'measurement-min'         => '":field" değeri :min veya daha büyük olmalıdır.',
+        'measurement-max'         => '":field" değeri :max veya daha küçük olmalıdır.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Tutar',
+        ],
+
+        'measurement' => [
+            'minimum' => 'En düşük :type',
+            'maximum' => 'En yüksek :type',
+            'types'   => [
+                'antenna_gain'            => 'Anten kazancı',
+                'area'                    => 'Alan',
+                'battery_charge_capacity' => 'Pil şarj kapasitesi',
+                'battery_energy_capacity' => 'Pil enerji kapasitesi',
+                'capacitance'             => 'Kapasitans',
+                'concentration'           => 'Derişim',
+                'data_storage_capacity'   => 'Veri depolama kapasitesi',
+                'data_transfer_rate'      => 'Veri aktarım hızı',
+                'dimension'               => 'Boyut',
+                'display_density'         => 'Ekran yoğunluğu',
+                'distance'                => 'Mesafe',
+                'duration'                => 'Süre',
+                'electric_current'        => 'Elektrik akımı',
+                'electrical_resistance'   => 'Elektrik direnci',
+                'energy'                  => 'Enerji',
+                'frequency'               => 'Frekans',
+                'illuminance'             => 'Aydınlanma şiddeti',
+                'inductance'              => 'İndüktans',
+                'luminous_flux'           => 'Işık akısı',
+                'mass_flow_rate'          => 'Kütlesel debi',
+                'power'                   => 'Güç',
+                'pressure'                => 'Basınç',
+                'resolution'              => 'Çözünürlük',
+                'rotational_speed'        => 'Dönme hızı',
+                'sound_level'             => 'Ses düzeyi',
+                'speed'                   => 'Hız',
+                'temperature'             => 'Sıcaklık',
+                'thermal_power'           => 'Isıl güç',
+                'voltage'                 => 'Gerilim',
+                'volume'                  => 'Hacim',
+                'volumetric_flow_rate'    => 'Hacimsel debi',
+                'weight'                  => 'Ağırlık',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Zamanlama',
+            'preset'    => 'Hazır Zamanlamalar',
+            'cron'      => 'Cron İfadesi',
+            'cron-info' => 'Sunucu zamanlayıcısının ve bir kuyruk işçisinin çalışıyor olması gerekir.',
+            'timezone'  => 'Saat Dilimi',
+            'type'      => 'Zamanlama Türü',
+
+            'presets' => [
+                'disabled'         => 'Kapalı',
+                'every-minute'     => 'Her Dakika (* * * * *)',
+                'every-5-minutes'  => 'Her 5 Dakikada Bir (*/5 * * * *)',
+                'every-15-minutes' => 'Her 15 Dakikada Bir (*/15 * * * *)',
+                'every-30-minutes' => 'Her 30 Dakikada Bir (*/30 * * * *)',
+                'hourly'           => 'Saatlik (0 * * * *)',
+                'daily-midnight'   => 'Her Gün Gece Yarısı (0 0 * * *)',
+                'daily-6am'        => 'Her Gün Saat 06:00\'da (0 6 * * *)',
+                'weekly-monday'    => 'Her Pazartesi (0 0 * * 1)',
+                'monthly'          => 'Aylık (0 0 1 * *)',
+                'custom'           => 'Özel',
+            ],
+
+            'types' => [
+                'recurring' => 'Tekrarlayan',
+                'one-time'  => 'Tek Seferlik',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Ürün Dışa Aktarılıyor',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Shopify katalogları',
             'product'     => 'Shopify Ürünü',
             'category'    => 'Shopify Kategorisi',
             'metafields'  => 'Shopify Metafields Tanımı',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Shopify Ürünü',
-            'category'   => 'Shopify Kategorisi',
-            'attribute'  => 'Shopify Özniteliği',
-            'family'     => 'Shopify Aile Varyant Öznitelik Ataması',
-            'metafield'  => 'Shopify Metafield Tanımları',
-            'metaobject' => 'Shopify Metaobject',
+            'catalog'       => 'Shopify katalogları',
+            'catalog-price' => 'Shopify katalog fiyatları',
+            'product'       => 'Shopify Ürünü',
+            'category'      => 'Shopify Kategorisi',
+            'attribute'     => 'Shopify Özniteliği',
+            'family'        => 'Shopify Aile Varyant Öznitelik Ataması',
+            'metafield'     => 'Shopify Metafield Tanımları',
+            'metaobject'    => 'Shopify Metaobject',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Ayarlar',
+                'upgrade'               => 'Pro\'ya yükselt',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Kimlik Bilgileri',
                 'export-mappings'       => 'Dışa Aktarma Eşlemeleri',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Harici medya eşlemesi',
+            'image'       => 'Görsel URL özniteliği',
+            'image-info'  => 'Shopify\'ın erişebileceği bir görsel bağlantısı tutan url özniteliği. Yüklenen görseller yukarıdaki medya eşlemesini kullanmaya devam eder.',
+            'video'       => 'Video URL özniteliği',
+            'video-info'  => 'YouTube veya Vimeo bağlantıları tutan url özniteliği. Shopify başka bir video hizmetini desteklemez.',
+            'unsupported' => ':sku: :count video bağlantısı atlandı, yalnızca YouTube ve Vimeo destekleniyor.',
+            'unreachable' => ':sku: :count görsel bağlantısı atlandı, Shopify bunlara erişemedi.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'İlişki eşlemesi',
+            'related-products'       => 'İlgili ürünler',
+            'complementary-products' => 'Tamamlayıcı ürünler',
+            'unopim-association'     => 'UnoPim ilişkisi',
+            'bundle-products'        => 'Paket ürünleri',
+        ],
+
+        'realtime' => [
+            'title'       => 'Gerçek zamanlı eşitleme',
+            'channel'     => 'Kanal',
+            'currency'    => 'Para birimi',
+            'enable'      => 'Ürünleri kaydedildikçe bu mağazaya eşitle',
+            'enable-info' => 'Kaydedilen bir ürün bu mağazaya saniyeler içinde ulaşır. Yalnızca Shopify\'a daha önce aktarılmış ürünler güncellenir.',
+            'enabled'     => 'Gerçek zamanlı eşitleme açık.',
+            'disabled'    => 'Gerçek zamanlı eşitleme kapalı.',
+
+            'blocked' => [
+                'locale'   => 'Önce bu kimlik bilgisi için varsayılan bir dil belirleyin.',
+                'settings' => 'Önce Gerçek zamanlı eşitleme sekmesinde kanalı ve para birimini belirleyin.',
+            ],
+
+            'settings-saved'      => 'Gerçek zamanlı eşitleme ayarları kaydedildi.',
+            'settings-incomplete' => 'Hem kanal hem para birimi seçin ya da ikisini de boş bırakın.',
+            'settings-in-use'     => 'Önce şu kimlik bilgileri için gerçek zamanlı eşitlemeyi kapatın: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Kataloglar',
+            'breadcrumb'      => 'Shopify katalogları',
+            'edit-title'      => 'Kataloğu düzenle | :name',
+            'create'          => 'Katalog oluştur',
+            'create-success'  => 'Katalog oluşturuldu.',
+            'update-success'  => 'Katalog güncellendi.',
+            'delete-success'  => 'Katalog silindi.',
+            'duplicate-title' => 'Bu mağazada aynı başlıkta bir katalog zaten var.',
+
+            'acl' => [
+                'create' => 'Katalog oluştur',
+                'edit'   => 'Kataloğu düzenle',
+                'delete' => 'Kataloğu sil',
+            ],
+
+            'status' => [
+                'active'   => 'Etkin',
+                'draft'    => 'Taslak',
+                'archived' => 'Arşivlenmiş',
+            ],
+
+            'form' => [
+                'save'                      => 'Kataloğu kaydet',
+                'store'                     => 'Mağaza',
+                'general'                   => 'Genel',
+                'title'                     => 'Başlık',
+                'status'                    => 'Durum',
+                'markets'                   => 'Pazarlar',
+                'kind'                      => 'Katalog türü',
+                'kind-info'                 => 'Bölge katalogları bir ülke veya alan için fiyat belirler. B2B katalogları bir şirket konumu için fiyat belirlediğinden yalnızca Shopify\'ın B2B olarak işaretlediği pazarları listeler.',
+                'kind-mismatch'             => 'Bu pazarlar seçilen katalog türüyle uyuşmuyor.',
+                'auto-publish'              => 'Yeni ürünleri otomatik olarak dahil et',
+                'markets-info'              => 'Bu kataloğun fiyat belirlediği pazarlar; mağazadan anlık okunur. Bir katalog birden çok pazara hizmet edebilir.',
+                'price-list-name'           => 'Fiyat listesi adı',
+                'pricing'                   => 'Fiyatlandırma',
+                'currency'                  => 'Fiyatları şu para biriminde belirle',
+                'pricing-strategy'          => 'Fiyatlandırma',
+                'adjustment-type'           => 'Ayarlama türü',
+                'adjustment-value'          => 'Ayarlama yüzdesi',
+                'price-attribute'           => 'Fiyat özniteliği',
+                'price-attribute-info'      => 'Bu kataloğun sattığı UnoPim fiyat özniteliği, örneğin bayi fiyatı. Dışa aktarma eşlemesindeki fiyat özniteliğini kullanmak için boş bırakın.',
+                'compare-at-attribute'      => 'Karşılaştırma fiyatı özniteliği',
+                'compare-at-attribute-info' => 'Bu kataloğun fiyatının yanında üstü çizili gösterilen UnoPim fiyat özniteliği. Dışa aktarma eşlemesindeki karşılaştırma fiyatını kullanmak için boş bırakın.',
+            ],
+
+            'kinds' => [
+                'region' => 'Bölge',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Yüzde ayarlaması',
+                'fixed'              => 'UnoPim\'den sabit fiyatlar',
+                'adjustment-summary' => 'Ayarlama :direction:value%',
+                'fixed-summary'      => 'Sabit fiyatlar (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Azalt',
+                'increase' => 'Artır',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Başlık',
+                'status'     => 'Durum',
+                'kind'       => 'Tür',
+                'currency'   => 'Para birimi',
+                'markets'    => 'Pazarlar',
+                'pricing'    => 'Fiyatlandırma',
+                'synced'     => 'Eşitlendi',
+                'synced-yes' => 'Evet',
+                'synced-no'  => 'Hayır',
+            ],
+
+            'import' => [
+                'unsupported' => 'Kataloglar için elle girilmiş Shopify kimlik bilgisi gerekir. SaaS proxy\'si katalog ve fiyat listesi işlemlerini henüz sunmuyor.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Fiyat zaten varsa',
+                'skip'          => 'UnoPim fiyatını koru',
+                'overwrite'     => 'Shopify fiyatıyla değiştir',
+                'no-mapping'    => 'Katalog fiyatı içe aktarımı atlandı: içe aktarma eşlemesinde fiyat özniteliği yok.',
+                'unknown-sku'   => 'Katalog fiyatı atlandı: :sku SKU\'su UnoPim\'de yok.',
+                'kept-existing' => ':count katalog fiyatı olduğu gibi bırakıldı, çünkü ürünlerin o para biriminde zaten fiyatı var.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Shopify Pro katalog fiyatı aşaması atlandı: dışa aktarma bildiriminde kullanılabilir kimlik bilgisi yok.',
+                'saas-unsupported'   => 'Shopify Pro katalog fiyatı aşaması atlandı: SaaS proxy\'si fiyat listesi işlemlerini sunmuyor.',
+                'no-price'           => ':catalog kataloğu :sku SKU\'sunu atladı: :currency para biriminde fiyatı yok.',
+                'no-response'        => ':catalog kataloğunun fiyatları belirlenirken Shopify kullanılabilir bir yanıt döndürmedi.',
+                'rejected'           => 'Shopify :catalog kataloğunun fiyatlarını reddetti: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => ':catalog kataloğunun pazarı yok, bu yüzden Shopify\'ın fiyatlandıracağı bir şey yok.',
+                'no-currency'   => ':catalog kataloğunun para birimi yok; Shopify her fiyat listesinde bir para birimi ister.',
+                'no-adjustment' => ':catalog kataloğu yüzde ayarlaması kullanıyor ancak ayarlama türü yok.',
+                'no-response'   => 'Shopify :operation için kullanılabilir bir yanıt döndürmedi.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Pro\'ya yükselt',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Gelişmiş dışa aktarma filtreleri Shopify Pro’da kullanılabilir.',
+            'types-note'                => 'Para ve ölçü türleri Shopify Pro’da kullanılabilir.',
+            'association-mapping'       => 'İlişki Eşleme',
+            'association-note'          => 'UnoPim ilişkilerini Shopify’ın ilgili ve tamamlayıcı ürünleriyle eşleme Shopify Pro’da kullanılabilir.',
+            'external-media'            => 'Harici medya eşlemesi',
+            'media-note'                => 'Görsel ve video URL öznitelikleri Shopify Pro\'da sunulur.',
+            'catalogs'                  => 'Kataloglar ve gerçek zamanlı eşitleme',
+            'catalogs-note'             => 'Kataloglar, katalog fiyatları ve ürünlerin gerçek zamanlı eşitlenmesi Shopify Pro\'da sunulur.',
+            'schedule-note'             => 'Bir dışa aktarmayı zamanlamaya göre otomatik çalıştırmak Shopify Pro\'da sunulur.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Bu özellikler Shopify Pro kapsamındadır. Aşağıdaki ekranlar görünür, ancak Pro kurulana kadar salt okunur kalır.',
+            'realtime'                  => 'Gerçek zamanlı eşitleme',
+            'realtime-note'             => 'Bir ürünü kaydedildiği anda Shopify\'a eşitlemek Shopify Pro\'da sunulur.',
+            'schedule'                  => 'Zamanlanmış dışa aktarmalar',
+            'export-filters'            => 'Gelişmiş dışa aktarma filtreleri',
+            'attribute-conditions'      => 'Öznitelik koşulları',
+            'conditions-note'           => 'Bir dışa aktarmayı öznitelik koşullarına göre filtrelemek Shopify Pro\'da sunulur.',
+            'metafield-types'           => 'Metafield türleri',
+        ],
+
         'acl' => [
             'saas-credentials' => 'SaaS Kimlik Bilgileri',
             'credential'       => [

@@ -6,6 +6,31 @@
         @lang('shopify::app.shopify.export.mapping.title')
     </x-slot>
 
+    <x-slot:pageHeader>
+        <div class="flex min-h-10 items-center justify-between gap-4 max-sm:flex-wrap">
+            <x-admin::page-title :title="trans('shopify::app.shopify.export.mapping.title')" />
+
+            @if (request('history') === null)
+                <div class="flex gap-x-2.5 items-center">
+                    <a
+                        href="{{ route('shopify.credentials.index') }}"
+                        class="transparent-button"
+                    >
+                        @lang('admin::app.catalog.attribute-groups.create.back-btn')
+                    </a>
+
+                    <button
+                        type="submit"
+                        form="shopify-export-mapping-form"
+                        class="primary-button"
+                    >
+                        @lang('shopify::app.shopify.export.mapping.save')
+                    </button>
+                </div>
+            @endif
+        </div>
+    </x-slot>
+
     <v-create-attributes-mappings></v-create-attributes-mappings>
 
     @pushOnce('scripts')
@@ -14,33 +39,11 @@
         id="v-create-attributes-mapping-template"
     >
         <x-admin::form
+            id="shopify-export-mapping-form"
             :action="route('shopify.export-mappings.create')"
             :ajax="true"
             enctype="multipart/form-data"
         >
-            <div class="flex justify-between items-center">
-                <p class="text-xl text-gray-800 dark:text-slate-50 font-bold">
-                    @lang('shopify::app.shopify.export.mapping.title')
-                </p>
-
-                <div class="flex gap-x-2.5 items-center">
-                    <!-- Cancel Button -->
-                    <a
-                        href="{{ route('shopify.credentials.index') }}"
-                        class="transparent-button"
-                    >
-                        @lang('admin::app.catalog.attribute-groups.create.back-btn')
-                    </a>
-
-                    <!-- Save Button -->
-                    <button
-                        type="submit"
-                        class="primary-button"
-                    >
-                        @lang('shopify::app.shopify.export.mapping.save')
-                    </button>
-                </div>
-            </div>
             <div class="flex gap-2.5 mt-3.5 max-xl:flex-wrap">
                 
                 <div class="flex flex-col gap-2 flex-1 max-xl:flex-auto">

@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Pumili ng yunit para sa (mga) field ng sukat: :fields.',
+        'measurement-not-numeric' => 'Ang halaga ng ":field" ay dapat na numero.',
+        'measurement-min'         => 'Ang halaga ng ":field" ay dapat na :min o higit pa.',
+        'measurement-max'         => 'Ang halaga ng ":field" ay dapat na :max o mas mababa.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Halaga',
+        ],
+
+        'measurement' => [
+            'minimum' => 'Pinakamababang :type',
+            'maximum' => 'Pinakamataas na :type',
+            'types'   => [
+                'antenna_gain'            => 'Lakas ng antena',
+                'area'                    => 'Lawak',
+                'battery_charge_capacity' => 'Kapasidad ng charge ng baterya',
+                'battery_energy_capacity' => 'Kapasidad ng enerhiya ng baterya',
+                'capacitance'             => 'Kapasitans',
+                'concentration'           => 'Konsentrasyon',
+                'data_storage_capacity'   => 'Kapasidad ng imbakan ng datos',
+                'data_transfer_rate'      => 'Bilis ng paglipat ng datos',
+                'dimension'               => 'Sukat',
+                'display_density'         => 'Densidad ng display',
+                'distance'                => 'Distansya',
+                'duration'                => 'Tagal',
+                'electric_current'        => 'Agos ng kuryente',
+                'electrical_resistance'   => 'Resistensyang elektrikal',
+                'energy'                  => 'Enerhiya',
+                'frequency'               => 'Prekwensiya',
+                'illuminance'             => 'Liwanag',
+                'inductance'              => 'Induktans',
+                'luminous_flux'           => 'Luminous flux',
+                'mass_flow_rate'          => 'Daloy ng masa',
+                'power'                   => 'Lakas',
+                'pressure'                => 'Presyon',
+                'resolution'              => 'Resolusyon',
+                'rotational_speed'        => 'Bilis ng pag-ikot',
+                'sound_level'             => 'Antas ng tunog',
+                'speed'                   => 'Bilis',
+                'temperature'             => 'Temperatura',
+                'thermal_power'           => 'Lakas na thermal',
+                'voltage'                 => 'Boltahe',
+                'volume'                  => 'Bolyum',
+                'volumetric_flow_rate'    => 'Daloy ng bolyum',
+                'weight'                  => 'Timbang',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Iskedyul',
+            'preset'    => 'Mga Preset na Iskedyul',
+            'cron'      => 'Cron Expression',
+            'cron-info' => 'Kailangang tumatakbo ang scheduler ng server at isang queue worker.',
+            'timezone'  => 'Timezone',
+            'type'      => 'Uri ng Iskedyul',
+
+            'presets' => [
+                'disabled'         => 'Naka-off',
+                'every-minute'     => 'Bawat Minuto (* * * * *)',
+                'every-5-minutes'  => 'Bawat 5 Minuto (*/5 * * * *)',
+                'every-15-minutes' => 'Bawat 15 Minuto (*/15 * * * *)',
+                'every-30-minutes' => 'Bawat 30 Minuto (*/30 * * * *)',
+                'hourly'           => 'Bawat Oras (0 * * * *)',
+                'daily-midnight'   => 'Araw-araw sa Hatinggabi (0 0 * * *)',
+                'daily-6am'        => 'Araw-araw sa 6 AM (0 6 * * *)',
+                'weekly-monday'    => 'Lingguhan Tuwing Lunes (0 0 * * 1)',
+                'monthly'          => 'Buwan-buwan (0 0 1 * *)',
+                'custom'           => 'Custom',
+            ],
+
+            'types' => [
+                'recurring' => 'Umuulit',
+                'one-time'  => 'Minsanan',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Ine-export ang Produkto',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Mga katalogo ng Shopify',
             'product'     => 'Produkto sa Shopify',
             'category'    => 'Kategorya sa Shopify',
             'metafields'  => 'Depinisyon ng Shopify Metafields',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Produkto sa Shopify',
-            'category'   => 'Kategorya sa Shopify',
-            'attribute'  => 'Attribute sa Shopify',
-            'family'     => 'Pag-assign ng Shopify Family Variant Attribute',
-            'metafield'  => 'Mga Depinisyon ng Shopify Metafield',
-            'metaobject' => 'Metaobject sa Shopify',
+            'catalog'       => 'Mga katalogo ng Shopify',
+            'catalog-price' => 'Mga presyo sa katalogo ng Shopify',
+            'product'       => 'Produkto sa Shopify',
+            'category'      => 'Kategorya sa Shopify',
+            'attribute'     => 'Attribute sa Shopify',
+            'family'        => 'Pag-assign ng Shopify Family Variant Attribute',
+            'metafield'     => 'Mga Depinisyon ng Shopify Metafield',
+            'metaobject'    => 'Metaobject sa Shopify',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Mga Setting',
+                'upgrade'               => 'Mag-upgrade sa Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Mga Kredensyal',
                 'export-mappings'       => 'Mga Export Mapping',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Mapping ng panlabas na media',
+            'image'       => 'Attribute ng URL ng larawan',
+            'image-info'  => 'Isang url attribute na naglalaman ng link ng larawang maaabot ng Shopify. Ang mga na-upload na larawan ay patuloy na gumagamit ng media mapping sa itaas.',
+            'video'       => 'Attribute ng URL ng video',
+            'video-info'  => 'Isang url attribute na naglalaman ng mga link ng YouTube o Vimeo. Walang ibang serbisyo ng video ang sinusuportahan ng Shopify.',
+            'unsupported' => ':sku: nilaktawan ang :count link ng video, YouTube at Vimeo lamang ang sinusuportahan.',
+            'unreachable' => ':sku: nilaktawan ang :count link ng larawan, hindi ito naabot ng Shopify.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Mapping ng mga association',
+            'related-products'       => 'Mga kaugnay na produkto',
+            'complementary-products' => 'Mga karagdagang produkto',
+            'unopim-association'     => 'Association sa UnoPim',
+            'bundle-products'        => 'Mga produkto sa bundle',
+        ],
+
+        'realtime' => [
+            'title'       => 'Real-time na pag-sync',
+            'channel'     => 'Channel',
+            'currency'    => 'Pera',
+            'enable'      => 'I-sync ang mga produkto sa tindahang ito kapag nai-save',
+            'enable-info' => 'Ang na-save na produkto ay dumarating sa tindahang ito sa loob ng ilang segundo. Ang mga produktong na-export na sa Shopify lamang ang ina-update.',
+            'enabled'     => 'Naka-on ang real-time na pag-sync.',
+            'disabled'    => 'Naka-off ang real-time na pag-sync.',
+
+            'blocked' => [
+                'locale'   => 'Magtakda muna ng default na wika sa kredensyal na ito.',
+                'settings' => 'Itakda muna ang channel at pera sa tab na Real-time na pag-sync.',
+            ],
+
+            'settings-saved'      => 'Na-save ang mga setting ng real-time na pag-sync.',
+            'settings-incomplete' => 'Pumili ng channel at pera, o iwanang walang laman ang dalawa.',
+            'settings-in-use'     => 'I-off muna ang real-time na pag-sync sa mga kredensyal na ito: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Mga katalogo',
+            'breadcrumb'      => 'Mga katalogo ng Shopify',
+            'edit-title'      => 'I-edit ang katalogo | :name',
+            'create'          => 'Gumawa ng katalogo',
+            'create-success'  => 'Nagawa ang katalogo.',
+            'update-success'  => 'Na-update ang katalogo.',
+            'delete-success'  => 'Natanggal ang katalogo.',
+            'duplicate-title' => 'May katalogo nang ganitong pamagat ang tindahang ito.',
+
+            'acl' => [
+                'create' => 'Gumawa ng katalogo',
+                'edit'   => 'I-edit ang katalogo',
+                'delete' => 'Tanggalin ang katalogo',
+            ],
+
+            'status' => [
+                'active'   => 'Aktibo',
+                'draft'    => 'Draft',
+                'archived' => 'Naka-archive',
+            ],
+
+            'form' => [
+                'save'                      => 'I-save ang katalogo',
+                'store'                     => 'Tindahan',
+                'general'                   => 'Pangkalahatan',
+                'title'                     => 'Pamagat',
+                'status'                    => 'Katayuan',
+                'markets'                   => 'Mga market',
+                'kind'                      => 'Uri ng katalogo',
+                'kind-info'                 => 'Ang mga katalogong pangrehiyon ay nagtatakda ng presyo para sa isang bansa o lugar. Ang mga katalogong B2B ay nagtatakda ng presyo para sa lokasyon ng isang kompanya, kaya ang mga market lamang na minarkahan ng Shopify bilang B2B ang lalabas.',
+                'kind-mismatch'             => 'Hindi tugma ang mga market na iyon sa napiling uri ng katalogo.',
+                'auto-publish'              => 'Awtomatikong isama ang mga bagong produkto',
+                'markets-info'              => 'Ang mga market na pinepresyuhan ng katalogong ito, binabasa nang live mula sa tindahan. Puwedeng maglingkod ang isang katalogo sa maraming market.',
+                'price-list-name'           => 'Pangalan ng price list',
+                'pricing'                   => 'Pagpepresyo',
+                'currency'                  => 'Itakda ang presyo sa',
+                'pricing-strategy'          => 'Pagpepresyo',
+                'adjustment-type'           => 'Uri ng pagsasaayos',
+                'adjustment-value'          => 'Porsyento ng pagsasaayos',
+                'price-attribute'           => 'Attribute ng presyo',
+                'price-attribute-info'      => 'Ang attribute ng presyo sa UnoPim na ibinebenta ng katalogong ito, halimbawa presyo para sa dealer. Iwanang walang laman para gamitin ang attribute ng presyo mula sa export mapping.',
+                'compare-at-attribute'      => 'Attribute ng compare at price',
+                'compare-at-attribute-info' => 'Ang attribute ng presyo sa UnoPim na ipinapakitang may guhit sa tabi ng presyo ng katalogong ito. Iwanang walang laman para gamitin ang compare at price mula sa export mapping.',
+            ],
+
+            'kinds' => [
+                'region' => 'Rehiyon',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Pagsasaayos sa porsyento',
+                'fixed'              => 'Nakatakdang presyo mula sa UnoPim',
+                'adjustment-summary' => 'Pagsasaayos na :direction:value%',
+                'fixed-summary'      => 'Nakatakdang presyo (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Bawasan',
+                'increase' => 'Dagdagan',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Pamagat',
+                'status'     => 'Katayuan',
+                'kind'       => 'Uri',
+                'currency'   => 'Pera',
+                'markets'    => 'Mga market',
+                'pricing'    => 'Pagpepresyo',
+                'synced'     => 'Na-sync',
+                'synced-yes' => 'Oo',
+                'synced-no'  => 'Hindi',
+            ],
+
+            'import' => [
+                'unsupported' => 'Kailangan ng mga katalogo ng manual na kredensyal ng Shopify. Hindi pa inilalabas ng SaaS proxy ang mga operasyon para sa katalogo o price list.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Kung may presyo na',
+                'skip'          => 'Panatilihin ang presyo sa UnoPim',
+                'overwrite'     => 'Palitan ng presyo mula sa Shopify',
+                'no-mapping'    => 'Nilaktawan ang pag-import ng presyo sa katalogo: walang attribute ng presyo ang import mapping.',
+                'unknown-sku'   => 'Nilaktawan ang presyo sa katalogo: wala sa UnoPim ang SKU na :sku.',
+                'kept-existing' => 'Pinanatili ang :count presyo sa katalogo, dahil may presyo na ang mga produkto sa perang iyon.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Nilaktawan ang yugto ng presyo sa katalogo ng Shopify Pro: walang magamit na kredensyal sa export manifest.',
+                'saas-unsupported'   => 'Nilaktawan ang yugto ng presyo sa katalogo ng Shopify Pro: hindi inilalabas ng SaaS proxy ang mga operasyon para sa price list.',
+                'no-price'           => 'Nilaktawan ng katalogong :catalog ang SKU na :sku: walang presyo ito sa :currency.',
+                'no-response'        => 'Walang magamit na tugon mula sa Shopify habang pinepresyuhan ang katalogong :catalog.',
+                'rejected'           => 'Tinanggihan ng Shopify ang mga presyo para sa katalogong :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'Walang market ang katalogong :catalog, kaya walang mapepresyuhan ang Shopify.',
+                'no-currency'   => 'Walang pera ang katalogong :catalog, at kailangan ito ng Shopify sa bawat price list.',
+                'no-adjustment' => 'Gumagamit ng pagsasaayos sa porsyento ang katalogong :catalog ngunit walang uri ng pagsasaayos.',
+                'no-response'   => 'Walang magamit na tugon mula sa Shopify para sa :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Mag-upgrade sa Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Available sa Shopify Pro ang mga advanced na export filter.',
+            'types-note'                => 'Available sa Shopify Pro ang mga uri ng pera at sukat.',
+            'association-mapping'       => 'Pag-map ng Association',
+            'association-note'          => 'Available sa Shopify Pro ang pag-map ng mga asosasyon ng UnoPim sa mga kaugnay at komplementaryong produkto ng Shopify.',
+            'external-media'            => 'Mapping ng panlabas na media',
+            'media-note'                => 'Available sa Shopify Pro ang mga attribute ng URL ng larawan at video.',
+            'catalogs'                  => 'Mga katalogo at real-time na pag-sync',
+            'catalogs-note'             => 'Available sa Shopify Pro ang mga katalogo, presyo sa katalogo, at real-time na pag-sync ng produkto.',
+            'schedule-note'             => 'Available sa Shopify Pro ang awtomatikong pagpapatakbo ng export ayon sa iskedyul.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Bahagi ng Shopify Pro ang mga tampok na ito. Nakikita ang mga screen sa ibaba, ngunit babasahin lamang ang mga ito hanggang ma-install ang Pro.',
+            'realtime'                  => 'Real-time na pag-sync',
+            'realtime-note'             => 'Available sa Shopify Pro ang pag-sync ng produkto sa Shopify sa mismong sandali ng pag-save.',
+            'schedule'                  => 'Mga naka-iskedyul na export',
+            'export-filters'            => 'Mga advanced na filter ng export',
+            'attribute-conditions'      => 'Mga kondisyon ng attribute',
+            'conditions-note'           => 'Available sa Shopify Pro ang pag-filter ng export ayon sa mga kondisyon ng attribute.',
+            'metafield-types'           => 'Mga uri ng metafield',
+        ],
+
         'acl' => [
             'saas-credentials' => 'Mga Kredensyal ng SaaS',
             'credential'       => [

@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => '請為測量欄位選擇單位：:fields。',
+        'measurement-not-numeric' => '「:field」的值必須是數字。',
+        'measurement-min'         => '「:field」的值必須大於或等於 :min。',
+        'measurement-max'         => '「:field」的值必須小於或等於 :max。',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => '金額',
+        ],
+
+        'measurement' => [
+            'minimum' => '最小:type',
+            'maximum' => '最大:type',
+            'types'   => [
+                'antenna_gain'            => '天線增益',
+                'area'                    => '面積',
+                'battery_charge_capacity' => '電池充電容量',
+                'battery_energy_capacity' => '電池能量容量',
+                'capacitance'             => '電容',
+                'concentration'           => '濃度',
+                'data_storage_capacity'   => '資料儲存容量',
+                'data_transfer_rate'      => '資料傳輸速率',
+                'dimension'               => '尺寸',
+                'display_density'         => '顯示密度',
+                'distance'                => '距離',
+                'duration'                => '時間長度',
+                'electric_current'        => '電流',
+                'electrical_resistance'   => '電阻',
+                'energy'                  => '能量',
+                'frequency'               => '頻率',
+                'illuminance'             => '照度',
+                'inductance'              => '電感',
+                'luminous_flux'           => '光通量',
+                'mass_flow_rate'          => '質量流率',
+                'power'                   => '功率',
+                'pressure'                => '壓力',
+                'resolution'              => '解析度',
+                'rotational_speed'        => '轉速',
+                'sound_level'             => '音量位準',
+                'speed'                   => '速度',
+                'temperature'             => '溫度',
+                'thermal_power'           => '熱功率',
+                'voltage'                 => '電壓',
+                'volume'                  => '體積',
+                'volumetric_flow_rate'    => '體積流率',
+                'weight'                  => '重量',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => '排程',
+            'preset'    => '預設排程',
+            'cron'      => 'Cron 表達式',
+            'cron-info' => '需要伺服器排程器與佇列工作程序保持執行。',
+            'timezone'  => '時區',
+            'type'      => '排程類型',
+
+            'presets' => [
+                'disabled'         => '已停用',
+                'every-minute'     => '每分鐘 (* * * * *)',
+                'every-5-minutes'  => '每 5 分鐘 (*/5 * * * *)',
+                'every-15-minutes' => '每 15 分鐘 (*/15 * * * *)',
+                'every-30-minutes' => '每 30 分鐘 (*/30 * * * *)',
+                'hourly'           => '每小時 (0 * * * *)',
+                'daily-midnight'   => '每天午夜 (0 0 * * *)',
+                'daily-6am'        => '每天上午 6 點 (0 6 * * *)',
+                'weekly-monday'    => '每週一 (0 0 * * 1)',
+                'monthly'          => '每月 (0 0 1 * *)',
+                'custom'           => '自訂',
+            ],
+
+            'types' => [
+                'recurring' => '週期性',
+                'one-time'  => '一次性',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => '產品匯出中',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Shopify 目錄',
             'product'     => 'Shopify 產品',
             'category'    => 'Shopify 類別',
             'metafields'  => 'Shopify 中繼欄位定義',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Shopify 產品',
-            'category'   => 'Shopify 類別',
-            'attribute'  => 'Shopify 屬性',
-            'family'     => 'Shopify 家族變體屬性指派',
-            'metafield'  => 'Shopify 中繼欄位定義',
-            'metaobject' => 'Shopify 中繼物件',
+            'catalog'       => 'Shopify 目錄',
+            'catalog-price' => 'Shopify 目錄價格',
+            'product'       => 'Shopify 產品',
+            'category'      => 'Shopify 類別',
+            'attribute'     => 'Shopify 屬性',
+            'family'        => 'Shopify 家族變體屬性指派',
+            'metafield'     => 'Shopify 中繼欄位定義',
+            'metaobject'    => 'Shopify 中繼物件',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => '設定',
+                'upgrade'               => '升級至 Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => '憑證',
                 'export-mappings'       => '匯出對應',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => '外部媒體對應',
+            'image'       => '圖片 URL 屬性',
+            'image-info'  => '存放 Shopify 可存取之圖片連結的 url 屬性。已上傳的圖片仍會使用上方的媒體對應。',
+            'video'       => '影片 URL 屬性',
+            'video-info'  => '存放 YouTube 或 Vimeo 連結的 url 屬性。Shopify 不支援其他影片服務。',
+            'unsupported' => ':sku：已略過 :count 個影片連結，僅支援 YouTube 與 Vimeo。',
+            'unreachable' => ':sku：已略過 :count 個圖片連結，Shopify 無法存取。',
+        ],
+
+        'association-mapping' => [
+            'title'                  => '關聯對應',
+            'related-products'       => '相關產品',
+            'complementary-products' => '互補產品',
+            'unopim-association'     => 'UnoPim 關聯',
+            'bundle-products'        => '組合產品',
+        ],
+
+        'realtime' => [
+            'title'       => '即時同步',
+            'channel'     => '銷售管道',
+            'currency'    => '貨幣',
+            'enable'      => '儲存產品時同步到這個商店',
+            'enable-info' => '已儲存的產品會在數秒內送達這個商店。只會更新已匯出到 Shopify 的產品。',
+            'enabled'     => '即時同步已開啟。',
+            'disabled'    => '即時同步已關閉。',
+
+            'blocked' => [
+                'locale'   => '請先為這組憑證設定預設語言。',
+                'settings' => '請先在「即時同步」分頁設定銷售管道與貨幣。',
+            ],
+
+            'settings-saved'      => '即時同步設定已儲存。',
+            'settings-incomplete' => '請同時選擇銷售管道與貨幣，或兩者都留空。',
+            'settings-in-use'     => '請先關閉下列憑證的即時同步：:credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => '目錄',
+            'breadcrumb'      => 'Shopify 目錄',
+            'edit-title'      => '編輯目錄 | :name',
+            'create'          => '建立目錄',
+            'create-success'  => '目錄已建立。',
+            'update-success'  => '目錄已更新。',
+            'delete-success'  => '目錄已刪除。',
+            'duplicate-title' => '這個商店已有相同標題的目錄。',
+
+            'acl' => [
+                'create' => '建立目錄',
+                'edit'   => '編輯目錄',
+                'delete' => '刪除目錄',
+            ],
+
+            'status' => [
+                'active'   => '啟用',
+                'draft'    => '草稿',
+                'archived' => '已封存',
+            ],
+
+            'form' => [
+                'save'                      => '儲存目錄',
+                'store'                     => '商店',
+                'general'                   => '一般',
+                'title'                     => '標題',
+                'status'                    => '狀態',
+                'markets'                   => '市場',
+                'kind'                      => '目錄類型',
+                'kind-info'                 => '區域目錄為某個國家或地區訂價。B2B 目錄為公司據點訂價，因此只會列出 Shopify 標記為 B2B 的市場。',
+                'kind-mismatch'             => '這些市場與所選的目錄類型不符。',
+                'auto-publish'              => '自動納入新產品',
+                'markets-info'              => '這個目錄訂價所涵蓋的市場，會即時從商店讀取。一個目錄可服務多個市場。',
+                'price-list-name'           => '價目表名稱',
+                'pricing'                   => '訂價',
+                'currency'                  => '訂價貨幣',
+                'pricing-strategy'          => '訂價',
+                'adjustment-type'           => '調整類型',
+                'adjustment-value'          => '調整百分比',
+                'price-attribute'           => '價格屬性',
+                'price-attribute-info'      => '這個目錄所採用的 UnoPim 價格屬性，例如經銷商價。留空則使用匯出對應中的價格屬性。',
+                'compare-at-attribute'      => '比較價屬性',
+                'compare-at-attribute-info' => '在這個目錄價格旁以刪除線顯示的 UnoPim 價格屬性。留空則使用匯出對應中的比較價。',
+            ],
+
+            'kinds' => [
+                'region' => '區域',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => '依百分比調整',
+                'fixed'              => '來自 UnoPim 的固定價格',
+                'adjustment-summary' => '調整 :direction:value%',
+                'fixed-summary'      => '固定價格（:currency）',
+            ],
+
+            'adjustment' => [
+                'decrease' => '調降',
+                'increase' => '調漲',
+            ],
+
+            'datagrid' => [
+                'title'      => '標題',
+                'status'     => '狀態',
+                'kind'       => '類型',
+                'currency'   => '貨幣',
+                'markets'    => '市場',
+                'pricing'    => '訂價',
+                'synced'     => '已同步',
+                'synced-yes' => '是',
+                'synced-no'  => '否',
+            ],
+
+            'import' => [
+                'unsupported' => '目錄需要手動設定的 Shopify 憑證。SaaS Proxy 尚未開放目錄與價目表相關作業。',
+            ],
+
+            'price-import' => [
+                'on-existing'   => '已有價格時',
+                'skip'          => '保留 UnoPim 的價格',
+                'overwrite'     => '以 Shopify 的價格覆寫',
+                'no-mapping'    => '已略過目錄價格匯入：匯入對應中沒有價格屬性。',
+                'unknown-sku'   => '已略過目錄價格：UnoPim 中沒有 SKU :sku。',
+                'kept-existing' => '已保留 :count 筆目錄價格，因為這些產品已有該貨幣的價格。',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => '已略過 Shopify Pro 目錄價格階段：匯出資訊清單中沒有可用的憑證。',
+                'saas-unsupported'   => '已略過 Shopify Pro 目錄價格階段：SaaS Proxy 未開放價目表相關作業。',
+                'no-price'           => '目錄 :catalog 略過了 SKU :sku：沒有 :currency 的價格。',
+                'no-response'        => '為目錄 :catalog 訂價時，Shopify 未回傳可用的回應。',
+                'rejected'           => 'Shopify 拒絕了目錄 :catalog 的價格：:errors',
+            ],
+
+            'export' => [
+                'no-market'     => '目錄 :catalog 沒有市場，因此 Shopify 無從訂價。',
+                'no-currency'   => '目錄 :catalog 沒有貨幣，而 Shopify 要求每張價目表都必須有貨幣。',
+                'no-adjustment' => '目錄 :catalog 使用依百分比調整，但未設定調整類型。',
+                'no-response'   => 'Shopify 未針對 :operation 回傳可用的回應。',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => '升級至 Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => '進階匯出篩選器於 Shopify Pro 提供。',
+            'types-note'                => '金額與測量類型於 Shopify Pro 提供。',
+            'association-mapping'       => '關聯對應',
+            'association-note'          => '將 UnoPim 關聯對應至 Shopify 的相關商品與互補商品於 Shopify Pro 提供。',
+            'external-media'            => '外部媒體對應',
+            'media-note'                => '圖片與影片 URL 屬性在 Shopify Pro 中提供。',
+            'catalogs'                  => '目錄與即時同步',
+            'catalogs-note'             => '目錄、目錄價格與商品即時同步在 Shopify Pro 中提供。',
+            'schedule-note'             => '依排程自動執行匯出在 Shopify Pro 中提供。',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => '這些功能屬於 Shopify Pro。下面的頁面仍會顯示，但在安裝 Pro 之前皆為唯讀。',
+            'realtime'                  => '即時同步',
+            'realtime-note'             => '在儲存商品的同時同步到 Shopify 的功能在 Shopify Pro 中提供。',
+            'schedule'                  => '排程匯出',
+            'export-filters'            => '進階匯出篩選',
+            'attribute-conditions'      => '屬性條件',
+            'conditions-note'           => '依屬性條件篩選匯出在 Shopify Pro 中提供。',
+            'metafield-types'           => '中繼欄位類型',
+        ],
+
         'acl' => [
             'saas-credentials' => 'SaaS 憑證',
             'credential'       => [

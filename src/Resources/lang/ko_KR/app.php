@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => '측정 필드의 단위를 선택하세요: :fields.',
+        'measurement-not-numeric' => '":field" 값은 숫자여야 합니다.',
+        'measurement-min'         => '":field" 값은 :min 이상이어야 합니다.',
+        'measurement-max'         => '":field" 값은 :max 이하여야 합니다.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => '금액',
+        ],
+
+        'measurement' => [
+            'minimum' => '최소 :type',
+            'maximum' => '최대 :type',
+            'types'   => [
+                'antenna_gain'            => '안테나 이득',
+                'area'                    => '면적',
+                'battery_charge_capacity' => '배터리 충전 용량',
+                'battery_energy_capacity' => '배터리 에너지 용량',
+                'capacitance'             => '정전 용량',
+                'concentration'           => '농도',
+                'data_storage_capacity'   => '데이터 저장 용량',
+                'data_transfer_rate'      => '데이터 전송 속도',
+                'dimension'               => '치수',
+                'display_density'         => '디스플레이 밀도',
+                'distance'                => '거리',
+                'duration'                => '지속 시간',
+                'electric_current'        => '전류',
+                'electrical_resistance'   => '전기 저항',
+                'energy'                  => '에너지',
+                'frequency'               => '주파수',
+                'illuminance'             => '조도',
+                'inductance'              => '인덕턴스',
+                'luminous_flux'           => '광속',
+                'mass_flow_rate'          => '질량 유량',
+                'power'                   => '전력',
+                'pressure'                => '압력',
+                'resolution'              => '해상도',
+                'rotational_speed'        => '회전 속도',
+                'sound_level'             => '음압 레벨',
+                'speed'                   => '속도',
+                'temperature'             => '온도',
+                'thermal_power'           => '열 출력',
+                'voltage'                 => '전압',
+                'volume'                  => '부피',
+                'volumetric_flow_rate'    => '체적 유량',
+                'weight'                  => '무게',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => '일정',
+            'preset'    => '사전 설정 일정',
+            'cron'      => 'Cron 표현식',
+            'cron-info' => '서버 스케줄러와 큐 워커가 실행 중이어야 합니다.',
+            'timezone'  => '시간대',
+            'type'      => '일정 유형',
+
+            'presets' => [
+                'disabled'         => '사용 안 함',
+                'every-minute'     => '매분 (* * * * *)',
+                'every-5-minutes'  => '5분마다 (*/5 * * * *)',
+                'every-15-minutes' => '15분마다 (*/15 * * * *)',
+                'every-30-minutes' => '30분마다 (*/30 * * * *)',
+                'hourly'           => '매시간 (0 * * * *)',
+                'daily-midnight'   => '매일 자정 (0 0 * * *)',
+                'daily-6am'        => '매일 오전 6시 (0 6 * * *)',
+                'weekly-monday'    => '매주 월요일 (0 0 * * 1)',
+                'monthly'          => '매월 (0 0 1 * *)',
+                'custom'           => '사용자 지정',
+            ],
+
+            'types' => [
+                'recurring' => '반복',
+                'one-time'  => '일회성',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => '상품 내보내는 중',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Shopify 카탈로그',
             'product'     => 'Shopify 상품',
             'category'    => 'Shopify 카테고리',
             'metafields'  => 'Shopify 메타필드 정의',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Shopify 상품',
-            'category'   => 'Shopify 카테고리',
-            'attribute'  => 'Shopify 속성',
-            'family'     => 'Shopify 패밀리 변형 속성 할당',
-            'metafield'  => 'Shopify 메타필드 정의',
-            'metaobject' => 'Shopify 메타오브젝트',
+            'catalog'       => 'Shopify 카탈로그',
+            'catalog-price' => 'Shopify 카탈로그 가격',
+            'product'       => 'Shopify 상품',
+            'category'      => 'Shopify 카테고리',
+            'attribute'     => 'Shopify 속성',
+            'family'        => 'Shopify 패밀리 변형 속성 할당',
+            'metafield'     => 'Shopify 메타필드 정의',
+            'metaobject'    => 'Shopify 메타오브젝트',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => '설정',
+                'upgrade'               => 'Pro로 업그레이드',
                 'shopify'               => 'Shopify',
                 'credentials'           => '인증 정보',
                 'export-mappings'       => '내보내기 매핑',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => '외부 미디어 매핑',
+            'image'       => '이미지 URL 속성',
+            'image-info'  => 'Shopify가 접근할 수 있는 이미지 링크를 담은 url 속성입니다. 업로드한 이미지는 위의 미디어 매핑을 계속 사용합니다.',
+            'video'       => '동영상 URL 속성',
+            'video-info'  => 'YouTube 또는 Vimeo 링크를 담은 url 속성입니다. Shopify는 다른 동영상 서비스를 지원하지 않습니다.',
+            'unsupported' => ':sku: 동영상 링크 :count개를 건너뛰었습니다. YouTube와 Vimeo만 지원됩니다.',
+            'unreachable' => ':sku: 이미지 링크 :count개를 건너뛰었습니다. Shopify가 접근할 수 없었습니다.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => '연관 매핑',
+            'related-products'       => '관련 제품',
+            'complementary-products' => '보완 제품',
+            'unopim-association'     => 'UnoPim 연관',
+            'bundle-products'        => '번들 제품',
+        ],
+
+        'realtime' => [
+            'title'       => '실시간 동기화',
+            'channel'     => '채널',
+            'currency'    => '통화',
+            'enable'      => '제품을 저장할 때 이 스토어로 동기화',
+            'enable-info' => '저장된 제품은 몇 초 안에 이 스토어에 반영됩니다. 이미 Shopify로 내보낸 제품만 업데이트됩니다.',
+            'enabled'     => '실시간 동기화가 켜져 있습니다.',
+            'disabled'    => '실시간 동기화가 꺼져 있습니다.',
+
+            'blocked' => [
+                'locale'   => '먼저 이 자격 증명의 기본 로케일을 설정하세요.',
+                'settings' => '먼저 실시간 동기화 탭에서 채널과 통화를 설정하세요.',
+            ],
+
+            'settings-saved'      => '실시간 동기화 설정을 저장했습니다.',
+            'settings-incomplete' => '채널과 통화를 모두 선택하거나 둘 다 비워 두세요.',
+            'settings-in-use'     => '먼저 다음 자격 증명의 실시간 동기화를 끄세요: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => '카탈로그',
+            'breadcrumb'      => 'Shopify 카탈로그',
+            'edit-title'      => '카탈로그 편집 | :name',
+            'create'          => '카탈로그 만들기',
+            'create-success'  => '카탈로그를 만들었습니다.',
+            'update-success'  => '카탈로그를 업데이트했습니다.',
+            'delete-success'  => '카탈로그를 삭제했습니다.',
+            'duplicate-title' => '이 스토어에는 같은 제목의 카탈로그가 이미 있습니다.',
+
+            'acl' => [
+                'create' => '카탈로그 만들기',
+                'edit'   => '카탈로그 편집',
+                'delete' => '카탈로그 삭제',
+            ],
+
+            'status' => [
+                'active'   => '활성',
+                'draft'    => '임시 저장',
+                'archived' => '보관됨',
+            ],
+
+            'form' => [
+                'save'                      => '카탈로그 저장',
+                'store'                     => '스토어',
+                'general'                   => '일반',
+                'title'                     => '제목',
+                'status'                    => '상태',
+                'markets'                   => '마켓',
+                'kind'                      => '카탈로그 종류',
+                'kind-info'                 => '지역 카탈로그는 국가나 지역의 가격을 설정합니다. B2B 카탈로그는 회사 지점의 가격을 설정하므로 Shopify가 B2B로 지정한 마켓만 표시됩니다.',
+                'kind-mismatch'             => '선택한 마켓이 카탈로그 종류와 일치하지 않습니다.',
+                'auto-publish'              => '새 제품을 자동으로 포함',
+                'markets-info'              => '이 카탈로그가 가격을 설정하는 마켓이며 스토어에서 실시간으로 읽어옵니다. 하나의 카탈로그가 여러 마켓을 담당할 수 있습니다.',
+                'price-list-name'           => '가격표 이름',
+                'pricing'                   => '가격 책정',
+                'currency'                  => '가격 통화',
+                'pricing-strategy'          => '가격 책정',
+                'adjustment-type'           => '조정 유형',
+                'adjustment-value'          => '조정 비율',
+                'price-attribute'           => '가격 속성',
+                'price-attribute-info'      => '이 카탈로그가 판매하는 UnoPim 가격 속성입니다(예: 대리점 가격). 비워 두면 내보내기 매핑의 가격 속성이 사용됩니다.',
+                'compare-at-attribute'      => '비교 가격 속성',
+                'compare-at-attribute-info' => '이 카탈로그 가격 옆에 취소선으로 표시되는 UnoPim 가격 속성입니다. 비워 두면 내보내기 매핑의 비교 가격이 사용됩니다.',
+            ],
+
+            'kinds' => [
+                'region' => '지역',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => '비율 조정',
+                'fixed'              => 'UnoPim의 고정 가격',
+                'adjustment-summary' => '조정 :direction:value%',
+                'fixed-summary'      => '고정 가격 (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => '인하',
+                'increase' => '인상',
+            ],
+
+            'datagrid' => [
+                'title'      => '제목',
+                'status'     => '상태',
+                'kind'       => '종류',
+                'currency'   => '통화',
+                'markets'    => '마켓',
+                'pricing'    => '가격 책정',
+                'synced'     => '동기화됨',
+                'synced-yes' => '예',
+                'synced-no'  => '아니요',
+            ],
+
+            'import' => [
+                'unsupported' => '카탈로그에는 수동 Shopify 자격 증명이 필요합니다. SaaS 프록시는 아직 카탈로그나 가격표 작업을 제공하지 않습니다.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => '기존 가격이 있을 때',
+                'skip'          => 'UnoPim 가격 유지',
+                'overwrite'     => 'Shopify 가격으로 덮어쓰기',
+                'no-mapping'    => '카탈로그 가격 가져오기를 건너뛰었습니다: 가져오기 매핑에 가격 속성이 없습니다.',
+                'unknown-sku'   => '카탈로그 가격을 건너뛰었습니다: SKU :sku이(가) UnoPim에 없습니다.',
+                'kept-existing' => '해당 제품에 이미 그 통화의 가격이 있어 카탈로그 가격 :count개를 그대로 유지했습니다.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Shopify Pro 카탈로그 가격 단계를 건너뛰었습니다: 내보내기 매니페스트에 사용할 수 있는 자격 증명이 없습니다.',
+                'saas-unsupported'   => 'Shopify Pro 카탈로그 가격 단계를 건너뛰었습니다: SaaS 프록시가 가격표 작업을 제공하지 않습니다.',
+                'no-price'           => '카탈로그 :catalog이(가) SKU :sku을(를) 건너뛰었습니다: :currency 가격이 없습니다.',
+                'no-response'        => '카탈로그 :catalog의 가격을 설정하는 중 Shopify가 유효한 응답을 반환하지 않았습니다.',
+                'rejected'           => 'Shopify가 카탈로그 :catalog의 가격을 거부했습니다: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => '카탈로그 :catalog에 마켓이 없어 Shopify가 가격을 설정할 대상이 없습니다.',
+                'no-currency'   => '카탈로그 :catalog에 통화가 없습니다. Shopify는 모든 가격표에 통화를 요구합니다.',
+                'no-adjustment' => '카탈로그 :catalog은(는) 비율 조정을 사용하지만 조정 유형이 없습니다.',
+                'no-response'   => ':operation에 대해 Shopify가 유효한 응답을 반환하지 않았습니다.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Pro로 업그레이드',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => '고급 내보내기 필터는 Shopify Pro에서 사용할 수 있습니다.',
+            'types-note'                => '금액 및 측정 유형은 Shopify Pro에서 사용할 수 있습니다.',
+            'association-mapping'       => '연관 매핑',
+            'association-note'          => 'UnoPim 연관을 Shopify 관련 상품 및 보완 상품에 매핑하는 기능은 Shopify Pro에서 사용할 수 있습니다.',
+            'external-media'            => '외부 미디어 매핑',
+            'media-note'                => '이미지 및 동영상 URL 속성은 Shopify Pro에서 사용할 수 있습니다.',
+            'catalogs'                  => '카탈로그 및 실시간 동기화',
+            'catalogs-note'             => '카탈로그, 카탈로그 가격, 실시간 제품 동기화는 Shopify Pro에서 사용할 수 있습니다.',
+            'schedule-note'             => '일정에 따라 내보내기를 자동으로 실행하는 기능은 Shopify Pro에서 사용할 수 있습니다.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => '이 기능들은 Shopify Pro에 포함됩니다. 아래 화면은 보이지만 Pro를 설치하기 전까지는 읽기 전용입니다.',
+            'realtime'                  => '실시간 동기화',
+            'realtime-note'             => '제품을 저장하는 즉시 Shopify로 동기화하는 기능은 Shopify Pro에서 사용할 수 있습니다.',
+            'schedule'                  => '예약된 내보내기',
+            'export-filters'            => '고급 내보내기 필터',
+            'attribute-conditions'      => '속성 조건',
+            'conditions-note'           => '속성 조건으로 내보내기를 필터링하는 기능은 Shopify Pro에서 사용할 수 있습니다.',
+            'metafield-types'           => '메타필드 유형',
+        ],
+
         'acl' => [
             'saas-credentials' => 'SaaS 인증 정보',
             'credential'       => [

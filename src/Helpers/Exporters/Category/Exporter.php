@@ -4,6 +4,7 @@ namespace Webkul\Shopify\Helpers\Exporters\Category;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
+use Webkul\Category\Repositories\CategoryFieldRepository;
 use Webkul\DataTransfer\Contracts\JobTrackBatch as JobTrackBatchContract;
 use Webkul\DataTransfer\Helpers\Export as ExportHelper;
 use Webkul\DataTransfer\Helpers\Exporters\AbstractExporter;
@@ -15,13 +16,17 @@ use Webkul\Shopify\Repositories\ShopifyCredentialRepository;
 use Webkul\Shopify\Repositories\ShopifyExportMappingRepository;
 use Webkul\Shopify\Repositories\ShopifyMappingRepository;
 use Webkul\Shopify\Traits\DataMappingTrait;
+use Webkul\Shopify\Traits\ResolvesDamAssetRepository;
 use Webkul\Shopify\Traits\ShopifyGraphqlRequest;
+use Webkul\Shopify\Traits\StagesShopifyAsset;
 use Webkul\Shopify\Traits\TranslationTrait;
 
 class Exporter extends AbstractExporter
 {
     use DataMappingTrait;
+    use ResolvesDamAssetRepository;
     use ShopifyGraphqlRequest;
+    use StagesShopifyAsset;
     use TranslationTrait;
 
     public const BATCH_SIZE = 10;
@@ -44,6 +49,13 @@ class Exporter extends AbstractExporter
 
     protected $collectionMapping;
 
+    /**
+     * Category field rows already read, keyed by code.
+     *
+     * @var array<string, ?object>
+     */
+    protected array $categoryFieldCache = [];
+
     protected bool $exportsFile = false;
 
     /**
@@ -55,6 +67,7 @@ class Exporter extends AbstractExporter
         protected ShopifyCredentialRepository $shopifyRepository,
         protected ShopifyMappingRepository $shopifyMappingRepository,
         protected ShopifyExportMappingRepository $shopifyExportMappingRepository,
+        protected CategoryFieldRepository $categoryFieldRepository,
     ) {
         parent::__construct($exportBatchRepository, $exportFileBuffer);
     }
@@ -386,7 +399,7 @@ class Exporter extends AbstractExporter
     /**
      * Resolve the mapped collection image attribute to a public URL.
      */
-    private function resolveCollectionImageUrl(array $config, array $merged, string $categoryCode = ''): ?string
+    protected function resolveCollectionImageUrl(array $config, array $merged, string $categoryCode = ''): ?string
     {
         $mediaAttr = $config['mediaMapping']['mediaAttributes'] ?? '';
 
@@ -401,6 +414,11 @@ class Exporter extends AbstractExporter
         }
 
         $value = $merged[$code];
+
+        if ($this->categoryField($code)?->type === 'asset') {
+            return $this->stageCollectionAsset($value, $categoryCode);
+        }
+
         $path = is_array($value) ? ($value[0] ?? '') : (string) $value;
 
         if (empty($path)) {
@@ -426,6 +444,73 @@ class Exporter extends AbstractExporter
      * Whether Shopify can fetch a URL from the public internet. Loopback,
      * private/reserved IPs and local-only hostnames are not reachable.
      */
+    /**
+     * Read a category field once per export, since a batch carries several
+     * categories and they all map through the same field.
+     */
+    protected function categoryField(string $code): ?object
+    {
+        return $this->categoryFieldCache[$code] ??= $this->categoryFieldRepository->findOneByField('code', $code);
+    }
+
+    /**
+     * Hand Shopify the first image the mapped asset field points at.
+     *
+     * A Shopify collection carries one image, so the assets beyond the first are
+     * reported rather than silently dropped, and an asset that is not an image is
+     * reported too: the collection is still worth exporting without a picture.
+     * The bytes are staged rather than linked, so an install the internet cannot
+     * reach exports its pictures all the same.
+     */
+    protected function stageCollectionAsset(mixed $value, string $categoryCode): ?string
+    {
+        $ids = array_values(array_filter(array_map(
+            'trim',
+            explode(',', is_array($value) ? implode(',', $value) : (string) $value),
+        )));
+
+        if ($ids === [] || ! $this->assetRepository()) {
+            return null;
+        }
+
+        $assets = $this->assetRepository()->findWhereIn('id', $ids);
+
+        if ($assets->isEmpty()) {
+            $this->jobLogger?->warning(
+                trans('shopify::app.shopify.export.mapping.collection.errors.asset_missing', ['code' => $categoryCode])
+            );
+
+            return null;
+        }
+
+        $images = $assets->filter(fn (object $asset): bool => str_starts_with((string) $asset->mime_type, 'image/'));
+
+        if ($images->isEmpty()) {
+            $this->jobLogger?->warning(
+                trans('shopify::app.shopify.export.mapping.collection.errors.asset_not_image', ['code' => $categoryCode])
+            );
+
+            return null;
+        }
+
+        if ($images->count() > 1) {
+            $this->jobLogger?->warning(trans('shopify::app.shopify.export.mapping.collection.errors.asset_extra', [
+                'code'  => $categoryCode,
+                'count' => $images->count() - 1,
+            ]));
+        }
+
+        $source = $this->stageAssetUpload($images->first()->toArray(), $this->credential->toApiArray());
+
+        if (empty($source)) {
+            $this->jobLogger?->warning(
+                trans('shopify::app.shopify.export.mapping.collection.errors.asset_failed', ['code' => $categoryCode])
+            );
+        }
+
+        return $source ?: null;
+    }
+
     private function isPubliclyReachableUrl(?string $url): bool
     {
         $host = strtolower((string) parse_url((string) $url, PHP_URL_HOST));

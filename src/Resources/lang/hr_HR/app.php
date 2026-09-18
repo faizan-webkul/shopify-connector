@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Odaberite mjernu jedinicu za polja mjere: :fields.',
+        'measurement-not-numeric' => 'Vrijednost polja „:field” mora biti broj.',
+        'measurement-min'         => 'Vrijednost polja „:field” mora biti :min ili veća.',
+        'measurement-max'         => 'Vrijednost polja „:field” mora biti :max ili manja.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Novčani iznos',
+        ],
+
+        'measurement' => [
+            'minimum' => 'Najmanja :type',
+            'maximum' => 'Najveća :type',
+            'types'   => [
+                'antenna_gain'            => 'Pojačanje antene',
+                'area'                    => 'Površina',
+                'battery_charge_capacity' => 'Kapacitet punjenja baterije',
+                'battery_energy_capacity' => 'Energetski kapacitet baterije',
+                'capacitance'             => 'Kapacitivnost',
+                'concentration'           => 'Koncentracija',
+                'data_storage_capacity'   => 'Kapacitet pohrane podataka',
+                'data_transfer_rate'      => 'Brzina prijenosa podataka',
+                'dimension'               => 'Dimenzija',
+                'display_density'         => 'Gustoća zaslona',
+                'distance'                => 'Udaljenost',
+                'duration'                => 'Trajanje',
+                'electric_current'        => 'Električna struja',
+                'electrical_resistance'   => 'Električni otpor',
+                'energy'                  => 'Energija',
+                'frequency'               => 'Frekvencija',
+                'illuminance'             => 'Osvjetljenje',
+                'inductance'              => 'Induktivitet',
+                'luminous_flux'           => 'Svjetlosni tok',
+                'mass_flow_rate'          => 'Maseni protok',
+                'power'                   => 'Snaga',
+                'pressure'                => 'Tlak',
+                'resolution'              => 'Razlučivost',
+                'rotational_speed'        => 'Brzina vrtnje',
+                'sound_level'             => 'Razina zvuka',
+                'speed'                   => 'Brzina',
+                'temperature'             => 'Temperatura',
+                'thermal_power'           => 'Toplinska snaga',
+                'voltage'                 => 'Napon',
+                'volume'                  => 'Obujam',
+                'volumetric_flow_rate'    => 'Volumni protok',
+                'weight'                  => 'Težina',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Raspored',
+            'preset'    => 'Unaprijed definirani rasporedi',
+            'cron'      => 'Cron izraz',
+            'cron-info' => 'Zahtijeva da rade poslužiteljski raspoređivač i radnik reda čekanja.',
+            'timezone'  => 'Vremenska zona',
+            'type'      => 'Vrsta rasporeda',
+
+            'presets' => [
+                'disabled'         => 'Onemogućeno',
+                'every-minute'     => 'Svaku minutu (* * * * *)',
+                'every-5-minutes'  => 'Svakih 5 minuta (*/5 * * * *)',
+                'every-15-minutes' => 'Svakih 15 minuta (*/15 * * * *)',
+                'every-30-minutes' => 'Svakih 30 minuta (*/30 * * * *)',
+                'hourly'           => 'Svaki sat (0 * * * *)',
+                'daily-midnight'   => 'Svakodnevno u ponoć (0 0 * * *)',
+                'daily-6am'        => 'Svakodnevno u 6:00 (0 6 * * *)',
+                'weekly-monday'    => 'Tjedno ponedjeljkom (0 0 * * 1)',
+                'monthly'          => 'Mjesečno (0 0 1 * *)',
+                'custom'           => 'Prilagođeno',
+            ],
+
+            'types' => [
+                'recurring' => 'Ponavljajući',
+                'one-time'  => 'Jednokratno',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Izvoz proizvoda',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Shopify katalozi',
             'product'     => 'Shopify proizvod',
             'category'    => 'Shopify kategorija',
             'metafields'  => 'Definicija Shopify metapolja',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Shopify proizvod',
-            'category'   => 'Shopify kategorija',
-            'attribute'  => 'Shopify atribut',
-            'family'     => 'Dodjela atributa varijante Shopify obitelji',
-            'metafield'  => 'Definicije Shopify metapolja',
-            'metaobject' => 'Shopify metaobjekt',
+            'catalog'       => 'Shopify katalozi',
+            'catalog-price' => 'Cijene Shopify kataloga',
+            'product'       => 'Shopify proizvod',
+            'category'      => 'Shopify kategorija',
+            'attribute'     => 'Shopify atribut',
+            'family'        => 'Dodjela atributa varijante Shopify obitelji',
+            'metafield'     => 'Definicije Shopify metapolja',
+            'metaobject'    => 'Shopify metaobjekt',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Postavke',
+                'upgrade'               => 'Nadogradi na Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Vjerodajnice',
                 'export-mappings'       => 'Mapiranja izvoza',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Mapiranje vanjskih medija',
+            'image'       => 'Atribut URL-a slike',
+            'image-info'  => 'URL atribut s poveznicom na sliku do koje Shopify može doći. Prenesene slike i dalje koriste gornje mapiranje medija.',
+            'video'       => 'Atribut URL-a videozapisa',
+            'video-info'  => 'URL atribut s poveznicama na YouTube ili Vimeo. Shopify ne ugošćuje nijednu drugu videouslugu.',
+            'unsupported' => ':sku: preskočeno je :count videopoveznica, podržani su samo YouTube i Vimeo.',
+            'unreachable' => ':sku: preskočeno je :count poveznica na slike, Shopify do njih nije mogao doći.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Mapiranje poveznica',
+            'related-products'       => 'Povezani proizvodi',
+            'complementary-products' => 'Dopunski proizvodi',
+            'unopim-association'     => 'UnoPim poveznica',
+            'bundle-products'        => 'Proizvodi u paketu',
+        ],
+
+        'realtime' => [
+            'title'       => 'Sinkronizacija u stvarnom vremenu',
+            'channel'     => 'Kanal',
+            'currency'    => 'Valuta',
+            'enable'      => 'Sinkroniziraj proizvode s ovom trgovinom čim se spreme',
+            'enable-info' => 'Spremljeni proizvod stiže u ovu trgovinu u nekoliko sekundi. Ažuriraju se samo proizvodi koji su već izvezeni na Shopify.',
+            'enabled'     => 'Sinkronizacija u stvarnom vremenu je uključena.',
+            'disabled'    => 'Sinkronizacija u stvarnom vremenu je isključena.',
+
+            'blocked' => [
+                'locale'   => 'Najprije postavite zadani jezik na ovim vjerodajnicama.',
+                'settings' => 'Najprije postavite kanal i valutu na kartici sinkronizacije u stvarnom vremenu.',
+            ],
+
+            'settings-saved'      => 'Postavke sinkronizacije u stvarnom vremenu su spremljene.',
+            'settings-incomplete' => 'Odaberite i kanal i valutu ili oboje ostavite prazno.',
+            'settings-in-use'     => 'Najprije isključite sinkronizaciju u stvarnom vremenu za ove vjerodajnice: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Katalozi',
+            'breadcrumb'      => 'Shopify katalozi',
+            'edit-title'      => 'Uredi katalog | :name',
+            'create'          => 'Stvori katalog',
+            'create-success'  => 'Katalog je stvoren.',
+            'update-success'  => 'Katalog je ažuriran.',
+            'delete-success'  => 'Katalog je obrisan.',
+            'duplicate-title' => 'Ova trgovina već ima katalog s tim naslovom.',
+
+            'acl' => [
+                'create' => 'Stvori katalog',
+                'edit'   => 'Uredi katalog',
+                'delete' => 'Obriši katalog',
+            ],
+
+            'status' => [
+                'active'   => 'Aktivan',
+                'draft'    => 'Skica',
+                'archived' => 'Arhiviran',
+            ],
+
+            'form' => [
+                'save'                      => 'Spremi katalog',
+                'store'                     => 'Trgovina',
+                'general'                   => 'Općenito',
+                'title'                     => 'Naslov',
+                'status'                    => 'Status',
+                'markets'                   => 'Tržišta',
+                'kind'                      => 'Vrsta kataloga',
+                'kind-info'                 => 'Regionalni katalozi određuju cijene za državu ili područje. B2B katalozi određuju cijene za lokaciju tvrtke pa prikazuju samo tržišta koja je Shopify označio kao B2B.',
+                'kind-mismatch'             => 'Ta tržišta ne odgovaraju odabranoj vrsti kataloga.',
+                'auto-publish'              => 'Automatski uključi nove proizvode',
+                'markets-info'              => 'Tržišta za koja ovaj katalog određuje cijene, očitana izravno iz trgovine. Jedan katalog može posluživati više tržišta.',
+                'price-list-name'           => 'Naziv cjenika',
+                'pricing'                   => 'Određivanje cijena',
+                'currency'                  => 'Postavi cijene u',
+                'pricing-strategy'          => 'Određivanje cijena',
+                'adjustment-type'           => 'Vrsta prilagodbe',
+                'adjustment-value'          => 'Postotak prilagodbe',
+                'price-attribute'           => 'Atribut cijene',
+                'price-attribute-info'      => 'UnoPim atribut cijene po kojoj ovaj katalog prodaje, primjerice cijena za trgovce. Ostavite prazno da bi se koristio atribut cijene iz mapiranja izvoza.',
+                'compare-at-attribute'      => 'Atribut usporedne cijene',
+                'compare-at-attribute-info' => 'UnoPim atribut cijene koji se prikazuje precrtan uz cijenu ovog kataloga. Ostavite prazno da bi se koristila usporedna cijena iz mapiranja izvoza.',
+            ],
+
+            'kinds' => [
+                'region' => 'Regija',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Postotna prilagodba',
+                'fixed'              => 'Fiksne cijene iz UnoPima',
+                'adjustment-summary' => 'Prilagodba :direction:value%',
+                'fixed-summary'      => 'Fiksne cijene (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Smanji',
+                'increase' => 'Povećaj',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Naslov',
+                'status'     => 'Status',
+                'kind'       => 'Vrsta',
+                'currency'   => 'Valuta',
+                'markets'    => 'Tržišta',
+                'pricing'    => 'Određivanje cijena',
+                'synced'     => 'Sinkronizirano',
+                'synced-yes' => 'Da',
+                'synced-no'  => 'Ne',
+            ],
+
+            'import' => [
+                'unsupported' => 'Katalozi zahtijevaju ručne Shopify vjerodajnice. SaaS proxy još ne izlaže operacije kataloga ni cjenika.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Kad cijena već postoji',
+                'skip'          => 'Zadrži cijenu iz UnoPima',
+                'overwrite'     => 'Prepiši cijenom iz Shopifyja',
+                'no-mapping'    => 'Uvoz cijena kataloga je preskočen: mapiranje uvoza nema atribut cijene.',
+                'unknown-sku'   => 'Cijena kataloga je preskočena: SKU :sku ne postoji u UnoPimu.',
+                'kept-existing' => ':count cijena kataloga zadržano je kakve jesu jer proizvodi već imaju cijenu u toj valuti.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Faza cijena kataloga u Shopify Pro je preskočena: manifest izvoza ne sadrži upotrebljive vjerodajnice.',
+                'saas-unsupported'   => 'Faza cijena kataloga u Shopify Pro je preskočena: SaaS proxy ne izlaže operacije cjenika.',
+                'no-price'           => 'Katalog :catalog preskočio je SKU :sku: nema cijenu u valuti :currency.',
+                'no-response'        => 'Shopify nije vratio upotrebljiv odgovor pri određivanju cijena kataloga :catalog.',
+                'rejected'           => 'Shopify je odbio cijene za katalog :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'Katalog :catalog nema tržište pa Shopify nema čemu odrediti cijenu.',
+                'no-currency'   => 'Katalog :catalog nema valutu, a Shopify je zahtijeva na svakom cjeniku.',
+                'no-adjustment' => 'Katalog :catalog koristi postotnu prilagodbu, ali nema vrstu prilagodbe.',
+                'no-response'   => 'Shopify nije vratio upotrebljiv odgovor za :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Nadogradi na Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Napredni filtri izvoza dostupni su u Shopify Pro.',
+            'types-note'                => 'Vrste novca i mjere dostupne su u Shopify Pro.',
+            'association-mapping'       => 'Mapiranje poveznica',
+            'association-note'          => 'Mapiranje UnoPim poveznica na povezane i komplementarne Shopify proizvode dostupno je u Shopify Pro.',
+            'external-media'            => 'Mapiranje vanjskih medija',
+            'media-note'                => 'Atributi s URL-ovima slika i videozapisa dostupni su u Shopify Pro.',
+            'catalogs'                  => 'Katalozi i sinkronizacija u stvarnom vremenu',
+            'catalogs-note'             => 'Katalozi, cijene u katalozima i sinkronizacija proizvoda u stvarnom vremenu dostupni su u Shopify Pro.',
+            'schedule-note'             => 'Automatsko pokretanje izvoza prema rasporedu dostupno je u Shopify Pro.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Ove značajke dio su Shopify Pro. Zasloni u nastavku vidljivi su, ali ostaju samo za čitanje dok se Pro ne instalira.',
+            'realtime'                  => 'Sinkronizacija u stvarnom vremenu',
+            'realtime-note'             => 'Sinkronizacija proizvoda sa Shopifyjem u trenutku spremanja dostupna je u Shopify Pro.',
+            'schedule'                  => 'Zakazani izvozi',
+            'export-filters'            => 'Napredni filtri izvoza',
+            'attribute-conditions'      => 'Uvjeti atributa',
+            'conditions-note'           => 'Filtriranje izvoza prema uvjetima atributa dostupno je u Shopify Pro.',
+            'metafield-types'           => 'Vrste metapolja',
+        ],
+
         'acl' => [
             'saas-credentials' => 'SaaS vjerodajnice',
             'credential'       => [

@@ -5,24 +5,13 @@
     <x-slot:title>
         @lang('shopify::app.shopify.import.mapping.title')
     </x-slot>
-    <v-create-attributes-mappings></v-create-attributes-mappings>
-    @pushOnce('scripts')
-    <script
-        type="text/x-template"
-        id="v-create-attributes-mapping-template"
-    >
-        <x-admin::form
-            :action="route('shopify.import-mappings.create')"
-            :ajax="true"
-            enctype="multipart/form-data"
-        >
-            <div class="flex justify-between items-center">
-                <p class="text-xl text-gray-800 dark:text-slate-50 font-bold">
-                    @lang('shopify::app.shopify.import.mapping.title')
-                </p>
 
+    <x-slot:pageHeader>
+        <div class="flex min-h-10 items-center justify-between gap-4 max-sm:flex-wrap">
+            <x-admin::page-title :title="trans('shopify::app.shopify.import.mapping.title')" />
+
+            @if (request('history') === null)
                 <div class="flex gap-x-2.5 items-center">
-                    <!-- Cancel Button -->
                     <a
                         href="{{ route('shopify.credentials.index') }}"
                         class="transparent-button"
@@ -30,15 +19,29 @@
                         @lang('admin::app.catalog.attribute-groups.create.back-btn')
                     </a>
 
-                    <!-- Save Button -->
                     <button
                         type="submit"
+                        form="shopify-import-mapping-form"
                         class="primary-button"
                     >
                         @lang('shopify::app.shopify.import.mapping.save')
                     </button>
                 </div>
-            </div>
+            @endif
+        </div>
+    </x-slot>
+    <v-create-attributes-mappings></v-create-attributes-mappings>
+    @pushOnce('scripts')
+    <script
+        type="text/x-template"
+        id="v-create-attributes-mapping-template"
+    >
+        <x-admin::form
+            id="shopify-import-mapping-form"
+            :action="route('shopify.import-mappings.create')"
+            :ajax="true"
+            enctype="multipart/form-data"
+        >
             <div class="flex gap-2.5 mt-3.5 max-xl:flex-wrap">
                 
                 <div class="flex flex-col gap-2 flex-1 max-xl:flex-auto">

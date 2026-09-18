@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Hãy chọn đơn vị cho các trường đo lường: :fields.',
+        'measurement-not-numeric' => 'Giá trị của ":field" phải là một số.',
+        'measurement-min'         => 'Giá trị của ":field" phải bằng :min hoặc lớn hơn.',
+        'measurement-max'         => 'Giá trị của ":field" phải bằng :max hoặc nhỏ hơn.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Số tiền',
+        ],
+
+        'measurement' => [
+            'minimum' => ':type tối thiểu',
+            'maximum' => ':type tối đa',
+            'types'   => [
+                'antenna_gain'            => 'Độ lợi ăng-ten',
+                'area'                    => 'Diện tích',
+                'battery_charge_capacity' => 'Dung lượng sạc pin',
+                'battery_energy_capacity' => 'Dung lượng năng lượng pin',
+                'capacitance'             => 'Điện dung',
+                'concentration'           => 'Nồng độ',
+                'data_storage_capacity'   => 'Dung lượng lưu trữ dữ liệu',
+                'data_transfer_rate'      => 'Tốc độ truyền dữ liệu',
+                'dimension'               => 'Kích thước',
+                'display_density'         => 'Mật độ hiển thị',
+                'distance'                => 'Khoảng cách',
+                'duration'                => 'Thời lượng',
+                'electric_current'        => 'Dòng điện',
+                'electrical_resistance'   => 'Điện trở',
+                'energy'                  => 'Năng lượng',
+                'frequency'               => 'Tần số',
+                'illuminance'             => 'Độ rọi',
+                'inductance'              => 'Độ tự cảm',
+                'luminous_flux'           => 'Quang thông',
+                'mass_flow_rate'          => 'Lưu lượng khối',
+                'power'                   => 'Công suất',
+                'pressure'                => 'Áp suất',
+                'resolution'              => 'Độ phân giải',
+                'rotational_speed'        => 'Tốc độ quay',
+                'sound_level'             => 'Mức âm thanh',
+                'speed'                   => 'Tốc độ',
+                'temperature'             => 'Nhiệt độ',
+                'thermal_power'           => 'Công suất nhiệt',
+                'voltage'                 => 'Điện áp',
+                'volume'                  => 'Thể tích',
+                'volumetric_flow_rate'    => 'Lưu lượng thể tích',
+                'weight'                  => 'Khối lượng',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Lịch trình',
+            'preset'    => 'Lịch trình có sẵn',
+            'cron'      => 'Biểu thức Cron',
+            'cron-info' => 'Cần bộ lập lịch của máy chủ và một tiến trình hàng đợi đang chạy.',
+            'timezone'  => 'Múi giờ',
+            'type'      => 'Loại lịch trình',
+
+            'presets' => [
+                'disabled'         => 'Đã tắt',
+                'every-minute'     => 'Mỗi phút (* * * * *)',
+                'every-5-minutes'  => 'Mỗi 5 phút (*/5 * * * *)',
+                'every-15-minutes' => 'Mỗi 15 phút (*/15 * * * *)',
+                'every-30-minutes' => 'Mỗi 30 phút (*/30 * * * *)',
+                'hourly'           => 'Hàng giờ (0 * * * *)',
+                'daily-midnight'   => 'Hàng ngày lúc nửa đêm (0 0 * * *)',
+                'daily-6am'        => 'Hàng ngày lúc 6 giờ sáng (0 6 * * *)',
+                'weekly-monday'    => 'Hàng tuần vào thứ Hai (0 0 * * 1)',
+                'monthly'          => 'Hàng tháng (0 0 1 * *)',
+                'custom'           => 'Tùy chỉnh',
+            ],
+
+            'types' => [
+                'recurring' => 'Định kỳ',
+                'one-time'  => 'Một lần',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Đang xuất sản phẩm',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Danh mục Shopify',
             'product'     => 'Sản phẩm Shopify',
             'category'    => 'Danh mục Shopify',
             'metafields'  => 'Định nghĩa Metafield Shopify',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Sản phẩm Shopify',
-            'category'   => 'Danh mục Shopify',
-            'attribute'  => 'Thuộc tính Shopify',
-            'family'     => 'Gán thuộc tính biến thể của họ sản phẩm Shopify',
-            'metafield'  => 'Định nghĩa Metafield Shopify',
-            'metaobject' => 'Metaobject Shopify',
+            'catalog'       => 'Danh mục Shopify',
+            'catalog-price' => 'Giá theo danh mục Shopify',
+            'product'       => 'Sản phẩm Shopify',
+            'category'      => 'Danh mục Shopify',
+            'attribute'     => 'Thuộc tính Shopify',
+            'family'        => 'Gán thuộc tính biến thể của họ sản phẩm Shopify',
+            'metafield'     => 'Định nghĩa Metafield Shopify',
+            'metaobject'    => 'Metaobject Shopify',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Cài đặt',
+                'upgrade'               => 'Nâng cấp lên Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Thông tin xác thực',
                 'export-mappings'       => 'Ánh xạ xuất',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Ánh xạ media bên ngoài',
+            'image'       => 'Thuộc tính URL hình ảnh',
+            'image-info'  => 'Thuộc tính kiểu url chứa liên kết hình ảnh mà Shopify truy cập được. Hình ảnh đã tải lên vẫn dùng ánh xạ media ở trên.',
+            'video'       => 'Thuộc tính URL video',
+            'video-info'  => 'Thuộc tính kiểu url chứa liên kết YouTube hoặc Vimeo. Shopify không hỗ trợ dịch vụ video nào khác.',
+            'unsupported' => ':sku: đã bỏ qua :count liên kết video, chỉ hỗ trợ YouTube và Vimeo.',
+            'unreachable' => ':sku: đã bỏ qua :count liên kết hình ảnh, Shopify không truy cập được.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Ánh xạ liên kết',
+            'related-products'       => 'Sản phẩm liên quan',
+            'complementary-products' => 'Sản phẩm bổ sung',
+            'unopim-association'     => 'Liên kết UnoPim',
+            'bundle-products'        => 'Sản phẩm trong gói',
+        ],
+
+        'realtime' => [
+            'title'       => 'Đồng bộ thời gian thực',
+            'channel'     => 'Kênh',
+            'currency'    => 'Tiền tệ',
+            'enable'      => 'Đồng bộ sản phẩm sang cửa hàng này khi lưu',
+            'enable-info' => 'Sản phẩm vừa lưu sẽ đến cửa hàng này trong vài giây. Chỉ những sản phẩm đã xuất sang Shopify mới được cập nhật.',
+            'enabled'     => 'Đồng bộ thời gian thực đang bật.',
+            'disabled'    => 'Đồng bộ thời gian thực đang tắt.',
+
+            'blocked' => [
+                'locale'   => 'Hãy đặt ngôn ngữ mặc định cho thông tin đăng nhập này trước.',
+                'settings' => 'Hãy đặt kênh và tiền tệ ở tab Đồng bộ thời gian thực trước.',
+            ],
+
+            'settings-saved'      => 'Đã lưu cài đặt đồng bộ thời gian thực.',
+            'settings-incomplete' => 'Hãy chọn cả kênh lẫn tiền tệ, hoặc để trống cả hai.',
+            'settings-in-use'     => 'Hãy tắt đồng bộ thời gian thực cho các thông tin đăng nhập này trước: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Danh mục',
+            'breadcrumb'      => 'Danh mục Shopify',
+            'edit-title'      => 'Sửa danh mục | :name',
+            'create'          => 'Tạo danh mục',
+            'create-success'  => 'Đã tạo danh mục.',
+            'update-success'  => 'Đã cập nhật danh mục.',
+            'delete-success'  => 'Đã xóa danh mục.',
+            'duplicate-title' => 'Cửa hàng này đã có một danh mục cùng tiêu đề.',
+
+            'acl' => [
+                'create' => 'Tạo danh mục',
+                'edit'   => 'Sửa danh mục',
+                'delete' => 'Xóa danh mục',
+            ],
+
+            'status' => [
+                'active'   => 'Đang hoạt động',
+                'draft'    => 'Bản nháp',
+                'archived' => 'Đã lưu trữ',
+            ],
+
+            'form' => [
+                'save'                      => 'Lưu danh mục',
+                'store'                     => 'Cửa hàng',
+                'general'                   => 'Chung',
+                'title'                     => 'Tiêu đề',
+                'status'                    => 'Trạng thái',
+                'markets'                   => 'Thị trường',
+                'kind'                      => 'Loại danh mục',
+                'kind-info'                 => 'Danh mục theo khu vực định giá cho một quốc gia hoặc vùng. Danh mục B2B định giá cho một địa điểm công ty nên chỉ hiển thị các thị trường được Shopify đánh dấu là B2B.',
+                'kind-mismatch'             => 'Các thị trường đó không khớp với loại danh mục đã chọn.',
+                'auto-publish'              => 'Tự động thêm sản phẩm mới',
+                'markets-info'              => 'Các thị trường mà danh mục này định giá, được đọc trực tiếp từ cửa hàng. Một danh mục có thể phục vụ nhiều thị trường.',
+                'price-list-name'           => 'Tên bảng giá',
+                'pricing'                   => 'Định giá',
+                'currency'                  => 'Đặt giá theo',
+                'pricing-strategy'          => 'Định giá',
+                'adjustment-type'           => 'Loại điều chỉnh',
+                'adjustment-value'          => 'Phần trăm điều chỉnh',
+                'price-attribute'           => 'Thuộc tính giá',
+                'price-attribute-info'      => 'Thuộc tính giá trong UnoPim mà danh mục này bán theo, ví dụ giá đại lý. Để trống để dùng thuộc tính giá của ánh xạ xuất.',
+                'compare-at-attribute'      => 'Thuộc tính giá so sánh',
+                'compare-at-attribute-info' => 'Thuộc tính giá trong UnoPim được hiển thị gạch ngang bên cạnh giá của danh mục này. Để trống để dùng giá so sánh của ánh xạ xuất.',
+            ],
+
+            'kinds' => [
+                'region' => 'Khu vực',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Điều chỉnh theo phần trăm',
+                'fixed'              => 'Giá cố định từ UnoPim',
+                'adjustment-summary' => 'Điều chỉnh :direction:value%',
+                'fixed-summary'      => 'Giá cố định (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Giảm',
+                'increase' => 'Tăng',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Tiêu đề',
+                'status'     => 'Trạng thái',
+                'kind'       => 'Loại',
+                'currency'   => 'Tiền tệ',
+                'markets'    => 'Thị trường',
+                'pricing'    => 'Định giá',
+                'synced'     => 'Đã đồng bộ',
+                'synced-yes' => 'Có',
+                'synced-no'  => 'Không',
+            ],
+
+            'import' => [
+                'unsupported' => 'Danh mục cần thông tin đăng nhập Shopify thủ công. Proxy SaaS chưa cung cấp các thao tác với danh mục hay bảng giá.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Khi đã có giá',
+                'skip'          => 'Giữ giá trong UnoPim',
+                'overwrite'     => 'Ghi đè bằng giá từ Shopify',
+                'no-mapping'    => 'Đã bỏ qua việc nhập giá danh mục: ánh xạ nhập không có thuộc tính giá.',
+                'unknown-sku'   => 'Đã bỏ qua giá danh mục: SKU :sku không có trong UnoPim.',
+                'kept-existing' => 'Đã giữ nguyên :count giá danh mục, vì các sản phẩm đã có giá theo tiền tệ đó.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Đã bỏ qua giai đoạn giá danh mục của Shopify Pro: bản kê xuất không có thông tin đăng nhập dùng được.',
+                'saas-unsupported'   => 'Đã bỏ qua giai đoạn giá danh mục của Shopify Pro: proxy SaaS không cung cấp các thao tác với bảng giá.',
+                'no-price'           => 'Danh mục :catalog đã bỏ qua SKU :sku: không có giá theo :currency.',
+                'no-response'        => 'Shopify không trả về phản hồi dùng được khi định giá cho danh mục :catalog.',
+                'rejected'           => 'Shopify đã từ chối giá của danh mục :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'Danh mục :catalog không có thị trường nào nên Shopify không có gì để định giá.',
+                'no-currency'   => 'Danh mục :catalog không có tiền tệ, trong khi Shopify yêu cầu điều đó cho mọi bảng giá.',
+                'no-adjustment' => 'Danh mục :catalog dùng điều chỉnh theo phần trăm nhưng không có loại điều chỉnh.',
+                'no-response'   => 'Shopify không trả về phản hồi dùng được cho :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Nâng cấp lên Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Bộ lọc xuất nâng cao có sẵn trong Shopify Pro.',
+            'types-note'                => 'Loại tiền tệ và đo lường có sẵn trong Shopify Pro.',
+            'association-mapping'       => 'Ánh xạ liên kết',
+            'association-note'          => 'Ánh xạ liên kết UnoPim tới sản phẩm liên quan và bổ sung của Shopify có sẵn trong Shopify Pro.',
+            'external-media'            => 'Ánh xạ media bên ngoài',
+            'media-note'                => 'Thuộc tính URL hình ảnh và video có trong Shopify Pro.',
+            'catalogs'                  => 'Danh mục và đồng bộ thời gian thực',
+            'catalogs-note'             => 'Danh mục, giá theo danh mục và đồng bộ sản phẩm theo thời gian thực có trong Shopify Pro.',
+            'schedule-note'             => 'Chạy tự động một lần xuất theo lịch có trong Shopify Pro.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Các tính năng này thuộc Shopify Pro. Những màn hình bên dưới vẫn hiển thị nhưng chỉ đọc cho đến khi cài đặt Pro.',
+            'realtime'                  => 'Đồng bộ thời gian thực',
+            'realtime-note'             => 'Đồng bộ sản phẩm sang Shopify ngay khi lưu có trong Shopify Pro.',
+            'schedule'                  => 'Xuất theo lịch',
+            'export-filters'            => 'Bộ lọc xuất nâng cao',
+            'attribute-conditions'      => 'Điều kiện thuộc tính',
+            'conditions-note'           => 'Lọc một lần xuất theo điều kiện thuộc tính có trong Shopify Pro.',
+            'metafield-types'           => 'Kiểu metafield',
+        ],
+
         'acl' => [
             'saas-credentials' => 'Thông tin xác thực SaaS',
             'credential'       => [

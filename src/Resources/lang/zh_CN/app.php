@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => '请为测量字段选择单位：:fields。',
+        'measurement-not-numeric' => '“:field”的值必须是数字。',
+        'measurement-min'         => '“:field”的值必须大于或等于 :min。',
+        'measurement-max'         => '“:field”的值必须小于或等于 :max。',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => '金额',
+        ],
+
+        'measurement' => [
+            'minimum' => '最小:type',
+            'maximum' => '最大:type',
+            'types'   => [
+                'antenna_gain'            => '天线增益',
+                'area'                    => '面积',
+                'battery_charge_capacity' => '电池充电容量',
+                'battery_energy_capacity' => '电池能量容量',
+                'capacitance'             => '电容',
+                'concentration'           => '浓度',
+                'data_storage_capacity'   => '数据存储容量',
+                'data_transfer_rate'      => '数据传输速率',
+                'dimension'               => '尺寸',
+                'display_density'         => '显示密度',
+                'distance'                => '距离',
+                'duration'                => '时长',
+                'electric_current'        => '电流',
+                'electrical_resistance'   => '电阻',
+                'energy'                  => '能量',
+                'frequency'               => '频率',
+                'illuminance'             => '照度',
+                'inductance'              => '电感',
+                'luminous_flux'           => '光通量',
+                'mass_flow_rate'          => '质量流量',
+                'power'                   => '功率',
+                'pressure'                => '压力',
+                'resolution'              => '分辨率',
+                'rotational_speed'        => '转速',
+                'sound_level'             => '声级',
+                'speed'                   => '速度',
+                'temperature'             => '温度',
+                'thermal_power'           => '热功率',
+                'voltage'                 => '电压',
+                'volume'                  => '体积',
+                'volumetric_flow_rate'    => '体积流量',
+                'weight'                  => '重量',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => '计划',
+            'preset'    => '预设计划',
+            'cron'      => 'Cron 表达式',
+            'cron-info' => '需要服务器计划任务和队列进程保持运行。',
+            'timezone'  => '时区',
+            'type'      => '计划类型',
+
+            'presets' => [
+                'disabled'         => '已停用',
+                'every-minute'     => '每分钟 (* * * * *)',
+                'every-5-minutes'  => '每 5 分钟 (*/5 * * * *)',
+                'every-15-minutes' => '每 15 分钟 (*/15 * * * *)',
+                'every-30-minutes' => '每 30 分钟 (*/30 * * * *)',
+                'hourly'           => '每小时 (0 * * * *)',
+                'daily-midnight'   => '每天午夜 (0 0 * * *)',
+                'daily-6am'        => '每天上午 6 点 (0 6 * * *)',
+                'weekly-monday'    => '每周一 (0 0 * * 1)',
+                'monthly'          => '每月 (0 0 1 * *)',
+                'custom'           => '自定义',
+            ],
+
+            'types' => [
+                'recurring' => '周期性',
+                'one-time'  => '一次性',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => '正在导出产品',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'    => 'Shopify 目录',
             'product'    => 'Shopify 产品',
             'category'   => 'Shopify 类别',
             'metafields' => 'Shopify 元字段定义',
@@ -20,18 +103,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Shopify 产品',
-            'category'   => 'Shopify 类别',
-            'attribute'  => 'Shopify 属性',
-            'family'     => 'Shopify 家族',
-            'metafield'  => 'Shopify 元字段定义',
-            'metaobject' => 'Shopify 元对象',
+            'catalog'       => 'Shopify 目录',
+            'catalog-price' => 'Shopify 目录价格',
+            'product'       => 'Shopify 产品',
+            'category'      => 'Shopify 类别',
+            'attribute'     => 'Shopify 属性',
+            'family'        => 'Shopify 家族',
+            'metafield'     => 'Shopify 元字段定义',
+            'metaobject'    => 'Shopify 元对象',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => '设置',
+                'upgrade'               => '升级到 Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => '凭据',
                 'export-mappings'       => '导出映射',
@@ -43,6 +129,171 @@ return [
         ],
     ],
     'shopify' => [
+        'external-media' => [
+            'title'       => '外部媒体映射',
+            'image'       => '图片 URL 属性',
+            'image-info'  => '存放 Shopify 可访问图片链接的 url 属性。已上传的图片仍使用上方的媒体映射。',
+            'video'       => '视频 URL 属性',
+            'video-info'  => '存放 YouTube 或 Vimeo 链接的 url 属性。Shopify 不支持其他视频服务。',
+            'unsupported' => ':sku：已跳过 :count 个视频链接，仅支持 YouTube 和 Vimeo。',
+            'unreachable' => ':sku：已跳过 :count 个图片链接，Shopify 无法访问。',
+        ],
+
+        'association-mapping' => [
+            'title'                  => '关联映射',
+            'related-products'       => '相关产品',
+            'complementary-products' => '互补产品',
+            'unopim-association'     => 'UnoPim 关联',
+            'bundle-products'        => '套装产品',
+        ],
+
+        'realtime' => [
+            'title'       => '实时同步',
+            'channel'     => '渠道',
+            'currency'    => '货币',
+            'enable'      => '保存产品时同步到该店铺',
+            'enable-info' => '已保存的产品会在数秒内到达该店铺。仅更新已导出到 Shopify 的产品。',
+            'enabled'     => '实时同步已开启。',
+            'disabled'    => '实时同步已关闭。',
+
+            'blocked' => [
+                'locale'   => '请先为该凭据设置默认语言。',
+                'settings' => '请先在“实时同步”选项卡中设置渠道和货币。',
+            ],
+
+            'settings-saved'      => '实时同步设置已保存。',
+            'settings-incomplete' => '请同时选择渠道和货币，或将两者都留空。',
+            'settings-in-use'     => '请先关闭以下凭据的实时同步：:credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => '目录',
+            'breadcrumb'      => 'Shopify 目录',
+            'edit-title'      => '编辑目录 | :name',
+            'create'          => '创建目录',
+            'create-success'  => '目录已创建。',
+            'update-success'  => '目录已更新。',
+            'delete-success'  => '目录已删除。',
+            'duplicate-title' => '该店铺已存在同名目录。',
+
+            'acl' => [
+                'create' => '创建目录',
+                'edit'   => '编辑目录',
+                'delete' => '删除目录',
+            ],
+
+            'status' => [
+                'active'   => '启用',
+                'draft'    => '草稿',
+                'archived' => '已归档',
+            ],
+
+            'form' => [
+                'save'                      => '保存目录',
+                'store'                     => '店铺',
+                'general'                   => '常规',
+                'title'                     => '标题',
+                'status'                    => '状态',
+                'markets'                   => '市场',
+                'kind'                      => '目录类型',
+                'kind-info'                 => '区域目录为某个国家或地区定价。B2B 目录为公司所在地定价，因此只会列出 Shopify 标记为 B2B 的市场。',
+                'kind-mismatch'             => '这些市场与所选目录类型不匹配。',
+                'auto-publish'              => '自动包含新产品',
+                'markets-info'              => '该目录定价所针对的市场，实时从店铺读取。一个目录可服务多个市场。',
+                'price-list-name'           => '价目表名称',
+                'pricing'                   => '定价',
+                'currency'                  => '定价货币',
+                'pricing-strategy'          => '定价',
+                'adjustment-type'           => '调整类型',
+                'adjustment-value'          => '调整百分比',
+                'price-attribute'           => '价格属性',
+                'price-attribute-info'      => '该目录所采用的 UnoPim 价格属性，例如经销商价。留空则使用导出映射中的价格属性。',
+                'compare-at-attribute'      => '对比价属性',
+                'compare-at-attribute-info' => '在该目录价格旁以删除线显示的 UnoPim 价格属性。留空则使用导出映射中的对比价。',
+            ],
+
+            'kinds' => [
+                'region' => '区域',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => '按百分比调整',
+                'fixed'              => '来自 UnoPim 的固定价格',
+                'adjustment-summary' => '调整 :direction:value%',
+                'fixed-summary'      => '固定价格（:currency）',
+            ],
+
+            'adjustment' => [
+                'decrease' => '下调',
+                'increase' => '上调',
+            ],
+
+            'datagrid' => [
+                'title'      => '标题',
+                'status'     => '状态',
+                'kind'       => '类型',
+                'currency'   => '货币',
+                'markets'    => '市场',
+                'pricing'    => '定价',
+                'synced'     => '已同步',
+                'synced-yes' => '是',
+                'synced-no'  => '否',
+            ],
+
+            'import' => [
+                'unsupported' => '目录需要手动配置的 Shopify 凭据。SaaS 代理尚未开放目录和价目表相关操作。',
+            ],
+
+            'price-import' => [
+                'on-existing'   => '已有价格时',
+                'skip'          => '保留 UnoPim 的价格',
+                'overwrite'     => '用 Shopify 的价格覆盖',
+                'no-mapping'    => '已跳过目录价格导入：导入映射中没有价格属性。',
+                'unknown-sku'   => '已跳过目录价格：UnoPim 中不存在 SKU :sku。',
+                'kept-existing' => '已保留 :count 条目录价格，因为这些产品已有该货币的价格。',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => '已跳过 Shopify Pro 目录价格阶段：导出清单中没有可用凭据。',
+                'saas-unsupported'   => '已跳过 Shopify Pro 目录价格阶段：SaaS 代理未开放价目表相关操作。',
+                'no-price'           => '目录 :catalog 跳过了 SKU :sku：该产品没有 :currency 价格。',
+                'no-response'        => '为目录 :catalog 定价时，Shopify 未返回可用响应。',
+                'rejected'           => 'Shopify 拒绝了目录 :catalog 的价格：:errors',
+            ],
+
+            'export' => [
+                'no-market'     => '目录 :catalog 没有市场，因此 Shopify 无从定价。',
+                'no-currency'   => '目录 :catalog 没有货币，而 Shopify 要求每个价目表都必须有货币。',
+                'no-adjustment' => '目录 :catalog 使用按百分比调整，但未设置调整类型。',
+                'no-response'   => 'Shopify 未针对 :operation 返回可用响应。',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => '升级到 Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => '高级导出筛选器在 Shopify Pro 中提供。',
+            'types-note'                => '金额和测量类型在 Shopify Pro 中提供。',
+            'association-mapping'       => '关联映射',
+            'association-note'          => '将 UnoPim 关联映射到 Shopify 的相关商品和互补商品在 Shopify Pro 中提供。',
+            'external-media'            => '外部媒体映射',
+            'media-note'                => '图片和视频 URL 属性在 Shopify Pro 中提供。',
+            'catalogs'                  => '目录与实时同步',
+            'catalogs-note'             => '目录、目录价格和产品实时同步在 Shopify Pro 中提供。',
+            'schedule-note'             => '按计划自动运行导出在 Shopify Pro 中提供。',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => '这些功能属于 Shopify Pro。下面的页面仍会显示，但在安装 Pro 之前均为只读。',
+            'realtime'                  => '实时同步',
+            'realtime-note'             => '在保存产品的同时同步到 Shopify 的功能在 Shopify Pro 中提供。',
+            'schedule'                  => '定时导出',
+            'export-filters'            => '高级导出筛选',
+            'attribute-conditions'      => '属性条件',
+            'conditions-note'           => '按属性条件筛选导出在 Shopify Pro 中提供。',
+            'metafield-types'           => '元字段类型',
+        ],
+
         'acl' => [
             'credential' => [
                 'create' => '创建',

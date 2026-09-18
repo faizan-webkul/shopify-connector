@@ -5,22 +5,12 @@
     <x-slot:title>
         @lang('shopify::app.shopify.export.mapping.collection.title')
     </x-slot>
-    <v-create-collection-mappings></v-create-collection-mappings>
-    @pushOnce('scripts')
-    <script
-        type="text/x-template"
-        id="v-create-collection-mapping-template"
-    >
-        <x-admin::form
-            :action="route('shopify.collection-mappings.create')"
-            :ajax="true"
-            enctype="multipart/form-data"
-        >
-            <div class="flex justify-between items-center">
-                <p class="text-xl text-gray-800 dark:text-slate-50 font-bold">
-                    @lang('shopify::app.shopify.export.mapping.collection.title')
-                </p>
 
+    <x-slot:pageHeader>
+        <div class="flex min-h-10 items-center justify-between gap-4 max-sm:flex-wrap">
+            <x-admin::page-title :title="trans('shopify::app.shopify.export.mapping.collection.title')" />
+
+            @if (request('history') === null)
                 <div class="flex gap-x-2.5 items-center">
                     <a
                         href="{{ route('shopify.credentials.index') }}"
@@ -31,12 +21,27 @@
 
                     <button
                         type="submit"
+                        form="shopify-collection-mapping-form"
                         class="primary-button"
                     >
                         @lang('shopify::app.shopify.export.mapping.collection.save')
                     </button>
                 </div>
-            </div>
+            @endif
+        </div>
+    </x-slot>
+    <v-create-collection-mappings></v-create-collection-mappings>
+    @pushOnce('scripts')
+    <script
+        type="text/x-template"
+        id="v-create-collection-mapping-template"
+    >
+        <x-admin::form
+            id="shopify-collection-mapping-form"
+            :action="route('shopify.collection-mappings.create')"
+            :ajax="true"
+            enctype="multipart/form-data"
+        >
 
             <div class="flex gap-2.5 mt-3.5 max-xl:flex-wrap">
                 <div class="flex flex-col gap-2 flex-1 max-xl:flex-auto">
@@ -115,7 +120,7 @@
                                     track-by="code"
                                     label-by="label"
                                     :value="$mediaMapping['mediaAttributes'] ?? ''"
-                                    :entityName="json_encode(['image', 'file'])"
+                                    :entityName="json_encode(['image', 'file', 'asset'])"
                                     async=true
                                     :list-route="route('admin.shopify.get-category-field')"
                                 />

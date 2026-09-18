@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'Alegeți o unitate pentru câmpurile de măsurare: :fields.',
+        'measurement-not-numeric' => 'Valoarea „:field” trebuie să fie un număr.',
+        'measurement-min'         => 'Valoarea „:field” trebuie să fie :min sau mai mare.',
+        'measurement-max'         => 'Valoarea „:field” trebuie să fie :max sau mai mică.',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'Sumă',
+        ],
+
+        'measurement' => [
+            'minimum' => ':type minimă',
+            'maximum' => ':type maximă',
+            'types'   => [
+                'antenna_gain'            => 'Câștigul antenei',
+                'area'                    => 'Suprafață',
+                'battery_charge_capacity' => 'Capacitatea de încărcare a bateriei',
+                'battery_energy_capacity' => 'Capacitatea energetică a bateriei',
+                'capacitance'             => 'Capacitate electrică',
+                'concentration'           => 'Concentrație',
+                'data_storage_capacity'   => 'Capacitate de stocare a datelor',
+                'data_transfer_rate'      => 'Viteză de transfer al datelor',
+                'dimension'               => 'Dimensiune',
+                'display_density'         => 'Densitatea ecranului',
+                'distance'                => 'Distanță',
+                'duration'                => 'Durată',
+                'electric_current'        => 'Curent electric',
+                'electrical_resistance'   => 'Rezistență electrică',
+                'energy'                  => 'Energie',
+                'frequency'               => 'Frecvență',
+                'illuminance'             => 'Iluminare',
+                'inductance'              => 'Inductanță',
+                'luminous_flux'           => 'Flux luminos',
+                'mass_flow_rate'          => 'Debit masic',
+                'power'                   => 'Putere',
+                'pressure'                => 'Presiune',
+                'resolution'              => 'Rezoluție',
+                'rotational_speed'        => 'Viteză de rotație',
+                'sound_level'             => 'Nivel sonor',
+                'speed'                   => 'Viteză',
+                'temperature'             => 'Temperatură',
+                'thermal_power'           => 'Putere termică',
+                'voltage'                 => 'Tensiune',
+                'volume'                  => 'Volum',
+                'volumetric_flow_rate'    => 'Debit volumic',
+                'weight'                  => 'Greutate',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'Programare',
+            'preset'    => 'Programări Predefinite',
+            'cron'      => 'Expresie Cron',
+            'cron-info' => 'Necesită ca planificatorul serverului și un worker de coadă să ruleze.',
+            'timezone'  => 'Fus Orar',
+            'type'      => 'Tip Programare',
+
+            'presets' => [
+                'disabled'         => 'Dezactivat',
+                'every-minute'     => 'În Fiecare Minut (* * * * *)',
+                'every-5-minutes'  => 'La Fiecare 5 Minute (*/5 * * * *)',
+                'every-15-minutes' => 'La Fiecare 15 Minute (*/15 * * * *)',
+                'every-30-minutes' => 'La Fiecare 30 de Minute (*/30 * * * *)',
+                'hourly'           => 'În Fiecare Oră (0 * * * *)',
+                'daily-midnight'   => 'Zilnic la Miezul Nopții (0 0 * * *)',
+                'daily-6am'        => 'Zilnic la Ora 6:00 (0 6 * * *)',
+                'weekly-monday'    => 'Săptămânal, Lunea (0 0 * * 1)',
+                'monthly'          => 'Lunar (0 0 1 * *)',
+                'custom'           => 'Personalizat',
+            ],
+
+            'types' => [
+                'recurring' => 'Recurentă',
+                'one-time'  => 'O Singură Dată',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'Export produse',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'     => 'Cataloage Shopify',
             'product'     => 'Produs Shopify',
             'category'    => 'Categorie Shopify',
             'metafields'  => 'Definiție metafields Shopify',
@@ -21,18 +104,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'Produs Shopify',
-            'category'   => 'Categorie Shopify',
-            'attribute'  => 'Atribut Shopify',
-            'family'     => 'Atribuirea atributelor de variantă pentru familia Shopify',
-            'metafield'  => 'Definiții metafield Shopify',
-            'metaobject' => 'Metaobiect Shopify',
+            'catalog'       => 'Cataloage Shopify',
+            'catalog-price' => 'Prețuri din cataloagele Shopify',
+            'product'       => 'Produs Shopify',
+            'category'      => 'Categorie Shopify',
+            'attribute'     => 'Atribut Shopify',
+            'family'        => 'Atribuirea atributelor de variantă pentru familia Shopify',
+            'metafield'     => 'Definiții metafield Shopify',
+            'metaobject'    => 'Metaobiect Shopify',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Setări',
+                'upgrade'               => 'Treci la Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Credențiale',
                 'export-mappings'       => 'Mapări de export',
@@ -47,6 +133,171 @@ return [
     ],
 
     'shopify' => [
+        'external-media' => [
+            'title'       => 'Maparea mediei externe',
+            'image'       => 'Atribut cu URL-ul imaginii',
+            'image-info'  => 'Un atribut de tip url care conține un link către o imagine accesibilă pentru Shopify. Imaginile încărcate folosesc în continuare maparea media de mai sus.',
+            'video'       => 'Atribut cu URL-ul videoclipului',
+            'video-info'  => 'Un atribut de tip url care conține linkuri YouTube sau Vimeo. Shopify nu acceptă niciun alt serviciu video.',
+            'unsupported' => ':sku: :count linkuri video au fost omise, sunt acceptate doar YouTube și Vimeo.',
+            'unreachable' => ':sku: :count linkuri de imagine au fost omise, Shopify nu a putut să le acceseze.',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'Maparea asocierilor',
+            'related-products'       => 'Produse similare',
+            'complementary-products' => 'Produse complementare',
+            'unopim-association'     => 'Asociere UnoPim',
+            'bundle-products'        => 'Produse din pachet',
+        ],
+
+        'realtime' => [
+            'title'       => 'Sincronizare în timp real',
+            'channel'     => 'Canal',
+            'currency'    => 'Monedă',
+            'enable'      => 'Sincronizează produsele cu acest magazin la salvare',
+            'enable-info' => 'Un produs salvat ajunge în acest magazin în câteva secunde. Se actualizează doar produsele deja exportate în Shopify.',
+            'enabled'     => 'Sincronizarea în timp real este activă.',
+            'disabled'    => 'Sincronizarea în timp real este dezactivată.',
+
+            'blocked' => [
+                'locale'   => 'Setați mai întâi o limbă implicită pentru aceste credențiale.',
+                'settings' => 'Setați mai întâi canalul și moneda în fila Sincronizare în timp real.',
+            ],
+
+            'settings-saved'      => 'Setările sincronizării în timp real au fost salvate.',
+            'settings-incomplete' => 'Alegeți atât un canal, cât și o monedă, sau lăsați ambele goale.',
+            'settings-in-use'     => 'Dezactivați mai întâi sincronizarea în timp real pentru aceste credențiale: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'Cataloage',
+            'breadcrumb'      => 'Cataloage Shopify',
+            'edit-title'      => 'Editare catalog | :name',
+            'create'          => 'Creează catalog',
+            'create-success'  => 'Catalogul a fost creat.',
+            'update-success'  => 'Catalogul a fost actualizat.',
+            'delete-success'  => 'Catalogul a fost șters.',
+            'duplicate-title' => 'Acest magazin are deja un catalog cu acest titlu.',
+
+            'acl' => [
+                'create' => 'Creează catalog',
+                'edit'   => 'Editează catalog',
+                'delete' => 'Șterge catalog',
+            ],
+
+            'status' => [
+                'active'   => 'Activ',
+                'draft'    => 'Ciornă',
+                'archived' => 'Arhivat',
+            ],
+
+            'form' => [
+                'save'                      => 'Salvează catalogul',
+                'store'                     => 'Magazin',
+                'general'                   => 'General',
+                'title'                     => 'Titlu',
+                'status'                    => 'Stare',
+                'markets'                   => 'Piețe',
+                'kind'                      => 'Tip de catalog',
+                'kind-info'                 => 'Cataloagele regionale stabilesc prețuri pentru o țară sau o zonă. Cataloagele B2B stabilesc prețuri pentru sediul unei companii, așa că afișează doar piețele marcate de Shopify ca B2B.',
+                'kind-mismatch'             => 'Acele piețe nu corespund tipului de catalog ales.',
+                'auto-publish'              => 'Include automat produsele noi',
+                'markets-info'              => 'Piețele pentru care acest catalog stabilește prețuri, citite direct din magazin. Un catalog poate deservi mai multe piețe.',
+                'price-list-name'           => 'Numele listei de prețuri',
+                'pricing'                   => 'Prețuri',
+                'currency'                  => 'Stabilește prețurile în',
+                'pricing-strategy'          => 'Prețuri',
+                'adjustment-type'           => 'Tip de ajustare',
+                'adjustment-value'          => 'Procent de ajustare',
+                'price-attribute'           => 'Atribut de preț',
+                'price-attribute-info'      => 'Atributul de preț din UnoPim la care vinde acest catalog, de exemplu un preț de dealer. Lăsați gol pentru a folosi atributul de preț din maparea de export.',
+                'compare-at-attribute'      => 'Atribut pentru prețul de comparație',
+                'compare-at-attribute-info' => 'Atributul de preț din UnoPim afișat tăiat lângă prețul acestui catalog. Lăsați gol pentru a folosi prețul de comparație din maparea de export.',
+            ],
+
+            'kinds' => [
+                'region' => 'Regiune',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'Ajustare procentuală',
+                'fixed'              => 'Prețuri fixe din UnoPim',
+                'adjustment-summary' => 'Ajustare :direction:value%',
+                'fixed-summary'      => 'Prețuri fixe (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'Scădere',
+                'increase' => 'Creștere',
+            ],
+
+            'datagrid' => [
+                'title'      => 'Titlu',
+                'status'     => 'Stare',
+                'kind'       => 'Tip',
+                'currency'   => 'Monedă',
+                'markets'    => 'Piețe',
+                'pricing'    => 'Prețuri',
+                'synced'     => 'Sincronizat',
+                'synced-yes' => 'Da',
+                'synced-no'  => 'Nu',
+            ],
+
+            'import' => [
+                'unsupported' => 'Cataloagele necesită credențiale Shopify manuale. Proxy-ul SaaS nu expune încă operațiunile pentru cataloage sau liste de prețuri.',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'Când prețul există deja',
+                'skip'          => 'Păstrează prețul din UnoPim',
+                'overwrite'     => 'Suprascrie cu prețul din Shopify',
+                'no-mapping'    => 'Importul prețurilor de catalog a fost omis: maparea de import nu are atribut de preț.',
+                'unknown-sku'   => 'Preț de catalog omis: SKU-ul :sku nu există în UnoPim.',
+                'kept-existing' => ':count prețuri de catalog au fost păstrate așa cum erau, deoarece produsele au deja un preț în acea monedă.',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Etapa prețurilor de catalog Shopify Pro a fost omisă: manifestul de export nu conține credențiale utilizabile.',
+                'saas-unsupported'   => 'Etapa prețurilor de catalog Shopify Pro a fost omisă: proxy-ul SaaS nu expune operațiunile pentru liste de prețuri.',
+                'no-price'           => 'Catalogul :catalog a omis SKU-ul :sku: nu are preț în :currency.',
+                'no-response'        => 'Shopify nu a returnat un răspuns utilizabil la stabilirea prețurilor pentru catalogul :catalog.',
+                'rejected'           => 'Shopify a respins prețurile pentru catalogul :catalog: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'Catalogul :catalog nu are nicio piață, așa că Shopify nu are pentru ce să stabilească prețuri.',
+                'no-currency'   => 'Catalogul :catalog nu are monedă, iar Shopify cere una pentru fiecare listă de prețuri.',
+                'no-adjustment' => 'Catalogul :catalog folosește o ajustare procentuală, dar nu are tip de ajustare.',
+                'no-response'   => 'Shopify nu a returnat un răspuns utilizabil pentru :operation.',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Treci la Pro',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'Filtrele avansate de export sunt disponibile în Shopify Pro.',
+            'types-note'                => 'Tipurile monetar și de măsură sunt disponibile în Shopify Pro.',
+            'association-mapping'       => 'Maparea asocierilor',
+            'association-note'          => 'Maparea asocierilor UnoPim către produsele Shopify similare și complementare este disponibilă în Shopify Pro.',
+            'external-media'            => 'Maparea mediei externe',
+            'media-note'                => 'Atributele cu URL-uri de imagini și videoclipuri sunt disponibile în Shopify Pro.',
+            'catalogs'                  => 'Cataloage și sincronizare în timp real',
+            'catalogs-note'             => 'Cataloagele, prețurile din cataloage și sincronizarea produselor în timp real sunt disponibile în Shopify Pro.',
+            'schedule-note'             => 'Rularea automată a unui export după un program este disponibilă în Shopify Pro.',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'Aceste funcții fac parte din Shopify Pro. Ecranele de mai jos sunt vizibile, dar rămân doar pentru citire până la instalarea Pro.',
+            'realtime'                  => 'Sincronizare în timp real',
+            'realtime-note'             => 'Sincronizarea unui produs cu Shopify chiar în momentul salvării este disponibilă în Shopify Pro.',
+            'schedule'                  => 'Exporturi programate',
+            'export-filters'            => 'Filtre de export avansate',
+            'attribute-conditions'      => 'Condiții de atribut',
+            'conditions-note'           => 'Filtrarea unui export după condiții de atribut este disponibilă în Shopify Pro.',
+            'metafield-types'           => 'Tipuri de metacâmp',
+        ],
+
         'acl' => [
             'saas-credentials' => 'Credențiale SaaS',
             'credential'       => [

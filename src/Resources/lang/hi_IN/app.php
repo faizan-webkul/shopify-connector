@@ -1,6 +1,88 @@
 <?php
 
 return [
+    'metaobject' => [
+        'unit-required'           => 'माप फ़ील्ड के लिए एक इकाई चुनें: :fields.',
+        'measurement-not-numeric' => '":field" का मान एक संख्या होना चाहिए।',
+        'measurement-min'         => '":field" का मान :min या उससे अधिक होना चाहिए।',
+        'measurement-max'         => '":field" का मान :max या उससे कम होना चाहिए।',
+    ],
+
+    'metafield' => [
+        'type' => [
+            'money' => 'राशि',
+        ],
+
+        'measurement' => [
+            'minimum' => 'न्यूनतम :type',
+            'maximum' => 'अधिकतम :type',
+            'types'   => [
+                'antenna_gain'            => 'एंटीना गेन',
+                'area'                    => 'क्षेत्रफल',
+                'battery_charge_capacity' => 'बैटरी चार्ज क्षमता',
+                'battery_energy_capacity' => 'बैटरी ऊर्जा क्षमता',
+                'capacitance'             => 'धारिता',
+                'concentration'           => 'सांद्रता',
+                'data_storage_capacity'   => 'डेटा भंडारण क्षमता',
+                'data_transfer_rate'      => 'डेटा स्थानांतरण दर',
+                'dimension'               => 'आयाम',
+                'display_density'         => 'डिस्प्ले घनत्व',
+                'distance'                => 'दूरी',
+                'duration'                => 'अवधि',
+                'electric_current'        => 'विद्युत धारा',
+                'electrical_resistance'   => 'विद्युत प्रतिरोध',
+                'energy'                  => 'ऊर्जा',
+                'frequency'               => 'आवृत्ति',
+                'illuminance'             => 'प्रदीप्ति',
+                'inductance'              => 'प्रेरकत्व',
+                'luminous_flux'           => 'ज्योति फ्लक्स',
+                'mass_flow_rate'          => 'द्रव्यमान प्रवाह दर',
+                'power'                   => 'शक्ति',
+                'pressure'                => 'दाब',
+                'resolution'              => 'रिज़ॉल्यूशन',
+                'rotational_speed'        => 'घूर्णन गति',
+                'sound_level'             => 'ध्वनि स्तर',
+                'speed'                   => 'गति',
+                'temperature'             => 'तापमान',
+                'thermal_power'           => 'ऊष्मीय शक्ति',
+                'voltage'                 => 'वोल्टेज',
+                'volume'                  => 'आयतन',
+                'volumetric_flow_rate'    => 'आयतनीय प्रवाह दर',
+                'weight'                  => 'भार',
+            ],
+        ],
+    ],
+
+    'export' => [
+        'schedule' => [
+            'title'     => 'शेड्यूल',
+            'preset'    => 'पूर्वनिर्धारित शेड्यूल',
+            'cron'      => 'Cron एक्सप्रेशन',
+            'cron-info' => 'इसके लिए सर्वर शेड्यूलर और एक क्यू वर्कर का चलना आवश्यक है।',
+            'timezone'  => 'टाइमज़ोन',
+            'type'      => 'शेड्यूल प्रकार',
+
+            'presets' => [
+                'disabled'         => 'बंद',
+                'every-minute'     => 'हर मिनट (* * * * *)',
+                'every-5-minutes'  => 'हर 5 मिनट (*/5 * * * *)',
+                'every-15-minutes' => 'हर 15 मिनट (*/15 * * * *)',
+                'every-30-minutes' => 'हर 30 मिनट (*/30 * * * *)',
+                'hourly'           => 'प्रति घंटा (0 * * * *)',
+                'daily-midnight'   => 'रोज़ आधी रात को (0 0 * * *)',
+                'daily-6am'        => 'रोज़ सुबह 6 बजे (0 6 * * *)',
+                'weekly-monday'    => 'साप्ताहिक सोमवार को (0 0 * * 1)',
+                'monthly'          => 'मासिक (0 0 1 * *)',
+                'custom'           => 'कस्टम',
+            ],
+
+            'types' => [
+                'recurring' => 'आवर्ती',
+                'one-time'  => 'एक बार',
+            ],
+        ],
+    ],
+
     'tracker' => [
         'phase' => [
             'product'      => 'उत्पाद निर्यात हो रहा है',
@@ -13,6 +95,7 @@ return [
     ],
     'exporters' => [
         'shopify' => [
+            'catalog'    => 'Shopify कैटलॉग',
             'product'    => 'Shopify उत्पाद',
             'category'   => 'Shopify श्रेणी',
             'metafields' => 'Shopify मेटाफील्ड परिभाषा',
@@ -20,18 +103,21 @@ return [
     ],
     'importers' => [
         'shopify' => [
-            'product'    => 'शोपिफाई उत्पाद',
-            'category'   => 'शोपिफाई श्रेणी',
-            'attribute'  => 'शोपिफाई विशेषता',
-            'family'     => 'शोपिफाई परिवार',
-            'metafield'  => 'शॉपिफ़ाई मेटाफ़ील्ड परिभाषाएँ',
-            'metaobject' => 'शॉपिफ़ाई मेटाऑब्जेक्ट',
+            'catalog'       => 'Shopify कैटलॉग',
+            'catalog-price' => 'Shopify कैटलॉग मूल्य',
+            'product'       => 'शोपिफाई उत्पाद',
+            'category'      => 'शोपिफाई श्रेणी',
+            'attribute'     => 'शोपिफाई विशेषता',
+            'family'        => 'शोपिफाई परिवार',
+            'metafield'     => 'शॉपिफ़ाई मेटाफ़ील्ड परिभाषाएँ',
+            'metaobject'    => 'शॉपिफ़ाई मेटाऑब्जेक्ट',
         ],
     ],
     'components' => [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'सेटिंग्स',
+                'upgrade'               => 'Pro में अपग्रेड करें',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'प्रमाण पत्र',
                 'export-mappings'       => 'निर्यात मानचित्रण',
@@ -43,6 +129,171 @@ return [
         ],
     ],
     'shopify' => [
+        'external-media' => [
+            'title'       => 'बाहरी मीडिया मैपिंग',
+            'image'       => 'इमेज URL एट्रिब्यूट',
+            'image-info'  => 'ऐसा URL एट्रिब्यूट जिसमें Shopify तक पहुँच योग्य इमेज लिंक हो। अपलोड की गई इमेज ऊपर दी गई मीडिया मैपिंग ही उपयोग करती रहेंगी।',
+            'video'       => 'वीडियो URL एट्रिब्यूट',
+            'video-info'  => 'ऐसा URL एट्रिब्यूट जिसमें YouTube या Vimeo के लिंक हों। Shopify किसी अन्य वीडियो सेवा को होस्ट नहीं करता।',
+            'unsupported' => ':sku: :count वीडियो लिंक छोड़े गए, केवल YouTube और Vimeo समर्थित हैं।',
+            'unreachable' => ':sku: :count इमेज लिंक छोड़े गए, Shopify उन तक नहीं पहुँच सका।',
+        ],
+
+        'association-mapping' => [
+            'title'                  => 'एसोसिएशन मैपिंग',
+            'related-products'       => 'संबंधित उत्पाद',
+            'complementary-products' => 'पूरक उत्पाद',
+            'unopim-association'     => 'UnoPim एसोसिएशन',
+            'bundle-products'        => 'बंडल उत्पाद',
+        ],
+
+        'realtime' => [
+            'title'       => 'रीयल-टाइम सिंक',
+            'channel'     => 'चैनल',
+            'currency'    => 'मुद्रा',
+            'enable'      => 'उत्पाद सहेजते ही इस स्टोर पर सिंक करें',
+            'enable-info' => 'सहेजा गया उत्पाद कुछ ही सेकंड में इस स्टोर तक पहुँच जाता है। केवल वही उत्पाद अपडेट होते हैं जो पहले से Shopify पर निर्यात हो चुके हैं।',
+            'enabled'     => 'रीयल-टाइम सिंक चालू है।',
+            'disabled'    => 'रीयल-टाइम सिंक बंद है।',
+
+            'blocked' => [
+                'locale'   => 'पहले इस क्रेडेंशियल पर एक डिफ़ॉल्ट लोकेल सेट करें।',
+                'settings' => 'पहले रीयल-टाइम सिंक टैब में चैनल और मुद्रा सेट करें।',
+            ],
+
+            'settings-saved'      => 'रीयल-टाइम सिंक सेटिंग्स सहेज ली गईं।',
+            'settings-incomplete' => 'चैनल और मुद्रा दोनों चुनें, या दोनों खाली छोड़ दें।',
+            'settings-in-use'     => 'पहले इन क्रेडेंशियल्स के लिए रीयल-टाइम सिंक बंद करें: :credentials',
+        ],
+
+        'catalogs' => [
+            'title'           => 'कैटलॉग',
+            'breadcrumb'      => 'Shopify कैटलॉग',
+            'edit-title'      => 'कैटलॉग संपादित करें | :name',
+            'create'          => 'कैटलॉग बनाएँ',
+            'create-success'  => 'कैटलॉग बना दिया गया।',
+            'update-success'  => 'कैटलॉग अपडेट कर दिया गया।',
+            'delete-success'  => 'कैटलॉग हटा दिया गया।',
+            'duplicate-title' => 'इस स्टोर में पहले से ही इस शीर्षक वाला एक कैटलॉग मौजूद है।',
+
+            'acl' => [
+                'create' => 'कैटलॉग बनाएँ',
+                'edit'   => 'कैटलॉग संपादित करें',
+                'delete' => 'कैटलॉग हटाएँ',
+            ],
+
+            'status' => [
+                'active'   => 'सक्रिय',
+                'draft'    => 'ड्राफ़्ट',
+                'archived' => 'संग्रहीत',
+            ],
+
+            'form' => [
+                'save'                      => 'कैटलॉग सहेजें',
+                'store'                     => 'स्टोर',
+                'general'                   => 'सामान्य',
+                'title'                     => 'शीर्षक',
+                'status'                    => 'स्थिति',
+                'markets'                   => 'बाज़ार',
+                'kind'                      => 'कैटलॉग प्रकार',
+                'kind-info'                 => 'रीजन कैटलॉग किसी देश या क्षेत्र के लिए मूल्य तय करते हैं। B2B कैटलॉग किसी कंपनी लोकेशन के लिए मूल्य तय करते हैं, इसलिए उनमें केवल वही बाज़ार दिखते हैं जिन्हें Shopify ने B2B चिह्नित किया है।',
+                'kind-mismatch'             => 'ये बाज़ार चुने गए कैटलॉग प्रकार से मेल नहीं खाते।',
+                'auto-publish'              => 'नए उत्पाद स्वतः शामिल करें',
+                'markets-info'              => 'वे बाज़ार जिनके लिए यह कैटलॉग मूल्य तय करता है, सीधे स्टोर से पढ़े गए। एक कैटलॉग कई बाज़ारों के लिए काम कर सकता है।',
+                'price-list-name'           => 'मूल्य सूची का नाम',
+                'pricing'                   => 'मूल्य निर्धारण',
+                'currency'                  => 'इस मुद्रा में मूल्य तय करें',
+                'pricing-strategy'          => 'मूल्य निर्धारण',
+                'adjustment-type'           => 'समायोजन प्रकार',
+                'adjustment-value'          => 'समायोजन प्रतिशत',
+                'price-attribute'           => 'मूल्य एट्रिब्यूट',
+                'price-attribute-info'      => 'वह UnoPim मूल्य एट्रिब्यूट जिस पर यह कैटलॉग बिक्री करता है, जैसे डीलर मूल्य। एक्सपोर्ट मैपिंग का मूल्य एट्रिब्यूट उपयोग करने के लिए इसे खाली छोड़ दें।',
+                'compare-at-attribute'      => 'तुलना मूल्य एट्रिब्यूट',
+                'compare-at-attribute-info' => 'वह UnoPim मूल्य एट्रिब्यूट जो इस कैटलॉग के मूल्य के बगल में काटकर दिखाया जाता है। एक्सपोर्ट मैपिंग का तुलना मूल्य उपयोग करने के लिए इसे खाली छोड़ दें।',
+            ],
+
+            'kinds' => [
+                'region' => 'रीजन',
+                'b2b'    => 'B2B',
+            ],
+
+            'pricing' => [
+                'adjustment'         => 'प्रतिशत समायोजन',
+                'fixed'              => 'UnoPim से निश्चित मूल्य',
+                'adjustment-summary' => 'समायोजन :direction:value%',
+                'fixed-summary'      => 'निश्चित मूल्य (:currency)',
+            ],
+
+            'adjustment' => [
+                'decrease' => 'घटाएँ',
+                'increase' => 'बढ़ाएँ',
+            ],
+
+            'datagrid' => [
+                'title'      => 'शीर्षक',
+                'status'     => 'स्थिति',
+                'kind'       => 'प्रकार',
+                'currency'   => 'मुद्रा',
+                'markets'    => 'बाज़ार',
+                'pricing'    => 'मूल्य निर्धारण',
+                'synced'     => 'सिंक हुआ',
+                'synced-yes' => 'हाँ',
+                'synced-no'  => 'नहीं',
+            ],
+
+            'import' => [
+                'unsupported' => 'कैटलॉग के लिए मैनुअल Shopify क्रेडेंशियल आवश्यक है। SaaS प्रॉक्सी अभी कैटलॉग या मूल्य सूची संचालन उपलब्ध नहीं कराता।',
+            ],
+
+            'price-import' => [
+                'on-existing'   => 'मौजूदा मूल्य होने पर',
+                'skip'          => 'UnoPim का मूल्य बनाए रखें',
+                'overwrite'     => 'Shopify के मूल्य से बदलें',
+                'no-mapping'    => 'कैटलॉग मूल्य आयात छोड़ दिया गया: आयात मैपिंग में कोई मूल्य एट्रिब्यूट नहीं है।',
+                'unknown-sku'   => 'कैटलॉग मूल्य छोड़ा गया: SKU :sku UnoPim में मौजूद नहीं है।',
+                'kept-existing' => ':count कैटलॉग मूल्य ज्यों के त्यों रखे गए, क्योंकि उत्पादों में उस मुद्रा में पहले से मूल्य मौजूद है।',
+            ],
+
+            'price-phase' => [
+                'credential-missing' => 'Shopify Pro कैटलॉग मूल्य चरण छोड़ दिया गया: एक्सपोर्ट मैनिफ़ेस्ट में कोई उपयोगी क्रेडेंशियल नहीं है।',
+                'saas-unsupported'   => 'Shopify Pro कैटलॉग मूल्य चरण छोड़ दिया गया: SaaS प्रॉक्सी मूल्य सूची संचालन उपलब्ध नहीं कराता।',
+                'no-price'           => 'कैटलॉग :catalog ने SKU :sku छोड़ा: इसका :currency में कोई मूल्य नहीं है।',
+                'no-response'        => 'कैटलॉग :catalog का मूल्य तय करते समय Shopify ने कोई उपयोगी उत्तर नहीं दिया।',
+                'rejected'           => 'Shopify ने कैटलॉग :catalog के मूल्य अस्वीकार कर दिए: :errors',
+            ],
+
+            'export' => [
+                'no-market'     => 'कैटलॉग :catalog का कोई बाज़ार नहीं है, इसलिए Shopify के पास मूल्य तय करने को कुछ नहीं है।',
+                'no-currency'   => 'कैटलॉग :catalog की कोई मुद्रा नहीं है, और Shopify हर मूल्य सूची पर एक मुद्रा आवश्यक मानता है।',
+                'no-adjustment' => 'कैटलॉग :catalog प्रतिशत समायोजन उपयोग करता है पर उसका कोई समायोजन प्रकार नहीं है।',
+                'no-response'   => ':operation के लिए Shopify ने कोई उपयोगी उत्तर नहीं दिया।',
+            ],
+        ],
+
+        'pro' => [
+            'badge'                     => 'Pro',
+            'upgrade'                   => 'Pro में अपग्रेड करें',
+            'option-label'              => ':label (Pro)',
+            'filters-note'              => 'उन्नत निर्यात फ़िल्टर Shopify Pro में उपलब्ध हैं।',
+            'types-note'                => 'मुद्रा और माप प्रकार Shopify Pro में उपलब्ध हैं।',
+            'association-mapping'       => 'असोसिएशन मैपिंग',
+            'association-note'          => 'UnoPim असोसिएशन को Shopify के संबंधित और पूरक उत्पादों से मैप करना Shopify Pro में उपलब्ध है।',
+            'external-media'            => 'बाहरी मीडिया मैपिंग',
+            'media-note'                => 'इमेज और वीडियो URL एट्रिब्यूट Shopify Pro में उपलब्ध हैं।',
+            'catalogs'                  => 'कैटलॉग और रीयल-टाइम सिंक',
+            'catalogs-note'             => 'कैटलॉग, कैटलॉग कीमतें और रीयल-टाइम प्रोडक्ट सिंक Shopify Pro में उपलब्ध हैं।',
+            'schedule-note'             => 'शेड्यूल के अनुसार एक्सपोर्ट अपने आप चलाना Shopify Pro में उपलब्ध है।',
+            'upgrade-title'             => 'Shopify Pro',
+            'upgrade-intro'             => 'ये सुविधाएँ Shopify Pro का हिस्सा हैं। नीचे दी गई स्क्रीन दिखती हैं, लेकिन Pro इंस्टॉल होने तक केवल पढ़ने के लिए रहती हैं।',
+            'realtime'                  => 'रीयल-टाइम सिंक',
+            'realtime-note'             => 'प्रोडक्ट सेव होते ही उसे Shopify पर सिंक करना Shopify Pro में उपलब्ध है।',
+            'schedule'                  => 'शेड्यूल किए गए एक्सपोर्ट',
+            'export-filters'            => 'उन्नत एक्सपोर्ट फ़िल्टर',
+            'attribute-conditions'      => 'एट्रिब्यूट शर्तें',
+            'conditions-note'           => 'एट्रिब्यूट शर्तों से एक्सपोर्ट फ़िल्टर करना Shopify Pro में उपलब्ध है।',
+            'metafield-types'           => 'मेटाफ़ील्ड प्रकार',
+        ],
+
         'acl' => [
             'credential' => [
                 'create' => 'बनाएँ',

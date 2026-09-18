@@ -4,7 +4,6 @@ namespace Webkul\Shopify\Services\Bulk\PayloadBuilders\Core;
 
 use Illuminate\Support\Str;
 use Webkul\Attribute\Repositories\AttributeRepository;
-use Webkul\DAM\Repositories\AssetRepository;
 use Webkul\DataTransfer\Contracts\JobTrack as JobTrackContract;
 use Webkul\DataTransfer\Helpers\Export;
 use Webkul\Product\Models\Product;
@@ -25,9 +24,12 @@ use Webkul\Shopify\Services\Bulk\Media\AssetUrlResolver;
 use Webkul\Shopify\Services\Bulk\PayloadBuilders\MediaBulkPayloadBuilder;
 use Webkul\Shopify\Services\BulkOperationService;
 use Webkul\Shopify\Services\ShopifyClientFactory;
+use Webkul\Shopify\Traits\ResolvesDamAssetRepository;
 
 class CoreProductBulkPayloadBuilder
 {
+    use ResolvesDamAssetRepository;
+
     protected const TRANSLATABLE_METAFIELD_TYPES = ['single_line_text_field', 'multi_line_text_field', 'rich_text_field'];
 
     protected array $attributesAll = [];
@@ -78,27 +80,6 @@ class CoreProductBulkPayloadBuilder
 
     /** @var array<string, string>|null */
     protected ?array $metaobjectEntryGidMap = null;
-
-    protected ?AssetRepository $resolvedAssetRepository = null;
-
-    protected bool $assetRepositoryResolved = false;
-
-    protected function assetRepository(): ?AssetRepository
-    {
-        if (! $this->assetRepositoryResolved) {
-            $this->assetRepositoryResolved = true;
-
-            if (class_exists(AssetRepository::class)) {
-                try {
-                    $this->resolvedAssetRepository = app(AssetRepository::class);
-                } catch (\Throwable $e) {
-                    $this->resolvedAssetRepository = null;
-                }
-            }
-        }
-
-        return $this->resolvedAssetRepository;
-    }
 
     /**
      * Build JSONL lines and manifest payload for a batch.
