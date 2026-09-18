@@ -169,6 +169,10 @@ class ShopifyServiceProvider extends ServiceProvider
                     ->all());
         });
 
+        Event::listen('unopim.admin.layout.head', static function (ViewRenderEventManager $viewRenderEventManager): void {
+            $viewRenderEventManager->addTemplate('shopify::pro.sidebar-upgrade');
+        });
+
         Event::listen('unopim.admin.layout.content.after', static function (ViewRenderEventManager $viewRenderEventManager): void {
             $viewRenderEventManager->addTemplate('shopify::association-mappings.section');
             $viewRenderEventManager->addTemplate('shopify::external-media.section');

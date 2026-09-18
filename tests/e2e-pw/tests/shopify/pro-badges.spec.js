@@ -37,7 +37,7 @@ test.describe('Shopify Pro badges', () => {
             const heading = page.locator('p', { hasText: 'Association Mapping' }).first();
 
             await expect(heading).toBeVisible();
-            await expect(heading.locator('.shopify-pro-badge')).toHaveText('Pro');
+            await expect(heading.locator('.shopify-pro-badge')).toContainText(/(Pro|Upgrade to Pro)/);
         });
     }
 

@@ -3,10 +3,7 @@ import { login } from '../helpers/login';
 
 const baseUrl = process.env.E2E_BASE_URL || 'http://localhost:8000';
 
-test.use({
-    browserName: 'firefox',
-    storageState: 'storage/auth.json', // Load session state
-});
+test.use({ storageState: 'storage/auth.json' });
 
 test.describe('UnoPim Authenticated Tests', () => {
     test('should navigate to dashboard without login', async ({ page }) => {

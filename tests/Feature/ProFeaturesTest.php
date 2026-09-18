@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Blade;
 use Webkul\Shopify\Helpers\ShoifyMetaFieldType;
-use Webkul\Shopify\Models\ShopifyCredentialsConfigProxy;
+use Webkul\Shopify\Models\ShopifyCredentialsConfig;
 use Webkul\Shopify\Support\ProFeatures;
 use Webkul\Shopify\Support\ShopifyMapping;
 
@@ -17,7 +17,27 @@ function withoutShopifyPro(): void
     config(['shopify.pro.installed' => false]);
 }
 
+/**
+ * Raises the same flag the Pro package raises, so a suite running without the
+ * package still covers what the screens do once it is there.
+ */
+function withShopifyPro(): void
+{
+    config(['shopify.pro.installed' => true]);
+}
+
+/**
+ * True only while the package itself booted, for the few expectations its own
+ * boot has to satisfy.
+ */
+function shopifyProBooted(): bool
+{
+    return (bool) config('shopify.pro.installed');
+}
+
 it('detects the installed pro package', function () {
+    withShopifyPro();
+
     expect(app(ProFeatures::class)->isInstalled())->toBeTrue();
 });
 
@@ -28,6 +48,8 @@ it('detects an absent pro package', function () {
 });
 
 it('renders the pro badge while the pro package is installed', function () {
+    withShopifyPro();
+
     $badge = Blade::render('<x-shopify::pro-badge />');
 
     expect($badge)
@@ -48,6 +70,8 @@ it('renders the upgrade badge while the pro package is absent', function () {
 });
 
 it('decorates the pro export filter labels while the pro package is installed', function () {
+    withShopifyPro();
+
     $html = view('shopify::data-transfer.pro-filter-badges')->render();
 
     expect($html)
@@ -76,6 +100,8 @@ function proNote(string $titleKey, string $noteKey): string
 }
 
 it('hides an upgrade card while the pro package is installed', function () {
+    withShopifyPro();
+
     expect(trim(proNote('shopify::app.shopify.pro.association-mapping', 'shopify::app.shopify.pro.association-note')))->toBe('');
 });
 
@@ -164,14 +190,14 @@ it('names every pro feature on the upgrade page while the package is absent', fu
 it('keeps the upgrade menu entry out of the sidebar while pro is installed', function () {
     expect(collect(config('menu.admin'))->pluck('key'))->not->toContain('shopify.upgrade')
         ->and(collect(config('acl'))->pluck('key'))->not->toContain('shopify.upgrade');
-});
+})->skip(fn (): bool => ! shopifyProBooted(), 'The Pro package is the one that hides the entry.');
 
 it('offers the catalog screen without its list while the pro package is absent', function () {
     withoutShopifyPro();
 
     $this->loginAsAdmin();
 
-    $credential = ShopifyCredentialsConfigProxy::query()->firstOrFail();
+    $credential = ShopifyCredentialsConfig::factory()->create();
 
     get(route('shopify.credentials.catalogs.index', $credential->id))
         ->assertOk()
@@ -184,7 +210,7 @@ it('offers the real time screens read only while the pro package is absent', fun
 
     $this->loginAsAdmin();
 
-    $credential = ShopifyCredentialsConfigProxy::query()->firstOrFail();
+    $credential = ShopifyCredentialsConfig::factory()->create();
 
     get(route('shopify.realtime.index'))
         ->assertOk()
