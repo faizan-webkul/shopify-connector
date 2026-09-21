@@ -15,10 +15,7 @@
 @endphp
 
 @if ($variant === 'badge')
-    <span {{ $attributes->class([
-        'shopify-pro-badge shrink-0',
-        'shopify-pro-badge--active' => $installed,
-    ]) }}>
+    <span {{ $attributes->merge(['class' => 'shopify-pro-badge shrink-0']) }}>
         {{ trans('shopify::app.shopify.pro.badge') }}
     </span>
 @elseif (! $installed)

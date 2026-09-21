@@ -143,6 +143,16 @@
                     container.querySelectorAll('input, select, textarea, button').forEach((control) => {
                         control.tabIndex = -1;
                     });
+
+                    /**
+                     * Buttons carry no value, so they can be disabled outright: a
+                     * locked builder then says in the control itself that nothing
+                     * can be added, not only in the badge above it.
+                     */
+                    container.querySelectorAll('button:not([disabled])').forEach((button) => {
+                        button.disabled = true;
+                        button.dataset.shopifyProDisabled = '';
+                    });
                 },
 
                 /** Core exports share these controls, so a lock has to be reversible. */
@@ -158,6 +168,12 @@
 
                     container.querySelectorAll('input, select, textarea, button').forEach((control) => {
                         control.removeAttribute('tabindex');
+                    });
+
+                    container.querySelectorAll('button[data-shopify-pro-disabled]').forEach((button) => {
+                        button.disabled = false;
+
+                        delete button.dataset.shopifyProDisabled;
                     });
                 },
 

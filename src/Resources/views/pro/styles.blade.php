@@ -172,35 +172,18 @@
         border-inline-start-color: #3f3a4d;
     }
 
-    /** The one Pro mark, worn the same on every screen. */
+    /** The one Pro mark: the button's gold, worn the same on every screen. */
     .shopify-pro-badge {
         display: inline-flex;
         align-items: center;
         padding: 0.125rem 0.4375rem;
         border-radius: 0.25rem;
-        background-color: #fde9c0;
-        color: #92500e;
+        background-color: #f6b81c;
+        color: #2b2000;
         font-size: 0.625rem;
         font-weight: 800;
         line-height: 1.4;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-    }
-
-    .dark .shopify-pro-badge {
-        background-color: #4a3208;
-        color: #fbd38d;
-    }
-
-    /** With Pro answering, the same mark reads as active rather than as an offer. */
-    .shopify-pro-badge--active {
-        background-color: #ede4ff;
-        color: #5b21b6;
-    }
-
-    .dark .shopify-pro-badge--active {
-        background-color: rgba(109, 40, 217, 0.35);
-        color: #d6c7ff;
+        letter-spacing: 0.02em;
     }
 
     .shopify-pro-notice__actions {
@@ -277,9 +260,9 @@
      * Only what the merchant would have filled in reads as held back. Labels keep
      * their weight and the Pro mark keeps its colour, so the offer stays legible.
      */
-    .shopify-pro-notice--locked:not(.shopify-pro-notice--page) ~ * :is(input, select, textarea, [data-control-group] > :not(label)),
-    [data-shopify-pro-locked] > :not(label),
-    [data-shopify-pro-locked] :is(input, select, textarea, [data-control-group] > :not(label)) {
+    .shopify-pro-notice--locked:not(.shopify-pro-notice--page) ~ * :is(input, select, textarea, [data-control-group] > :not(label):not(:has(.shopify-pro-badge))),
+    [data-shopify-pro-locked] > :not(label):not(:has(.shopify-pro-badge)),
+    [data-shopify-pro-locked] :is(input, select, textarea, [data-control-group] > :not(label):not(:has(.shopify-pro-badge))) {
         opacity: 0.6;
         filter: saturate(0.55);
     }
@@ -288,6 +271,20 @@
     [data-shopify-pro-locked] .shopify-pro-badge {
         opacity: 1;
         filter: none;
+    }
+
+    [data-shopify-pro-locked] button[data-shopify-pro-disabled] {
+        cursor: not-allowed;
+        border-style: solid;
+        border-color: #e5e7eb;
+        background-color: #f7f7f8;
+        color: #9ca3af;
+    }
+
+    .dark [data-shopify-pro-locked] button[data-shopify-pro-disabled] {
+        border-color: #3f3a4d;
+        background-color: rgba(255, 255, 255, 0.04);
+        color: #6b7280;
     }
 
 </style>
