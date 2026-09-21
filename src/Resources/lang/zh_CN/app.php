@@ -273,6 +273,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => '升级到 Pro',
+            'upgrade-action'            => '升级',
+            'tagline'                   => '解锁这些高级功能，让您的商店更上一层楼。',
             'option-label'              => ':label (Pro)',
             'filters-note'              => '高级导出筛选器在 Shopify Pro 中提供。',
             'types-note'                => '金额和测量类型在 Shopify Pro 中提供。',
@@ -283,8 +285,6 @@ return [
             'catalogs'                  => '目录与实时同步',
             'catalogs-note'             => '目录、目录价格和产品实时同步在 Shopify Pro 中提供。',
             'schedule-note'             => '按计划自动运行导出在 Shopify Pro 中提供。',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => '这些功能属于 Shopify Pro。下面的页面仍会显示，但在安装 Pro 之前均为只读。',
             'realtime'                  => '实时同步',
             'realtime-note'             => '在保存产品的同时同步到 Shopify 的功能在 Shopify Pro 中提供。',
             'schedule'                  => '定时导出',

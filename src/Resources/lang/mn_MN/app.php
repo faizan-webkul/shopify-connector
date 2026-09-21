@@ -118,7 +118,7 @@ return [
         'layouts' => [
             'sidebar' => [
                 'settings'              => 'Тохиргоо',
-                'upgrade'               => 'Pro болгон шинэчлэх',
+                'upgrade'               => 'Pro руу шинэчлэх',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Нэвтрэх мэдээлэл',
                 'export-mappings'       => 'Экспортын харгалзуулалт',
@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Pro руу шинэчлэх',
+            'upgrade-action'            => 'Шинэчлэх',
+            'tagline'                   => 'Эдгээр дэвшилтэт боломжийг нээж, дэлгүүрээ дараагийн түвшинд хүргээрэй.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Дэвшилтэт экспортын шүүлтүүрүүд Shopify Pro-д боломжтой.',
             'types-note'                => 'Мөнгө болон хэмжилтийн төрлүүд Shopify Pro-д боломжтой.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Каталог ба бодит цагийн синхрончлол',
             'catalogs-note'             => 'Каталог, каталогийн үнэ, бүтээгдэхүүний бодит цагийн синхрончлол Shopify Pro-д бий.',
             'schedule-note'             => 'Экспортыг хуваарийн дагуу автоматаар ажиллуулах боломж Shopify Pro-д бий.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Эдгээр боломж Shopify Pro-д багтана. Доорх дэлгэцүүд харагдана, гэхдээ Pro суулгах хүртэл зөвхөн уншиж болно.',
             'realtime'                  => 'Бодит цагийн синхрончлол',
             'realtime-note'             => 'Бүтээгдэхүүнийг хадгалмагц Shopify руу синхрончлох боломж Shopify Pro-д бий.',
             'schedule'                  => 'Хуваарьт экспорт',

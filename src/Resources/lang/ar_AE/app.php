@@ -273,6 +273,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'الترقية إلى Pro',
+            'upgrade-action'            => 'ترقية',
+            'tagline'                   => 'افتح هذه الميزات المتقدمة وارتقِ بمتجرك إلى مستوى أعلى.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'مرشحات التصدير المتقدمة متاحة في Shopify Pro.',
             'types-note'                => 'أنواع المبلغ المالي والقياس متاحة في Shopify Pro.',
@@ -283,8 +285,6 @@ return [
             'catalogs'                  => 'الكتالوجات والمزامنة الفورية',
             'catalogs-note'             => 'الكتالوجات وأسعارها ومزامنة المنتجات الفورية متاحة في Shopify Pro.',
             'schedule-note'             => 'تشغيل التصدير تلقائيًا وفق جدول زمني متاح في Shopify Pro.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'هذه الميزات جزء من Shopify Pro. الشاشات أدناه ظاهرة، لكنها للقراءة فقط حتى يتم تثبيت Pro.',
             'realtime'                  => 'المزامنة الفورية',
             'realtime-note'             => 'مزامنة المنتج مع Shopify فور حفظه متاحة في Shopify Pro.',
             'schedule'                  => 'عمليات تصدير مجدولة',

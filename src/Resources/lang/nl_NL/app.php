@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Upgraden naar Pro',
+            'upgrade-action'            => 'Upgraden',
+            'tagline'                   => 'Ontgrendel deze geavanceerde functies en til je winkel naar een hoger niveau.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Geavanceerde exportfilters zijn beschikbaar in Shopify Pro.',
             'types-note'                => 'Bedrag- en meeteenheidtypen zijn beschikbaar in Shopify Pro.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Catalogi en realtime synchronisatie',
             'catalogs-note'             => 'Catalogi, catalogusprijzen en realtime productsynchronisatie zijn beschikbaar in Shopify Pro.',
             'schedule-note'             => 'Een export automatisch volgens een planning uitvoeren is beschikbaar in Shopify Pro.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Deze functies horen bij Shopify Pro. De schermen hieronder zijn zichtbaar, maar blijven alleen-lezen totdat Pro is geïnstalleerd.',
             'realtime'                  => 'Realtime synchronisatie',
             'realtime-note'             => 'Een product naar Shopify synchroniseren zodra het wordt opgeslagen is beschikbaar in Shopify Pro.',
             'schedule'                  => 'Geplande exports',

@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Pro로 업그레이드',
+            'upgrade-action'            => '업그레이드',
+            'tagline'                   => '고급 기능을 잠금 해제하고 스토어를 한 단계 끌어올리세요.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => '고급 내보내기 필터는 Shopify Pro에서 사용할 수 있습니다.',
             'types-note'                => '금액 및 측정 유형은 Shopify Pro에서 사용할 수 있습니다.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => '카탈로그 및 실시간 동기화',
             'catalogs-note'             => '카탈로그, 카탈로그 가격, 실시간 제품 동기화는 Shopify Pro에서 사용할 수 있습니다.',
             'schedule-note'             => '일정에 따라 내보내기를 자동으로 실행하는 기능은 Shopify Pro에서 사용할 수 있습니다.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => '이 기능들은 Shopify Pro에 포함됩니다. 아래 화면은 보이지만 Pro를 설치하기 전까지는 읽기 전용입니다.',
             'realtime'                  => '실시간 동기화',
             'realtime-note'             => '제품을 저장하는 즉시 Shopify로 동기화하는 기능은 Shopify Pro에서 사용할 수 있습니다.',
             'schedule'                  => '예약된 내보내기',

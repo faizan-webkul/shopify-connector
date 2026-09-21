@@ -15,15 +15,6 @@ const clearOverlays = (page) =>
     });
 
 test.describe('metaobject measurement support', () => {
-    test.beforeEach(async ({ page }) => {
-        await page.goto('admin/shopify/metaobject/create');
-
-        test.skip(
-            await page.locator('.shopify-pro-badge', { hasText: 'Upgrade to Pro' }).count() > 0,
-            'Measurement support is provided by the optional Shopify Pro package.',
-        );
-    });
-
     test('renders every measurement field as a number input', async ({ page }) => {
         await page.goto(definitionUrl);
         await clearOverlays(page);

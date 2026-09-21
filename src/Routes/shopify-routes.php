@@ -14,7 +14,6 @@ use Webkul\Shopify\Http\Controllers\OptionController;
 use Webkul\Shopify\Http\Controllers\RealtimeController;
 use Webkul\Shopify\Http\Controllers\SaasAutoLoginController;
 use Webkul\Shopify\Http\Controllers\SettingController;
-use Webkul\Shopify\Http\Controllers\UpgradeController;
 
 Route::get('shopify/saas/secure-login', [SaasAutoLoginController::class, 'login'])
     ->name('shopify.saas.secure-login');
@@ -51,7 +50,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
             Route::post('mass-delete', 'massDestroy')->name('shopify.metafield.mass_delete');
         });
 
-        Route::get('upgrade', [UpgradeController::class, 'index'])->name('shopify.upgrade');
+        Route::redirect('upgrade', config('shopify.pro.url'))->name('shopify.upgrade');
 
         Route::get('shopify/credentials/{credentialId}/realtime', [RealtimeController::class, 'credential'])
             ->name('shopify.credentials.realtime.index');

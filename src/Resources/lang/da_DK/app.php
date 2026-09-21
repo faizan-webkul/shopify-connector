@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Opgrader til Pro',
+            'upgrade-action'            => 'Opgrader',
+            'tagline'                   => 'Lås op for disse avancerede funktioner, og løft din butik til næste niveau.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Avancerede eksportfiltre er tilgængelige i Shopify Pro.',
             'types-note'                => 'Beløbs- og måletyper er tilgængelige i Shopify Pro.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Kataloger og synkronisering i realtid',
             'catalogs-note'             => 'Kataloger, katalogpriser og produktsynkronisering i realtid er tilgængelige i Shopify Pro.',
             'schedule-note'             => 'At køre en eksport automatisk efter en tidsplan er tilgængeligt i Shopify Pro.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Disse funktioner er en del af Shopify Pro. Skærmbillederne nedenfor er synlige, men forbliver skrivebeskyttede, indtil Pro er installeret.',
             'realtime'                  => 'Synkronisering i realtid',
             'realtime-note'             => 'Synkronisering af et produkt til Shopify i samme øjeblik det gemmes er tilgængelig i Shopify Pro.',
             'schedule'                  => 'Planlagte eksporter',

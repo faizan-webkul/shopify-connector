@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Tingkatkan ke Pro',
+            'upgrade-action'            => 'Tingkatkan',
+            'tagline'                   => 'Buka fitur-fitur lanjutan ini dan bawa toko Anda ke tingkat berikutnya.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Filter ekspor lanjutan tersedia di Shopify Pro.',
             'types-note'                => 'Tipe uang dan pengukuran tersedia di Shopify Pro.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Katalog & sinkronisasi waktu nyata',
             'catalogs-note'             => 'Katalog, harga katalog, dan sinkronisasi produk waktu nyata tersedia di Shopify Pro.',
             'schedule-note'             => 'Menjalankan ekspor secara otomatis sesuai jadwal tersedia di Shopify Pro.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Fitur-fitur ini adalah bagian dari Shopify Pro. Layar di bawah ini terlihat, tetapi hanya bisa dibaca sampai Pro dipasang.',
             'realtime'                  => 'Sinkronisasi waktu nyata',
             'realtime-note'             => 'Menyinkronkan produk ke Shopify begitu disimpan tersedia di Shopify Pro.',
             'schedule'                  => 'Ekspor terjadwal',

@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => '升級至 Pro',
+            'upgrade-action'            => '升級',
+            'tagline'                   => '解鎖這些進階功能，讓您的商店更上一層樓。',
             'option-label'              => ':label (Pro)',
             'filters-note'              => '進階匯出篩選器於 Shopify Pro 提供。',
             'types-note'                => '金額與測量類型於 Shopify Pro 提供。',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => '目錄與即時同步',
             'catalogs-note'             => '目錄、目錄價格與商品即時同步在 Shopify Pro 中提供。',
             'schedule-note'             => '依排程自動執行匯出在 Shopify Pro 中提供。',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => '這些功能屬於 Shopify Pro。下面的頁面仍會顯示，但在安裝 Pro 之前皆為唯讀。',
             'realtime'                  => '即時同步',
             'realtime-note'             => '在儲存商品的同時同步到 Shopify 的功能在 Shopify Pro 中提供。',
             'schedule'                  => '排程匯出',

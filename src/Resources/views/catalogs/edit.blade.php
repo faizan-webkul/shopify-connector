@@ -24,7 +24,7 @@
                 <div class="flex items-center gap-2">
                     <x-admin::heading :title="$pageTitle" as="h1" size="xl" />
 
-                    <x-shopify::pro-badge />
+                    <x-shopify::pro-cta variant="badge" />
                 </div>
             </div>
 
@@ -49,23 +49,16 @@
         </div>
     </x-slot>
 
-    @unless ($shopifyProInstalled)
-        <div class="mb-2">
-            <x-shopify::pro-note
-                :title="trans('shopify::app.shopify.pro.catalogs')"
-                :note="trans('shopify::app.shopify.pro.catalogs-note')"
-            />
-        </div>
-    @endunless
-
     <x-admin::form
         id="catalog-form"
         :action="route('shopify.credentials.catalogs.update', [$credential->id, $catalog->id])"
         method="PUT"
         :ajax="true"
     >
-        <fieldset @disabled(! $shopifyProInstalled) class="contents">
-            @include('shopify::catalogs._form')
-        </fieldset>
+        <x-shopify::pro-lock>
+            <fieldset @disabled(! $shopifyProInstalled) class="contents">
+                @include('shopify::catalogs._form')
+            </fieldset>
+        </x-shopify::pro-lock>
     </x-admin::form>
 </x-admin::layouts.with-history>

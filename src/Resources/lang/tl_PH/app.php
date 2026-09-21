@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Mag-upgrade sa Pro',
+            'upgrade-action'            => 'Mag-upgrade',
+            'tagline'                   => 'I-unlock ang mga advanced na tampok na ito at iangat ang iyong tindahan sa susunod na antas.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Available sa Shopify Pro ang mga advanced na export filter.',
             'types-note'                => 'Available sa Shopify Pro ang mga uri ng pera at sukat.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Mga katalogo at real-time na pag-sync',
             'catalogs-note'             => 'Available sa Shopify Pro ang mga katalogo, presyo sa katalogo, at real-time na pag-sync ng produkto.',
             'schedule-note'             => 'Available sa Shopify Pro ang awtomatikong pagpapatakbo ng export ayon sa iskedyul.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Bahagi ng Shopify Pro ang mga tampok na ito. Nakikita ang mga screen sa ibaba, ngunit babasahin lamang ang mga ito hanggang ma-install ang Pro.',
             'realtime'                  => 'Real-time na pag-sync',
             'realtime-note'             => 'Available sa Shopify Pro ang pag-sync ng produkto sa Shopify sa mismong sandali ng pag-save.',
             'schedule'                  => 'Mga naka-iskedyul na export',

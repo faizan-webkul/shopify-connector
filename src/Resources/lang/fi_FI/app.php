@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Päivitä Pro-versioon',
+            'upgrade-action'            => 'Päivitä',
+            'tagline'                   => 'Avaa nämä edistyneet ominaisuudet ja vie kauppasi uudelle tasolle.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Edistyneet vientisuodattimet ovat käytettävissä Shopify Prossa.',
             'types-note'                => 'Raha- ja mittatyypit ovat käytettävissä Shopify Prossa.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Luettelot ja reaaliaikainen synkronointi',
             'catalogs-note'             => 'Luettelot, luettelohinnat ja tuotteiden reaaliaikainen synkronointi ovat käytettävissä Shopify Prossa.',
             'schedule-note'             => 'Viennin suorittaminen automaattisesti aikataulun mukaan on käytettävissä Shopify Prossa.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Nämä ominaisuudet kuuluvat Shopify Prohon. Alla olevat näkymät näkyvät, mutta ne ovat vain luettavia, kunnes Pro on asennettu.',
             'realtime'                  => 'Reaaliaikainen synkronointi',
             'realtime-note'             => 'Tuotteen synkronointi Shopifyyn heti tallennushetkellä on käytettävissä Shopify Prossa.',
             'schedule'                  => 'Ajastetut viennit',

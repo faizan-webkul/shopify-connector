@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Treci la Pro',
+            'upgrade-action'            => 'Actualizează',
+            'tagline'                   => 'Deblochează aceste funcții avansate și du-ți magazinul la nivelul următor.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Filtrele avansate de export sunt disponibile în Shopify Pro.',
             'types-note'                => 'Tipurile monetar și de măsură sunt disponibile în Shopify Pro.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Cataloage și sincronizare în timp real',
             'catalogs-note'             => 'Cataloagele, prețurile din cataloage și sincronizarea produselor în timp real sunt disponibile în Shopify Pro.',
             'schedule-note'             => 'Rularea automată a unui export după un program este disponibilă în Shopify Pro.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Aceste funcții fac parte din Shopify Pro. Ecranele de mai jos sunt vizibile, dar rămân doar pentru citire până la instalarea Pro.',
             'realtime'                  => 'Sincronizare în timp real',
             'realtime-note'             => 'Sincronizarea unui produs cu Shopify chiar în momentul salvării este disponibilă în Shopify Pro.',
             'schedule'                  => 'Exporturi programate',

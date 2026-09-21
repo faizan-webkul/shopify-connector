@@ -30,7 +30,7 @@
                         size="xl"
                     />
 
-                    <x-shopify::pro-badge />
+                    <x-shopify::pro-cta variant="badge" />
                 </div>
             </div>
 
@@ -47,10 +47,7 @@
         @if ($shopifyProInstalled)
             <x-admin::datagrid :src="route('shopify.credentials.catalogs.index', $credential->id)" />
         @else
-            <x-shopify::pro-note
-                :title="trans('shopify::app.shopify.pro.catalogs')"
-                :note="trans('shopify::app.shopify.pro.catalogs-note')"
-            />
+            <x-shopify::pro-offer />
         @endif
     </x-slot>
 

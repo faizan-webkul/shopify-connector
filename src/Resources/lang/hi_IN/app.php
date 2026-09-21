@@ -273,6 +273,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Pro में अपग्रेड करें',
+            'upgrade-action'            => 'अपग्रेड करें',
+            'tagline'                   => 'इन उन्नत सुविधाओं को अनलॉक करें और अपने स्टोर को अगले स्तर पर ले जाएं।',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'उन्नत निर्यात फ़िल्टर Shopify Pro में उपलब्ध हैं।',
             'types-note'                => 'मुद्रा और माप प्रकार Shopify Pro में उपलब्ध हैं।',
@@ -283,8 +285,6 @@ return [
             'catalogs'                  => 'कैटलॉग और रीयल-टाइम सिंक',
             'catalogs-note'             => 'कैटलॉग, कैटलॉग कीमतें और रीयल-टाइम प्रोडक्ट सिंक Shopify Pro में उपलब्ध हैं।',
             'schedule-note'             => 'शेड्यूल के अनुसार एक्सपोर्ट अपने आप चलाना Shopify Pro में उपलब्ध है।',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'ये सुविधाएँ Shopify Pro का हिस्सा हैं। नीचे दी गई स्क्रीन दिखती हैं, लेकिन Pro इंस्टॉल होने तक केवल पढ़ने के लिए रहती हैं।',
             'realtime'                  => 'रीयल-टाइम सिंक',
             'realtime-note'             => 'प्रोडक्ट सेव होते ही उसे Shopify पर सिंक करना Shopify Pro में उपलब्ध है।',
             'schedule'                  => 'शेड्यूल किए गए एक्सपोर्ट',

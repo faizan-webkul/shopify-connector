@@ -10,15 +10,9 @@
                     <p class="flex items-center gap-2 text-base text-gray-800 dark:text-white font-semibold">
                         @lang('shopify::app.shopify.external-media.title')
 
-                        <x-shopify::pro-badge />
+                        <x-shopify::pro-cta variant="badge" />
                     </p>
                 </div>
-
-                @unless ($shopifyProInstalled)
-                    <div class="px-4 py-4 text-gray-600 dark:text-gray-300 border-b dark:border-cherry-800">
-                        <p class="break-words text-sm">@lang('shopify::app.shopify.pro.media-note')</p>
-                    </div>
-                @endunless
 
                 @foreach ([
                     'external_image_attribute' => ['label' => 'image', 'value' => $externalImageAttribute],

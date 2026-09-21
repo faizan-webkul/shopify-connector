@@ -4,7 +4,7 @@
 --}}
 @if ($shopifyProInstalled)
     <div class="flex items-center gap-2 mb-3.5 rounded bg-white p-3 box-shadow dark:bg-cherry-900">
-        <x-shopify::pro-badge />
+        <x-shopify::pro-cta variant="badge" />
 
         <p class="text-sm text-gray-600 dark:text-gray-300">
             @lang('shopify::app.shopify.pro.active')

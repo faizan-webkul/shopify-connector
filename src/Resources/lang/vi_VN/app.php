@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Nâng cấp lên Pro',
+            'upgrade-action'            => 'Nâng cấp',
+            'tagline'                   => 'Mở khóa các tính năng nâng cao này và đưa cửa hàng của bạn lên tầm cao mới.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Bộ lọc xuất nâng cao có sẵn trong Shopify Pro.',
             'types-note'                => 'Loại tiền tệ và đo lường có sẵn trong Shopify Pro.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Danh mục và đồng bộ thời gian thực',
             'catalogs-note'             => 'Danh mục, giá theo danh mục và đồng bộ sản phẩm theo thời gian thực có trong Shopify Pro.',
             'schedule-note'             => 'Chạy tự động một lần xuất theo lịch có trong Shopify Pro.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Các tính năng này thuộc Shopify Pro. Những màn hình bên dưới vẫn hiển thị nhưng chỉ đọc cho đến khi cài đặt Pro.',
             'realtime'                  => 'Đồng bộ thời gian thực',
             'realtime-note'             => 'Đồng bộ sản phẩm sang Shopify ngay khi lưu có trong Shopify Pro.',
             'schedule'                  => 'Xuất theo lịch',

@@ -21,6 +21,14 @@ class ProFeatures
     }
 
     /**
+     * Where the screens send a store that wants Pro.
+     */
+    public function upgradeUrl(): string
+    {
+        return (string) config('shopify.pro.url');
+    }
+
+    /**
      * Pro-only export filter names, keyed by entity type.
      *
      * A name is Pro only for the entities the Pro package contributes it to;
@@ -82,7 +90,7 @@ class ProFeatures
      */
     public function badgeHtml(): string
     {
-        return trim(view('shopify::components.pro-badge', ['attributes' => new ComponentAttributeBag])->render());
+        return trim(view('shopify::components.pro-cta', ['variant' => 'badge', 'attributes' => new ComponentAttributeBag])->render());
     }
 
     /**

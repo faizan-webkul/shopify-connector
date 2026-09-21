@@ -317,7 +317,7 @@
 
                                 @unless (resolve(\Webkul\Shopify\Support\ProFeatures::class)->isInstalled())
                                     <div class="flex items-center gap-2 mt-1.5">
-                                        <x-shopify::pro-badge />
+                                        <x-shopify::pro-cta variant="badge" />
 
                                         <p class="text-xs text-gray-500 dark:text-gray-400">@lang('shopify::app.shopify.pro.types-note')</p>
                                     </div>

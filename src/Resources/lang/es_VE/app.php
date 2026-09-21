@@ -273,6 +273,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Actualizar a Pro',
+            'upgrade-action'            => 'Mejorar',
+            'tagline'                   => 'Desbloquea estas funciones avanzadas y lleva tu tienda al siguiente nivel.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Los filtros de exportación avanzados están disponibles en Shopify Pro.',
             'types-note'                => 'Los tipos de moneda y de medida están disponibles en Shopify Pro.',
@@ -283,8 +285,6 @@ return [
             'catalogs'                  => 'Catálogos y sincronización en tiempo real',
             'catalogs-note'             => 'Los catálogos, sus precios y la sincronización de productos en tiempo real están disponibles en Shopify Pro.',
             'schedule-note'             => 'Ejecutar una exportación automáticamente según una programación está disponible en Shopify Pro.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Estas funciones forman parte de Shopify Pro. Las pantallas siguientes se ven, pero son de solo lectura hasta que instales Pro.',
             'realtime'                  => 'Sincronización en tiempo real',
             'realtime-note'             => 'Sincronizar un producto con Shopify en el momento de guardarlo está disponible en Shopify Pro.',
             'schedule'                  => 'Exportaciones programadas',

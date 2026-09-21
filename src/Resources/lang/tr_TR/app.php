@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Pro\'ya yükselt',
+            'upgrade-action'            => 'Yükselt',
+            'tagline'                   => 'Bu gelişmiş özellikleri açın ve mağazanızı bir üst seviyeye taşıyın.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Gelişmiş dışa aktarma filtreleri Shopify Pro’da kullanılabilir.',
             'types-note'                => 'Para ve ölçü türleri Shopify Pro’da kullanılabilir.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Kataloglar ve gerçek zamanlı eşitleme',
             'catalogs-note'             => 'Kataloglar, katalog fiyatları ve ürünlerin gerçek zamanlı eşitlenmesi Shopify Pro\'da sunulur.',
             'schedule-note'             => 'Bir dışa aktarmayı zamanlamaya göre otomatik çalıştırmak Shopify Pro\'da sunulur.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Bu özellikler Shopify Pro kapsamındadır. Aşağıdaki ekranlar görünür, ancak Pro kurulana kadar salt okunur kalır.',
             'realtime'                  => 'Gerçek zamanlı eşitleme',
             'realtime-note'             => 'Bir ürünü kaydedildiği anda Shopify\'a eşitlemek Shopify Pro\'da sunulur.',
             'schedule'                  => 'Zamanlanmış dışa aktarmalar',

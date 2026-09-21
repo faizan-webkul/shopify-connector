@@ -50,7 +50,7 @@ it('detects an absent pro package', function () {
 it('renders the pro badge while the pro package is installed', function () {
     withShopifyPro();
 
-    $badge = Blade::render('<x-shopify::pro-badge />');
+    $badge = Blade::render('<x-shopify::pro-cta variant="badge" />');
 
     expect($badge)
         ->toContain(trans('shopify::app.shopify.pro.badge'))
@@ -58,13 +58,13 @@ it('renders the pro badge while the pro package is installed', function () {
         ->not->toContain('bg-amber-100');
 });
 
-it('renders the upgrade badge while the pro package is absent', function () {
+it('marks the feature pro while the package is absent', function () {
     withoutShopifyPro();
 
-    $badge = Blade::render('<x-shopify::pro-badge />');
+    $badge = Blade::render('<x-shopify::pro-cta variant="badge" />');
 
     expect($badge)
-        ->toContain(trans('shopify::app.shopify.pro.upgrade'))
+        ->toContain(trans('shopify::app.shopify.pro.badge'))
         ->toContain('bg-amber-100')
         ->not->toContain('bg-blue-100');
 });
@@ -88,35 +88,39 @@ it('locks the pro filters while the pro package is absent', function () {
     expect($html)
         ->toContain('v-shopify-pro-filter-badges')
         ->toContain(':locked="true"')
-        ->toContain(trans('shopify::app.shopify.pro.upgrade'));
+        ->toContain(trans('shopify::app.shopify.pro.badge'));
 });
 
-function proNote(string $titleKey, string $noteKey): string
+function proLock(): string
 {
-    return Blade::render(
-        '<x-shopify::pro-note :title="trans($titleKey)" :note="trans($noteKey)" />',
-        compact('titleKey', 'noteKey'),
-    );
+    return Blade::render('<x-shopify::pro-lock><p>field</p></x-shopify::pro-lock>');
 }
 
-it('hides an upgrade card while the pro package is installed', function () {
+it('leaves a card alone while the pro package is installed', function () {
     withShopifyPro();
 
-    expect(trim(proNote('shopify::app.shopify.pro.association-mapping', 'shopify::app.shopify.pro.association-note')))->toBe('');
+    expect(trim(proLock()))->toBe('<p>field</p>')
+        ->and(trim(Blade::render('<x-shopify::pro-offer />')))->toBe('');
 });
 
-it('offers an upgrade card for each pro feature while the package is absent', function (string $titleKey, string $noteKey) {
+it('veils a card behind the offer while the package is absent', function () {
     withoutShopifyPro();
 
-    expect(proNote($titleKey, $noteKey))
-        ->toContain(e(trans($titleKey)))
-        ->toContain(e(trans($noteKey)))
+    expect(proLock())
+        ->toContain('shopify-pro-lock__body')
+        ->toContain('<p>field</p>')
+        ->toContain(e(trans('shopify::app.shopify.pro.tagline')))
+        ->toContain(trans('shopify::app.shopify.pro.upgrade'))
+        ->toContain(config('shopify.pro.url'));
+});
+
+it('offers pro on a screen with nothing to veil while the package is absent', function () {
+    withoutShopifyPro();
+
+    expect(Blade::render('<x-shopify::pro-offer />'))
+        ->toContain(e(trans('shopify::app.shopify.pro.tagline')))
         ->toContain(trans('shopify::app.shopify.pro.upgrade'));
-})->with([
-    ['shopify::app.shopify.pro.association-mapping', 'shopify::app.shopify.pro.association-note'],
-    ['shopify::app.shopify.pro.external-media', 'shopify::app.shopify.pro.media-note'],
-    ['shopify::app.shopify.pro.catalogs', 'shopify::app.shopify.pro.catalogs-note'],
-]);
+});
 
 it('names only filters the export screens actually render', function () {
     $map = app(ProFeatures::class)->exportFilterMap();
@@ -154,11 +158,11 @@ it('serves the shopify screens while the pro package is absent', function () {
 
     get(route('admin.shopify.export-mappings', 1))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.association-note'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
 
     get(route('admin.shopify.import-mappings', 3))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.association-note'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
 
     get(route('shopify.metafield.index'))
         ->assertOk()
@@ -173,18 +177,12 @@ it('serves the shopify screens while the pro package is absent', function () {
         ->assertSee(':locked="true"', false);
 });
 
-it('names every pro feature on the upgrade page while the package is absent', function () {
+it('sends the upgrade entry to where pro is sold', function () {
     withoutShopifyPro();
 
     $this->loginAsAdmin();
 
-    $page = get(route('shopify.upgrade'))->assertOk();
-
-    foreach (['catalogs', 'realtime', 'schedule', 'external-media', 'export-filters', 'attribute-conditions', 'metafield-types'] as $feature) {
-        $page->assertSeeText(trans('shopify::app.shopify.pro.'.$feature));
-    }
-
-    $page->assertSeeText(trans('shopify::app.shopify.pro.upgrade'));
+    get(route('shopify.upgrade'))->assertRedirect(config('shopify.pro.url'));
 });
 
 it('keeps the upgrade menu entry out of the sidebar while pro is installed', function () {
@@ -201,7 +199,7 @@ it('offers the catalog screen without its list while the pro package is absent',
 
     get(route('shopify.credentials.catalogs.index', $credential->id))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.catalogs-note'))
+        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'))
         ->assertDontSeeText(trans('shopify::app.shopify.catalogs.create'));
 });
 
@@ -214,11 +212,11 @@ it('offers the real time screens read only while the pro package is absent', fun
 
     get(route('shopify.realtime.index'))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.realtime-note'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
 
     get(route('shopify.credentials.realtime.index', $credential->id))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.realtime-note'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
 });
 
 it('offers the mapping sections and the schedule read only while the pro package is absent', function () {
@@ -228,14 +226,14 @@ it('offers the mapping sections and the schedule read only while the pro package
 
     get(route('admin.shopify.export-mappings', ShopifyMapping::EXPORT_ID))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.association-mapping.title'))
-        ->assertSeeText(trans('shopify::app.shopify.external-media.title'))
-        ->assertSeeText(trans('shopify::app.shopify.pro.media-note'));
+        ->assertSee(trans('shopify::app.shopify.association-mapping.title'))
+        ->assertSee(trans('shopify::app.shopify.external-media.title'))
+        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
 
     get(route('admin.settings.data_transfer.exports.create'))
         ->assertOk()
         ->assertSeeText(trans('shopify::app.export.schedule.title'))
-        ->assertSeeText(trans('shopify::app.shopify.pro.schedule-note'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
 });
 
 it('refuses a pro metafield type while the package is absent', function () {

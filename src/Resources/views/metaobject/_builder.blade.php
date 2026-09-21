@@ -17,7 +17,7 @@
 
             @unless ($shopifyProInstalled)
                 <div class="mb-4 flex items-center gap-2">
-                    <x-shopify::pro-badge />
+                    <x-shopify::pro-cta variant="badge" />
 
                     <p class="text-sm text-gray-600 dark:text-gray-300">@lang('shopify::app.shopify.pro.types-note')</p>
                 </div>

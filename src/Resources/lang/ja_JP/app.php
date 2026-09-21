@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Pro にアップグレード',
+            'upgrade-action'            => 'アップグレード',
+            'tagline'                   => 'これらの高度な機能を解放して、ストアを次のレベルへ。',
             'option-label'              => ':label (Pro)',
             'filters-note'              => '高度なエクスポートフィルターは Shopify Pro でご利用いただけます。',
             'types-note'                => '金額型と計測型は Shopify Pro でご利用いただけます。',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'カタログとリアルタイム同期',
             'catalogs-note'             => 'カタログ、カタログ価格、商品のリアルタイム同期は Shopify Pro でご利用いただけます。',
             'schedule-note'             => 'スケジュールに沿ってエクスポートを自動実行する機能は Shopify Pro でご利用いただけます。',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'これらの機能は Shopify Pro に含まれます。以下の画面は表示されますが、Pro をインストールするまでは閲覧のみとなります。',
             'realtime'                  => 'リアルタイム同期',
             'realtime-note'             => '商品を保存した瞬間に Shopify へ同期する機能は Shopify Pro でご利用いただけます。',
             'schedule'                  => 'スケジュール実行のエクスポート',

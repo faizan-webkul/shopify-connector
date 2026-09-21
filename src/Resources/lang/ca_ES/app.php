@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Actualitza a Pro',
+            'upgrade-action'            => 'Millora',
+            'tagline'                   => 'Desbloqueja aquestes funcions avançades i porta la teva botiga al següent nivell.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Els filtres d\'exportació avançats estan disponibles a Shopify Pro.',
             'types-note'                => 'Els tipus de moneda i de mesura estan disponibles a Shopify Pro.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Catàlegs i sincronització en temps real',
             'catalogs-note'             => 'Els catàlegs, els seus preus i la sincronització de productes en temps real estan disponibles a Shopify Pro.',
             'schedule-note'             => 'Executar una exportació automàticament segons una planificació està disponible a Shopify Pro.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Aquestes funcions formen part de Shopify Pro. Les pantalles següents es veuen, però són només de lectura fins que instal·leu Pro.',
             'realtime'                  => 'Sincronització en temps real',
             'realtime-note'             => 'Sincronitzar un producte amb Shopify en el moment de desar-lo està disponible a Shopify Pro.',
             'schedule'                  => 'Exportacions planificades',

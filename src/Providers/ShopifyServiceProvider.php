@@ -170,12 +170,11 @@ class ShopifyServiceProvider extends ServiceProvider
         });
 
         Event::listen('unopim.admin.layout.head', static function (ViewRenderEventManager $viewRenderEventManager): void {
-            $viewRenderEventManager->addTemplate('shopify::pro.sidebar-upgrade');
+            $viewRenderEventManager->addTemplate('shopify::pro.styles');
         });
 
         Event::listen('unopim.admin.layout.content.after', static function (ViewRenderEventManager $viewRenderEventManager): void {
-            $viewRenderEventManager->addTemplate('shopify::association-mappings.section');
-            $viewRenderEventManager->addTemplate('shopify::external-media.section');
+            $viewRenderEventManager->addTemplate('shopify::pro.mapping-sections');
         });
 
         $this->appendExportFilterFields();
@@ -501,6 +500,9 @@ class ShopifyServiceProvider extends ServiceProvider
         );
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/pro-filters.php', 'shopify_pro_filters'
+        );
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/Config/pro.php', 'shopify.pro'
         );
     }
 }

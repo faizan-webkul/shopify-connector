@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Nadogradi na Pro',
+            'upgrade-action'            => 'Nadogradi',
+            'tagline'                   => 'Otključajte ove napredne značajke i podignite svoju trgovinu na višu razinu.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Napredni filtri izvoza dostupni su u Shopify Pro.',
             'types-note'                => 'Vrste novca i mjere dostupne su u Shopify Pro.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Katalozi i sinkronizacija u stvarnom vremenu',
             'catalogs-note'             => 'Katalozi, cijene u katalozima i sinkronizacija proizvoda u stvarnom vremenu dostupni su u Shopify Pro.',
             'schedule-note'             => 'Automatsko pokretanje izvoza prema rasporedu dostupno je u Shopify Pro.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'Ove značajke dio su Shopify Pro. Zasloni u nastavku vidljivi su, ali ostaju samo za čitanje dok se Pro ne instalira.',
             'realtime'                  => 'Sinkronizacija u stvarnom vremenu',
             'realtime-note'             => 'Sinkronizacija proizvoda sa Shopifyjem u trenutku spremanja dostupna je u Shopify Pro.',
             'schedule'                  => 'Zakazani izvozi',

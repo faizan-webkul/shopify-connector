@@ -277,6 +277,8 @@ return [
         'pro' => [
             'badge'                     => 'Pro',
             'upgrade'                   => 'Upgrade to Pro',
+            'upgrade-action'            => 'Upgrade',
+            'tagline'                   => 'Unlock these advanced features and take your store to the next level.',
             'option-label'              => ':label (Pro)',
             'filters-note'              => 'Advanced export filters are available in Shopify Pro.',
             'types-note'                => 'Money and measurement types are available in Shopify Pro.',
@@ -287,8 +289,6 @@ return [
             'catalogs'                  => 'Catalogs & Real-Time Sync',
             'catalogs-note'             => 'Catalogs, catalog prices and real-time product sync are available in Shopify Pro.',
             'schedule-note'             => 'Running an export automatically on a schedule is available in Shopify Pro.',
-            'upgrade-title'             => 'Shopify Pro',
-            'upgrade-intro'             => 'These features are part of Shopify Pro. The screens below are visible, but they stay read only until Pro is installed.',
             'realtime'                  => 'Real-Time Sync',
             'realtime-note'             => 'Syncing a product to Shopify the moment it is saved is available in Shopify Pro.',
             'schedule'                  => 'Scheduled Exports',
