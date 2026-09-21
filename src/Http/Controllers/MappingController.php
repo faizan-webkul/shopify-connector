@@ -2,7 +2,6 @@
 
 namespace Webkul\Shopify\Http\Controllers;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\View\View;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Attribute\Repositories\AttributeRepository;
@@ -68,8 +67,6 @@ class MappingController extends Controller
 
     /**
      * Create or update Shopify export mapping.
-     *
-     * @param  FormRequest  $request
      */
     public function store(ExportMappingForm $request)
     {

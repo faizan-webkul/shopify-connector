@@ -127,6 +127,7 @@ class ShopifyGraphQLDataFormatter
 
                 $type = $field['type'] ?? null;
                 $attribute = $this->attributeAll[$unoAttribute] ?? null;
+                $metafieldValue = null;
 
                 switch ($type) {
                     case 'multi_line_text_field':
@@ -167,7 +168,7 @@ class ShopifyGraphQLDataFormatter
 
                         $fallbackUnit = ['weight' => 'GRAMS', 'volume' => 'MILLILITERS', 'dimension' => 'MILLIMETERS'][$type];
                         $metafieldValue = json_encode([
-                            'value' => $rawMeasure ?? 0,
+                            'value' => $rawMeasure,
                             'unit'  => $units[$type] ?? $fallbackUnit,
                         ]);
 
@@ -829,8 +830,6 @@ class ShopifyGraphQLDataFormatter
      */
     protected function applyDefaultValue(array $formatted, string $shopifyField, string $defaultValue): array
     {
-        $defaultValue ??= '';
-
         if (in_array($shopifyField, $this->productIndexes)) {
             $formatted[$shopifyField] = $defaultValue;
         } elseif (in_array($shopifyField, $this->seoFields)) {

@@ -5,6 +5,7 @@ namespace Webkul\Shopify\Http\Controllers;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Admin\Http\Requests\MassDestroyRequest;
 use Webkul\Attribute\Repositories\AttributeRepository;
@@ -86,7 +87,7 @@ class MetaFieldController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
@@ -390,8 +391,6 @@ class MetaFieldController extends Controller
 
     /**
      * Edit a MetaField Definition by ID.
-     *
-     * @return View
      */
     public function edit(int $id): Factory|\Illuminate\Contracts\View\View
     {
@@ -619,11 +618,10 @@ class MetaFieldController extends Controller
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        $message = trans('shopify::app.shopify.metafield.mass-delete-success');
+
         try {
-            $deletedMetaField = $this->shopifyMetaFieldRepository->whereIN('id', $metaFieldsId)->delete();
-            if ($deletedMetaField) {
-                $message = trans('shopify::app.shopify.metafield.mass-delete-success');
-            }
+            $this->shopifyMetaFieldRepository->whereIN('id', $metaFieldsId)->delete();
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }

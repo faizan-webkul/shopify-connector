@@ -744,11 +744,11 @@ class Exporter extends AbstractExporter
 
         $imageData = [];
         if (! empty($mediaMappings) && $mediaMappings['mediaType'] === 'image') {
-            $imageData = $this->formatImageDataForGraphqlImage($mergedFields, $mediaMappings, $parentMergedFields ?? []);
+            $imageData = $this->formatImageDataForGraphqlImage($mergedFields, $mediaMappings, $parentMergedFields);
         }
 
         if (! empty($mediaMappings) && $mediaMappings['mediaType'] === 'gallery') {
-            $imageData = $this->formatGalleryDataForGraphqlImage($mergedFields, $mediaMappings, $parentMergedFields ?? [], $skipParent);
+            $imageData = $this->formatGalleryDataForGraphqlImage($mergedFields, $mediaMappings, $parentMergedFields, $skipParent);
         }
 
         if ($imageData !== []) {
@@ -882,7 +882,7 @@ class Exporter extends AbstractExporter
         }
         $this->parentMapping($parentData['sku'] ?? $rowData['sku'], $productId, $this->export->id);
 
-        $this->imageIdMapping($imageIds, $imageData, $rowData, $parentData ?? [], $productId);
+        $this->imageIdMapping($imageIds, $imageData, $rowData, $parentData, $productId);
 
         $finalVariantData = [
             'productId'     => $productId,
@@ -992,6 +992,8 @@ class Exporter extends AbstractExporter
     ): array|null|bool {
         $productOption = [];
         $productOptionExist = [];
+        $variantId = null;
+        $result = [];
         if (! $skipParent) {
             $mediaType = $mediaMappings['mediaType'] ?? null;
             $galleryAttr = false;
@@ -1058,7 +1060,7 @@ class Exporter extends AbstractExporter
         $this->handleMediaUpdates($productId, $rowData, $parentData, $imageData);
         if ($parentMapping === []) {
             $this->handleAfterApiRequest($rowData, $result, $mapping, $this->export->id, $formattedGraphqlData);
-            $variants = $result['body']['data']['productUpdate']['product']['variants']['edges'];
+            $variants = $result['body']['data']['productUpdate']['product']['variants']['edges'] ?? [];
             foreach ($variants as $variant) {
                 $variantId = $variant['node']['id'];
                 $inventoryData = $variantData['inventoryQuantities'] ?? [];
@@ -1668,7 +1670,7 @@ class Exporter extends AbstractExporter
      */
     public function getCategoriesByCode(array $categoriesCode, array &$finalCategories): void
     {
-        foreach ($categoriesCode ?? [] as $value) {
+        foreach ($categoriesCode as $value) {
             $check = $this->checkMappingInDb(['code' => $value], 'category');
             if (isset($check[0]['externalId'])) {
                 $finalCategories[] = $check[0]['externalId'];
@@ -1705,6 +1707,8 @@ class Exporter extends AbstractExporter
         $variableOption = [];
 
         $finalOption = [];
+
+        $optionValuesTranslation = [];
 
         foreach ($superAttributes as $key => $optionvalues) {
             $translationsOption = $optionvalues['translations'];
@@ -2175,9 +2179,8 @@ class Exporter extends AbstractExporter
     public function removeEmptyGallery(string $galleryAttr, array $itemData): array
     {
         $mappingGallery = $this->checkMappingInDbForGallery($galleryAttr, 'productImage', $itemData['sku']);
-        $removeGalleryAttr = array_column($mappingGallery, 'externalId');
 
-        return $removeGalleryAttr ?? [];
+        return array_column($mappingGallery, 'externalId');
     }
 
     /**

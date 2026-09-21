@@ -223,7 +223,7 @@ trait TranslationTrait
                     $label = reset($result)['label'] ?? '';
                     $formatedVariable['translations'][] = [
                         'key'                       => 'name',
-                        'value'                     => $label ?? '',
+                        'value'                     => $label,
                         'locale'                    => $shopifyLocaleCode,
                         'translatableContentDigest' => hash('sha256', $defaultValue),
                     ];

@@ -10,6 +10,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Webkul\Shopify\Models\ShopifyCredentialsConfigProxy;
 use Webkul\Shopify\Repositories\ShopifyExportMappingRepository;
 use Webkul\Shopify\Repositories\ShopifyMappingRepository;
 use Webkul\Shopify\Traits\DataMappingTrait;
@@ -30,7 +31,7 @@ class ShopifyMappingProduct extends Command
 
     private $credentialArray = [];
 
-    public $credential;
+    public ?ShopifyCredentialsConfigProxy $credential = null;
 
     public $imagesAttr = [];
 
@@ -68,12 +69,12 @@ class ShopifyMappingProduct extends Command
         $shopUrl = $input->getArgument('shopUrl');
         $onlyNew = filter_var($input->getOption('onlynew'), FILTER_VALIDATE_BOOLEAN);
         $shopUrl = rtrim($shopUrl, '/');
-        $this->credential = DB::table('wk_shopify_credentials_config')
+        $this->credential = ShopifyCredentialsConfigProxy::query()
             ->where('shopUrl', $shopUrl)
             ->first();
         $io = new SymfonyStyle($input, $output);
 
-        if (empty($this->credential)) {
+        if (! $this->credential instanceof ShopifyCredentialsConfigProxy) {
             $io->error([
                 'Whoops! You didn\'t have this shopUrl',
             ]);
@@ -81,7 +82,7 @@ class ShopifyMappingProduct extends Command
             return 0;
         }
         $output->writeln('<info>Mapping migration process start </info>');
-        $this->credentialArray = $this->credential?->toApiArray() ?? [];
+        $this->credentialArray = $this->credential->toApiArray();
 
         $totalProduct = $this->getTotalProduct();
         if (! $totalProduct) {
@@ -91,7 +92,7 @@ class ShopifyMappingProduct extends Command
 
             return 0;
         }
-        $progressBar = new ProgressBar($output, $totalProduct ?? 0);
+        $progressBar = new ProgressBar($output, $totalProduct);
         $progressBar->setBarCharacter('<fg=green>•</>');
         $progressBar->setEmptyBarCharacter('<fg=red>⚬</>');
         $progressBar->setProgressCharacter('<fg=green>➤</>');

@@ -47,26 +47,23 @@ it('detects an absent pro package', function () {
     expect(app(ProFeatures::class)->isInstalled())->toBeFalse();
 });
 
-it('renders the pro badge while the pro package is installed', function () {
+it('wears one pro mark, coloured for whether pro answers', function () {
     withShopifyPro();
 
-    $badge = Blade::render('<x-shopify::pro-cta variant="badge" />');
+    $withPro = Blade::render('<x-shopify::pro-cta variant="badge" />');
 
-    expect($badge)
-        ->toContain(trans('shopify::app.shopify.pro.badge'))
-        ->toContain('bg-blue-100')
-        ->not->toContain('bg-amber-100');
-});
-
-it('marks the feature pro while the package is absent', function () {
     withoutShopifyPro();
 
-    $badge = Blade::render('<x-shopify::pro-cta variant="badge" />');
+    $withoutPro = Blade::render('<x-shopify::pro-cta variant="badge" />');
 
-    expect($badge)
+    expect($withPro)
         ->toContain(trans('shopify::app.shopify.pro.badge'))
-        ->toContain('bg-amber-100')
-        ->not->toContain('bg-blue-100');
+        ->toContain('shopify-pro-badge')
+        ->toContain('shopify-pro-badge--active')
+        ->and($withoutPro)
+        ->toContain(trans('shopify::app.shopify.pro.badge'))
+        ->toContain('shopify-pro-badge')
+        ->not->toContain('shopify-pro-badge--active');
 });
 
 it('decorates the pro export filter labels while the pro package is installed', function () {

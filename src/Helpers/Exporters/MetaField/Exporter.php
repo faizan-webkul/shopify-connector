@@ -16,13 +16,11 @@ use Webkul\Shopify\Helpers\ShoifyMetaFieldType;
 use Webkul\Shopify\Repositories\ShopifyCredentialRepository;
 use Webkul\Shopify\Repositories\ShopifyMetaFieldRepository;
 use Webkul\Shopify\Repositories\ShopifyMetaobjectMappingRepository;
-use Webkul\Shopify\Traits\DataMappingTrait;
 use Webkul\Shopify\Traits\ShopifyGraphqlRequest;
 use Webkul\Shopify\Traits\TranslationTrait;
 
 class Exporter extends AbstractExporter
 {
-    use DataMappingTrait;
     use ShopifyGraphqlRequest;
     use TranslationTrait;
 

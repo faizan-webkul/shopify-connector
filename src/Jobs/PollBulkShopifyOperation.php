@@ -3,6 +3,7 @@
 namespace Webkul\Shopify\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
 use Psr\Log\LoggerInterface;
 use Webkul\DataTransfer\Services\JobLogger;
 use Webkul\Shopify\Repositories\ShopifyBulkOperationRepository;
@@ -12,7 +13,7 @@ use Webkul\Shopify\Services\BulkResultFinalizer;
 
 class PollBulkShopifyOperation implements ShouldQueue
 {
-    use \Illuminate\Foundation\Queue\Queueable;
+    use Queueable;
 
     public $tries = 120;
 
@@ -61,7 +62,7 @@ class PollBulkShopifyOperation implements ShouldQueue
         $shopifyStatus = strtoupper((string) ($operationState['status'] ?? ''));
 
         if (in_array($shopifyStatus, ['CREATED', 'RUNNING', 'CANCELING'])) {
-            dispatch_sync(new static($bulkOperation->id))->delay(
+            dispatch_sync(new self($bulkOperation->id))->delay(
                 now()->addSeconds((int) config('shopify-bulk-operations.poll_delay_seconds', 20))
             );
 

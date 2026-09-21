@@ -100,8 +100,6 @@ trait DataMappingTrait
 
     /**
      * Handle the Shopify API response after an API request.
-     *
-     * @param  array  $formattedItem
      */
     protected function handleAfterApiRequest(array $item, array $responseData, ?array $mapping, int $exportId, array $formateItem = []): array
     {

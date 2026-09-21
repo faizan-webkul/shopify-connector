@@ -18,7 +18,6 @@ use Webkul\DataTransfer\Helpers\Import;
 use Webkul\DataTransfer\Helpers\Importers\AbstractImporter;
 use Webkul\DataTransfer\Helpers\Importers\FieldProcessor;
 use Webkul\DataTransfer\Helpers\Importers\Product\SKUStorage;
-use Webkul\DataTransfer\Helpers\Source;
 use Webkul\DataTransfer\Repositories\JobTrackBatchRepository;
 use Webkul\Measurement\Repositories\AttributeMeasurementRepository;
 use Webkul\Product\Models\VariantStructure;
@@ -257,8 +256,6 @@ class Importer extends AbstractImporter
 
     /**
      * Import instance.
-     *
-     * @return Source
      */
     public function getSource(): BulkOperationProductIterator|ProductIterator
     {
@@ -910,7 +907,7 @@ class Importer extends AbstractImporter
 
             [$vMdcommon, $vMdlocale_specific, $vMdchannel_specific, $vMdchannelAndLocaleSpecific] = $this->mapMetafieldsAttribute($productVariant['node']['metafields']['edges'] ?? [], $metaFieldAllAttr);
 
-            $existingAttributes = array_column($configurableAttributes ?? [], 'code');
+            $existingAttributes = array_column($configurableAttributes, 'code');
 
             $missingAttributes = array_diff($requiredAttrForVariant, $existingAttributes);
 
@@ -961,7 +958,7 @@ class Importer extends AbstractImporter
 
     private function addExistingVariantProduct(array $leftChildProduct, array &$variantProductData): void
     {
-        foreach ($leftChildProduct ?? [] as $key => $productIds) {
+        foreach ($leftChildProduct as $key => $productIds) {
             $variantProductData[$productIds] = [
                 'sku'    => $this->allChildInUnopim[$key]['sku'],
                 'status' => $this->allChildInUnopim[$key]['status'],
@@ -2295,8 +2292,6 @@ class Importer extends AbstractImporter
 
     protected function isProductNumberProcessed(string $barcode): bool
     {
-        $barcode ??= '';
-
         $keys = [
             'barcode:'.$barcode,
         ];

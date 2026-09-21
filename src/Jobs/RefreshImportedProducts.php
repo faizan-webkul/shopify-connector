@@ -3,6 +3,8 @@
 namespace Webkul\Shopify\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 use Webkul\Completeness\Jobs\ProductCompletenessJob;
 use Webkul\ElasticSearch\Observers\Product;
@@ -10,7 +12,7 @@ use Webkul\Product\Models\ProductProxy;
 
 class RefreshImportedProducts implements ShouldQueue
 {
-    use \Illuminate\Foundation\Queue\Queueable;
+    use Queueable;
 
     public int $tries = 1;
 
@@ -64,7 +66,7 @@ class RefreshImportedProducts implements ShouldQueue
                         ProductProxy::query()
                             ->whereIn('id', $chunk)
                             ->get()
-                            ->each(function ($product): void {
+                            ->each(function (Model $product): void {
                                 try {
                                     $product->touch();
                                 } catch (\Throwable) {

@@ -192,6 +192,17 @@
         color: #fbd38d;
     }
 
+    /** With Pro answering, the same mark reads as active rather than as an offer. */
+    .shopify-pro-badge--active {
+        background-color: #ede4ff;
+        color: #5b21b6;
+    }
+
+    .dark .shopify-pro-badge--active {
+        background-color: rgba(109, 40, 217, 0.35);
+        color: #d6c7ff;
+    }
+
     .shopify-pro-notice__actions {
         display: flex;
         align-items: center;
@@ -256,12 +267,27 @@
         background-color: rgba(109, 40, 217, 0.2);
     }
 
-    /** What a locked section holds: readable, drained of colour, out of reach. */
+    /** A locked section is out of reach as a whole. */
     .shopify-pro-notice--locked:not(.shopify-pro-notice--page) ~ *,
     [data-shopify-pro-locked] {
+        user-select: none;
+    }
+
+    /**
+     * Only what the merchant would have filled in reads as held back. Labels keep
+     * their weight and the Pro mark keeps its colour, so the offer stays legible.
+     */
+    .shopify-pro-notice--locked:not(.shopify-pro-notice--page) ~ * :is(input, select, textarea, [data-control-group] > :not(label)),
+    [data-shopify-pro-locked] > :not(label),
+    [data-shopify-pro-locked] :is(input, select, textarea, [data-control-group] > :not(label)) {
         opacity: 0.6;
         filter: saturate(0.55);
-        user-select: none;
+    }
+
+    .shopify-pro-notice--locked:not(.shopify-pro-notice--page) ~ * .shopify-pro-badge,
+    [data-shopify-pro-locked] .shopify-pro-badge {
+        opacity: 1;
+        filter: none;
     }
 
 </style>
