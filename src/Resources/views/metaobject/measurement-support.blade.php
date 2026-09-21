@@ -142,7 +142,7 @@
          * what the server rejected without touching the connector's component.
          */
         window.axios?.interceptors.response.use(null, (error) => {
-            if (error?.response?.status === 422 && String(error?.config?.url ?? '').includes('metaobject-entry')) {
+            if (error?.response?.status === 422 && String(error?.config?.url ?? '').includes('metaobject-entries')) {
                 Object.values(error.response.data?.errors ?? {}).flat().forEach((message) => {
                     window.app?.config?.globalProperties?.$emitter?.emit('add-flash', { type: 'warning', message });
                 });

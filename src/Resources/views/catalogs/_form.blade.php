@@ -256,8 +256,35 @@
 
                         <x-admin::form.control-group.error control-name="price_attribute" />
                     </x-admin::form.control-group>
+                </template>
 
-                    <x-admin::form.control-group>
+                <x-admin::form.control-group class="flex items-center justify-between gap-4">
+                    <div class="flex flex-col gap-1">
+                        <x-admin::form.control-group.label class="!mb-0">
+                            @lang('shopify::app.shopify.catalogs.form.include-compare-at')
+                        </x-admin::form.control-group.label>
+
+                        <p class="text-xs text-gray-500 dark:text-gray-400" v-if="strategy === 'fixed'">
+                            @lang('shopify::app.shopify.catalogs.form.include-compare-at-info')
+                        </p>
+
+                        <p class="text-xs text-gray-500 dark:text-gray-400" v-else>
+                            @lang('shopify::app.shopify.catalogs.form.include-compare-at-adjustment-info')
+                        </p>
+                    </div>
+
+                    <x-admin::form.control-group.control
+                        type="switch"
+                        name="include_compare_at"
+                        value="1"
+                        :checked="(bool) old('include_compare_at', $catalog->include_compare_at ?? true)"
+                        :label="trans('shopify::app.shopify.catalogs.form.include-compare-at')"
+                        @change="includeCompareAt = $event.target.checked"
+                    />
+                </x-admin::form.control-group>
+
+                <template v-if="strategy === 'fixed'">
+                    <x-admin::form.control-group v-show="includeCompareAt">
                         <x-admin::form.control-group.label>
                             @lang('shopify::app.shopify.catalogs.form.compare-at-attribute')
                         </x-admin::form.control-group.label>
@@ -305,6 +332,7 @@
             data() {
                 return {
                     strategy: @json(old('pricing_strategy', $catalog->pricing_strategy ?? 'adjustment')),
+                    includeCompareAt: @json((bool) old('include_compare_at', $catalog->include_compare_at ?? true)),
                     kind: @json(old('kind', $catalog->kind ?? 'region')),
                     marketsBaseRoute: '{{ route('shopify.credentials.catalogs.options.markets', $credential->id) }}',
                 };

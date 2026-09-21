@@ -1,3 +1,35 @@
+@push('styles')
+    <style>
+        .realtime-toggle {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .realtime-toggle__title {
+            order: 1;
+        }
+
+        .realtime-toggle .unsaved-badge {
+            order: 2;
+        }
+
+        .realtime-toggle__switch {
+            display: flex;
+            align-items: center;
+            order: 3;
+            margin-inline-start: auto;
+        }
+
+        .realtime-toggle__note {
+            order: 4;
+            flex-basis: 100%;
+            margin: 0;
+        }
+    </style>
+@endpush
+
 <x-admin::layouts.with-history
     :history-id="$credential->id"
     active-tab="realtime"
@@ -56,35 +88,42 @@
             :ajax="true"
         >
             <fieldset @disabled(! $shopifyProInstalled) class="contents">
-            <div class="p-4 bg-white dark:bg-cherry-900 rounded box-shadow flex flex-col gap-4">
-                <div class="flex items-start justify-between gap-6 max-sm:flex-col">
-                    <div class="flex flex-col gap-1">
-                        <p class="text-base text-gray-800 dark:text-white font-semibold">
-                            @lang('shopify::app.shopify.realtime.enable')
-                        </p>
+            <div class="p-4 bg-white dark:bg-cherry-900 rounded box-shadow">
+                {{--
+                    The tracker appends its badge to the control group, so the row
+                    is the group itself and the parts are ordered around it: the
+                    badge follows the heading, the rest drops to its own line.
+                --}}
+                <x-admin::form.control-group class="realtime-toggle !mb-0">
+                    <p class="realtime-toggle__title text-base text-gray-800 dark:text-white font-semibold">
+                        @lang('shopify::app.shopify.realtime.enable')
+                    </p>
 
-                        <p class="text-xs text-gray-500 dark:text-gray-300">
-                            @lang('shopify::app.shopify.realtime.enable-info')
-                        </p>
-                    </div>
-
-                    <x-admin::form.control-group class="!mb-0">
+                    <div class="realtime-toggle__switch">
                         <x-admin::form.control-group.control
                             type="switch"
                             name="enabled"
                             value="1"
                             :checked="$enabled"
-                            :disabled="(bool) $blocker && ! $enabled"
+                            :disabled="$blocking && ! $enabled"
                             :label="trans('shopify::app.shopify.realtime.enable')"
                         />
-                    </x-admin::form.control-group>
-                </div>
+                    </div>
 
-                @if ($blocker && ! $enabled)
-                    <p class="text-xs text-red-600">
-                        {{ trans($blocker) }}
+                    <p class="realtime-toggle__note text-xs text-gray-500 dark:text-gray-300">
+                        @lang('shopify::app.shopify.realtime.enable-info')
                     </p>
-                @endif
+
+                    @if ($blocker)
+                        <p @class([
+                            'realtime-toggle__note text-xs',
+                            'text-red-600' => $blocking,
+                            'text-amber-600 dark:text-amber-400' => ! $blocking,
+                        ])>
+                            {{ trans($blocker) }}
+                        </p>
+                    @endif
+                </x-admin::form.control-group>
             </div>
             </fieldset>
         </x-admin::form>

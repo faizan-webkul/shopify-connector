@@ -36,10 +36,10 @@ test.describe('UnoPim Shopify setting tab Navigation', () => {
     test.beforeEach(async ({ page }) => {
         // Navigate directly to the Settings page (sidebar sub-menu links are
         // hover-revealed, so a direct goto is more reliable than clicking them).
-        await page.goto('admin/shopify/export/settings/2')
+        await page.goto('admin/shopify/export-settings/2')
     });
     test('Verify page loads correctly', async ({ page }) => {
-        await expect(page).toHaveURL(new URL('/admin/shopify/export/settings/2', baseUrl).toString());
+        await expect(page).toHaveURL(new URL('/admin/shopify/export-settings/2', baseUrl).toString());
     });
 
     test('Toggle Named Tags Export setting', async ({ page }) => {

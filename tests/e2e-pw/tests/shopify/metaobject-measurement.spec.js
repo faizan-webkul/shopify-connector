@@ -7,7 +7,7 @@ test.use({ storageState: 'storage/auth.json' });
  * original measurement types to the full catalogue. These run against the seeded
  * "electrician" definition, which carries both legacy and Pro measurement fields.
  */
-const definitionUrl = 'admin/shopify/metaobject/1/edit';
+const definitionUrl = 'admin/shopify/metaobjects/1/edit';
 
 const clearOverlays = (page) =>
     page.evaluate(() => {

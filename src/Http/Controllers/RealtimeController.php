@@ -27,6 +27,7 @@ class RealtimeController extends Controller
             'credential' => $this->credentialRepository->findOrFail($credentialId),
             'enabled'    => false,
             'blocker'    => null,
+            'blocking'   => false,
         ]);
     }
 

@@ -5,7 +5,7 @@ test.use({ storageState: 'storage/auth.json' });
 
 test.describe('Shopify Metaobject definitions Page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('admin/shopify/metaobject');
+    await page.goto('admin/shopify/metaobjects');
     await dismissPromos(page);
   });
 
@@ -42,7 +42,7 @@ test.describe('Shopify Metaobject definitions Page', () => {
 
 test.describe('Shopify Create Metaobject Page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('admin/shopify/metaobject/create');
+    await page.goto('admin/shopify/metaobjects/create');
     await dismissPromos(page);
   });
 

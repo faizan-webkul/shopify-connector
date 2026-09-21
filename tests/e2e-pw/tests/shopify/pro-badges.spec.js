@@ -27,8 +27,8 @@ const selectExportType = async (page, label) => {
 
 test.describe('Shopify Pro badges', () => {
     for (const [screen, url] of [
-        ['export', 'admin/shopify/export/mapping/1'],
-        ['import', 'admin/shopify/import/mapping/3'],
+        ['export', 'admin/shopify/export-mapping/1'],
+        ['import', 'admin/shopify/import-mapping/3'],
     ]) {
         test(`badges the association mapping section on the ${screen} mapping screen`, async ({ page }) => {
             await page.goto(url);
