@@ -2,11 +2,7 @@
 
 namespace Webkul\Shopify\Jobs;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Webkul\Completeness\Jobs\ProductCompletenessJob;
 use Webkul\ElasticSearch\Observers\Product;
@@ -14,7 +10,7 @@ use Webkul\Product\Models\ProductProxy;
 
 class RefreshImportedProducts implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use \Illuminate\Foundation\Queue\Queueable;
 
     public int $tries = 1;
 
@@ -42,7 +38,7 @@ class RefreshImportedProducts implements ShouldQueue
     public function handle(): void
     {
         $productIds = array_values(array_unique(array_filter($this->productIds)));
-        if (empty($productIds)) {
+        if ($productIds === []) {
             return;
         }
 
@@ -68,7 +64,7 @@ class RefreshImportedProducts implements ShouldQueue
                         ProductProxy::query()
                             ->whereIn('id', $chunk)
                             ->get()
-                            ->each(function ($product) {
+                            ->each(function ($product): void {
                                 try {
                                     $product->touch();
                                 } catch (\Throwable) {
@@ -90,7 +86,7 @@ class RefreshImportedProducts implements ShouldQueue
         if ($this->recomputeCompleteness && class_exists(ProductCompletenessJob::class)) {
             foreach (array_chunk($productIds, 100) as $chunk) {
                 try {
-                    ProductCompletenessJob::dispatch($chunk);
+                    dispatch(new ProductCompletenessJob($chunk));
                 } catch (\Throwable $e) {
                     Log::warning('Shopify post-import completeness dispatch failed', [
                         'message' => $e->getMessage(),

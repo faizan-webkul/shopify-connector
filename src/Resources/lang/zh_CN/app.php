@@ -599,7 +599,6 @@ return [
             'credentials'      => 'Shopify 凭证',
             'channel'          => '渠道',
             'currency'         => '货币',
-            'locale'           => '语言环境',
             'attribute'        => '属性',
             'productfilter'    => '产品过滤器 (SKU)',
             'status'           => '状态',

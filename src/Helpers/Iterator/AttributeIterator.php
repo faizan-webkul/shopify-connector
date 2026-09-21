@@ -10,20 +10,14 @@ class AttributeIterator implements \Iterator
 
     private $cursor;
 
-    private $currentPageData;
+    private array $currentPageData;
 
-    private $currentKey;
-
-    private $credential;
-
-    private $shopifyLocale;
+    private int $currentKey;
 
     private array $translationCache = [];
 
-    public function __construct($credential, ?string $shopifyLocale = null)
+    public function __construct(private $credential, private ?string $shopifyLocale = null)
     {
-        $this->credential = $credential;
-        $this->shopifyLocale = $shopifyLocale;
         $this->cursor = null;
         $this->currentPageData = [];
         $this->currentKey = 0;
@@ -50,7 +44,7 @@ class AttributeIterator implements \Iterator
 
     public function rewind(): void
     {
-        if ($this->currentKey == 0) {
+        if ($this->currentKey === 0) {
             return;
         }
         $this->cursor = null;
@@ -61,7 +55,7 @@ class AttributeIterator implements \Iterator
 
     public function valid(): bool
     {
-        return ! empty($this->currentPageData);
+        return $this->currentPageData !== [];
     }
 
     public function setCursor($cursor): void
@@ -101,7 +95,7 @@ class AttributeIterator implements \Iterator
                 $this->currentPageData = $this->formatedAttributeAndOption($edges);
 
             } while (
-                empty($this->currentPageData)
+                $this->currentPageData === []
                 && ! empty($edges)
                 && ! empty($this->cursor)
                 && $this->cursor !== $previousCursor
@@ -228,7 +222,7 @@ class AttributeIterator implements \Iterator
             $this->translationCache[$cacheKey] = $translatedName;
 
             return $translatedName;
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             $this->translationCache[$cacheKey] = null;
 
             return null;

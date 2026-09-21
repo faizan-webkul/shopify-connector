@@ -26,8 +26,8 @@ trait ResolvesDamAssetRepository
 
             if (class_exists(AssetRepository::class)) {
                 try {
-                    $this->resolvedAssetRepository = app(AssetRepository::class);
-                } catch (\Throwable $e) {
+                    $this->resolvedAssetRepository = resolve(AssetRepository::class);
+                } catch (\Throwable) {
                     $this->resolvedAssetRepository = null;
                 }
             }

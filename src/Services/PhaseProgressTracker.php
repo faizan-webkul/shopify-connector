@@ -2,6 +2,7 @@
 
 namespace Webkul\Shopify\Services;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Webkul\DataTransfer\Helpers\Export as ExportHelper;
 use Webkul\DataTransfer\Models\JobTrackProxy;
@@ -27,10 +28,10 @@ class PhaseProgressTracker
             return;
         }
 
-        DB::transaction(function () use ($coreBulkOpId, $count) {
+        DB::transaction(function () use ($coreBulkOpId, $count): void {
             $coreOp = $this->lockBulkOp($coreBulkOpId);
 
-            if (! $coreOp) {
+            if (! $coreOp instanceof ShopifyBulkOperation) {
                 return;
             }
 
@@ -52,7 +53,7 @@ class PhaseProgressTracker
             return;
         }
 
-        DB::transaction(function () use ($jobTrackId, $phase) {
+        DB::transaction(function () use ($jobTrackId, $phase): void {
             $jobTrack = $this->lockJobTrack($jobTrackId);
 
             if (! $jobTrack) {
@@ -79,10 +80,10 @@ class PhaseProgressTracker
             return;
         }
 
-        DB::transaction(function () use ($coreBulkOpId, $jobTrackId, $phase) {
+        DB::transaction(function () use ($coreBulkOpId, $jobTrackId, $phase): void {
             $coreOp = $this->lockBulkOp($coreBulkOpId);
 
-            if ($coreOp) {
+            if ($coreOp instanceof ShopifyBulkOperation) {
                 $meta = $coreOp->meta ?? [];
                 $meta['unfinished_phase_jobs'] = max(0, (int) ($meta['unfinished_phase_jobs'] ?? 0) - 1);
                 $coreOp->meta = $meta;
@@ -128,12 +129,12 @@ class PhaseProgressTracker
     {
         $coreOps = ShopifyBulkOperation::query()
             ->where('job_track_id', $jobTrackId)
-            ->where(function ($q) {
+            ->where(function (Builder $q): void {
                 $q->where('phase', BulkOperationService::CORE_PRODUCT_PHASE)->orWhereNull('phase');
             })
             ->get(['id', 'meta']);
 
-        return (int) $coreOps->sum(fn ($op) => (int) (($op->meta ?? [])['unfinished_phase_jobs'] ?? 0));
+        return (int) $coreOps->sum(fn ($op): int => (int) (($op->meta ?? [])['unfinished_phase_jobs'] ?? 0));
     }
 
     /**
@@ -151,7 +152,7 @@ class PhaseProgressTracker
     {
         $coreOps = ShopifyBulkOperation::query()
             ->where('job_track_id', $jobTrackId)
-            ->where(function ($q) {
+            ->where(function (Builder $q): void {
                 $q->where('phase', BulkOperationService::CORE_PRODUCT_PHASE)->orWhereNull('phase');
             })
             ->get(['status', 'meta']);
@@ -179,7 +180,7 @@ class PhaseProgressTracker
     {
         return ShopifyBulkOperation::query()
             ->where('job_track_id', $jobTrackId)
-            ->where(function ($q) {
+            ->where(function (Builder $q): void {
                 $q->where('phase', BulkOperationService::CORE_PRODUCT_PHASE)->orWhereNull('phase');
             })
             ->whereIn('status', ['created', 'running'])

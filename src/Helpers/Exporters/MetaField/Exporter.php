@@ -58,10 +58,8 @@ class Exporter extends AbstractExporter
 
     /**
      * Initializes the channels and locales for the export process.
-     *
-     * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->initCredential();
 
@@ -96,9 +94,7 @@ class Exporter extends AbstractExporter
     protected function initDefaultLocale(): void
     {
         if ($this->credential->storeLocales) {
-            $defaultLanguage = array_values(array_filter($this->credential->storeLocales, function ($language) {
-                return isset($language['defaultlocale']) && $language['defaultlocale'] === true;
-            }))[0] ?? null;
+            $defaultLanguage = array_values(array_filter($this->credential->storeLocales, fn (array $language): bool => isset($language['defaultlocale']) && $language['defaultlocale'] === true))[0] ?? null;
 
             $this->shopifyDefaultLocale = $this->credential->storelocaleMapping[$defaultLanguage['locale']] ?? null;
         }
@@ -142,7 +138,7 @@ class Exporter extends AbstractExporter
         return $this->source->orderBy('id', 'desc')->all()?->getIterator();
     }
 
-    public function prepareMetafieldShopify(JobTrackBatchContract $batch, mixed $filePath)
+    public function prepareMetafieldShopify(JobTrackBatchContract $batch, mixed $filePath): void
     {
         foreach ($batch->data as $rawData) {
             $shopUrl = $this->credentialArray['shopUrl'];
@@ -199,7 +195,7 @@ class Exporter extends AbstractExporter
             }
         }
 
-        if (empty($product) && empty($variant)) {
+        if ($product === [] && $variant === []) {
             return;
         }
 
@@ -270,7 +266,7 @@ class Exporter extends AbstractExporter
         }
     }
 
-    private function handleErrors(array $errors, $code): void
+    private function handleErrors(array $errors, string $code): void
     {
         $this->logWarning($errors, $code);
         $this->skippedItemsCount++;
@@ -291,7 +287,7 @@ class Exporter extends AbstractExporter
             return true;
         }
 
-        $attribute = app(AttributeRepository::class)->findOneByField('code', $rowData['code'] ?? '');
+        $attribute = resolve(AttributeRepository::class)->findOneByField('code', $rowData['code'] ?? '');
 
         return $attribute?->type === 'text' && $attribute?->validation === 'email';
     }
@@ -353,7 +349,7 @@ class Exporter extends AbstractExporter
 
             if (($validationDatas['content_type'] ?? null) === 'choice_list') {
                 $choices = $this->resolveChoiceListValues($rowData['code'] ?? '');
-                if (! empty($choices)) {
+                if ($choices !== []) {
                     $validations[] = [
                         'name'  => 'choices',
                         'value' => json_encode($choices, JSON_UNESCAPED_SLASHES),
@@ -365,7 +361,7 @@ class Exporter extends AbstractExporter
                 $validationDatas['content_type'] ?? null,
                 $validationDatas['file_types'] ?? []
             );
-            if (! empty($fileTypeOptions)) {
+            if ($fileTypeOptions !== []) {
                 $validations[] = [
                     'name'  => 'file_type_options',
                     'value' => json_encode($fileTypeOptions),
@@ -398,7 +394,7 @@ class Exporter extends AbstractExporter
         if ($this->isEmailMetafield($rowData)) {
             $emailValidations = array_values(array_filter(
                 $formattedData['validations'] ?? [],
-                fn ($validation) => ($validation['name'] ?? '') !== 'regex'
+                fn (array $validation): bool => ($validation['name'] ?? '') !== 'regex'
             ));
             $emailValidations[] = ['name' => 'regex', 'value' => MetaobjectFieldType::EMAIL_REGEX];
             $formattedData['validations'] = $emailValidations;
@@ -421,12 +417,12 @@ class Exporter extends AbstractExporter
             }
         }
 
-        if (! empty($capabilities)) {
+        if ($capabilities !== []) {
             $formattedData['capabilities'] = $capabilities;
         }
 
         $desired = array_values(array_filter(array_map(
-            fn ($gid) => substr((string) $gid, strrpos((string) $gid, '/') + 1),
+            fn ($gid): string => substr((string) $gid, strrpos((string) $gid, '/') + 1),
             (array) ($rowData['taxonomy_category'] ?? [])
         )));
 
@@ -443,8 +439,8 @@ class Exporter extends AbstractExporter
 
             if ($toCreate !== [] || $toDelete !== []) {
                 $values = array_merge(
-                    array_map(fn ($v) => ['create' => $v], $toCreate),
-                    array_map(fn ($v) => ['delete' => $v], $toDelete)
+                    array_map(fn (string $v): array => ['create' => $v], $toCreate),
+                    array_map(fn (string $v): array => ['delete' => $v], $toDelete)
                 );
 
                 $formattedData['constraintsUpdates'] = ['key' => 'category', 'values' => $values];
@@ -484,7 +480,7 @@ class Exporter extends AbstractExporter
             return [];
         }
 
-        $attribute = app(AttributeRepository::class)->findOneByField('code', $code);
+        $attribute = resolve(AttributeRepository::class)->findOneByField('code', $code);
 
         if (! $attribute || ! in_array($attribute->type, ['select', 'multiselect'], true)) {
             return [];
@@ -495,7 +491,7 @@ class Exporter extends AbstractExporter
         foreach ($attribute->options()->get() as $option) {
             $option = $option->toArray();
             $label = array_column(
-                array_filter($option['translations'] ?? [], fn ($t) => $t['locale'] === $this->shopifyDefaultLocale),
+                array_filter($option['translations'] ?? [], fn (array $t): bool => $t['locale'] === $this->shopifyDefaultLocale),
                 'label'
             )[0] ?? null;
 
@@ -538,7 +534,7 @@ class Exporter extends AbstractExporter
                 $nsKey = ($node['namespace'] ?? '').'.'.($node['key'] ?? '');
 
                 if (($node['constraints']['key'] ?? null) === 'category') {
-                    $map[$nsKey] = array_map(fn ($v) => $v['value'], $node['constraints']['values']['nodes'] ?? []);
+                    $map[$nsKey] = array_map(fn (array $v) => $v['value'], $node['constraints']['values']['nodes'] ?? []);
                 }
             }
 
@@ -557,13 +553,11 @@ class Exporter extends AbstractExporter
     /**
      * Make an API request to Shopify to create or update a category.
      */
-    public function apiRequestShopify($metaFieldFormattedData, $id = null)
+    public function apiRequestShopify($metaFieldFormattedData, $id = null): array
     {
         $mutationType = $id ? 'metafieldDefinitionUpdate' : 'metafieldDefinitionCreate';
 
-        $response = $this->requestGraphQlApiAction($mutationType, $this->credentialArray, ['input' => $metaFieldFormattedData]);
-
-        return $response;
+        return $this->requestGraphQlApiAction($mutationType, $this->credentialArray, ['input' => $metaFieldFormattedData]);
     }
 
     /**
@@ -571,7 +565,7 @@ class Exporter extends AbstractExporter
      */
     public function logWarning(array $data, string $code): void
     {
-        if (! empty($data) && ! empty($code)) {
+        if ($data !== [] && ! empty($code)) {
             $error = json_encode($data, true);
 
             $this->jobLogger->warning(
@@ -589,7 +583,7 @@ class Exporter extends AbstractExporter
             return [];
         }
 
-        if (! array_key_exists('additional_data', $data) || ! array_key_exists('locale_specific', $data['additional_data'])) {
+        if (! array_key_exists('locale_specific', $data['additional_data'])) {
             return [];
         }
 

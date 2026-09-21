@@ -76,7 +76,7 @@ class SaasAutoLoginController extends Controller
         auth()->guard('admin')->login($admin);
         $request->session()->regenerate();
 
-        return redirect()->route('admin.dashboard.index');
+        return to_route('admin.dashboard.index');
     }
 
     /**
@@ -87,8 +87,7 @@ class SaasAutoLoginController extends Controller
     {
         Log::warning('Shopify SaaS secure-login rejected', array_merge(['reason' => $reason], $context));
 
-        return redirect()
-            ->route('admin.session.create')
+        return to_route('admin.session.create')
             ->withErrors(['email' => trans('shopify::app.shopify.credential.secure-login-failed')]);
     }
 }

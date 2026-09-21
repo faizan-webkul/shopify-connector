@@ -2,11 +2,7 @@
 
 namespace Webkul\Shopify\Jobs;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Webkul\Shopify\Exceptions\BulkMutationInProgressException;
 use Webkul\Shopify\Repositories\ShopifyBulkOperationRepository;
 use Webkul\Shopify\Services\Bulk\Phases\Export\TranslationPhaseService;
@@ -16,7 +12,7 @@ use Webkul\Shopify\Traits\HandlesPhaseJobFailure;
 
 class RunTranslationPhase implements ShouldQueue
 {
-    use Dispatchable, HandlesPhaseJobFailure, InteractsWithQueue, Queueable, SerializesModels;
+    use HandlesPhaseJobFailure, \Illuminate\Foundation\Queue\Queueable;
 
     protected const PHASE = 'translations';
 
@@ -38,7 +34,7 @@ class RunTranslationPhase implements ShouldQueue
 
         try {
             $result = $phaseService->handle($bulkOperation, $resultReader->read($bulkOperation));
-        } catch (BulkMutationInProgressException $e) {
+        } catch (BulkMutationInProgressException) {
             $this->release(random_int(20, 60));
 
             return;

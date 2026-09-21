@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Ustawienia',
                 'upgrade'               => 'Przejdź na Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Dane uwierzytelniające',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Dane uwierzytelniające Shopify',
             'channel'          => 'Kanał',
             'currency'         => 'Waluta',
-            'locale'           => 'Ustawienia regionalne',
             'attribute'        => 'Atrybuty',
             'productfilter'    => 'Filtr produktów (SKU)',
             'status'           => 'Status',

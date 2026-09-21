@@ -18,9 +18,9 @@ use Webkul\Shopify\Http\Controllers\SettingController;
 Route::get('shopify/saas/secure-login', [SaasAutoLoginController::class, 'login'])
     ->name('shopify.saas.secure-login');
 
-Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], function () {
-    Route::prefix('shopify')->group(function () {
-        Route::controller(CredentialController::class)->prefix('credentials')->group(function () {
+Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], function (): void {
+    Route::prefix('shopify')->group(function (): void {
+        Route::controller(CredentialController::class)->prefix('credentials')->group(function (): void {
             Route::get('', 'index')->name('shopify.credentials.index');
 
             Route::post('create', 'store')->name('shopify.credentials.store');
@@ -36,7 +36,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
             Route::post('{id}/revoke', 'revoke')->name('shopify.credentials.revoke')->whereNumber('id');
         });
 
-        Route::controller(MetaFieldController::class)->prefix('metafields')->group(function () {
+        Route::controller(MetaFieldController::class)->prefix('metafields')->group(function (): void {
             Route::get('', 'index')->name('shopify.metafield.index');
 
             Route::post('create', 'store')->name('shopify.metafield.store');
@@ -85,31 +85,31 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
             });
         });
 
-        Route::controller(SettingController::class)->prefix('export-settings')->group(function () {
+        Route::controller(SettingController::class)->prefix('export-settings')->group(function (): void {
             Route::post('create', 'store')->name('shopify.export-settings.create');
 
             Route::get('{id}', 'index')->name('admin.shopify.settings')->whereNumber('id');
         });
 
-        Route::controller(MappingController::class)->prefix('export-mapping')->group(function () {
+        Route::controller(MappingController::class)->prefix('export-mapping')->group(function (): void {
             Route::post('create', 'store')->name('shopify.export-mappings.create');
 
             Route::get('{id}', 'index')->name('admin.shopify.export-mappings')->whereNumber('id');
         });
 
-        Route::controller(CollectionMappingController::class)->prefix('collection-mapping')->group(function () {
+        Route::controller(CollectionMappingController::class)->prefix('collection-mapping')->group(function (): void {
             Route::post('create', 'store')->name('shopify.collection-mappings.create');
 
             Route::get('{id}', 'index')->name('admin.shopify.collection-mappings')->whereNumber('id');
         });
 
-        Route::controller(ImportMappingController::class)->prefix('import-mapping')->group(function () {
+        Route::controller(ImportMappingController::class)->prefix('import-mapping')->group(function (): void {
             Route::post('create', 'store')->name('shopify.import-mappings.create');
 
             Route::get('{id}', 'index')->name('admin.shopify.import-mappings')->whereNumber('id');
         });
 
-        Route::controller(OptionController::class)->group(function () {
+        Route::controller(OptionController::class)->group(function (): void {
             Route::get('get-attribute', 'listAttributes')->name('admin.shopify.get-attribute');
 
             Route::get('get-category-field', 'listCategoryFields')->name('admin.shopify.get-category-field');
@@ -143,7 +143,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
             Route::get('metaobjects/reference-options', 'referenceOptions')->name('shopify.metaobject.reference-options');
         });
 
-        Route::controller(MetaobjectController::class)->prefix('metaobjects')->group(function () {
+        Route::controller(MetaobjectController::class)->prefix('metaobjects')->group(function (): void {
             Route::get('', 'index')->name('shopify.metaobject.index');
 
             Route::post('', 'store')->name('shopify.metaobject.store');
@@ -178,7 +178,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
             Route::delete('{id}/fields/{key}', 'fieldDestroy')->name('shopify.metaobject.field.destroy')->whereNumber('id');
         });
 
-        Route::controller(MetaobjectEntryController::class)->prefix('metaobject-entries')->group(function () {
+        Route::controller(MetaobjectEntryController::class)->prefix('metaobject-entries')->group(function (): void {
             Route::get('list', 'list')->name('shopify.metaobject.entry.list');
 
             Route::get('datagrid/{type}', 'datagrid')->name('shopify.metaobject.entry.datagrid');

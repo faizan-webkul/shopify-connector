@@ -6,22 +6,13 @@ use Illuminate\Support\Facades\Http;
 
 class GraphQLApiClient
 {
-    protected $url;
-
-    protected $accessToken;
-
-    protected $apiVersion;
-
-    protected $options;
+    protected string $url;
 
     /**
      * Create object of this class
      */
-    public function __construct(string $url, string $accessToken, string $apiVersion, array $options = [])
+    public function __construct(string $url, protected string $accessToken, protected string $apiVersion, protected array $options = [])
     {
-        $this->apiVersion = $apiVersion;
-        $this->accessToken = $accessToken;
-        $this->options = $options;
         $this->url = $this->buildApiUrl($url);
 
     }
@@ -51,7 +42,7 @@ class GraphQLApiClient
     /**
      * Create a request array for a specific API endpoint.
      */
-    protected function createRequest(string $endpoint, array $parameters = [], array $data = [], $logger = null)
+    protected function createRequest(string $endpoint, array $parameters = [], array $data = [], $logger = null): ?array
     {
         if (! array_key_exists($endpoint, $this->endpoints)) {
             return null;
@@ -63,7 +54,7 @@ class GraphQLApiClient
 
         $body = ['query' => $query];
 
-        if (! empty($variables)) {
+        if ($variables !== []) {
             $body['variables'] = $variables;
         }
 
@@ -116,9 +107,7 @@ class GraphQLApiClient
         if (isset($response['body']['errors'])) {
             $error = array_column($response['body']['errors'], 'message');
             if (in_array('Throttled', $error)) {
-                $response = $this->request($endpoint, $parameters, $payload, $logger);
-
-                return $response;
+                return $this->request($endpoint, $parameters, $payload, $logger);
             }
         }
 

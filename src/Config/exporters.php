@@ -1,14 +1,21 @@
 <?php
 
+use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Shopify\Helpers\Exporters\Pro\UnavailableExporter;
+use Webkul\Shopify\Helpers\Exporters\Product\Exporter;
+use Webkul\Shopify\Repositories\ShopifyMetaFieldRepository;
+use Webkul\Shopify\Repositories\ShopifyMetaobjectDefinitionRepository;
+use Webkul\Shopify\Validators\JobInstances\Export\ShopifyCategoryAndMetafieldValidator;
+use Webkul\Shopify\Validators\JobInstances\Export\ShopifyProductValidator;
 use Webkul\Shopify\Validators\JobInstances\ProFeatureValidator;
 
 return [
     'shopifyProduct' => [
         'title'     => 'shopify::app.exporters.shopify.product',
-        'exporter'  => 'Webkul\Shopify\Helpers\Exporters\Product\Exporter',
-        'source'    => 'Webkul\Product\Repositories\ProductRepository',
-        'validator' => 'Webkul\Shopify\Validators\JobInstances\Export\ShopifyProductValidator',
+        'exporter'  => Exporter::class,
+        'source'    => ProductRepository::class,
+        'validator' => ShopifyProductValidator::class,
         'filters'   => [
             'fields' => [
                 [
@@ -68,9 +75,9 @@ return [
 
     'shopifyCategories' => [
         'title'     => 'shopify::app.exporters.shopify.category',
-        'exporter'  => 'Webkul\Shopify\Helpers\Exporters\Category\Exporter',
-        'source'    => 'Webkul\Category\Repositories\CategoryRepository',
-        'validator' => 'Webkul\Shopify\Validators\JobInstances\Export\ShopifyCategoryAndMetafieldValidator',
+        'exporter'  => Webkul\Shopify\Helpers\Exporters\Category\Exporter::class,
+        'source'    => CategoryRepository::class,
+        'validator' => ShopifyCategoryAndMetafieldValidator::class,
         'filters'   => [
             'fields' => [
                 [
@@ -90,9 +97,9 @@ return [
 
     'shopifyMetafield' => [
         'title'     => 'shopify::app.exporters.shopify.metafields',
-        'exporter'  => 'Webkul\Shopify\Helpers\Exporters\MetaField\Exporter',
-        'source'    => 'Webkul\Shopify\Repositories\ShopifyMetaFieldRepository',
-        'validator' => 'Webkul\Shopify\Validators\JobInstances\Export\ShopifyCategoryAndMetafieldValidator',
+        'exporter'  => Webkul\Shopify\Helpers\Exporters\MetaField\Exporter::class,
+        'source'    => ShopifyMetaFieldRepository::class,
+        'validator' => ShopifyCategoryAndMetafieldValidator::class,
         'filters'   => [
             'fields' => [
                 [
@@ -112,9 +119,9 @@ return [
 
     'shopifyMetaobject' => [
         'title'     => 'shopify::app.exporters.shopify.metaobjects',
-        'exporter'  => 'Webkul\Shopify\Helpers\Exporters\Metaobject\Exporter',
-        'source'    => 'Webkul\Shopify\Repositories\ShopifyMetaobjectDefinitionRepository',
-        'validator' => 'Webkul\Shopify\Validators\JobInstances\Export\ShopifyCategoryAndMetafieldValidator',
+        'exporter'  => Webkul\Shopify\Helpers\Exporters\Metaobject\Exporter::class,
+        'source'    => ShopifyMetaobjectDefinitionRepository::class,
+        'validator' => ShopifyCategoryAndMetafieldValidator::class,
         'filters'   => [
             'fields' => [
                 [

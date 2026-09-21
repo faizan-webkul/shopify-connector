@@ -59,7 +59,7 @@ abstract class BasePhaseService
 
         $lines = $this->buildPayloadLines($operationData);
 
-        if (empty($lines)) {
+        if ($lines === []) {
             return ['processed' => 0, 'errors' => [], 'phase_bulk_operation_id' => null];
         }
 
@@ -82,7 +82,7 @@ abstract class BasePhaseService
         ];
 
         $extraData = $this->getExtraManifestData($operationData);
-        if (! empty($extraData)) {
+        if ($extraData !== []) {
             $phaseManifest = array_merge($phaseManifest, $extraData);
         }
 
@@ -91,7 +91,7 @@ abstract class BasePhaseService
         $filename = basename($jsonlPath);
         $target = $this->bulkOperationService->createJsonlUploadTarget($credentialArray, $filename);
 
-        if (empty($target)) {
+        if ($target === []) {
             return [
                 'processed'               => 0,
                 'errors'                  => ['Failed to create Shopify staged upload target.'],
@@ -115,9 +115,7 @@ abstract class BasePhaseService
         if (! $shopifyBulkOperationId) {
             $message = $response['userErrors'][0]['message'] ?? 'Unknown error';
 
-            if (stripos($message, 'already in progress') !== false) {
-                throw new BulkMutationInProgressException($message);
-            }
+            throw_if(stripos($message, 'already in progress') !== false, BulkMutationInProgressException::class, $message);
 
             return [
                 'processed'               => 0,
@@ -141,7 +139,7 @@ abstract class BasePhaseService
             ],
         ]);
 
-        PollBulkShopifyOperation::dispatch($phaseBulkOperation->id);
+        dispatch(new PollBulkShopifyOperation($phaseBulkOperation->id));
 
         return [
             'processed'               => count($lines),

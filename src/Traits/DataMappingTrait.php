@@ -50,7 +50,7 @@ trait DataMappingTrait
             ->where('relatedId', $productId)
             ->where('apiUrl', $this?->credential?->shopUrl);
         if ($galleryAttr) {
-            $mappingCheck = $mappingCheck->whereNot(function ($query) use ($attr) {
+            $mappingCheck = $mappingCheck->whereNot(function ($query) use ($attr): void {
                 foreach ($attr as $id) {
                     $query->orWhere('code', 'like', "%{$id}%");
                 }
@@ -220,7 +220,7 @@ trait DataMappingTrait
      */
     protected function deleteProductMapping(string $productId): void
     {
-        $mappings = $this->shopifyMappingRepository->where('externalId', $productId)
+        $this->shopifyMappingRepository->where('externalId', $productId)
             ->orWhere('relatedId', $productId)->delete();
     }
 
@@ -229,7 +229,7 @@ trait DataMappingTrait
      */
     protected function deleteProductVariantMapping(string $variant, string $sku): void
     {
-        $mappings = $this->shopifyMappingRepository->where('externalId', $variant)->delete();
+        $this->shopifyMappingRepository->where('externalId', $variant)->delete();
     }
 
     /**
@@ -237,7 +237,7 @@ trait DataMappingTrait
      */
     protected function deleteProductVariantMappingIfSimple(string $variant, string $sku): void
     {
-        $mappings = $this->shopifyMappingRepository
+        $this->shopifyMappingRepository
             ->where('externalId', $variant)
             ->where('code', $sku)
             ->delete();
@@ -248,7 +248,7 @@ trait DataMappingTrait
      */
     protected function deleteProductMediaMapping(array $mediaIds): void
     {
-        $mappings = $this->shopifyMappingRepository->whereIN('externalId', $mediaIds)->delete();
+        $this->shopifyMappingRepository->whereIN('externalId', $mediaIds)->delete();
     }
 
     /**

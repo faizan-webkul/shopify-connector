@@ -599,7 +599,6 @@ return [
             'credentials'      => 'Учетные данные Shopify',
             'channel'          => 'Канал',
             'currency'         => 'Валюта',
-            'locale'           => 'Языки',
             'attribute'        => 'Атрибуты',
             'productfilter'    => 'Фильтр продуктов (SKU)',
             'status'           => 'Статус',

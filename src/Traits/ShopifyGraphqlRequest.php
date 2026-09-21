@@ -26,7 +26,7 @@ trait ShopifyGraphqlRequest
      */
     protected function requestGraphQlApiAction(string $mutationType, ?array $credential = [], ?array $formatedVariable = []): array
     {
-        $client = app(ShopifyClientFactory::class)->make($credential ?? []);
+        $client = resolve(ShopifyClientFactory::class)->make($credential ?? []);
 
         $response = $client->request($mutationType, $formatedVariable ?? []);
 
@@ -72,7 +72,7 @@ trait ShopifyGraphqlRequest
             StorageFacade::disk('public')->put($path, $imageContents);
 
             return $path;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

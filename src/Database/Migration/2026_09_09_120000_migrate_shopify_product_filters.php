@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
-    private const ENTITY_TYPE = 'shopifyProduct';
+    private const string ENTITY_TYPE = 'shopifyProduct';
 
-    private const RENAMED = [
+    private const array RENAMED = [
         'channel'  => 'channels',
         'currency' => 'currencies',
     ];
@@ -17,7 +17,7 @@ return new class extends Migration
         $this->each(function (array $filters): array {
             if (array_key_exists('productfilter', $filters)) {
                 $skus = array_values(array_filter(
-                    array_map('trim', preg_split('/[\s,]+/', (string) $filters['productfilter']) ?: []),
+                    array_map(trim(...), preg_split('/[\s,]+/', (string) $filters['productfilter']) ?: []),
                     fn (string $sku): bool => $sku !== ''
                 ));
 

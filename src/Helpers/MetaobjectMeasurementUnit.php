@@ -4,7 +4,7 @@ namespace Webkul\Shopify\Helpers;
 
 class MetaobjectMeasurementUnit
 {
-    private const MAP = [
+    private const array MAP = [
         'dimension' => [
             'mm' => 'MILLIMETERS',
             'cm' => 'CENTIMETERS',

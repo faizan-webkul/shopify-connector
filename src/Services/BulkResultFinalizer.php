@@ -36,9 +36,7 @@ class BulkResultFinalizer
     {
         $resultPath = $bulkOperation->result_file_path;
 
-        if (empty($resultPath) || ! Storage::disk('local')->exists($resultPath)) {
-            throw new \RuntimeException('Shopify bulk operation result file is missing.');
-        }
+        throw_if(empty($resultPath) || ! Storage::disk('local')->exists($resultPath), \RuntimeException::class, 'Shopify bulk operation result file is missing.');
 
         $raw = trim(Storage::disk('local')->get($resultPath));
         $results = $raw === '' ? [] : preg_split("/\r\n|\n|\r/", $raw);
@@ -80,7 +78,7 @@ class BulkResultFinalizer
 
                 if ($sku && $shopUrl && $this->isStaleProductMappingError($userErrors)) {
                     $cleared = $this->clearStaleProductMappings($sku, $shopUrl);
-                    if (! empty($cleared)) {
+                    if ($cleared !== []) {
                         $clearedStaleSkus = array_values(array_unique(array_merge($clearedStaleSkus, $cleared)));
                     }
 
@@ -161,7 +159,7 @@ class BulkResultFinalizer
         $bulkOperation->meta = $meta;
         $bulkOperation->save();
 
-        if (! empty($clearedStaleSkus) || ! empty($recreatedSkus)) {
+        if ($clearedStaleSkus !== [] || $recreatedSkus !== []) {
             $this->logStaleMappingCleanup((int) ($jobTrackId ?? 0), $clearedStaleSkus, $recreatedSkus);
         }
 
@@ -184,7 +182,7 @@ class BulkResultFinalizer
             }
 
             $message = strtolower((string) ($error['message'] ?? ''));
-            $field = strtolower(implode(',', array_map('strval', (array) ($error['field'] ?? []))));
+            $field = strtolower(implode(',', array_map(strval(...), (array) ($error['field'] ?? []))));
 
             $isIdentifierError = str_contains($field, 'identifier') || str_contains($field, 'id');
             $hintsAtMissing = str_contains($message, 'does not exist')
@@ -224,7 +222,7 @@ class BulkResultFinalizer
         $relatedMappings = $this->shopifyMappingRepository
             ->where('apiUrl', $shopUrl)
             ->where('entityType', 'product')
-            ->where(function ($query) use ($parentProductId) {
+            ->where(function ($query) use ($parentProductId): void {
                 $query->where('relatedId', $parentProductId)
                     ->orWhere('externalId', $parentProductId);
             })
@@ -237,7 +235,7 @@ class BulkResultFinalizer
             $this->shopifyMappingRepository->delete($mapping->id);
         }
 
-        if (! empty($cleared)) {
+        if ($cleared !== []) {
             $staleMedia = $this->shopifyMappingRepository
                 ->where('apiUrl', $shopUrl)
                 ->where('entityType', 'productImage')
@@ -269,7 +267,7 @@ class BulkResultFinalizer
     ): array {
         $handle = $manifestLine['product_handle'] ?? null;
 
-        if (empty($variables) || empty($variables['input']) || empty($credential)) {
+        if (empty($variables) || empty($variables['input']) || $credential === []) {
             return ['success' => false];
         }
 
@@ -373,13 +371,7 @@ class BulkResultFinalizer
      */
     protected function hasHandleConflict(array $errors): bool
     {
-        foreach ($errors as $error) {
-            if (($error['code'] ?? null) === 'HANDLE_NOT_UNIQUE') {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($errors, fn ($error): bool => ($error['code'] ?? null) === 'HANDLE_NOT_UNIQUE');
     }
 
     /**
@@ -407,7 +399,7 @@ class BulkResultFinalizer
 
         $lines = preg_split("/\r\n|\n|\r/", $raw);
 
-        return array_map(fn ($line) => json_decode($line, true) ?: [], $lines);
+        return array_map(fn ($line): mixed => json_decode($line, true) ?: [], $lines);
     }
 
     /**
@@ -453,11 +445,9 @@ class BulkResultFinalizer
      */
     protected function metafieldCodeMap(): array
     {
-        if ($this->metafieldCodeMap === null) {
-            $this->metafieldCodeMap = $this->shopifyMetaFieldRepository->all(['code', 'name_space_key'])
-                ->pluck('code', 'name_space_key')
-                ->toArray();
-        }
+        $this->metafieldCodeMap ??= $this->shopifyMetaFieldRepository->all(['code', 'name_space_key'])
+            ->pluck('code', 'name_space_key')
+            ->toArray();
 
         return $this->metafieldCodeMap;
     }
@@ -474,7 +464,7 @@ class BulkResultFinalizer
         try {
             $logger = JobLogger::make($jobTrackId);
 
-            if (! empty($recreatedSkus)) {
+            if ($recreatedSkus !== []) {
                 $logger->info(sprintf(
                     'Recreated Shopify product(s) for SKU(s) after detecting stale local mapping: %s',
                     implode(', ', $recreatedSkus)
@@ -483,13 +473,13 @@ class BulkResultFinalizer
 
             $unrecoveredCleared = array_values(array_diff($clearedSkus, $recreatedSkus));
 
-            if (! empty($unrecoveredCleared)) {
+            if ($unrecoveredCleared !== []) {
                 $logger->warning(sprintf(
                     'Cleared stale Shopify mapping(s) for SKU(s): %s. Recreation could not complete in this run; re-run the export to recreate them.',
                     implode(', ', $unrecoveredCleared)
                 ));
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
 
@@ -499,7 +489,7 @@ class BulkResultFinalizer
             return;
         }
 
-        DB::transaction(function () use ($bulkOperation, $success, $failed) {
+        DB::transaction(function () use ($bulkOperation, $success, $failed): void {
             $jobTrackId = (int) $bulkOperation->job_track_id;
 
             if ($jobTrackId <= 0) {
@@ -583,7 +573,7 @@ class BulkResultFinalizer
             $decoded = json_decode($line, true);
             $userErrors = $this->extractUserErrors($decoded, $mutation);
 
-            if (empty($userErrors)) {
+            if ($userErrors === []) {
                 $successful++;
             } else {
                 $errors[] = [
@@ -612,7 +602,7 @@ class BulkResultFinalizer
 
             if ($coreOpId > 0) {
                 $this->phaseProgressTracker->registerPhaseJobsForCore($coreOpId, 1);
-                RunVariantMediaPhase::dispatch($coreOpId);
+                dispatch(new RunVariantMediaPhase($coreOpId));
             }
         }
 
@@ -644,7 +634,7 @@ class BulkResultFinalizer
      */
     protected function persistBulkMediaMappings(array $pendingMedia, array $credential, ?int $jobTrackId, ?string $shopUrl): void
     {
-        if (empty($pendingMedia) || empty($credential) || empty($jobTrackId) || empty($shopUrl)) {
+        if ($pendingMedia === [] || $credential === [] || empty($jobTrackId) || empty($shopUrl)) {
             return;
         }
 
@@ -657,7 +647,7 @@ class BulkResultFinalizer
         foreach (array_chunk(array_keys($planByProduct), 50) as $chunk) {
             try {
                 $response = $this->requestGraphQlApiAction('getProductsMedia', $credential, ['ids' => $chunk]);
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
                 continue;
             }
 

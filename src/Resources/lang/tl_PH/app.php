@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Mga Setting',
                 'upgrade'               => 'Mag-upgrade sa Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Mga Kredensyal',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Kredensyal ng Shopify',
             'channel'          => 'Channel',
             'currency'         => 'Pera',
-            'locale'           => 'Mga Locale',
             'attribute'        => 'Mga Attribute',
             'productfilter'    => 'Filter ng Produkto (SKU)',
             'status'           => 'Katayuan',

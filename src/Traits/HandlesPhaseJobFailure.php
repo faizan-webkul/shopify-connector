@@ -21,8 +21,8 @@ trait HandlesPhaseJobFailure
     public function failed(\Throwable $exception): void
     {
         try {
-            $repository = app(ShopifyBulkOperationRepository::class);
-            $tracker = app(PhaseProgressTracker::class);
+            $repository = resolve(ShopifyBulkOperationRepository::class);
+            $tracker = resolve(PhaseProgressTracker::class);
 
             $bulkOperation = $repository->find($this->bulkOperationId);
 
@@ -35,7 +35,7 @@ trait HandlesPhaseJobFailure
                 (int) $bulkOperation->job_track_id,
                 static::PHASE,
             );
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
 
@@ -48,7 +48,7 @@ trait HandlesPhaseJobFailure
      */
     protected function storePhaseResultOnCore(int $coreBulkOpId, string $phase, array $result): void
     {
-        DB::transaction(function () use ($coreBulkOpId, $phase, $result) {
+        DB::transaction(function () use ($coreBulkOpId, $phase, $result): void {
             $coreOp = ShopifyBulkOperation::query()
                 ->whereKey($coreBulkOpId)
                 ->lockForUpdate()

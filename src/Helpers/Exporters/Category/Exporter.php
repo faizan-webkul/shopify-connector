@@ -5,6 +5,7 @@ namespace Webkul\Shopify\Helpers\Exporters\Category;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Category\Repositories\CategoryFieldRepository;
+use Webkul\DAM\Repositories\AssetRepository;
 use Webkul\DataTransfer\Contracts\JobTrackBatch as JobTrackBatchContract;
 use Webkul\DataTransfer\Helpers\Export as ExportHelper;
 use Webkul\DataTransfer\Helpers\Exporters\AbstractExporter;
@@ -74,10 +75,8 @@ class Exporter extends AbstractExporter
 
     /**
      * Initializes the channels and locales for the export process.
-     *
-     * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->initCredential();
 
@@ -134,9 +133,7 @@ class Exporter extends AbstractExporter
     protected function initDefaultLocale(): void
     {
         if ($this->credential->storeLocales) {
-            $defaultLanguage = array_values(array_filter($this->credential->storeLocales, function ($language) {
-                return isset($language['defaultlocale']) && $language['defaultlocale'] === true;
-            }))[0] ?? null;
+            $defaultLanguage = array_values(array_filter($this->credential->storeLocales, fn (array $language): bool => isset($language['defaultlocale']) && $language['defaultlocale'] === true))[0] ?? null;
 
             $this->shopifyDefaultLocale = $this->credential->storelocaleMapping[$defaultLanguage['locale']] ?? null;
         }
@@ -178,7 +175,7 @@ class Exporter extends AbstractExporter
         return $this->source->with('parent_category')->orderBy('id', 'desc')->all()?->getIterator();
     }
 
-    public function prepareCategoriesShopify(JobTrackBatchContract $batch, mixed $filePath)
+    public function prepareCategoriesShopify(JobTrackBatchContract $batch, mixed $filePath): void
     {
         $fieldMap = $this->collectionMapping?->mapping['collection_mapping'] ?? [];
 
@@ -216,7 +213,7 @@ class Exporter extends AbstractExporter
                 if (! empty($resultCollection['userErrors'])) {
                     $resultCollection = $this->handleAfterApiRequest($rawData, $responseData, $mapping, $this->export->id, $category);
 
-                    if (! empty($resultCollection['userErrors']) || empty($resultCollection)) {
+                    if (! empty($resultCollection['userErrors']) || $resultCollection === []) {
                         $this->skippedItemsCount++;
                         $this->logWarning($resultCollection['userErrors'], $rawData['code']);
 
@@ -244,7 +241,7 @@ class Exporter extends AbstractExporter
         $collectionId = $collectionResult['collection']['id'];
         $existingPublications = $collectionResult['collection']['resourcePublications']['edges'] ?? [];
 
-        $existingIds = array_map(fn ($item) => $item['node']['publication']['id'], $existingPublications);
+        $existingIds = array_map(fn (array $item) => $item['node']['publication']['id'], $existingPublications);
         $newIds = array_column($publicationIds, 'publicationId');
         sort($existingIds);
         sort($newIds);
@@ -255,10 +252,10 @@ class Exporter extends AbstractExporter
             ]);
 
             $removePublication = array_values(array_diff($existingIds, $newIds));
-            if (! empty($removePublication)) {
+            if ($removePublication !== []) {
                 $this->requestGraphQlApiAction(self::UPDATE_UNPUBLISH_CHANNEL, $this->credentialArray, [
                     'id'    => $collectionId,
-                    'input' => array_map(fn ($id) => ['publicationId' => $id], $removePublication),
+                    'input' => array_map(fn ($id): array => ['publicationId' => $id], $removePublication),
                 ]);
             }
         }
@@ -269,7 +266,7 @@ class Exporter extends AbstractExporter
      */
     public function logWarning(array $data, string $code): void
     {
-        if (! empty($data) && ! empty($code)) {
+        if ($data !== [] && ! empty($code)) {
             $error = json_encode($data, true);
 
             $this->jobLogger->warning(
@@ -287,7 +284,7 @@ class Exporter extends AbstractExporter
             return [];
         }
 
-        if (! array_key_exists('additional_data', $data) || ! array_key_exists('locale_specific', $data['additional_data'])) {
+        if (! array_key_exists('locale_specific', $data['additional_data'])) {
             return [];
         }
 
@@ -338,7 +335,7 @@ class Exporter extends AbstractExporter
                 $seo[$seoKey] = $merged[$fieldMap[$mapKey]];
             }
         }
-        if (! empty($seo)) {
+        if ($seo !== []) {
             $category['seo'] = $seo;
         }
 
@@ -425,7 +422,7 @@ class Exporter extends AbstractExporter
             return null;
         }
 
-        $encodedPath = implode('/', array_map('rawurlencode', explode('/', $path)));
+        $encodedPath = implode('/', array_map(rawurlencode(...), explode('/', $path)));
 
         $url = Storage::url($encodedPath);
 
@@ -465,11 +462,11 @@ class Exporter extends AbstractExporter
     protected function stageCollectionAsset(mixed $value, string $categoryCode): ?string
     {
         $ids = array_values(array_filter(array_map(
-            'trim',
+            trim(...),
             explode(',', is_array($value) ? implode(',', $value) : (string) $value),
         )));
 
-        if ($ids === [] || ! $this->assetRepository()) {
+        if ($ids === [] || ! $this->assetRepository() instanceof AssetRepository) {
             return null;
         }
 
@@ -527,24 +524,16 @@ class Exporter extends AbstractExporter
             return false;
         }
 
-        foreach (['.local', '.localhost', '.test', '.invalid', '.example', '.internal'] as $suffix) {
-            if (str_ends_with($host, $suffix)) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all(['.local', '.localhost', '.test', '.invalid', '.example', '.internal'], fn (string $suffix): bool => ! str_ends_with($host, $suffix));
     }
 
     /**
      * Make an API request to Shopify to create or update a category.
      */
-    public function apiRequestShopify($category, $id = null)
+    public function apiRequestShopify($category, $id = null): array
     {
         $mutationType = $id ? 'updateCollection' : 'createCollection';
 
-        $response = $this->requestGraphQlApiAction($mutationType, $this->credentialArray, ['input' => $category]);
-
-        return $response;
+        return $this->requestGraphQlApiAction($mutationType, $this->credentialArray, ['input' => $category]);
     }
 }

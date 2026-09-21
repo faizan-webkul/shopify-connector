@@ -599,7 +599,6 @@ return [
             'credentials'      => 'بيانات اعتماد Shopify',
             'channel'          => 'القناة',
             'currency'         => 'العملة',
-            'locale'           => 'اللغات',
             'attribute'        => 'السمات',
             'productfilter'    => 'مرشح المنتج (SKU)',
             'status'           => 'الحالة',

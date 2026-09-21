@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Postavke',
                 'upgrade'               => 'Nadogradi na Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Vjerodajnice',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Shopify vjerodajnica',
             'channel'          => 'Kanal',
             'currency'         => 'Valuta',
-            'locale'           => 'Lokalizacije',
             'attribute'        => 'Atributi',
             'productfilter'    => 'Filtar proizvoda (SKU)',
             'status'           => 'Status',

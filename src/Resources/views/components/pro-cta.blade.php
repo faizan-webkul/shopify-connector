@@ -15,12 +15,9 @@
 @endphp
 
 @if ($variant === 'badge')
-    <x-admin::badge
-        :variant="$installed ? 'info' : 'warning'"
-        {{ $attributes->merge(['class' => 'shopify-pro-badge shrink-0']) }}
-    >
+    <span {{ $attributes->merge(['class' => 'shopify-pro-badge shrink-0']) }}>
         {{ trans('shopify::app.shopify.pro.badge') }}
-    </x-admin::badge>
+    </span>
 @elseif (! $installed)
     <a
         href="{{ $proFeatures->upgradeUrl() }}"

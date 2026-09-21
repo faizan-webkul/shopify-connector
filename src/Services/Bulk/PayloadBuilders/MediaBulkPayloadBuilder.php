@@ -2,6 +2,7 @@
 
 namespace Webkul\Shopify\Services\Bulk\PayloadBuilders;
 
+use Webkul\DAM\Repositories\AssetRepository;
 use Webkul\Shopify\Repositories\ShopifyMappingRepository;
 use Webkul\Shopify\Services\Bulk\Media\AssetUrlResolver;
 use Webkul\Shopify\Services\ProductPhaseDataService;
@@ -169,14 +170,14 @@ class MediaBulkPayloadBuilder
                 ];
             }
 
-            if (! empty($updateMedia)) {
+            if ($updateMedia !== []) {
                 $this->updateLines[] = json_encode([
                     'productId' => $productId,
                     'media'     => $updateMedia,
                 ], JSON_UNESCAPED_SLASHES);
             }
 
-            if (empty($createMedia)) {
+            if ($createMedia === []) {
                 continue;
             }
 
@@ -228,7 +229,7 @@ class MediaBulkPayloadBuilder
     {
         $desiredMedia = $this->collectMediaForProduct($productSku, $variantSkus, $credentialId, $channel, $currency);
 
-        if (empty($desiredMedia)) {
+        if ($desiredMedia === []) {
             return ['files' => [], 'planItems' => []];
         }
 
@@ -253,7 +254,7 @@ class MediaBulkPayloadBuilder
 
         $unusableGids = $this->unusableMediaGids($candidateGids, $credential);
 
-        if (! empty($unusableGids)) {
+        if ($unusableGids !== []) {
             $this->purgeMediaMappings($unusableGids);
         }
 
@@ -306,13 +307,13 @@ class MediaBulkPayloadBuilder
     {
         $gids = array_values(array_unique(array_filter($gids)));
 
-        if (empty($gids) || empty($credential)) {
+        if ($gids === [] || $credential === []) {
             return [];
         }
 
         try {
             $response = $this->requestGraphQlApiAction('getFileById', $credential, ['ids' => $gids]);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return [];
         }
 
@@ -330,7 +331,7 @@ class MediaBulkPayloadBuilder
             }
         }
 
-        return array_values(array_filter($gids, static fn ($gid) => ! isset($healthy[$gid])));
+        return array_values(array_filter($gids, static fn (string $gid): bool => ! isset($healthy[$gid])));
     }
 
     /**
@@ -343,7 +344,7 @@ class MediaBulkPayloadBuilder
     {
         $gids = array_values(array_unique(array_filter($gids)));
 
-        if (empty($gids)) {
+        if ($gids === []) {
             return;
         }
 
@@ -385,7 +386,7 @@ class MediaBulkPayloadBuilder
         $variantSkus = $entry['manifest']['variant_skus'] ?? [];
         $desiredMedia = $this->collectMediaForProduct($productSku, $variantSkus, $credentialId, $channel, $currency);
 
-        if (empty($desiredMedia)) {
+        if ($desiredMedia === []) {
             return null;
         }
 
@@ -546,9 +547,9 @@ class MediaBulkPayloadBuilder
             return [];
         }
 
-        $attributeCodes = array_filter(array_map('trim', explode(',', (string) $mediaMapping['mediaAttributes'])));
+        $attributeCodes = array_filter(array_map(trim(...), explode(',', (string) $mediaMapping['mediaAttributes'])));
 
-        if (empty($attributeCodes)) {
+        if ($attributeCodes === []) {
             return [];
         }
 
@@ -653,14 +654,14 @@ class MediaBulkPayloadBuilder
     {
         $assetRepository = $this->assetRepository();
 
-        if (! $assetRepository) {
+        if (! $assetRepository instanceof AssetRepository) {
             return [];
         }
 
         $rawValue = is_array($rawValue) ? implode(',', $rawValue) : (string) $rawValue;
-        $ids = array_filter(array_map('trim', explode(',', $rawValue)));
+        $ids = array_filter(array_map(trim(...), explode(',', $rawValue)));
 
-        if (empty($ids)) {
+        if ($ids === []) {
             return [];
         }
 

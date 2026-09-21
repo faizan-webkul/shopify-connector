@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => '設定',
                 'upgrade'               => '升級至 Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => '憑證',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Shopify 憑證',
             'channel'          => '管道',
             'currency'         => '貨幣',
-            'locale'           => '語系',
             'attribute'        => '屬性',
             'productfilter'    => '產品篩選（SKU）',
             'status'           => '狀態',

@@ -172,13 +172,24 @@
         border-inline-start-color: #3f3a4d;
     }
 
-    /** The badge core renders, worn the way the Pro mark is worn everywhere. */
-    .shopify-pro-notice .shopify-pro-badge {
+    /** The one Pro mark, worn the same on every screen. */
+    .shopify-pro-badge {
+        display: inline-flex;
+        align-items: center;
         padding: 0.125rem 0.4375rem;
+        border-radius: 0.25rem;
+        background-color: #fde9c0;
+        color: #92500e;
         font-size: 0.625rem;
         font-weight: 800;
+        line-height: 1.4;
         letter-spacing: 0.05em;
         text-transform: uppercase;
+    }
+
+    .dark .shopify-pro-badge {
+        background-color: #4a3208;
+        color: #fbd38d;
     }
 
     .shopify-pro-notice__actions {
@@ -190,10 +201,27 @@
     }
 
     .shopify-pro-link {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.375rem;
         font-size: 0.78125rem;
         font-weight: 600;
         color: #6d28d9;
         white-space: nowrap;
+        text-decoration: underline;
+        text-decoration-color: transparent;
+        text-underline-offset: 0.1875rem;
+        transition: color 150ms ease-in-out, background-color 150ms ease-in-out, text-decoration-color 150ms ease-in-out;
+    }
+
+    .shopify-pro-link:hover {
+        background-color: #efe7ff;
+        color: #5b21b6;
+        text-decoration-color: currentColor;
+    }
+
+    .dark .shopify-pro-link:hover {
+        background-color: rgba(109, 40, 217, 0.28);
+        color: #ddd0ff;
     }
 
     .dark .shopify-pro-link {

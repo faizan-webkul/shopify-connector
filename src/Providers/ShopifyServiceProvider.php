@@ -32,10 +32,8 @@ class ShopifyServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
-    public function boot(Router $router)
+    public function boot(Router $router): void
     {
         View::composer('shopify::*', static function ($view): void {
             $view->with('shopifyProInstalled', resolve(ProFeatures::class)->isInstalled());
@@ -99,7 +97,7 @@ class ShopifyServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'shopify');
 
         $this->app->register(ModuleServiceProvider::class);
-        app('view')->prependNamespace('admin', __DIR__.'/../Resources/views');
+        resolve('view')->prependNamespace('admin', __DIR__.'/../Resources/views');
 
         Blade::anonymousComponentPath(__DIR__.'/../Resources/views/components', 'shopify');
 
@@ -111,11 +109,11 @@ class ShopifyServiceProvider extends ServiceProvider
             ]);
         }
 
-        Event::listen('unopim.admin.layout.head', static function (ViewRenderEventManager $viewRenderEventManager) {
+        Event::listen('unopim.admin.layout.head', static function (ViewRenderEventManager $viewRenderEventManager): void {
             $viewRenderEventManager->addTemplate('shopify::style');
         });
 
-        Event::listen('data_transfer.exports.started', static function ($export) {
+        Event::listen('data_transfer.exports.started', static function ($export): void {
             if (! str_starts_with(strtolower((string) ($export->type ?? '')), 'shopify')) {
                 return;
             }
@@ -127,16 +125,16 @@ class ShopifyServiceProvider extends ServiceProvider
             }
         });
 
-        Event::listen('unopim.admin.products.dynamic-attribute-fields.control.shopify_taxonomy.before', static function (ViewRenderEventManager $viewRenderEventManager) {
+        Event::listen('unopim.admin.products.dynamic-attribute-fields.control.shopify_taxonomy.before', static function (ViewRenderEventManager $viewRenderEventManager): void {
             $viewRenderEventManager->addTemplate('shopify::catalog.products.taxonomy-control');
         });
 
-        Event::listen('unopim.admin.products.dynamic-attribute-fields.control.shopify_metaobject.before', static function (ViewRenderEventManager $viewRenderEventManager) {
+        Event::listen('unopim.admin.products.dynamic-attribute-fields.control.shopify_metaobject.before', static function (ViewRenderEventManager $viewRenderEventManager): void {
             $viewRenderEventManager->addTemplate('shopify::catalog.products.metaobject-control');
         });
 
         foreach (['create', 'edit'] as $screen) {
-            Event::listen("unopim.admin.settings.data_transfer.exports.{$screen}.card.general.before", static function (ViewRenderEventManager $viewRenderEventManager) {
+            Event::listen("unopim.admin.settings.data_transfer.exports.{$screen}.card.general.before", static function (ViewRenderEventManager $viewRenderEventManager): void {
                 $viewRenderEventManager->addTemplate('shopify::data-transfer.pro-filter-badges');
             });
         }
@@ -189,30 +187,30 @@ class ShopifyServiceProvider extends ServiceProvider
         $this->appendScheduleFilterFields();
 
         foreach ($exportCards as $screen => $templates) {
-            Event::listen("unopim.admin.settings.data_transfer.exports.{$screen}.card.accordion.filters.befor", static function (ViewRenderEventManager $viewRenderEventManager) use ($templates) {
+            Event::listen("unopim.admin.settings.data_transfer.exports.{$screen}.card.accordion.filters.befor", static function (ViewRenderEventManager $viewRenderEventManager) use ($templates): void {
                 foreach ($templates as $template) {
                     $viewRenderEventManager->addTemplate($template);
                 }
             });
         }
 
-        Event::listen('unopim.admin.catalog.attributes.create.card.label.after', static function (ViewRenderEventManager $viewRenderEventManager) {
+        Event::listen('unopim.admin.catalog.attributes.create.card.label.after', static function (ViewRenderEventManager $viewRenderEventManager): void {
             $viewRenderEventManager->addTemplate('shopify::catalog.attributes.metaobject-binding');
         });
 
-        Event::listen('unopim.admin.catalog.attributes.edit.card.label.after', static function (ViewRenderEventManager $viewRenderEventManager) {
+        Event::listen('unopim.admin.catalog.attributes.edit.card.label.after', static function (ViewRenderEventManager $viewRenderEventManager): void {
             $viewRenderEventManager->addTemplate('shopify::catalog.attributes.metaobject-binding');
         });
 
-        Event::listen('unopim.admin.catalog.attributes.list.after', static function (ViewRenderEventManager $viewRenderEventManager) {
+        Event::listen('unopim.admin.catalog.attributes.list.after', static function (ViewRenderEventManager $viewRenderEventManager): void {
             $viewRenderEventManager->addTemplate('shopify::catalog.attributes.metaobject-binding-modal');
         });
 
-        Event::listen('unopim.admin.settings.data_transfer.tracker.job.state.processing.after', static function (ViewRenderEventManager $viewRenderEventManager) {
+        Event::listen('unopim.admin.settings.data_transfer.tracker.job.state.processing.after', static function (ViewRenderEventManager $viewRenderEventManager): void {
             $viewRenderEventManager->addTemplate('shopify::data-transfer.tracker.phase');
         });
 
-        $requireMetaobjectDefinition = static function () {
+        $requireMetaobjectDefinition = static function (): void {
             if (request()->input('type') === 'shopify_metaobject' && ! request()->filled('metaobject_definition')) {
                 throw ValidationException::withMessages([
                     'type' => trans('shopify::app.shopify.attribute.metaobject-required'),
@@ -224,14 +222,14 @@ class ShopifyServiceProvider extends ServiceProvider
 
         Event::listen('catalog.attribute.update.before', $requireMetaobjectDefinition);
 
-        Event::listen('catalog.attribute.create.after', static function ($attribute) {
+        Event::listen('catalog.attribute.create.after', static function ($attribute): void {
             if (request()->input('type') === 'shopify_metaobject' && request()->input('metaobject_definition')) {
-                app(ShopifyMetaobjectAttributeRepository::class)->saveBinding((int) $attribute->id, (int) request()->input('metaobject_definition'), request()->boolean('metaobject_multiple'));
+                resolve(ShopifyMetaobjectAttributeRepository::class)->saveBinding((int) $attribute->id, (int) request()->input('metaobject_definition'), request()->boolean('metaobject_multiple'));
             }
         });
 
-        Event::listen('catalog.attribute.update.after', static function ($attribute) {
-            $repository = app(ShopifyMetaobjectAttributeRepository::class);
+        Event::listen('catalog.attribute.update.after', static function ($attribute): void {
+            $repository = resolve(ShopifyMetaobjectAttributeRepository::class);
 
             if (request()->input('type') === 'shopify_metaobject' && request()->input('metaobject_definition')) {
                 $repository->saveBinding((int) $attribute->id, (int) request()->input('metaobject_definition'), request()->boolean('metaobject_multiple'));
@@ -242,25 +240,25 @@ class ShopifyServiceProvider extends ServiceProvider
             $repository->deleteBinding((int) $attribute->id);
         });
 
-        Event::listen('catalog.attribute.delete.before', static function ($id) {
-            $attribute = app(AttributeRepository::class)->find((int) $id);
+        Event::listen('catalog.attribute.delete.before', static function ($id): void {
+            $attribute = resolve(AttributeRepository::class)->find((int) $id);
 
             if ($attribute?->type === 'shopify_metaobject') {
-                app(ShopifyMetaFieldRepository::class)->deleteWhere([
+                resolve(ShopifyMetaFieldRepository::class)->deleteWhere([
                     ['code', '=', $attribute->code],
                     ['type', '=', 'metaobject_reference'],
                 ]);
             }
         });
 
-        Event::listen('catalog.attribute.delete.after', static function ($id) {
-            app(ShopifyMetaobjectAttributeRepository::class)->deleteBinding((int) $id);
+        Event::listen('catalog.attribute.delete.after', static function ($id): void {
+            resolve(ShopifyMetaobjectAttributeRepository::class)->deleteBinding((int) $id);
         });
 
-        Event::listen('catalog.attribute.create.before', static function () {
+        Event::listen('catalog.attribute.create.before', static function (): void {
             if (
                 request()->input('type') === 'shopify_taxonomy'
-                && app(AttributeRepository::class)->findWhere(['type' => 'shopify_taxonomy'])->isNotEmpty()
+                && resolve(AttributeRepository::class)->findWhere(['type' => 'shopify_taxonomy'])->isNotEmpty()
             ) {
                 throw ValidationException::withMessages([
                     'type' => trans('shopify::app.shopify.attribute.only-one'),
@@ -280,7 +278,7 @@ class ShopifyServiceProvider extends ServiceProvider
             return $path;
         };
 
-        $ensureShopifyImportFilePath = static function ($import) use ($shopifyImportPlaceholder) {
+        $ensureShopifyImportFilePath = static function ($import) use ($shopifyImportPlaceholder): void {
             if (! str_starts_with($import->entity_type ?? '', 'shopify') || ! empty($import->file_path)) {
                 return;
             }
@@ -290,7 +288,7 @@ class ShopifyServiceProvider extends ServiceProvider
             $import->save();
         };
 
-        JobInstancesProxy::creating(static function ($jobInstance) {
+        JobInstancesProxy::creating(static function ($jobInstance): void {
             if (str_starts_with($jobInstance->entity_type ?? '', 'shopify') && empty($jobInstance->validation_strategy)) {
                 $jobInstance->validation_strategy = 'stop-on-errors';
             }
@@ -300,7 +298,7 @@ class ShopifyServiceProvider extends ServiceProvider
 
         Event::listen('data_transfer.imports.update.after', $ensureShopifyImportFilePath);
 
-        Event::listen('data_transfer.imports.import.now.before', static function ($import) use ($shopifyImportPlaceholder) {
+        Event::listen('data_transfer.imports.import.now.before', static function ($import) use ($shopifyImportPlaceholder): void {
             if (str_starts_with($import->entity_type ?? '', 'shopify')) {
                 $shopifyImportPlaceholder();
             }
@@ -323,10 +321,8 @@ class ShopifyServiceProvider extends ServiceProvider
 
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerConfig();
     }
@@ -486,47 +482,47 @@ class ShopifyServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/menu.php',
+            __DIR__.'/../Config/menu.php',
             'menu.admin'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/acl.php', 'acl'
+            __DIR__.'/../Config/acl.php', 'acl'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/api-acl.php', 'api-acl'
+            __DIR__.'/../Config/api-acl.php', 'api-acl'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/exporters.php', 'exporters'
+            __DIR__.'/../Config/exporters.php', 'exporters'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/importers.php', 'importers'
+            __DIR__.'/../Config/importers.php', 'importers'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/bulk_mutations.php', 'shopify_bulk_mutations'
+            __DIR__.'/../Config/bulk_mutations.php', 'shopify_bulk_mutations'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/bulk_operations.php', 'shopify-bulk-operations'
+            __DIR__.'/../Config/bulk_operations.php', 'shopify-bulk-operations'
         );
         $this->mergeConfigFrom(
             __DIR__.'/../Config/unopim-vite.php', 'unopim-vite.viters'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/saas.php', 'shopify.saas'
+            __DIR__.'/../Config/saas.php', 'shopify.saas'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/shopify_taxonomy.php', 'shopify_taxonomy'
+            __DIR__.'/../Config/shopify_taxonomy.php', 'shopify_taxonomy'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/attribute_types.php', 'attribute_types'
+            __DIR__.'/../Config/attribute_types.php', 'attribute_types'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/schedule.php', 'shopify_schedule'
+            __DIR__.'/../Config/schedule.php', 'shopify_schedule'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/pro-filters.php', 'shopify_pro_filters'
+            __DIR__.'/../Config/pro-filters.php', 'shopify_pro_filters'
         );
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/pro.php', 'shopify.pro'
+            __DIR__.'/../Config/pro.php', 'shopify.pro'
         );
     }
 }

@@ -599,7 +599,6 @@ return [
             'credentials'      => 'Shopify-Zugangsdaten',
             'channel'          => 'Kanal',
             'currency'         => 'Währung',
-            'locale'           => 'Sprachen',
             'attribute'        => 'Attribute',
             'productfilter'    => 'Produktfilter (SKU)',
             'status'           => 'Status',

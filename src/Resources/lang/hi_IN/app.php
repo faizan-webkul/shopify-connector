@@ -599,7 +599,6 @@ return [
             'credentials'      => 'Shopify प्रमाण-पत्र',
             'channel'          => 'चैनल',
             'currency'         => 'मुद्रा',
-            'locale'           => 'भाषाएँ',
             'attribute'        => 'विशेषताएँ',
             'productfilter'    => 'उत्पाद फ़िल्टर (SKU)',
             'status'           => 'स्थिति',

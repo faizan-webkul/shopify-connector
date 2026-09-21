@@ -2,7 +2,7 @@
 
 namespace Webkul\Shopify\Helpers\Exporters\Product;
 
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Webkul\Shopify\Helpers\MeasurementUnitMapper;
 use Webkul\Shopify\Helpers\ShopifyFields;
 
@@ -16,7 +16,7 @@ class ShopifyGraphQLDataFormatter
 
     protected $currency = 'USD';
 
-    protected $locationId = null;
+    protected $locationId;
 
     protected $locationAttributeMappings = [];
 
@@ -61,8 +61,8 @@ class ShopifyGraphQLDataFormatter
         array $exportMapping,
         string $locale,
         array $parentData = [],
-        $productMetaField = [],
-        $variantMetaField = [],
+        array $productMetaField = [],
+        array $variantMetaField = [],
         bool $variantExists = false,
     ): array {
         $configuredStatus = $exportMapping['shopify_connector_settings']['status'] ?? null;
@@ -101,11 +101,11 @@ class ShopifyGraphQLDataFormatter
         array $variantMetaField,
         array $units,
     ): void {
-        if (! empty($productMetaField) && ! empty($parentData)) {
+        if ($productMetaField !== [] && $parentData !== []) {
             $formatted['parentMetaFields'] = $this->processProductMetaFieldDefintions($parentData, $locale, $productMetaField, $units);
         }
 
-        $metaField = empty($parentData) ? $productMetaField : $variantMetaField;
+        $metaField = $parentData === [] ? $productMetaField : $variantMetaField;
 
         $formatted['metafields'] = $this->processProductMetaFieldDefintions($rawData, $locale, $metaField, $units);
     }
@@ -115,7 +115,7 @@ class ShopifyGraphQLDataFormatter
         ?string $locale,
         array $productMetaField,
         array $units
-    ) {
+    ): array {
         $formatted = [];
         foreach ($productMetaField as $field) {
             $unoAttribute = $field['code'] ?? null;
@@ -141,7 +141,7 @@ class ShopifyGraphQLDataFormatter
                         if (isset($field['validations'])) {
                             $ratingValidation = json_decode($field['validations'], true);
                             $updatedData = array_combine(
-                                array_map(fn ($key) => 'scale_'.$key, array_keys($ratingValidation)),
+                                array_map(fn (int|string $key): string => 'scale_'.$key, array_keys($ratingValidation)),
                                 $ratingValidation
                             );
                             $updatedData['value'] = $rawData[$unoAttribute] ?? null;
@@ -176,14 +176,14 @@ class ShopifyGraphQLDataFormatter
                     case 'file_reference':
                         $rawValue = $rawData[$unoAttribute] ?? [];
                         $references = ($attribute?->type ?? null) === 'asset'
-                            ? array_filter(array_map('trim', explode(',', (string) $rawValue)))
+                            ? array_filter(array_map(trim(...), explode(',', (string) $rawValue)))
                             : (array) $rawValue;
                         $gids = array_values(array_filter(array_map(
                             fn ($v) => $this->fileReferenceMap[(string) $v] ?? null,
                             $references
                         )));
                         $metafieldValue = ! empty($field['listvalue'])
-                            ? (empty($gids) ? null : json_encode($gids))
+                            ? ($gids === [] ? null : json_encode($gids))
                             : ($gids[0] ?? null);
                         break;
 
@@ -210,7 +210,7 @@ class ShopifyGraphQLDataFormatter
                         break;
 
                     case 'date_time':
-                        $metafieldValue = Carbon::parse($rawData[$unoAttribute])->format('Y-m-d\TH:i:s');
+                        $metafieldValue = Date::parse($rawData[$unoAttribute])->format('Y-m-d\TH:i:s');
                         break;
 
                     default:
@@ -281,7 +281,7 @@ class ShopifyGraphQLDataFormatter
         $wrapper = $dom->getElementsByTagName('div')->item(0);
         $children = $wrapper ? $this->richTextBlocks($wrapper) : [];
 
-        if (empty($children)) {
+        if ($children === []) {
             $text = trim(preg_replace('/\s+/', ' ', strip_tags($html)));
 
             if ($text === '') {
@@ -327,12 +327,12 @@ class ShopifyGraphQLDataFormatter
                         $items[] = ['type' => 'list-item', 'children' => $this->richTextInline($li)];
                     }
                 }
-                if (! empty($items)) {
+                if ($items !== []) {
                     $blocks[] = ['type' => 'list', 'listType' => $tag === 'ol' ? 'ordered' : 'unordered', 'children' => $items];
                 }
             } else {
                 $inline = $this->richTextInline($child);
-                if (! empty($inline)) {
+                if ($inline !== []) {
                     $blocks[] = ['type' => 'paragraph', 'children' => $inline];
                 }
             }
@@ -387,7 +387,7 @@ class ShopifyGraphQLDataFormatter
         return $result;
     }
 
-    public function formatMetafieldValue($metafieldValue, $attribute, $locale)
+    public function formatMetafieldValue($metafieldValue, $attribute, string $locale): string|false
     {
         if (in_array($attribute?->type, ['multiselect', 'select'])) {
             $translateLabels = $this->getTranslatedOptionLabels($attribute, $metafieldValue, $locale);
@@ -398,7 +398,7 @@ class ShopifyGraphQLDataFormatter
         return json_encode([$metafieldValue], true);
     }
 
-    public function isValidHexColor($color)
+    public function isValidHexColor($color): int|false
     {
         return preg_match('/^#(?:[0-9a-fA-F]{3}){1,2}$/', $color);
     }
@@ -418,21 +418,15 @@ class ShopifyGraphQLDataFormatter
             return $configuredStatus;
         }
 
-        $status = 'ACTIVE';
-
         if (! empty($rawData['status']) && $rawData['status'] == 'false') {
-            $status = 'DRAFT';
+            return 'DRAFT';
         }
 
         if (! empty($parentData['status']) && $parentData['status'] == 'false') {
-            $status = 'DRAFT';
+            return 'DRAFT';
         }
 
-        if (! empty($parentData['status']) && $parentData['status'] == 'true') {
-            $status = 'ACTIVE';
-        }
-
-        return $status;
+        return 'ACTIVE';
     }
 
     /**
@@ -514,7 +508,7 @@ class ShopifyGraphQLDataFormatter
 
         $list = $this->buildLocationInventory($rawData);
 
-        if (! empty($list)) {
+        if ($list !== []) {
             $formatted['variant']['inventoryQuantities'] = $list;
         }
     }
@@ -562,7 +556,7 @@ class ShopifyGraphQLDataFormatter
                 if ($attribute?->type == 'select') {
                     $option = $attribute->options()->where('code', $typeCastValues)->orderBy('sort_order')->first();
                     $optionTrans = $option?->toArray()['translations'] ?? [];
-                    $optionLabelValue = array_values(array_filter($optionTrans, fn ($item) => $item['locale'] === $locale))[0]['label'] ?? null;
+                    $optionLabelValue = array_values(array_filter($optionTrans, fn (array $item): bool => $item['locale'] === $locale))[0]['label'] ?? null;
                     if (! empty($optionLabelValue)) {
                         $typeCastValues = $optionLabelValue;
                     }
@@ -631,7 +625,7 @@ class ShopifyGraphQLDataFormatter
 
                 break;
             case 'taxable':
-                $formatted['variant']['taxable'] = ($rawData[$unopimField] ?? null) === 'false' ? false : true;
+                $formatted['variant']['taxable'] = ($rawData[$unopimField] ?? null) !== 'false';
 
                 break;
             case 'compareAtPrice':
@@ -644,7 +638,7 @@ class ShopifyGraphQLDataFormatter
 
                 break;
             case 'inventoryTracked':
-                $formatted['variant']['inventoryItem']['tracked'] = ($rawData[$unopimField] ?? null) === 'false' ? false : true;
+                $formatted['variant']['inventoryItem']['tracked'] = ($rawData[$unopimField] ?? null) !== 'false';
 
                 break;
             case 'cost':
@@ -758,7 +752,7 @@ class ShopifyGraphQLDataFormatter
     /**
      * Get option label from option code
      */
-    protected function getTranslatedOptionLabels($attribute, $value, string $locale)
+    protected function getTranslatedOptionLabels(object $attribute, $value, string $locale): array
     {
         $map = $this->optionLabelMap($attribute, $locale);
 
@@ -820,7 +814,7 @@ class ShopifyGraphQLDataFormatter
         foreach ($attribute->options()->get() as $option) {
             $option = $option->toArray();
             $label = array_column(
-                array_filter($option['translations'] ?? [], fn ($t) => $t['locale'] === $locale),
+                array_filter($option['translations'] ?? [], fn (array $t): bool => $t['locale'] === $locale),
                 'label'
             )[0] ?? null;
 
@@ -833,9 +827,9 @@ class ShopifyGraphQLDataFormatter
     /**
      * Applies default values to the formatted data for Shopify fields.
      */
-    protected function applyDefaultValue(array $formatted, string $shopifyField, $defaultValue): array
+    protected function applyDefaultValue(array $formatted, string $shopifyField, string $defaultValue): array
     {
-        $defaultValue = $defaultValue ?? '';
+        $defaultValue ??= '';
 
         if (in_array($shopifyField, $this->productIndexes)) {
             $formatted[$shopifyField] = $defaultValue;
@@ -844,7 +838,7 @@ class ShopifyGraphQLDataFormatter
             $formatted['seo'][$name] = $defaultValue;
         } elseif (in_array($shopifyField, $this->variantIndexes)) {
             $formatted = $this->applyDefaultVariantValue($formatted, $shopifyField, $defaultValue);
-        } elseif ($shopifyField == 'tags') {
+        } elseif ($shopifyField === 'tags') {
             $formatted[$shopifyField] = $defaultValue;
         }
 
@@ -858,19 +852,19 @@ class ShopifyGraphQLDataFormatter
     {
         switch ($shopifyField) {
             case 'inventoryPolicy':
-                $formatted['variant'][$shopifyField] = $defaultValue && strtolower($defaultValue) == 'true' ? 'CONTINUE' : 'DENY';
+                $formatted['variant'][$shopifyField] = $defaultValue && strtolower($defaultValue) === 'true' ? 'CONTINUE' : 'DENY';
                 break;
             case 'barcode':
-                $formatted['variant'][$shopifyField] = (string) $defaultValue;
+                $formatted['variant'][$shopifyField] = $defaultValue;
                 break;
             case 'price':
                 $formatted['variant'][$shopifyField] = (float) $defaultValue;
                 break;
             case 'taxable':
-                $formatted['variant']['taxable'] = $defaultValue && strtolower($defaultValue) == 'true' ? true : false;
+                $formatted['variant']['taxable'] = $defaultValue && strtolower($defaultValue) === 'true';
                 break;
             case 'inventoryTracked':
-                $formatted['variant']['inventoryItem']['tracked'] = $defaultValue && strtolower($defaultValue) == 'true' ? true : false;
+                $formatted['variant']['inventoryItem']['tracked'] = $defaultValue && strtolower($defaultValue) === 'true';
                 break;
             case 'compareAtPrice':
                 $formatted['variant']['compareAtPrice'] = (int) $defaultValue;
@@ -881,7 +875,7 @@ class ShopifyGraphQLDataFormatter
                 }
                 break;
             case 'sku':
-                $formatted['variant']['inventoryItem']['sku'] = (string) $defaultValue;
+                $formatted['variant']['inventoryItem']['sku'] = $defaultValue;
                 break;
             case 'cost':
                 $formatted['variant']['inventoryItem']['cost'] = (float) $defaultValue;
@@ -912,15 +906,14 @@ class ShopifyGraphQLDataFormatter
         $metafieldValue = strip_tags($metafieldValue);
         $metafieldValue = preg_replace('/&#?[a-z0-9]{2,8};/i', '', $metafieldValue);
         $metafieldValue = str_replace(["\r\n", "\r", "\n"], PHP_EOL, $metafieldValue);
-        $metafieldValue = preg_replace('/\s+/', ' ', $metafieldValue);
 
-        return $metafieldValue;
+        return preg_replace('/\s+/', ' ', $metafieldValue);
     }
 
     /**
      * Sets the initial data for the class properties.
      */
-    public function setInitialData(?string $locationId, string $currency, $settings, $attributeAll, array $locationAttributeMappings = [])
+    public function setInitialData(?string $locationId, string $currency, $settings, $attributeAll, array $locationAttributeMappings = []): void
     {
         $this->locationId = $locationId;
         $this->currency = $currency;

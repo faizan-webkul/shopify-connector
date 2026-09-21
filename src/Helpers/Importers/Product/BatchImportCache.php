@@ -56,7 +56,6 @@ class BatchImportCache
         $skus = [];
         $codes = [];
         $handles = [];
-        $familyIds = [];
         $variantOptionByAttr = [];
 
         foreach ($batchRows as $row) {
@@ -156,7 +155,7 @@ class BatchImportCache
         if ($this->mappingsByCode !== null && isset($this->mappingsByCode[$code])) {
             return array_values(array_filter(
                 $this->mappingsByCode[$code],
-                fn ($row) => ($row['entityType'] ?? null) === $entityType,
+                fn (array $row): bool => ($row['entityType'] ?? null) === $entityType,
             ));
         }
 
@@ -226,8 +225,8 @@ class BatchImportCache
     protected function primeProducts(array $skus): void
     {
         $skus = array_values(array_unique(array_filter($skus)));
-        if (empty($skus)) {
-            $this->productsBySku = $this->productsBySku ?? [];
+        if ($skus === []) {
+            $this->productsBySku ??= [];
 
             return;
         }
@@ -256,8 +255,8 @@ class BatchImportCache
     protected function primeCategories(array $codes): void
     {
         $codes = array_values(array_unique(array_filter($codes)));
-        if (empty($codes)) {
-            $this->categoryCodes = $this->categoryCodes ?? [];
+        if ($codes === []) {
+            $this->categoryCodes ??= [];
 
             return;
         }
@@ -275,9 +274,7 @@ class BatchImportCache
         }
 
         foreach ($codes as $code) {
-            if (! isset($map[$code])) {
-                $map[$code] = null;
-            }
+            $map[$code] ??= null;
         }
 
         $this->categoryCodes = $map;
@@ -286,8 +283,8 @@ class BatchImportCache
     protected function primeMappings(array $codes): void
     {
         $codes = array_values(array_unique(array_filter($codes)));
-        if (empty($codes) || $this->shopUrl === null) {
-            $this->mappingsByCode = $this->mappingsByCode ?? [];
+        if ($codes === [] || $this->shopUrl === null) {
+            $this->mappingsByCode ??= [];
 
             return;
         }
@@ -296,7 +293,7 @@ class BatchImportCache
 
         $map = $this->mappingsByCode ?? [];
         foreach ($codes as $c) {
-            $map[$c] = $map[$c] ?? [];
+            $map[$c] ??= [];
         }
 
         foreach (array_chunk($codes, 1000) as $chunk) {
@@ -317,11 +314,11 @@ class BatchImportCache
 
     protected function primeOptions(array $variantOptionByAttr): void
     {
-        $this->optionsByAttribute = $this->optionsByAttribute ?? [];
+        $this->optionsByAttribute ??= [];
 
         foreach ($variantOptionByAttr as $attrId => $optionCodes) {
             $codes = array_keys($optionCodes);
-            if (empty($codes)) {
+            if ($codes === []) {
                 continue;
             }
 

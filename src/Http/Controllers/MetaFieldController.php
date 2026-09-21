@@ -2,6 +2,7 @@
 
 namespace Webkul\Shopify\Http\Controllers;
 
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
 use Webkul\Admin\Http\Controllers\Controller;
@@ -56,8 +57,6 @@ class MetaFieldController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct(
         protected ShopifyMetaFieldRepository $shopifyMetaFieldRepository,
@@ -79,7 +78,7 @@ class MetaFieldController extends Controller
     protected function activeCredentialOptions(): array
     {
         return $this->shopifyCredentialRepository->findWhere([['active', '=', 1]])
-            ->map(fn ($credential) => ['id' => $credential->id, 'label' => $credential->shopUrl])
+            ->map(fn ($credential): array => ['id' => $credential->id, 'label' => $credential->shopUrl])
             ->values()
             ->all();
     }
@@ -92,7 +91,7 @@ class MetaFieldController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return app(MetaFieldDataGrid::class)->toJson();
+            return resolve(MetaFieldDataGrid::class)->toJson();
         }
 
         $object = (new ShoifyMetaFieldType);
@@ -101,7 +100,7 @@ class MetaFieldController extends Controller
         $shopifyCredentials = $this->activeCredentialOptions();
         $associationTypeOptions = $this->associationTypeOptions();
 
-        return view('shopify::metafield.index', compact('metaFieldType', 'metaFieldTypeInShopify', 'shopifyCredentials', 'associationTypeOptions'));
+        return view('shopify::metafield.index', ['metaFieldType' => $metaFieldType, 'metaFieldTypeInShopify' => $metaFieldTypeInShopify, 'shopifyCredentials' => $shopifyCredentials, 'associationTypeOptions' => $associationTypeOptions]);
     }
 
     /**
@@ -112,8 +111,8 @@ class MetaFieldController extends Controller
      */
     protected function associationTypeOptions(): array
     {
-        return app(AssociationTypeRepository::class)->getActiveTypes()
-            ->map(fn ($type) => ['id' => $type->code, 'name' => $type->name])
+        return resolve(AssociationTypeRepository::class)->getActiveTypes()
+            ->map(fn ($type): array => ['id' => $type->code, 'name' => $type->name])
             ->values()
             ->all();
     }
@@ -146,10 +145,10 @@ class MetaFieldController extends Controller
             $data['name_space'] = $nameSpaceAndKey[0];
         }
 
-        $data['description'] = $data['description'] ?? '';
-        $data['ContentTypeName'] = $data['ContentTypeName'] ?? ($data['type'] ?? '');
-        $data['ownerTypeName'] = $data['ownerTypeName'] ?? ($data['ownerType'] ?? '');
-        $data['attributeLabel'] = $data['attributeLabel'] ?? ($data['attribute'] ?? '');
+        $data['description'] ??= '';
+        $data['ContentTypeName'] ??= $data['type'] ?? '';
+        $data['ownerTypeName'] ??= $data['ownerType'] ?? '';
+        $data['attributeLabel'] ??= $data['attribute'] ?? '';
 
         $referenceMode = $request->boolean('reference_mode');
         if ($referenceMode) {
@@ -240,7 +239,7 @@ class MetaFieldController extends Controller
 
         if (($data['type'] ?? null) === 'file_reference') {
             $fileTypes = $this->resolveFileTypes($data['file_types'] ?? null);
-            if (! empty($fileTypes)) {
+            if ($fileTypes !== []) {
                 $validationValue['file_types'] = $fileTypes;
             }
         }
@@ -308,7 +307,7 @@ class MetaFieldController extends Controller
     /**
      * Check Which is small by Uniit value and calculation
      */
-    public function checkUnitValue($data, &$errors)
+    public function checkUnitValue($data, &$errors): null
     {
         $maxvalue = null;
         $minvalue = null;
@@ -337,7 +336,7 @@ class MetaFieldController extends Controller
             $unitData = self::SMALLESTUNIT[$type] ?? null;
             $dateTypes = ['date', 'date_time'];
             $decimalTypes = ['number_decimal', 'rating', 'dimension', 'volume', 'weight'];
-            $isValidNumber = fn ($value) => in_array($type, $decimalTypes, true)
+            $isValidNumber = fn ($value): bool => in_array($type, $decimalTypes, true)
                 ? (bool) preg_match('/^\d+(\.\d+)?$/', (string) $value)
                 : ctype_digit((string) $value);
 
@@ -354,10 +353,10 @@ class MetaFieldController extends Controller
                 }
             }
             if ($unitData) {
-                $minvalue = $minvalue * ($unitData[$minunit] ?? 0);
-                $maxvalue = $maxvalue * ($unitData[$maxunit] ?? 0);
+                $minvalue *= $unitData[$minunit] ?? 0;
+                $maxvalue *= $unitData[$maxunit] ?? 0;
             } else {
-                $castValue = fn ($value) => in_array($type, $dateTypes, true)
+                $castValue = fn ($value): \DateTime|float|int => in_array($type, $dateTypes, true)
                     ? new \DateTime($value)
                     : (in_array($type, $decimalTypes, true) ? (float) $value : (int) $value);
 
@@ -377,14 +376,14 @@ class MetaFieldController extends Controller
                 $errors['minvalue'] = $errors['maxvalue'] = [trans('Rating field must have both min and max values')];
             }
         }
+
+        return null;
     }
 
     /**
      * Check if namespace and key valid strings or not.
-     *
-     * @return View
      */
-    public function isValidString($string)
+    public function isValidString($string): int|false
     {
         return preg_match('/^[a-zA-Z0-9_-]+$/', $string);
     }
@@ -394,13 +393,11 @@ class MetaFieldController extends Controller
      *
      * @return View
      */
-    public function edit(int $id)
+    public function edit(int $id): Factory|\Illuminate\Contracts\View\View
     {
         $metaField = $this->shopifyMetaFieldRepository->find($id);
 
-        if (! $metaField) {
-            abort(404);
-        }
+        abort_unless($metaField, 404);
 
         $object = (new ShoifyMetaFieldType);
         $metaFieldType = $object->getMetaFieldType();
@@ -409,7 +406,7 @@ class MetaFieldController extends Controller
         $taxonomyOptions = [];
         $saved = (array) ($metaField->taxonomy_category ?? []);
         if ($saved !== []) {
-            $names = app(ShopifyTaxonomyLoader::class)->namesFor($saved);
+            $names = resolve(ShopifyTaxonomyLoader::class)->namesFor($saved);
             foreach ($saved as $gid) {
                 $taxonomyOptions[] = ['id' => $gid, 'label' => $names[$gid] ?? $gid];
             }
@@ -424,7 +421,7 @@ class MetaFieldController extends Controller
         $shopifyCredentials = $this->activeCredentialOptions();
         $associationTypeOptions = $this->associationTypeOptions();
 
-        return view('shopify::metafield.edit', compact('metaField', 'metaFieldType', 'metaFieldTypeInShopify', 'taxonomyOptions', 'linkTextAttribute', 'shopifyCredentials', 'associationTypeOptions'));
+        return view('shopify::metafield.edit', ['metaField' => $metaField, 'metaFieldType' => $metaFieldType, 'metaFieldTypeInShopify' => $metaFieldTypeInShopify, 'taxonomyOptions' => $taxonomyOptions, 'linkTextAttribute' => $linkTextAttribute, 'shopifyCredentials' => $shopifyCredentials, 'associationTypeOptions' => $associationTypeOptions]);
     }
 
     /**
@@ -463,10 +460,10 @@ class MetaFieldController extends Controller
             $attrCode = array_column($allPined, 'code');
             $countPin = count($allPined);
             if (in_array($requestData['code'], $attrCode)) {
-                $filtered = array_filter($allPined, fn ($item) => $item['code'] === $requestData['code']);
+                $filtered = array_filter($allPined, fn (array $item): bool => $item['code'] === $requestData['code']);
                 $oneField = reset($filtered);
                 if ((bool) $oneField['pin']) {
-                    $countPin = $countPin - 1;
+                    $countPin -= 1;
                 }
             }
 
@@ -495,7 +492,7 @@ class MetaFieldController extends Controller
 
         if (($requestData['type'] ?? null) === 'file_reference') {
             $fileTypes = $this->resolveFileTypes($requestData['file_types'] ?? null);
-            if (! empty($fileTypes)) {
+            if ($fileTypes !== []) {
                 $validationValue['file_types'] = $fileTypes;
             }
         }
@@ -553,23 +550,21 @@ class MetaFieldController extends Controller
         }
 
         $credential = $this->shopifyMetaFieldRepository->find($id);
-        if (! $credential) {
-            abort(404);
-        }
+        abort_unless($credential, 404);
 
         if (! empty($errors)) {
             if (request()->expectsJson()) {
-                return response()->json(['errors' => array_map(fn ($message) => [$message], $errors)], 422);
+                return response()->json(['errors' => array_map(fn ($message): array => [$message], $errors)], 422);
             }
 
-            return redirect()->route('shopify.metafield.edit', $id)
+            return to_route('shopify.metafield.edit', $id)
                 ->withErrors($errors)
                 ->withInput();
         }
-        $requestData['description'] = $requestData['description'] ?? '';
-        $requestData['ContentTypeName'] = $requestData['ContentTypeName'] ?? ($requestData['type'] ?? '');
-        $requestData['ownerTypeName'] = $requestData['ownerTypeName'] ?? ($requestData['ownerType'] ?? '');
-        $requestData['attributeLabel'] = $requestData['attributeLabel'] ?? ($requestData['attribute'] ?? '');
+        $requestData['description'] ??= '';
+        $requestData['ContentTypeName'] ??= $requestData['type'] ?? '';
+        $requestData['ownerTypeName'] ??= $requestData['ownerType'] ?? '';
+        $requestData['attributeLabel'] ??= $requestData['attribute'] ?? '';
 
         $this->shopifyMetaFieldRepository->update($requestData, $id);
 
@@ -579,7 +574,7 @@ class MetaFieldController extends Controller
 
         session()->flash('success', trans('shopify::app.shopify.metafield.update-success'));
 
-        return redirect()->route('shopify.metafield.edit', $id);
+        return to_route('shopify.metafield.edit', $id);
     }
 
     private function decodeTaxonomyCategory(mixed $value): array

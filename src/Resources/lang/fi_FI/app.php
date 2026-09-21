@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Asetukset',
                 'upgrade'               => 'Päivitä Pro-versioon',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Tunnistetiedot',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Shopify-tunnistetiedot',
             'channel'          => 'Kanava',
             'currency'         => 'Valuutta',
-            'locale'           => 'Kielialueet',
             'attribute'        => 'Attribuutit',
             'productfilter'    => 'Tuotesuodatin (SKU)',
             'status'           => 'Tila',

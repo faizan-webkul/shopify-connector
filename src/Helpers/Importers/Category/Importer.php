@@ -34,7 +34,7 @@ class Importer extends AbstractImporter
 
     public const MEDIA_FIELD_TYPES = ['image', 'file', 'asset'];
 
-    public $cursor = null;
+    public $cursor;
 
     protected array $categoryFields;
 
@@ -96,7 +96,7 @@ class Importer extends AbstractImporter
         if (! $this->rootCategoryId) {
             $channelWithRoot = $this->channelRepository
                 ->all()
-                ->first(fn ($channel) => ! empty($channel->root_category_id));
+                ->first(fn ($channel): bool => ! empty($channel->root_category_id));
 
             $this->rootCategoryId = $channelWithRoot?->root_category_id;
         }
@@ -113,7 +113,7 @@ class Importer extends AbstractImporter
      *
      * @return Source
      */
-    public function getSource()
+    public function getSource(): CategoryIterator
     {
         $this->categoryStorage->init();
         $this->initFilters();
@@ -121,9 +121,7 @@ class Importer extends AbstractImporter
             throw new \InvalidArgumentException(trans('shopify::app.shopify.credential.errors.invalid-credential'));
         }
 
-        $collections = new CategoryIterator($this->credentialArray);
-
-        return $collections;
+        return new CategoryIterator($this->credentialArray);
     }
 
     /**
@@ -194,7 +192,7 @@ class Importer extends AbstractImporter
             $this->saveCategories($categories);
         }
 
-        $batch = $this->importBatchRepository->update([
+        $this->importBatchRepository->update([
             'state'   => Import::STATE_PROCESSED,
             'summary' => [
                 'created' => $this->getCreatedItemsCount(),
@@ -209,7 +207,7 @@ class Importer extends AbstractImporter
     /**
      * Prepare categories for import (mapping-driven from the id=4 collection mapping).
      */
-    public function prepareCategories(array $collection, &$category)
+    public function prepareCategories(array $collection, &$category): void
     {
         $node = $collection['node'];
         $fieldMap = $this->collectionMapping?->mapping['collection_mapping'] ?? [];
@@ -322,7 +320,7 @@ class Importer extends AbstractImporter
                     $values[$code] = '';
                 }
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
 
@@ -350,7 +348,7 @@ class Importer extends AbstractImporter
         return array_filter($newValues);
     }
 
-    public function getCategoryFields()
+    public function getCategoryFields(): array
     {
         if (! isset($this->categoryFields)) {
             $this->cachedCategoryFields = $this->categoryFieldRepository->where('status', 1)->get();
@@ -370,7 +368,7 @@ class Importer extends AbstractImporter
 
         $targetFields = $this->resolveCategoryMediaFields();
 
-        if (empty($targetFields)) {
+        if ($targetFields === []) {
             return;
         }
 
@@ -477,7 +475,7 @@ class Importer extends AbstractImporter
         }
         $mediaAttributes = array_merge($mediaAttributes, $legacyMapping);
 
-        $mediaAttributes = array_values(array_filter(array_map('trim', $mediaAttributes)));
+        $mediaAttributes = array_values(array_filter(array_map(trim(...), $mediaAttributes)));
 
         return array_values(array_unique($mediaAttributes));
     }

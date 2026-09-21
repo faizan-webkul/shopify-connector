@@ -46,7 +46,7 @@ class MappingBatchWriter
      */
     public function flush(): void
     {
-        if (empty($this->buffer)) {
+        if ($this->buffer === []) {
             return;
         }
 
@@ -56,7 +56,7 @@ class MappingBatchWriter
         try {
             DB::table($this->shopifyMappingRepository->getModel()->getTable())
                 ->insert($rows);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
 
             foreach ($rows as $row) {
                 try {

@@ -4,6 +4,7 @@ namespace Webkul\Shopify\Services\Bulk\PayloadBuilders\Core;
 
 use Illuminate\Support\Str;
 use Webkul\Attribute\Repositories\AttributeRepository;
+use Webkul\DAM\Repositories\AssetRepository;
 use Webkul\DataTransfer\Contracts\JobTrack as JobTrackContract;
 use Webkul\DataTransfer\Helpers\Export;
 use Webkul\Product\Models\Product;
@@ -299,9 +300,7 @@ class CoreProductBulkPayloadBuilder
         $this->variantMetaFieldMapping = $this->shopifyMetaFieldRepository->where('ownerType', 'PRODUCTVARIANT')->get()->toArray();
         $this->attributesAll = $this->attributeRepository->all()->keyBy('code')->all();
 
-        $defaultLanguage = array_values(array_filter($this->credential?->storeLocales ?? [], function ($language) {
-            return isset($language['defaultlocale']) && $language['defaultlocale'] === true;
-        }))[0] ?? null;
+        $defaultLanguage = array_values(array_filter($this->credential?->storeLocales ?? [], fn (array $language): bool => isset($language['defaultlocale']) && $language['defaultlocale'] === true))[0] ?? null;
 
         $this->shopifyDefaultLocale = $this->credential?->storelocaleMapping[$defaultLanguage['locale'] ?? ''] ?? null;
         $this->credentialAsArray = $this->credential?->toApiArray() ?? [];
@@ -322,7 +321,7 @@ class CoreProductBulkPayloadBuilder
     {
         $fileSources = $this->collectFileSources();
 
-        if (empty($fileSources)) {
+        if ($fileSources === []) {
             return ['values' => [], 'aliases' => []];
         }
 
@@ -418,14 +417,14 @@ class CoreProductBulkPayloadBuilder
     {
         $assetRepository = $this->assetRepository();
 
-        if (! $assetRepository) {
+        if (! $assetRepository instanceof AssetRepository) {
             return [];
         }
 
         $rawValue = is_array($rawValue) ? implode(',', $rawValue) : (string) $rawValue;
-        $ids = array_filter(array_map('trim', explode(',', $rawValue)));
+        $ids = array_filter(array_map(trim(...), explode(',', $rawValue)));
 
-        if (empty($ids)) {
+        if ($ids === []) {
             return [];
         }
 
@@ -498,7 +497,7 @@ class CoreProductBulkPayloadBuilder
 
         $roots = $this->productRepository->getModel()->newQuery()
             ->whereIn('sku', $skus)
-            ->where(static function ($q) {
+            ->where(static function ($q): void {
                 $q->whereNull('parent_id')->orWhere('parent_id', 0);
             })
             ->with(['super_attributes', 'variants.variants'])
@@ -598,13 +597,11 @@ class CoreProductBulkPayloadBuilder
         foreach ($products as $product) {
             $groupSku = $product['parent']['sku'] ?? $product['sku'];
 
-            if (! isset($grouped[$groupSku])) {
-                $grouped[$groupSku] = [
-                    'product_sku' => $groupSku,
-                    'parent'      => $product['parent'],
-                    'variants'    => [],
-                ];
-            }
+            $grouped[$groupSku] ??= [
+                'product_sku' => $groupSku,
+                'parent'      => $product['parent'],
+                'variants'    => [],
+            ];
 
             $grouped[$groupSku]['variants'][] = $product;
         }
@@ -619,10 +616,10 @@ class CoreProductBulkPayloadBuilder
     {
         $defs = array_filter(
             $metaFieldMapping,
-            fn ($d) => in_array($d['type'] ?? '', ['product_reference', 'variant_reference', 'collection_reference'], true)
+            fn (array $d): bool => in_array($d['type'] ?? '', ['product_reference', 'variant_reference', 'collection_reference'], true)
         );
 
-        if (empty($defs)) {
+        if ($defs === []) {
             return [];
         }
 
@@ -657,7 +654,7 @@ class CoreProductBulkPayloadBuilder
             }
 
             $gids = array_values(array_unique(array_filter($gids)));
-            if (empty($gids)) {
+            if ($gids === []) {
                 continue;
             }
 
@@ -710,10 +707,10 @@ class CoreProductBulkPayloadBuilder
 
         $defs = array_filter(
             $this->productMetaFieldMapping,
-            fn ($d) => ($d['type'] ?? '') === 'metaobject_reference'
+            fn (array $d): bool => ($d['type'] ?? '') === 'metaobject_reference'
         );
 
-        if (empty($defs)) {
+        if ($defs === []) {
             return [];
         }
 
@@ -723,9 +720,9 @@ class CoreProductBulkPayloadBuilder
 
         foreach ($defs as $def) {
             $type = json_decode($def['validations'] ?? '[]', true)['metaobject_type'] ?? null;
-            $codes = array_filter(array_map('trim', explode(',', (string) ($values[$def['code']] ?? ''))));
+            $codes = array_filter(array_map(trim(...), explode(',', (string) ($values[$def['code']] ?? ''))));
 
-            if (! $type || empty($codes)) {
+            if (! $type || $codes === []) {
                 continue;
             }
 
@@ -737,7 +734,7 @@ class CoreProductBulkPayloadBuilder
                 }
             }
 
-            if (empty($gids)) {
+            if ($gids === []) {
                 continue;
             }
 
@@ -785,7 +782,7 @@ class CoreProductBulkPayloadBuilder
         );
 
         $referenceMetafields = $this->buildReferenceMetafields($parentData ?? $firstVariant, $this->productMetaFieldMapping);
-        if (! empty($referenceMetafields)) {
+        if ($referenceMetafields !== []) {
             $formattedProduct['metafields'] = array_merge(
                 $formattedProduct['metafields'] ?? [],
                 $referenceMetafields
@@ -793,7 +790,7 @@ class CoreProductBulkPayloadBuilder
         }
 
         $metaobjectMetafields = $this->buildMetaobjectMetafields($parentData ?? $firstVariant);
-        if (! empty($metaobjectMetafields)) {
+        if ($metaobjectMetafields !== []) {
             $formattedProduct['metafields'] = array_merge(
                 $formattedProduct['metafields'] ?? [],
                 $metaobjectMetafields
@@ -859,7 +856,7 @@ class CoreProductBulkPayloadBuilder
 
         $categoryCodes = array_values(array_unique(array_filter($categoryCodes)));
         $productCollections = $this->resolveCollectionIds($categoryCodes);
-        if (! empty($productCollections)) {
+        if ($productCollections !== []) {
             $productInput['collections'] = $productCollections;
         }
 
@@ -887,8 +884,8 @@ class CoreProductBulkPayloadBuilder
                 'product_handle'    => $productInput['handle'] ?? null,
                 'variant_skus'      => array_column($variantManifest, 'sku'),
                 'variant_inventory' => collect($variantManifest)
-                    ->filter(fn ($variant) => ! empty($variant['inventory']))
-                    ->mapWithKeys(fn ($variant) => [$variant['sku'] => $variant['inventory']])
+                    ->filter(fn ($variant): bool => ! empty($variant['inventory']))
+                    ->mapWithKeys(fn ($variant): array => [$variant['sku'] => $variant['inventory']])
                     ->all(),
                 'media_plan_items' => $mediaPlanItems,
                 'phase_context'    => [
@@ -962,7 +959,7 @@ class CoreProductBulkPayloadBuilder
                 $values[$value] = ['name' => $value];
             }
 
-            if (empty($values)) {
+            if ($values === []) {
                 continue;
             }
 
@@ -1021,9 +1018,9 @@ class CoreProductBulkPayloadBuilder
             'tags'            => $formattedProduct['tags'] ?? null,
             'seo'             => $formattedProduct['seo'] ?? null,
             'metafields'      => $formattedProduct['parentMetaFields'] ?? $formattedProduct['metafields'] ?? null,
-        ], fn ($value) => ! is_null($value) && $value !== []);
+        ], fn ($value): bool => ! is_null($value) && $value !== []);
 
-        if (! empty($productOptions)) {
+        if ($productOptions !== []) {
             $productInput['productOptions'] = $productOptions;
         }
 
@@ -1055,7 +1052,7 @@ class CoreProductBulkPayloadBuilder
             'inventoryQuantities'  => $variantPayload['inventoryQuantities'] ?? null,
             'unitPriceMeasurement' => $variantPayload['unitPriceMeasurement'] ?? null,
             'showUnitPrice'        => $variantPayload['showUnitPrice'] ?? null,
-        ], fn ($value) => ! is_null($value) && $value !== []);
+        ], fn ($value): bool => ! is_null($value) && $value !== []);
 
         $variantInput['optionValues'] = array_values($optionValues);
 
@@ -1104,9 +1101,7 @@ class CoreProductBulkPayloadBuilder
             return $attributeMeta['code'];
         }
 
-        $translation = array_values(array_filter($attributeMeta['translations'], function ($item) {
-            return $item['locale'] === $this->shopifyDefaultLocale;
-        }))[0] ?? null;
+        $translation = array_values(array_filter($attributeMeta['translations'], fn (array $item): bool => $item['locale'] === $this->shopifyDefaultLocale))[0] ?? null;
 
         return $translation['name'] ?? $attributeMeta['name'] ?? $attributeMeta['code'];
     }
@@ -1133,7 +1128,7 @@ class CoreProductBulkPayloadBuilder
             return $this->taxonomyAttributeCode ?: null;
         }
 
-        $attribute = collect($this->attributesAll)->first(fn ($attribute) => $attribute->type === 'shopify_taxonomy');
+        $attribute = collect($this->attributesAll)->first(fn ($attribute): bool => $attribute->type === 'shopify_taxonomy');
 
         return $this->taxonomyAttributeCode = ($attribute->code ?? '');
     }
@@ -1160,7 +1155,7 @@ class CoreProductBulkPayloadBuilder
 
             if ($categories !== [] && ! empty($definition['name_space_key'])) {
                 $map[$definition['name_space_key']] = array_map(
-                    fn ($gid) => substr((string) $gid, strrpos((string) $gid, '/') + 1),
+                    fn ($gid): string => substr((string) $gid, strrpos((string) $gid, '/') + 1),
                     $categories
                 );
             }
@@ -1181,7 +1176,7 @@ class CoreProductBulkPayloadBuilder
             return $metafields;
         }
 
-        return array_values(array_filter($metafields, function ($metafield) use ($constraints, $categoryShort) {
+        return array_values(array_filter($metafields, function (array $metafield) use ($constraints, $categoryShort): bool {
             $nameSpaceKey = ($metafield['namespace'] ?? '').'.'.($metafield['key'] ?? '');
 
             if (! isset($constraints[$nameSpaceKey])) {
@@ -1217,12 +1212,6 @@ class CoreProductBulkPayloadBuilder
             return false;
         }
 
-        foreach (explode(',', $mediaMapping) as $attributeCode) {
-            if (! empty($mergedFields[$attributeCode])) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any(explode(',', $mediaMapping), fn ($attributeCode): bool => ! empty($mergedFields[$attributeCode]));
     }
 }

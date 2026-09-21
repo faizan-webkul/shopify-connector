@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Setări',
                 'upgrade'               => 'Treci la Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Credențiale',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Credențială Shopify',
             'channel'          => 'Canal',
             'currency'         => 'Monedă',
-            'locale'           => 'Localizări',
             'attribute'        => 'Atribute',
             'productfilter'    => 'Filtru produse (SKU)',
             'status'           => 'Stare',

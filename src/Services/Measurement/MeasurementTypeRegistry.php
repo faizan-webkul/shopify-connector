@@ -62,7 +62,7 @@ class MeasurementTypeRegistry
                 'id'          => $type,
                 'name'        => $this->optionLabel($type),
                 '$isDisabled' => $locked ?: null,
-            ], static fn ($value): bool => $value !== null),
+            ], static fn (string|true|null $value): bool => $value !== null),
             array_keys(self::TYPES)
         );
     }

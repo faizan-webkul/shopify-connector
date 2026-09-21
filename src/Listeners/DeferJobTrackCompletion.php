@@ -27,7 +27,7 @@ class DeferJobTrackCompletion
             return;
         }
 
-        DB::transaction(function () use ($jobTrackId) {
+        DB::transaction(function () use ($jobTrackId): void {
             $modelClass = JobTrackProxy::modelClass();
 
             $jobTrack = $modelClass::query()

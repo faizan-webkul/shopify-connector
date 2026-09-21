@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Pengaturan',
                 'upgrade'               => 'Tingkatkan ke Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Kredensial',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Kredensial Shopify',
             'channel'          => 'Saluran',
             'currency'         => 'Mata Uang',
-            'locale'           => 'Lokal',
             'attribute'        => 'Atribut',
             'productfilter'    => 'Filter Produk (SKU)',
             'status'           => 'Status',

@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => '설정',
                 'upgrade'               => 'Pro로 업그레이드',
                 'shopify'               => 'Shopify',
                 'credentials'           => '인증 정보',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Shopify 인증 정보',
             'channel'          => '채널',
             'currency'         => '통화',
-            'locale'           => '로케일',
             'attribute'        => '속성',
             'productfilter'    => '상품 필터 (SKU)',
             'status'           => '상태',

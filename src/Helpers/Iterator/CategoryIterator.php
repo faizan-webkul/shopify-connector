@@ -10,17 +10,14 @@ class CategoryIterator implements \Iterator
 
     private $cursor;
 
-    private $currentPageData;
+    private array $currentPageData;
 
-    private $currentKey;
-
-    private $credential;
+    private int $currentKey;
 
     private $mergedOptions;
 
-    public function __construct($credential)
+    public function __construct(private $credential)
     {
-        $this->credential = $credential;
         $this->cursor = null;
         $this->currentPageData = [];
         $this->currentKey = 0;
@@ -48,7 +45,7 @@ class CategoryIterator implements \Iterator
 
     public function rewind(): void
     {
-        if ($this->currentKey == 0) {
+        if ($this->currentKey === 0) {
             return;
         }
         $this->cursor = null;
@@ -59,7 +56,7 @@ class CategoryIterator implements \Iterator
 
     public function valid(): bool
     {
-        return ! empty($this->currentPageData);
+        return $this->currentPageData !== [];
     }
 
     public function setCursor($cursor): void

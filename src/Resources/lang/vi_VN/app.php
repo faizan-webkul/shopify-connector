@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Cài đặt',
                 'upgrade'               => 'Nâng cấp lên Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Thông tin xác thực',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Thông tin xác thực Shopify',
             'channel'          => 'Kênh',
             'currency'         => 'Tiền tệ',
-            'locale'           => 'Ngôn ngữ',
             'attribute'        => 'Thuộc tính',
             'productfilter'    => 'Bộ lọc sản phẩm (SKU)',
             'status'           => 'Trạng thái',

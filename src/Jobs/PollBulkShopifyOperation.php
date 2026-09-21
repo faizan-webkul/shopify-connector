@@ -2,11 +2,7 @@
 
 namespace Webkul\Shopify\Jobs;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Psr\Log\LoggerInterface;
 use Webkul\DataTransfer\Services\JobLogger;
 use Webkul\Shopify\Repositories\ShopifyBulkOperationRepository;
@@ -16,7 +12,7 @@ use Webkul\Shopify\Services\BulkResultFinalizer;
 
 class PollBulkShopifyOperation implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use \Illuminate\Foundation\Queue\Queueable;
 
     public $tries = 120;
 
@@ -65,7 +61,7 @@ class PollBulkShopifyOperation implements ShouldQueue
         $shopifyStatus = strtoupper((string) ($operationState['status'] ?? ''));
 
         if (in_array($shopifyStatus, ['CREATED', 'RUNNING', 'CANCELING'])) {
-            static::dispatch($bulkOperation->id)->delay(
+            dispatch_sync(new static($bulkOperation->id))->delay(
                 now()->addSeconds((int) config('shopify-bulk-operations.poll_delay_seconds', 20))
             );
 
@@ -129,7 +125,7 @@ class PollBulkShopifyOperation implements ShouldQueue
 
         try {
             return JobLogger::make($jobTrackId);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return null;
         }
     }
@@ -140,7 +136,7 @@ class PollBulkShopifyOperation implements ShouldQueue
      */
     protected function logUserErrors(?object $bulkOperation): void
     {
-        if (! $bulkOperation || ! $this->jobLogger) {
+        if (! $bulkOperation || ! $this->jobLogger instanceof LoggerInterface) {
             return;
         }
 
@@ -159,7 +155,7 @@ class PollBulkShopifyOperation implements ShouldQueue
             $sku = $error['sku'] ?? null;
             $line = $error['line'] ?? null;
             $userErrors = $error['errors'] ?? [];
-            $identifier = $sku !== null ? "SKU [{$sku}]" : 'line ['.((string) $line).']';
+            $identifier = $sku !== null ? "SKU [{$sku}]" : 'line ['.($line).']';
 
             $this->safeWarn(sprintf(
                 'Shopify export failed for %s: %s',
@@ -176,7 +172,7 @@ class PollBulkShopifyOperation implements ShouldQueue
     {
         try {
             $this->jobLogger?->warning($message);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
 

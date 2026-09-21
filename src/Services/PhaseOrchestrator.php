@@ -59,15 +59,15 @@ class PhaseOrchestrator
         );
 
         if ($pendingPhases['publishing']) {
-            RunPublishingPhase::dispatch($bulkOperation->id);
+            dispatch(new RunPublishingPhase($bulkOperation->id));
         }
 
         if ($pendingPhases['translations']) {
-            RunTranslationPhase::dispatch($bulkOperation->id);
+            dispatch(new RunTranslationPhase($bulkOperation->id));
         }
 
         if ($pendingPhases['media']) {
-            RunMediaPhase::dispatch($bulkOperation->id);
+            dispatch(new RunMediaPhase($bulkOperation->id));
         }
     }
 

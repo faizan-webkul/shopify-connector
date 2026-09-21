@@ -4,6 +4,7 @@ namespace Webkul\Shopify\Services\Bulk\Import;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
 use Webkul\Shopify\Services\BulkOperationService;
 use Webkul\Shopify\Traits\ShopifyGraphqlRequest;
@@ -39,9 +40,7 @@ class BulkProductFetcher
         foreach (self::QUERY_KEYS as $key) {
             $template = (string) config('shopify_bulk_mutations.'.$key, '');
 
-            if ($template === '') {
-                throw new \RuntimeException("Shopify bulk import query template '{$key}' is not configured.");
-            }
+            throw_if($template === '', \RuntimeException::class, "Shopify bulk import query template '{$key}' is not configured.");
 
             $query = $this->resolveQuery($template, $shopifyLocale, $statusFilter);
 
@@ -121,9 +120,7 @@ class BulkProductFetcher
 
         $bulkOperation = $payload['bulkOperation'] ?? null;
 
-        if (empty($bulkOperation['id'])) {
-            throw new \RuntimeException('Shopify bulk import submit returned no operation id.');
-        }
+        throw_if(empty($bulkOperation['id']), \RuntimeException::class, 'Shopify bulk import submit returned no operation id.');
 
         return [
             'id'     => $bulkOperation['id'],
@@ -147,7 +144,7 @@ class BulkProductFetcher
             $status = strtoupper((string) ($state['status'] ?? ''));
 
             if (in_array($status, ['CREATED', 'RUNNING', 'CANCELING'], true)) {
-                sleep($delay);
+                Sleep::sleep($delay);
 
                 continue;
             }
@@ -166,7 +163,7 @@ class BulkProductFetcher
                 ));
             }
 
-            sleep($delay);
+            Sleep::sleep($delay);
         }
 
         $this->cancel($credential, $operationId);

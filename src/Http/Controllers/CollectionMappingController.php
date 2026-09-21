@@ -66,7 +66,7 @@ class CollectionMappingController extends Controller
 
             session()->flash('error', trans('shopify::app.shopify.export.mapping.collection.save_failed'));
 
-            return redirect()->back();
+            return back();
         }
 
         if ($config->mapping != $mapping) {
@@ -79,6 +79,6 @@ class CollectionMappingController extends Controller
 
         session()->flash('success', trans('shopify::app.shopify.export.mapping.collection.created'));
 
-        return redirect()->route('admin.shopify.collection-mappings', self::CONFIG_ID);
+        return to_route('admin.shopify.collection-mappings', self::CONFIG_ID);
     }
 }

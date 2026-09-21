@@ -117,9 +117,7 @@ class BulkOperationProductIterator implements \Iterator
     protected function ingest(string $jsonlPath): void
     {
         $stream = @fopen($jsonlPath, 'r');
-        if ($stream === false) {
-            throw new \RuntimeException('Unable to open Shopify bulk import JSONL file: '.$jsonlPath);
-        }
+        throw_if($stream === false, \RuntimeException::class, 'Unable to open Shopify bulk import JSONL file: '.$jsonlPath);
 
         try {
             while (($line = fgets($stream)) !== false) {
@@ -206,7 +204,7 @@ class BulkOperationProductIterator implements \Iterator
             if ($inventoryItemId) {
                 $inventoryLevels = $this->childrenOf($inventoryItemId, 'InventoryLevel');
             }
-            if (empty($inventoryLevels)) {
+            if ($inventoryLevels === []) {
                 $inventoryLevels = $this->childrenOf($variantId, 'InventoryLevel');
             }
 
@@ -249,9 +247,7 @@ class BulkOperationProductIterator implements \Iterator
 
         $mediaTypes = ['MediaImage', 'Video', 'ExternalVideo', 'Model3d'];
 
-        return array_values(array_filter($rows, function ($row) use ($mediaTypes) {
-            return in_array($this->resolveTypename($row), $mediaTypes, true);
-        }));
+        return array_values(array_filter($rows, fn (array $row): bool => in_array($this->resolveTypename($row), $mediaTypes, true)));
     }
 
     /**
@@ -265,7 +261,7 @@ class BulkOperationProductIterator implements \Iterator
 
         return array_values(array_filter(
             $rows,
-            fn ($row) => $this->resolveTypename($row) === $typename,
+            fn (array $row): bool => $this->resolveTypename($row) === $typename,
         ));
     }
 
@@ -296,7 +292,7 @@ class BulkOperationProductIterator implements \Iterator
      */
     protected function wrapEdges(array $nodes): array
     {
-        $edges = array_map(fn ($node) => ['cursor' => null, 'node' => $node], $nodes);
+        $edges = array_map(fn ($node): array => ['cursor' => null, 'node' => $node], $nodes);
 
         return ['edges' => $edges];
     }
@@ -307,7 +303,7 @@ class BulkOperationProductIterator implements \Iterator
      */
     protected function applyTranslations(array &$node, array $translations): void
     {
-        if (empty($translations) || empty($this->shopifyLocale)) {
+        if ($translations === [] || empty($this->shopifyLocale)) {
             return;
         }
 

@@ -10,22 +10,16 @@ class ProductIterator implements \Iterator
 
     private $cursor;
 
-    private $currentPageData;
+    private array $currentPageData;
 
-    private $currentKey;
-
-    private $credential;
-
-    private ?string $shopifyLocale;
+    private int $currentKey;
 
     private array $translationCache = [];
 
     private $mergedOptions;
 
-    public function __construct($credential, ?string $shopifyLocale = null)
+    public function __construct(private $credential, private ?string $shopifyLocale = null)
     {
-        $this->credential = $credential;
-        $this->shopifyLocale = $shopifyLocale;
         $this->cursor = null;
         $this->currentPageData = [];
         $this->currentKey = 0;
@@ -52,7 +46,7 @@ class ProductIterator implements \Iterator
 
     public function rewind(): void
     {
-        if ($this->currentKey == 0) {
+        if ($this->currentKey === 0) {
             return;
         }
         $this->cursor = null;
@@ -63,7 +57,7 @@ class ProductIterator implements \Iterator
 
     public function valid(): bool
     {
-        return ! empty($this->currentPageData);
+        return $this->currentPageData !== [];
     }
 
     public function setCursor($cursor): void
@@ -124,7 +118,7 @@ class ProductIterator implements \Iterator
             }
 
             $translations = $this->getTranslations($resourceId);
-            if (empty($translations)) {
+            if ($translations === []) {
                 continue;
             }
 
@@ -174,7 +168,7 @@ class ProductIterator implements \Iterator
             $resourceIds[] = $id;
         }
 
-        if (empty($resourceIds)) {
+        if ($resourceIds === []) {
             return;
         }
 
@@ -187,7 +181,7 @@ class ProductIterator implements \Iterator
             $payload = $response['body']['data']['translatableResourcesByIds'] ?? [];
             $nodes = $payload['nodes'] ?? null;
             if (! is_array($nodes) && isset($payload['edges']) && is_array($payload['edges'])) {
-                $nodes = array_map(fn ($e) => $e['node'] ?? [], $payload['edges']);
+                $nodes = array_map(fn (array $e) => $e['node'] ?? [], $payload['edges']);
             }
             if (! is_array($nodes)) {
                 return;
@@ -201,7 +195,7 @@ class ProductIterator implements \Iterator
                 }
                 $returnedIds[$rid] = true;
                 $this->translationCache[$rid.'|'.$this->shopifyLocale] = collect($node['translations'] ?? [])
-                    ->filter(fn ($item) => isset($item['key']))
+                    ->filter(fn ($item): bool => isset($item['key']))
                     ->pluck('value', 'key')
                     ->toArray();
             }
@@ -230,10 +224,10 @@ class ProductIterator implements \Iterator
 
             $translations = $response['body']['data']['translatableResource']['translations'] ?? [];
             $this->translationCache[$cacheKey] = collect($translations)
-                ->filter(fn ($item) => isset($item['key']))
+                ->filter(fn ($item): bool => isset($item['key']))
                 ->pluck('value', 'key')
                 ->toArray();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             $this->translationCache[$cacheKey] = [];
         }
 

@@ -21,7 +21,7 @@ class Importer extends AbstractImporter
 
     public const BATCH_SIZE = 10;
 
-    public $cursor = null;
+    public $cursor;
 
     protected array $locales = [];
 
@@ -69,7 +69,7 @@ class Importer extends AbstractImporter
      *
      * @return Source
      */
-    public function getSource()
+    public function getSource(): AttributeIterator
     {
         $this->initFilters();
 
@@ -194,7 +194,7 @@ class Importer extends AbstractImporter
             }
         }
 
-        $batch = $this->importBatchRepository->update([
+        $this->importBatchRepository->update([
             'state'   => Import::STATE_PROCESSED,
             'summary' => [
                 'created' => $this->getCreatedItemsCount(),

@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Ayarlar',
                 'upgrade'               => 'Pro\'ya yükselt',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Kimlik Bilgileri',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Shopify Kimlik Bilgisi',
             'channel'          => 'Kanal',
             'currency'         => 'Para Birimi',
-            'locale'           => 'Yerel Ayarlar',
             'attribute'        => 'Öznitelikler',
             'productfilter'    => 'Ürün Filtresi (SKU)',
             'status'           => 'Durum',

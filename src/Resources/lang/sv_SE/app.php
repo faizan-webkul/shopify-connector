@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Inställningar',
                 'upgrade'               => 'Uppgradera till Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Autentiseringsuppgifter',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Shopify-autentiseringsuppgifter',
             'channel'          => 'Kanal',
             'currency'         => 'Valuta',
-            'locale'           => 'Språk',
             'attribute'        => 'Attribut',
             'productfilter'    => 'Produktfilter (SKU)',
             'status'           => 'Status',

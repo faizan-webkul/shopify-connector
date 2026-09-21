@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Налаштування',
                 'upgrade'               => 'Перейти на Pro',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Облікові дані',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Облікові дані Shopify',
             'channel'          => 'Канал',
             'currency'         => 'Валюта',
-            'locale'           => 'Локалі',
             'attribute'        => 'Атрибути',
             'productfilter'    => 'Фільтр товарів (SKU)',
             'status'           => 'Статус',

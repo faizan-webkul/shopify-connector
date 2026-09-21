@@ -56,14 +56,7 @@ class TranslationsBulkPayloadBuilder
         if (count($storeLocaleMapping) < 2) {
             return [];
         }
-
-        $defaultLanguage = null;
-        foreach ($storeLocales as $language) {
-            if (! empty($language['defaultlocale'])) {
-                $defaultLanguage = $language;
-                break;
-            }
-        }
+        $defaultLanguage = array_find($storeLocales, fn ($language): bool => ! empty($language['defaultlocale']));
 
         $shopifyDefaultLocale = $defaultLanguage
             ? ($storeLocaleMapping[$defaultLanguage['locale']] ?? null)
@@ -101,7 +94,7 @@ class TranslationsBulkPayloadBuilder
 
         $unresolvedSkus = array_diff_key($unresolvedSkus, $productIdBySku);
 
-        if (! empty($unresolvedSkus)) {
+        if ($unresolvedSkus !== []) {
             $productIdBySku += $this->resolveProductGidsBySku(array_keys($unresolvedSkus), $credentialId);
         }
 
@@ -266,7 +259,7 @@ class TranslationsBulkPayloadBuilder
      */
     protected function resolveTranslatableMetafields(array $definitions, array $gidByKey, array $defaultFields, array $attributes): array
     {
-        if (empty($definitions) || empty($gidByKey)) {
+        if ($definitions === [] || $gidByKey === []) {
             return [];
         }
 

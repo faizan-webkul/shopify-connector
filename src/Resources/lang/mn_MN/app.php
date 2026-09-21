@@ -117,7 +117,6 @@ return [
     'components' => [
         'layouts' => [
             'sidebar' => [
-                'settings'              => 'Тохиргоо',
                 'upgrade'               => 'Pro руу шинэчлэх',
                 'shopify'               => 'Shopify',
                 'credentials'           => 'Нэвтрэх мэдээлэл',
@@ -609,7 +608,6 @@ return [
             'credentials'      => 'Shopify нэвтрэх мэдээлэл',
             'channel'          => 'Суваг',
             'currency'         => 'Валют',
-            'locale'           => 'Хэл байршлууд',
             'attribute'        => 'Шинж чанарууд',
             'productfilter'    => 'Бүтээгдэхүүний шүүлтүүр (SKU)',
             'status'           => 'Төлөв',
