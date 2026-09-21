@@ -46,6 +46,8 @@
     </x-slot>
 
     <x-slot:tabContents>
+        <x-shopify::pro-notice variant="page" />
+
         @if (request('history') === null)
         <x-admin::form
             id="realtime-settings-form"
@@ -53,45 +55,43 @@
             method="PUT"
             :ajax="true"
         >
-            <x-shopify::pro-lock>
-                <fieldset @disabled(! $shopifyProInstalled) class="contents">
-                <div class="p-4 bg-white dark:bg-cherry-900 rounded box-shadow grid grid-cols-2 max-sm:grid-cols-1 gap-x-5">
-                    <x-admin::form.control-group>
-                        <x-admin::form.control-group.label>
-                            @lang('shopify::app.shopify.realtime.channel')
-                        </x-admin::form.control-group.label>
+            <fieldset @disabled(! $shopifyProInstalled) class="contents">
+            <div class="p-4 bg-white dark:bg-cherry-900 rounded box-shadow grid grid-cols-2 max-sm:grid-cols-1 gap-x-5">
+                <x-admin::form.control-group>
+                    <x-admin::form.control-group.label>
+                        @lang('shopify::app.shopify.realtime.channel')
+                    </x-admin::form.control-group.label>
 
-                        <x-admin::form.control-group.control
-                            type="select"
-                            name="channel"
-                            :value="$realtimeSettings['channel']"
-                            :label="trans('shopify::app.shopify.realtime.channel')"
-                            async="true"
-                            track-by="id"
-                            label-by="label"
-                            :list-route="route('shopify.channel.fetch-all')"
-                        />
-                    </x-admin::form.control-group>
+                    <x-admin::form.control-group.control
+                        type="select"
+                        name="channel"
+                        :value="$realtimeSettings['channel']"
+                        :label="trans('shopify::app.shopify.realtime.channel')"
+                        async="true"
+                        track-by="id"
+                        label-by="label"
+                        :list-route="route('shopify.channel.fetch-all')"
+                    />
+                </x-admin::form.control-group>
 
-                    <x-admin::form.control-group>
-                        <x-admin::form.control-group.label>
-                            @lang('shopify::app.shopify.realtime.currency')
-                        </x-admin::form.control-group.label>
+                <x-admin::form.control-group>
+                    <x-admin::form.control-group.label>
+                        @lang('shopify::app.shopify.realtime.currency')
+                    </x-admin::form.control-group.label>
 
-                        <x-admin::form.control-group.control
-                            type="select"
-                            name="currency"
-                            :value="$realtimeSettings['currency']"
-                            :label="trans('shopify::app.shopify.realtime.currency')"
-                            async="true"
-                            track-by="id"
-                            label-by="label"
-                            :list-route="route('shopify.currency.fetch-all')"
-                        />
-                    </x-admin::form.control-group>
-                </div>
-                </fieldset>
-            </x-shopify::pro-lock>
+                    <x-admin::form.control-group.control
+                        type="select"
+                        name="currency"
+                        :value="$realtimeSettings['currency']"
+                        :label="trans('shopify::app.shopify.realtime.currency')"
+                        async="true"
+                        track-by="id"
+                        label-by="label"
+                        :list-route="route('shopify.currency.fetch-all')"
+                    />
+                </x-admin::form.control-group>
+            </div>
+            </fieldset>
         </x-admin::form>
         @endif
     </x-slot>

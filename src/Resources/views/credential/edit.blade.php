@@ -4,36 +4,39 @@
     </x-slot>
 
     <x-slot:title>
-        @lang('shopify::app.shopify.credential.index.title')
+        @lang('shopify::app.shopify.credential.edit.title')
     </x-slot>
-    
+
+    <x-slot:pageHeader>
+        <div class="flex min-h-10 items-center justify-between gap-4 max-sm:flex-wrap">
+            <div class="flex flex-col gap-1.5">
+                @include('shopify::catalogs._breadcrumbs', [
+                    'crumbs' => [
+                        ['label' => trans('shopify::app.components.layouts.sidebar.shopify'), 'url' => route('shopify.credentials.index')],
+                        ['label' => trans('shopify::app.shopify.credential.index.title'), 'url' => route('shopify.credentials.index')],
+                    ],
+                    'leaf' => trans('shopify::app.shopify.credential.edit.title'),
+                ])
+
+                <x-admin::heading :title="trans('shopify::app.shopify.credential.edit.title')" as="h1" size="xl" />
+            </div>
+
+            {{-- Saving belongs to the unsaved-changes bar core already renders. --}}
+            <a
+                href="{{ route('shopify.credentials.index') }}"
+                class="transparent-button"
+            >
+                @lang('shopify::app.shopify.credential.edit.back-btn')
+            </a>
+        </div>
+    </x-slot>
+
     <x-admin::form
+        id="shopify-credential-form"
         :action="route('shopify.credentials.update', ['id' => $credential->id])"
         method="PUT"
         :ajax="true"
     >
-        <div class="flex justify-between items-center">
-            <p class="text-xl text-gray-800 dark:text-slate-50 font-bold">
-                @lang('shopify::app.shopify.credential.edit.title')
-            </p>
-
-            <div class="flex gap-x-2.5 items-center">
-                <a
-                    href="{{ route('shopify.credentials.index') }}"
-                    class="transparent-button"
-                >
-                    @lang('shopify::app.shopify.credential.edit.back-btn')
-                </a>
-
-                <button 
-                    type="submit" 
-                    class="primary-button"
-                    aria-lebel="Submit"
-                >
-                    @lang('shopify::app.shopify.credential.edit.save')
-                </button>
-            </div>
-        </div>
 
         @if ($isSaas)
             <div class="flex items-center gap-2 mt-3.5 p-4 bg-violet-50 dark:bg-cherry-800 border border-violet-200 dark:border-cherry-700 rounded text-sm text-gray-700 dark:text-gray-300">

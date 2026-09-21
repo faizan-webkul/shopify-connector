@@ -14,25 +14,21 @@
 
 @if ($shopifySchedule->isNotEmpty())
     <div class="p-4 bg-white dark:bg-cherry-900 rounded box-shadow">
-        <div class="flex items-center gap-2 mb-4">
-            <p class="text-base text-gray-800 dark:text-white font-semibold">
-                @lang('shopify::app.export.schedule.title')
-            </p>
+        <x-shopify::pro-notice
+            class="shopify-pro-notice--bare"
+            :title="trans('shopify::app.export.schedule.title')"
+            :note="trans('shopify::app.shopify.pro.schedule-note')"
+        />
 
-            <x-shopify::pro-cta variant="badge" />
-        </div>
-
-        <x-shopify::pro-lock>
-            <fieldset @disabled(! $shopifyProInstalled)>
-                <x-admin::data-transfer.filter-fields
-                    :entity-type="$shopifyEntityType"
-                    :values="$shopifyExport?->filters ?? []"
-                    :exporter-config="config('exporters')"
-                    :only="$shopifySchedule->implode(',')"
-                    grid-class="grid grid-cols-1"
-                />
-            </fieldset>
-        </x-shopify::pro-lock>
+        <fieldset @disabled(! $shopifyProInstalled)>
+            <x-admin::data-transfer.filter-fields
+                :entity-type="$shopifyEntityType"
+                :values="$shopifyExport?->filters ?? []"
+                :exporter-config="config('exporters')"
+                :only="$shopifySchedule->implode(',')"
+                grid-class="grid grid-cols-1"
+            />
+        </fieldset>
     </div>
 
     @include('shopify::data-transfer._cron-field')

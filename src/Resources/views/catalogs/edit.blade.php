@@ -49,16 +49,16 @@
         </div>
     </x-slot>
 
+    <x-shopify::pro-notice variant="page" />
+
     <x-admin::form
         id="catalog-form"
         :action="route('shopify.credentials.catalogs.update', [$credential->id, $catalog->id])"
         method="PUT"
         :ajax="true"
     >
-        <x-shopify::pro-lock>
-            <fieldset @disabled(! $shopifyProInstalled) class="contents">
-                @include('shopify::catalogs._form')
-            </fieldset>
-        </x-shopify::pro-lock>
+        <fieldset @disabled(! $shopifyProInstalled) class="contents">
+            @include('shopify::catalogs._form')
+        </fieldset>
     </x-admin::form>
 </x-admin::layouts.with-history>

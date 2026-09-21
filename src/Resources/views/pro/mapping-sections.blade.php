@@ -1,11 +1,9 @@
 {{--
-    The mapping screen carries two Pro cards side by side, so they sit behind
-    one veil and share the single ask rather than repeating it.
+    The mapping screen's two Pro cards travel into place together, so they are
+    grouped here and the page's own notice stays at the top where it belongs.
 --}}
-<x-shopify::pro-lock>
-    <div class="flex flex-col gap-4">
-        @include('shopify::external-media.section')
+<div class="shopify-pro-sections flex flex-col gap-4">
+    @include('shopify::external-media.section')
 
-        @include('shopify::association-mappings.section')
-    </div>
-</x-shopify::pro-lock>
+    @include('shopify::association-mappings.section')
+</div>

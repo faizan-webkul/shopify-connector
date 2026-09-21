@@ -91,35 +91,42 @@ it('locks the pro filters while the pro package is absent', function () {
         ->toContain(trans('shopify::app.shopify.pro.badge'));
 });
 
-function proLock(): string
+function proNotice(string $variant): string
 {
-    return Blade::render('<x-shopify::pro-lock><p>field</p></x-shopify::pro-lock>');
+    return Blade::render(
+        '<x-shopify::pro-notice :variant="$variant" title="Association Mapping" note="Mapped on Pro." />',
+        compact('variant'),
+    );
 }
 
-it('leaves a card alone while the pro package is installed', function () {
-    withShopifyPro();
-
-    expect(trim(proLock()))->toBe('<p>field</p>')
-        ->and(trim(Blade::render('<x-shopify::pro-offer />')))->toBe('');
-});
-
-it('veils a card behind the offer while the package is absent', function () {
+it('names a pro section and offers to unlock it while the package is absent', function () {
     withoutShopifyPro();
 
-    expect(proLock())
-        ->toContain('shopify-pro-lock__body')
-        ->toContain('<p>field</p>')
-        ->toContain(e(trans('shopify::app.shopify.pro.tagline')))
-        ->toContain(trans('shopify::app.shopify.pro.upgrade'))
+    expect(proNotice('section'))
+        ->toContain('Association Mapping')
+        ->toContain('Mapped on Pro.')
+        ->toContain(trans('shopify::app.shopify.pro.badge'))
+        ->toContain(trans('shopify::app.shopify.pro.unlock'))
         ->toContain(config('shopify.pro.url'));
 });
 
-it('offers pro on a screen with nothing to veil while the package is absent', function () {
+it('sums a pro screen up once while the package is absent', function () {
     withoutShopifyPro();
 
-    expect(Blade::render('<x-shopify::pro-offer />'))
+    expect(proNotice('page'))
+        ->toContain(trans('shopify::app.shopify.pro.summary'))
         ->toContain(e(trans('shopify::app.shopify.pro.tagline')))
+        ->toContain(e(trans('shopify::app.shopify.pro.compare')))
         ->toContain(trans('shopify::app.shopify.pro.upgrade'));
+});
+
+it('leaves a pro section as its own heading while the package is installed', function () {
+    withShopifyPro();
+
+    expect(proNotice('section'))
+        ->toContain('Association Mapping')
+        ->not->toContain(trans('shopify::app.shopify.pro.unlock'))
+        ->and(trim(proNotice('page')))->toBe('');
 });
 
 it('names only filters the export screens actually render', function () {
@@ -158,11 +165,11 @@ it('serves the shopify screens while the pro package is absent', function () {
 
     get(route('admin.shopify.export-mappings', 1))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
 
     get(route('admin.shopify.import-mappings', 3))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
 
     get(route('shopify.metafield.index'))
         ->assertOk()
@@ -199,7 +206,7 @@ it('offers the catalog screen without its list while the pro package is absent',
 
     get(route('shopify.credentials.catalogs.index', $credential->id))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'))
+        ->assertSeeText(trans('shopify::app.shopify.pro.summary'))
         ->assertDontSeeText(trans('shopify::app.shopify.catalogs.create'));
 });
 
@@ -212,11 +219,11 @@ it('offers the real time screens read only while the pro package is absent', fun
 
     get(route('shopify.realtime.index'))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
 
     get(route('shopify.credentials.realtime.index', $credential->id))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
 });
 
 it('offers the mapping sections and the schedule read only while the pro package is absent', function () {
@@ -228,12 +235,26 @@ it('offers the mapping sections and the schedule read only while the pro package
         ->assertOk()
         ->assertSee(trans('shopify::app.shopify.association-mapping.title'))
         ->assertSee(trans('shopify::app.shopify.external-media.title'))
-        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
 
     get(route('admin.settings.data_transfer.exports.create'))
         ->assertOk()
         ->assertSeeText(trans('shopify::app.export.schedule.title'))
-        ->assertSeeText(trans('shopify::app.shopify.pro.tagline'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
+});
+
+it('keeps the pro jobs out of the pickers while the package is absent', function () {
+    withoutShopifyPro();
+
+    $this->loginAsAdmin();
+
+    get(route('admin.settings.data_transfer.exports.create'))
+        ->assertOk()
+        ->assertDontSee(trans('shopify::app.exporters.shopify.catalog'));
+
+    get(route('admin.settings.data_transfer.imports.create'))
+        ->assertOk()
+        ->assertDontSee(trans('shopify::app.importers.shopify.catalog-price'));
 });
 
 it('refuses a pro metafield type while the package is absent', function () {

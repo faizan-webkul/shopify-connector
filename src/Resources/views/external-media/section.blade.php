@@ -6,13 +6,10 @@
     @pushOnce('scripts')
         <script type="text/x-template" id="v-shopify-pro-external-media-mapping-template">
             <fieldset @disabled(! $shopifyProInstalled) class="bg-white dark:bg-cherry-900 rounded box-shadow block">
-                <div class="grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300 transition-all hover:bg-violet-50 hover:bg-opacity-30 dark:hover:bg-cherry-800">
-                    <p class="flex items-center gap-2 text-base text-gray-800 dark:text-white font-semibold">
-                        @lang('shopify::app.shopify.external-media.title')
-
-                        <x-shopify::pro-cta variant="badge" />
-                    </p>
-                </div>
+                <x-shopify::pro-notice
+                    :title="trans('shopify::app.shopify.external-media.title')"
+                    :note="trans('shopify::app.shopify.pro.media-note')"
+                />
 
                 @foreach ([
                     'external_image_attribute' => ['label' => 'image', 'value' => $externalImageAttribute],
@@ -52,7 +49,8 @@
                     this.$nextTick(() => {
                         const mediaHeading = [...document.querySelectorAll('p')].find((element) => element.textContent.trim() === @json($mediaMappingTitle));
 
-                        mediaHeading?.closest('.bg-white')?.after(this.$el);
+                        /** The two Pro cards travel together, under the page's own notice. */
+                        mediaHeading?.closest('.bg-white')?.after(this.$el.closest('.shopify-pro-sections') ?? this.$el);
                     });
                 },
             });

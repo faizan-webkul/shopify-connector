@@ -3,7 +3,7 @@
 @endphp
 
 <v-shopify-pro-filter-badges
-    :entities='@json($proFeatures->exportFilterMap())'
+    :entities='@json($proFeatures->lockedExportFilterMap())'
     :titles='@json($proFeatures->exportFilterTitles())'
     entity-type="{{ $proFeatures->currentExportEntityType() }}"
     :badge='@json($proFeatures->badgeHtml())'
@@ -13,7 +13,11 @@
 
 @pushOnce('scripts')
     <script type="text/x-template" id="v-shopify-pro-filter-badges-template">
-        <span class="hidden"></span>
+        <div v-if="offered">
+            <x-shopify::pro-notice variant="page" />
+        </div>
+
+        <span v-else class="hidden"></span>
     </script>
 
     <script type="module">
@@ -54,6 +58,11 @@
                     return new Set(this.entities[this.entity] ?? []);
                 },
 
+                /** The notice belongs to the screens that actually hold a locked filter. */
+                offered() {
+                    return this.locked && this.fields.size > 0;
+                },
+
                 /** Label text back to filter name, for labels that carry no id. */
                 namesByTitle() {
                     return Object.fromEntries(
@@ -86,11 +95,11 @@
                     }
                 },
 
-                /** The badge markup is the rendered core component, not a copy of it. */
-                buildBadge() {
+                /** The badge is the rendered core component, not a copy of it. */
+                build(markup) {
                     const holder = document.createElement('div');
 
-                    holder.innerHTML = this.badge;
+                    holder.innerHTML = markup;
 
                     return holder.firstElementChild;
                 },
@@ -131,12 +140,6 @@
                     container.dataset.unsavedIgnore = '';
                     container.style.pointerEvents = 'none';
 
-                    [...container.children].forEach((child) => {
-                        if (! child.matches('label, p')) {
-                            child.style.opacity = '0.6';
-                        }
-                    });
-
                     container.querySelectorAll('input, select, textarea, button').forEach((control) => {
                         control.tabIndex = -1;
                     });
@@ -152,8 +155,6 @@
                     delete container.dataset.unsavedIgnore;
 
                     container.style.removeProperty('pointer-events');
-
-                    [...container.children].forEach((child) => child.style.removeProperty('opacity'));
 
                     container.querySelectorAll('input, select, textarea, button').forEach((control) => {
                         control.removeAttribute('tabindex');
@@ -179,7 +180,7 @@
                     }
 
                     if (holder.dataset.shopifyProFilter === undefined) {
-                        holder.append(this.buildBadge());
+                        holder.append(this.build(this.badge));
 
                         holder.dataset.shopifyProFilter = name;
                     }

@@ -3,6 +3,7 @@
 namespace Webkul\Shopify\Providers;
 
 use Illuminate\Routing\Router;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -135,7 +136,7 @@ class ShopifyServiceProvider extends ServiceProvider
         });
 
         foreach (['create', 'edit'] as $screen) {
-            Event::listen("unopim.admin.settings.data_transfer.exports.{$screen}.card.accordion.filters.befor", static function (ViewRenderEventManager $viewRenderEventManager) {
+            Event::listen("unopim.admin.settings.data_transfer.exports.{$screen}.card.general.before", static function (ViewRenderEventManager $viewRenderEventManager) {
                 $viewRenderEventManager->addTemplate('shopify::data-transfer.pro-filter-badges');
             });
         }
@@ -167,6 +168,13 @@ class ShopifyServiceProvider extends ServiceProvider
                         'label' => $attribute->translate($locale)?->name ?: "[{$attribute->code}]",
                     ])
                     ->all());
+        });
+
+        View::composer([
+            'admin::settings.data-transfer.exports.create',
+            'admin::settings.data-transfer.imports.create',
+        ], function (): void {
+            $this->hideUnavailableJobs();
         });
 
         Event::listen('unopim.admin.layout.head', static function (ViewRenderEventManager $viewRenderEventManager): void {
@@ -321,6 +329,22 @@ class ShopifyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerConfig();
+    }
+
+    /**
+     * A job the connector only advertises is left out of the pickers, so a store
+     * without Pro is never offered work its package cannot do. The saved job
+     * keeps its type, so one created with Pro still opens and still runs.
+     */
+    protected function hideUnavailableJobs(): void
+    {
+        if (resolve(ProFeatures::class)->isInstalled()) {
+            return;
+        }
+
+        foreach ((array) config('shopify.pro.jobs', []) as $group => $types) {
+            config([$group => Arr::except((array) config($group, []), $types)]);
+        }
     }
 
     /**

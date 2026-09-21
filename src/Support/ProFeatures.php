@@ -127,15 +127,25 @@ class ProFeatures
      */
     public function lockedExportFilters(string $entityType): array
     {
-        if ($this->isInstalled()) {
-            return [];
+        return $this->isInstalled() ? [] : ($this->lockedExportFilterMap()[$entityType] ?? []);
+    }
+
+    /**
+     * The same filters for every entity type, for the screens that decorate
+     * whatever the current selection turns out to be.
+     *
+     * @return array<string, array<int, string>>
+     */
+    public function lockedExportFilterMap(): array
+    {
+        $map = $this->exportFilterMap();
+        $schedule = array_column(config('shopify_schedule.fields', []), 'name');
+
+        foreach ((array) config('shopify_schedule.entity_types', []) as $entityType) {
+            $map[$entityType] = array_merge($map[$entityType] ?? [], $schedule);
         }
 
-        $schedule = in_array($entityType, config('shopify_schedule.entity_types', []), true)
-            ? array_column(config('shopify_schedule.fields', []), 'name')
-            : [];
-
-        return array_merge($this->exportFilterMap()[$entityType] ?? [], $schedule);
+        return $map;
     }
 
     /**

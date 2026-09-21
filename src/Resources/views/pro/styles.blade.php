@@ -1,117 +1,262 @@
 {{--
-    What the screens running without Pro wear: the sidebar entry turned into a
-    call to action, and the button that carries the same ask everywhere else.
-    Core renders both; only their look lives here.
+    What a Pro feature wears: the notice it carries, the look of the controls it
+    holds back, and the sidebar entry that sells the package. Core renders them
+    all; only their look lives here.
 --}}
 @php
     $upgradeUrl = resolve(\Webkul\Shopify\Support\ProFeatures::class)->upgradeUrl();
     $menuPath = parse_url(route('shopify.upgrade'), PHP_URL_PATH);
 @endphp
 
+{{--
+    The sidebar entry only exists without Pro, so its look is gated; the notice
+    is worn either way and must be styled either way.
+--}}
+<style>
+    #unopim-sidebar a[href$="{{ $menuPath }}"] {
+        display: block;
+        margin-block: 0.625rem 0.25rem;
+        margin-inline-end: 1rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        text-align: center;
+    }
+
+    /** The fly-out panel drops the menu's indent, so the button brings its own. */
+    #unopim-sidebar [data-menu-item].inactive a[href$="{{ $menuPath }}"],
+    .sidebar-collapsed #unopim-sidebar a[href$="{{ $menuPath }}"] {
+        margin-block: 0.5rem 0.75rem;
+        margin-inline: 0.75rem;
+    }
+
+    #unopim-sidebar a[href$="{{ $menuPath }}"],
+    .shopify-pro-cta {
+        background-color: #f6b81c;
+        color: #2b2000;
+        font-weight: 700;
+        white-space: nowrap;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        transition: background-color 150ms ease-in-out;
+    }
+
+    #unopim-sidebar a[href$="{{ $menuPath }}"]:hover,
+    .shopify-pro-cta:hover {
+        background-color: #e9ab0c;
+        color: #2b2000;
+    }
+
+    .shopify-pro-cta {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5625rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.8125rem;
+        line-height: 1;
+    }
+
+    .shopify-pro-notice {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        flex-wrap: wrap;
+        padding: 0.9375rem 1.25rem;
+        border-bottom: 1px solid #f1eff8;
+    }
+
+    .dark .shopify-pro-notice {
+        border-bottom-color: #37303e;
+    }
+
+    .shopify-pro-notice--locked:not(.shopify-pro-notice--page) {
+        background-color: #fcfbff;
+    }
+
+    .dark .shopify-pro-notice--locked:not(.shopify-pro-notice--page) {
+        background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    /** A card that already frames itself only needs the row, not the box. */
+    .shopify-pro-notice--bare {
+        margin-bottom: 0.5rem;
+        padding-block: 0 0.9375rem;
+        padding-inline: 0;
+        background-color: transparent;
+    }
+
+    .shopify-pro-notice--page {
+        gap: 1rem;
+        margin-bottom: 1.125rem;
+        padding: 0.875rem 1.125rem;
+        border: 1px solid #e7dcf7;
+        border-radius: 0.625rem;
+        background: linear-gradient(90deg, #f6f1ff, #fdfbff);
+    }
+
+    .dark .shopify-pro-notice--page {
+        border-color: #3c2f5c;
+        background: linear-gradient(90deg, rgba(109, 40, 217, 0.18), rgba(109, 40, 217, 0.06));
+    }
+
+    .shopify-pro-notice__lock {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        color: #a19bb8;
+    }
+
+    .shopify-pro-notice--page .shopify-pro-notice__lock {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.5rem;
+        background-color: #ede4ff;
+        color: #6d28d9;
+    }
+
+    .dark .shopify-pro-notice--page .shopify-pro-notice__lock {
+        background-color: rgba(109, 40, 217, 0.35);
+        color: #c4b5fd;
+    }
+
+    .shopify-pro-notice__lead {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        flex-wrap: wrap;
+        min-width: 0;
+    }
+
+    .shopify-pro-notice--page .shopify-pro-notice__lead {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.125rem;
+    }
+
+    .shopify-pro-notice__title {
+        margin: 0;
+        font-size: 0.90625rem;
+        font-weight: 700;
+        color: #1e1b33;
+    }
+
+    .shopify-pro-notice--locked:not(.shopify-pro-notice--page) .shopify-pro-notice__title {
+        color: #56526b;
+    }
+
+    .dark .shopify-pro-notice__title {
+        color: #f1f5f9;
+    }
+
+    .shopify-pro-notice--page .shopify-pro-notice__title {
+        font-size: 0.84375rem;
+    }
+
+    .shopify-pro-notice__note {
+        margin: 0;
+        font-size: 0.78125rem;
+        color: #8d88a5;
+    }
+
+    .shopify-pro-notice:not(.shopify-pro-notice--page) .shopify-pro-notice__note {
+        padding-inline-start: 0.625rem;
+        border-inline-start: 1px solid #e6e3f2;
+    }
+
+    .dark .shopify-pro-notice__note {
+        color: #b6b1c7;
+    }
+
+    .dark .shopify-pro-notice:not(.shopify-pro-notice--page) .shopify-pro-notice__note {
+        border-inline-start-color: #3f3a4d;
+    }
+
+    /** The badge core renders, worn the way the Pro mark is worn everywhere. */
+    .shopify-pro-notice .shopify-pro-badge {
+        padding: 0.125rem 0.4375rem;
+        font-size: 0.625rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .shopify-pro-notice__actions {
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+        margin-inline-start: auto;
+        flex: none;
+    }
+
+    .shopify-pro-link {
+        font-size: 0.78125rem;
+        font-weight: 600;
+        color: #6d28d9;
+        white-space: nowrap;
+    }
+
+    .dark .shopify-pro-link {
+        color: #c4b5fd;
+    }
+
+    .shopify-pro-unlock {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.375rem 0.75rem;
+        border: 1px solid #e0daf4;
+        border-radius: 0.375rem;
+        background-color: #ffffff;
+        color: #6d28d9;
+        font-size: 0.75rem;
+        font-weight: 700;
+        white-space: nowrap;
+        transition: background-color 150ms ease-in-out;
+    }
+
+    .shopify-pro-unlock:hover {
+        background-color: #f6f1ff;
+    }
+
+    .dark .shopify-pro-unlock {
+        border-color: #4c3d75;
+        background-color: transparent;
+        color: #c4b5fd;
+    }
+
+    .dark .shopify-pro-unlock:hover {
+        background-color: rgba(109, 40, 217, 0.2);
+    }
+
+    /** What a locked section holds: readable, drained of colour, out of reach. */
+    .shopify-pro-notice--locked:not(.shopify-pro-notice--page) ~ *,
+    [data-shopify-pro-locked] {
+        opacity: 0.6;
+        filter: saturate(0.55);
+        user-select: none;
+    }
+
+</style>
+
 @unless ($shopifyProInstalled)
-    <style>
-        #unopim-sidebar a[href$="{{ $menuPath }}"],
-        #unopim-sidebar a[data-shopify-pro-upgrade] {
-            display: block;
-            margin-block: 0.625rem 0.25rem;
-            margin-inline-end: 1rem;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            line-height: 1.25rem;
-            text-align: center;
-        }
-
-        /** The fly-out panel drops the menu's indent, so the button brings its own. */
-        #unopim-sidebar [data-menu-item].inactive a[data-shopify-pro-upgrade],
-        .sidebar-collapsed #unopim-sidebar a[data-shopify-pro-upgrade] {
-            margin-block: 0.5rem 0.75rem;
-            margin-inline: 0.75rem;
-        }
-
-        #unopim-sidebar a[href$="{{ $menuPath }}"],
-        #unopim-sidebar a[data-shopify-pro-upgrade],
-        .shopify-pro-cta {
-            background-color: #fbbf24;
-            color: #422006;
-            font-weight: 600;
-            white-space: nowrap;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-            transition: background-color 150ms ease-in-out;
-        }
-
-        #unopim-sidebar a[data-shopify-pro-upgrade]:hover,
-        .shopify-pro-cta:hover {
-            background-color: #f59e0b;
-            color: #422006;
-        }
-
-        .shopify-pro-lock {
-            position: relative;
-        }
-
-        .shopify-pro-lock__body {
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .shopify-pro-lock__offer {
-            position: absolute;
-            inset: 0;
-            background-color: rgba(255, 255, 255, 0.72);
-        }
-
-        .dark .shopify-pro-lock__offer {
-            background-color: rgba(24, 22, 30, 0.72);
-        }
-
-        .shopify-pro-lock__offer,
-        .shopify-pro-offer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            padding: 1.5rem 1rem;
-            text-align: center;
-        }
-
-        .shopify-pro-lock__offer p,
-        .shopify-pro-offer p {
-            max-width: 34rem;
-            margin: 0;
-            font-size: 0.875rem;
-            color: #4b5563;
-        }
-
-        .dark .shopify-pro-lock__offer p,
-        .dark .shopify-pro-offer p {
-            color: #d1d5db;
-        }
-
-        .shopify-pro-cta {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.375rem 0.875rem;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            line-height: 1.25rem;
-        }
-    </style>
-
     <script>
         /**
-         * A menu entry can only name a route, so the sidebar link is pointed at
-         * the store itself once it is on the page and the app is never asked to
-         * forward the visit.
+         * A menu entry can only name a route, and the sidebar rebuilds its links
+         * as menus open and close, so the visit is taken over on the way out
+         * instead of rewriting an element that will be replaced.
          */
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('#unopim-sidebar a[href$="{{ $menuPath }}"]').forEach((link) => {
-                link.href = @json($upgradeUrl);
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                link.dataset.shopifyProUpgrade = '';
-            });
+        document.addEventListener('click', (event) => {
+            if (event.button || event.ctrlKey || event.metaKey || event.shiftKey) {
+                return;
+            }
+
+            if (! event.target.closest?.('#unopim-sidebar a[href$="{{ $menuPath }}"]')) {
+                return;
+            }
+
+            event.preventDefault();
+
+            window.open(@json($upgradeUrl), '_blank', 'noopener');
         });
     </script>
 @endunless

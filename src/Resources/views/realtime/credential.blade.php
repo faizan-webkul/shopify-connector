@@ -47,46 +47,46 @@
     </x-slot>
 
     <x-slot:tabContents>
+        <x-shopify::pro-notice variant="page" />
+
         <x-admin::form
             id="realtime-credential-form"
             :action="route('shopify.credentials.realtime.toggle', $credential->id)"
             method="PUT"
             :ajax="true"
         >
-            <x-shopify::pro-lock>
-                <fieldset @disabled(! $shopifyProInstalled) class="contents">
-                <div class="p-4 bg-white dark:bg-cherry-900 rounded box-shadow flex flex-col gap-4">
-                    <div class="flex items-start justify-between gap-6 max-sm:flex-col">
-                        <div class="flex flex-col gap-1">
-                            <p class="text-base text-gray-800 dark:text-white font-semibold">
-                                @lang('shopify::app.shopify.realtime.enable')
-                            </p>
+            <fieldset @disabled(! $shopifyProInstalled) class="contents">
+            <div class="p-4 bg-white dark:bg-cherry-900 rounded box-shadow flex flex-col gap-4">
+                <div class="flex items-start justify-between gap-6 max-sm:flex-col">
+                    <div class="flex flex-col gap-1">
+                        <p class="text-base text-gray-800 dark:text-white font-semibold">
+                            @lang('shopify::app.shopify.realtime.enable')
+                        </p>
 
-                            <p class="text-xs text-gray-500 dark:text-gray-300">
-                                @lang('shopify::app.shopify.realtime.enable-info')
-                            </p>
-                        </div>
-
-                        <x-admin::form.control-group class="!mb-0">
-                            <x-admin::form.control-group.control
-                                type="switch"
-                                name="enabled"
-                                value="1"
-                                :checked="$enabled"
-                                :disabled="(bool) $blocker && ! $enabled"
-                                :label="trans('shopify::app.shopify.realtime.enable')"
-                            />
-                        </x-admin::form.control-group>
+                        <p class="text-xs text-gray-500 dark:text-gray-300">
+                            @lang('shopify::app.shopify.realtime.enable-info')
+                        </p>
                     </div>
 
-                    @if ($blocker && ! $enabled)
-                        <p class="text-xs text-red-600">
-                            {{ trans($blocker) }}
-                        </p>
-                    @endif
+                    <x-admin::form.control-group class="!mb-0">
+                        <x-admin::form.control-group.control
+                            type="switch"
+                            name="enabled"
+                            value="1"
+                            :checked="$enabled"
+                            :disabled="(bool) $blocker && ! $enabled"
+                            :label="trans('shopify::app.shopify.realtime.enable')"
+                        />
+                    </x-admin::form.control-group>
                 </div>
-                </fieldset>
-            </x-shopify::pro-lock>
+
+                @if ($blocker && ! $enabled)
+                    <p class="text-xs text-red-600">
+                        {{ trans($blocker) }}
+                    </p>
+                @endif
+            </div>
+            </fieldset>
         </x-admin::form>
     </x-slot>
 </x-admin::layouts.with-history>

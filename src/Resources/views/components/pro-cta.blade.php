@@ -1,13 +1,17 @@
 {{--
-    The two marks a Pro feature wears: the badge that names it, and the button
-    that sells it. The button is the only place the offer is spelled out, so it
-    is never repeated beside the badge.
+    The marks a Pro feature wears: the badge that names it, and the button that
+    sells it, in the wording the spot calls for.
 --}}
-@props(['variant' => 'button', 'label' => null])
+@props(['variant' => 'button'])
 
 @php
     $proFeatures = resolve(\Webkul\Shopify\Support\ProFeatures::class);
     $installed = $proFeatures->isInstalled();
+
+    $labels = [
+        'button' => 'shopify::app.shopify.pro.upgrade',
+        'unlock' => 'shopify::app.shopify.pro.unlock',
+    ];
 @endphp
 
 @if ($variant === 'badge')
@@ -22,8 +26,8 @@
         href="{{ $proFeatures->upgradeUrl() }}"
         target="_blank"
         rel="noopener noreferrer"
-        {{ $attributes->merge(['class' => 'shopify-pro-cta shrink-0']) }}
+        {{ $attributes->merge(['class' => 'shrink-0 '.($variant === 'unlock' ? 'shopify-pro-unlock' : 'shopify-pro-cta')]) }}
     >
-        {{ $label ?? trans('shopify::app.shopify.pro.upgrade') }}
+        {{ trans($labels[$variant] ?? $labels['button']) }}
     </a>
 @endif

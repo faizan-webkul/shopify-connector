@@ -47,7 +47,7 @@
         @if ($shopifyProInstalled)
             <x-admin::datagrid :src="route('shopify.credentials.catalogs.index', $credential->id)" />
         @else
-            <x-shopify::pro-offer />
+            <x-shopify::pro-notice variant="page" />
         @endif
     </x-slot>
 
