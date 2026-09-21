@@ -208,7 +208,7 @@ it('offers the real time screens read only while the pro package is absent', fun
 
     $credential = ShopifyCredentialsConfig::factory()->create();
 
-    get(route('shopify.realtime.index'))
+    get(route('shopify.realtime.index', 1))
         ->assertOk()
         ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
 

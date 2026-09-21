@@ -83,7 +83,7 @@ class ShopifyServiceProvider extends ServiceProvider
                     'label' => 'admin::app.components.layouts.sidebar.general',
                 ], [
                     'key'   => 'realtime',
-                    'url'   => route('shopify.realtime.index'),
+                    'url'   => route('shopify.realtime.index', ShopifyMapping::EXPORT_ID),
                     'label' => 'shopify::app.shopify.realtime.title',
                 ],
             ]);
@@ -179,7 +179,17 @@ class ShopifyServiceProvider extends ServiceProvider
             $viewRenderEventManager->addTemplate('shopify::pro.styles');
         });
 
+        /**
+         * The Pro cards belong to the mapping form, and they move themselves
+         * next to its media card once mounted. The history tab carries neither,
+         * so they are only offered where they have a place to land.
+         */
         Event::listen('unopim.admin.layout.content.after', static function (ViewRenderEventManager $viewRenderEventManager): void {
+            if (request()->has('history')
+                || ! request()->routeIs('admin.shopify.export-mappings', 'admin.shopify.import-mappings')) {
+                return;
+            }
+
             $viewRenderEventManager->addTemplate('shopify::pro.mapping-sections');
         });
 

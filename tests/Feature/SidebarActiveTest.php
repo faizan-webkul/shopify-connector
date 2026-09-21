@@ -44,7 +44,7 @@ it('marks its own entry on every screen that stands on its own', function (strin
     expect(highlightedMenuEntries($page->getContent()))->toContain(trans($label));
 })->with([
     'credentials'        => ['shopify.credentials.index', [], 'shopify::app.components.layouts.sidebar.credentials'],
-    'realtime settings'  => ['shopify.realtime.index', [], 'shopify::app.components.layouts.sidebar.credentials'],
+    'realtime settings'  => ['shopify.realtime.index', [1], 'shopify::app.components.layouts.sidebar.export-mappings'],
     'metafields'         => ['shopify.metafield.index', [], 'shopify::app.components.layouts.sidebar.meta-fields'],
     'metaobjects'        => ['shopify.metaobject.index', [], 'shopify::app.components.layouts.sidebar.metaobjects'],
     'export mapping'     => ['admin.shopify.export-mappings', [1], 'shopify::app.components.layouts.sidebar.export-mappings'],

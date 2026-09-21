@@ -46,12 +46,12 @@
     </x-slot>
 
     <x-slot:tabContents>
+        @if (request('history') === null)
         <x-shopify::pro-notice variant="page" />
 
-        @if (request('history') === null)
         <x-admin::form
             id="realtime-settings-form"
-            :action="route('shopify.realtime.store')"
+            :action="route('shopify.realtime.store', \Webkul\Shopify\Support\ShopifyMapping::EXPORT_ID)"
             method="PUT"
             :ajax="true"
         >

@@ -79,6 +79,7 @@
     </x-slot>
 
     <x-slot:tabContents>
+        @if (request('history') === null)
         <x-shopify::pro-notice variant="page" />
 
         <x-admin::form
@@ -127,5 +128,6 @@
             </div>
             </fieldset>
         </x-admin::form>
+        @endif
     </x-slot>
 </x-admin::layouts.with-history>

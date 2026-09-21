@@ -44,10 +44,12 @@
     </x-slot>
 
     <x-slot:tabContents>
-        @if ($shopifyProInstalled)
-            <x-admin::datagrid :src="route('shopify.credentials.catalogs.index', $credential->id)" />
-        @else
-            <x-shopify::pro-notice variant="page" />
+        @if (request('history') === null)
+            @if ($shopifyProInstalled)
+                <x-admin::datagrid :src="route('shopify.credentials.catalogs.index', $credential->id)" />
+            @else
+                <x-shopify::pro-notice variant="page" />
+            @endif
         @endif
     </x-slot>
 

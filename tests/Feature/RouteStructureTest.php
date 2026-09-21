@@ -55,7 +55,6 @@ it('leaves the credentials menu active on the screens that belong to a credentia
     'catalogs'            => ['shopify.credentials.catalogs.index', [1]],
     'catalog edit'        => ['shopify.credentials.catalogs.edit', [1, 2]],
     'credential realtime' => ['shopify.credentials.realtime.index', [1]],
-    'realtime settings'   => ['shopify.realtime.index', []],
 ]);
 
 it('leaves the metafield and metaobject menus active on their own screens', function (string $name, array $params, string $menuRoute) {
@@ -69,9 +68,9 @@ it('leaves the metafield and metaobject menus active on their own screens', func
     'metaobject entry' => ['shopify.metaobject.entry.list', [], 'shopify.metaobject.index'],
 ]);
 
-it('keeps a static credential path from being read as a credential id', function () {
+it('serves the real-time settings from under the export mapping they belong to', function () {
     $this->loginAsAdmin();
 
-    expect(route('shopify.realtime.index'))->toBe(route('shopify.credentials.index').'/realtime')
+    expect(route('shopify.realtime.index', 1))->toBe(route('admin.shopify.export-mappings', 1).'/realtime')
         ->and(Route::getRoutes()->getByName('shopify.credentials.update')->wheres['id'] ?? null)->toBe('[0-9]+');
 });

@@ -11,7 +11,7 @@
 - Digital Asset Management (DAM) support
 
 ## Changed
-- Compatibility with UnoPim v3.x.
+- Compatibility with UnoPim v3.1.x.
 - Inventory is always multi-location now; the old single-location handling has been removed.
 
 ## Bug fixes

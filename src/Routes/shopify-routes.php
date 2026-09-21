@@ -58,10 +58,6 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
          * without a rule of its own.
          */
         Route::prefix('credentials')->group(function (): void {
-            Route::get('realtime', [RealtimeController::class, 'index'])->name('shopify.realtime.index');
-
-            Route::put('realtime', [RealtimeController::class, 'store'])->name('shopify.realtime.store');
-
             Route::get('{credentialId}/realtime', [RealtimeController::class, 'credential'])
                 ->whereNumber('credentialId')
                 ->name('shopify.credentials.realtime.index');
@@ -95,6 +91,16 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
             Route::post('create', 'store')->name('shopify.export-mappings.create');
 
             Route::get('{id}', 'index')->name('admin.shopify.export-mappings')->whereNumber('id');
+        });
+
+        /**
+         * Real-time sync is a tab of the export mapping screen, so it is served
+         * from under it and the sidebar keeps Export Mappings active.
+         */
+        Route::prefix('export-mapping/{id}')->whereNumber('id')->group(function (): void {
+            Route::get('realtime', [RealtimeController::class, 'index'])->name('shopify.realtime.index');
+
+            Route::put('realtime', [RealtimeController::class, 'store'])->name('shopify.realtime.store');
         });
 
         Route::controller(CollectionMappingController::class)->prefix('collection-mapping')->group(function (): void {
