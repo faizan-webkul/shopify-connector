@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => ':sku varyantında :fields atlandı: bu öznitelik varyant yapısının üst seviyesine ait.',
+            'mapping'               => [
                 'title'                => 'İçe Aktarma Eşlemeleri',
                 'back-btn'             => 'Geri',
                 'save'                 => 'Kaydet',

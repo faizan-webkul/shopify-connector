@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'Pominięto :fields w wariancie :sku: atrybut należy do wyższego poziomu jego struktury wariantów.',
+            'mapping'               => [
                 'title'                => 'Mapowania importu',
                 'back-btn'             => 'Wstecz',
                 'save'                 => 'Zapisz',

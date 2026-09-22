@@ -535,7 +535,8 @@ return [
             ],
         ],
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => ':fields auf der Variante :sku übersprungen: Das Attribut gehört zu einer höheren Ebene ihrer Variantenstruktur.',
+            'mapping'               => [
                 'title'                => 'Importzuordnungen',
                 'back-btn'             => 'Zurück',
                 'save'                 => 'Speichern',

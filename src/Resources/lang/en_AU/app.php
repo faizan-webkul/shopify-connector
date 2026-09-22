@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'Skipped :fields on variant :sku: the attribute belongs to a higher level of its variant structure.',
+            'mapping'               => [
                 'title'                => 'Import Mappings',
                 'back-btn'             => 'Back',
                 'save'                 => 'Save',

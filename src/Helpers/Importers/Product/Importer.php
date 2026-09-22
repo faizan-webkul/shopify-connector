@@ -20,6 +20,7 @@ use Webkul\DataTransfer\Helpers\Importers\FieldProcessor;
 use Webkul\DataTransfer\Helpers\Importers\Product\SKUStorage;
 use Webkul\DataTransfer\Repositories\JobTrackBatchRepository;
 use Webkul\Measurement\Repositories\AttributeMeasurementRepository;
+use Webkul\Product\Contracts\VariantStructurePlanner as VariantStructurePlannerContract;
 use Webkul\Product\Models\VariantStructure;
 use Webkul\Product\Repositories\AssociationTypeRepository;
 use Webkul\Product\Repositories\ProductRepository;
@@ -661,7 +662,7 @@ class Importer extends AbstractImporter
                     $this->trackTouchedProduct((int) $leaf->id);
 
                     if (isset($leafDataBySku[$leaf->sku])) {
-                        $this->productRepository->update($leafDataBySku[$leaf->sku], $leaf->id);
+                        $this->productRepository->update($this->keepOwnedCommonValues($leafDataBySku[$leaf->sku], $leaf), $leaf->id);
                     }
                 }
             }
@@ -677,6 +678,10 @@ class Importer extends AbstractImporter
         $skus = array_column($allVariant, 'sku');
         $formattedArray = array_combine($skus, $ids);
         $variantProductData = array_values($variantProductData);
+
+        /** The loop rebinds $product, so the parent's variants are kept first. */
+        $variantModels = $product->variants->keyBy('id');
+
         foreach ($product->variants->toArray() as $key => $svariant) {
             $variantData = $variantProductData[$key] ?? $variantProductData[$svariant['id']] ?? null;
             if (! $variantData) {
@@ -689,6 +694,8 @@ class Importer extends AbstractImporter
 
                 continue;
             }
+
+            $variantData = $this->keepOwnedCommonValues($variantData, $variantModels->get($formattedArray[$sku]));
 
             $product = $this->productRepository->update($variantData, $formattedArray[$sku]);
             $this->trackTouchedProduct($formattedArray[$sku]);
@@ -1303,6 +1310,8 @@ class Importer extends AbstractImporter
         foreach ($associations as $assocKey => $assocSkus) {
             $dataToUpdate[$assocKey] = $assocSkus;
         }
+
+        $dataToUpdate = $this->keepOwnedCommonValues($dataToUpdate, $this->findProductBySkuCached($vcommon['sku']));
 
         $product = $this->productRepository->update($dataToUpdate, $simpleId);
         $this->trackTouchedProduct($simpleId);
@@ -2448,6 +2457,47 @@ class Importer extends AbstractImporter
      * Accepts null/empty so callers do not need to gate before calling — the
      * underlying $productRepository->findOneByField is similarly forgiving.
      */
+    /**
+     * Core pins every attribute of a variant structure to a level and refuses a
+     * write that changes one the product does not own. Shopify carries a single
+     * product level, so a value belonging higher up is dropped here and named in
+     * the job log instead of failing the whole batch.
+     *
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    protected function keepOwnedCommonValues(array $data, mixed $product): array
+    {
+        $common = $data['values']['common'] ?? [];
+
+        if ($common === [] || ! $product?->parent_id) {
+            return $data;
+        }
+
+        $planner = resolve(VariantStructurePlannerContract::class);
+
+        $skipped = [];
+
+        foreach (array_keys($common) as $code) {
+            if ($code === 'sku' || $planner->ownsAtOwnLevel($product, $code)) {
+                continue;
+            }
+
+            unset($data['values']['common'][$code]);
+
+            $skipped[] = $code;
+        }
+
+        if ($skipped !== []) {
+            $this->jobLogger->warning(trans('shopify::app.shopify.import.variant-level-skipped', [
+                'sku'    => $product->sku,
+                'fields' => implode(', ', $skipped),
+            ]));
+        }
+
+        return $data;
+    }
+
     protected function findProductBySkuCached(?string $sku): mixed
     {
         if ($sku === null || $sku === '') {

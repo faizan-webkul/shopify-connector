@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'S\'han omès :fields a la variant :sku: l\'atribut pertany a un nivell superior de la seva estructura de variants.',
+            'mapping'               => [
                 'title'                => 'Assignacions d\'importació',
                 'back-btn'             => 'Enrere',
                 'save'                 => 'Desar',

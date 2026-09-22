@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => ':fields overgeslagen op variant :sku: het attribuut hoort bij een hoger niveau van de variantstructuur.',
+            'mapping'               => [
                 'title'                => 'Importtoewijzingen',
                 'back-btn'             => 'Terug',
                 'save'                 => 'Opslaan',

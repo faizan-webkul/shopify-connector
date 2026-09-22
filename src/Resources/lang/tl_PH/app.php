@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'Nilaktawan ang :fields sa variant :sku: ang attribute ay nabibilang sa mas mataas na antas ng variant structure nito.',
+            'mapping'               => [
                 'title'                => 'Mga Import Mapping',
                 'back-btn'             => 'Bumalik',
                 'save'                 => 'I-save',

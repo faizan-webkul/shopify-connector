@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'Preskočeno :fields na varijanti :sku: atribut pripada višoj razini njezine strukture varijanti.',
+            'mapping'               => [
                 'title'                => 'Mapiranja uvoza',
                 'back-btn'             => 'Natrag',
                 'save'                 => 'Spremi',

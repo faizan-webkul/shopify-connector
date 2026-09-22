@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'Hoppet over :fields på varianten :sku: attributtet hører til et høyere nivå i variantstrukturen.',
+            'mapping'               => [
                 'title'                => 'Importkoblinger',
                 'back-btn'             => 'Tilbake',
                 'save'                 => 'Lagre',

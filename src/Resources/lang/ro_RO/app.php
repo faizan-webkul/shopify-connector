@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'S-a omis :fields pe varianta :sku: atributul aparține unui nivel superior al structurii sale de variante.',
+            'mapping'               => [
                 'title'                => 'Mapări de import',
                 'back-btn'             => 'Înapoi',
                 'save'                 => 'Salvare',

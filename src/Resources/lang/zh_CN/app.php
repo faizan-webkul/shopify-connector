@@ -535,7 +535,8 @@ return [
             ],
         ],
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => '已跳过变体 :sku 的 :fields：该属性属于其变体结构的上层。',
+            'mapping'               => [
                 'title'                => '导入映射',
                 'back-btn'             => '返回',
                 'save'                 => '保存',

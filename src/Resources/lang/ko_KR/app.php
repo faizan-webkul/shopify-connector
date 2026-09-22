@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => '변형 :sku 의 :fields 를 건너뛰었습니다: 해당 속성은 변형 구조의 상위 레벨에 속합니다.',
+            'mapping'               => [
                 'title'                => '가져오기 매핑',
                 'back-btn'             => '뒤로',
                 'save'                 => '저장',

@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => '已略過變體 :sku 的 :fields：該屬性屬於其變體結構的上層。',
+            'mapping'               => [
                 'title'                => '匯入對應',
                 'back-btn'             => '返回',
                 'save'                 => '儲存',

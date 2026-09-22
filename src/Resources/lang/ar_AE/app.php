@@ -535,7 +535,8 @@ return [
             ],
         ],
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'تم تخطي :fields في المتغير :sku: السمة تنتمي إلى مستوى أعلى من بنية المتغيرات.',
+            'mapping'               => [
                 'title'                => 'خرائط الاستيراد',
                 'back-btn'             => 'رجوع',
                 'save'                 => 'حفظ',

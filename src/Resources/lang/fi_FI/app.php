@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'Ohitettiin :fields variantissa :sku: attribuutti kuuluu sen varianttirakenteen ylemmälle tasolle.',
+            'mapping'               => [
                 'title'                => 'Tuontimääritykset',
                 'back-btn'             => 'Takaisin',
                 'save'                 => 'Tallenna',

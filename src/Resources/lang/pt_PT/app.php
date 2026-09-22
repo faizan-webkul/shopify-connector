@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => ':fields ignorado na variante :sku: o atributo pertence a um nível superior da sua estrutura de variantes.',
+            'mapping'               => [
                 'title'                => 'Mapeamentos de importação',
                 'back-btn'             => 'Voltar',
                 'save'                 => 'Guardar',

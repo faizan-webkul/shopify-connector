@@ -535,7 +535,8 @@ return [
             ],
         ],
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'वेरिएंट :sku पर :fields छोड़ा गया: यह एट्रिब्यूट उसकी वेरिएंट संरचना के ऊपरी स्तर का है।',
+            'mapping'               => [
                 'title'                => 'आयात मैपिंग्स',
                 'back-btn'             => 'वापस',
                 'save'                 => 'सहेजें',

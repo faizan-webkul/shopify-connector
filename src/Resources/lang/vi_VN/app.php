@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'Đã bỏ qua :fields trên biến thể :sku: thuộc tính thuộc về cấp cao hơn trong cấu trúc biến thể.',
+            'mapping'               => [
                 'title'                => 'Ánh xạ nhập',
                 'back-btn'             => 'Quay lại',
                 'save'                 => 'Lưu',

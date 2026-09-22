@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'Melewati :fields pada varian :sku: atribut tersebut milik level yang lebih tinggi pada struktur variannya.',
+            'mapping'               => [
                 'title'                => 'Pemetaan Impor',
                 'back-btn'             => 'Kembali',
                 'save'                 => 'Simpan',

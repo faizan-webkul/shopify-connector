@@ -543,7 +543,8 @@ return [
         ],
 
         'import' => [
-            'mapping' => [
+            'variant-level-skipped' => 'バリアント :sku の :fields をスキップしました: この属性はバリアント構造の上位レベルに属しています。',
+            'mapping'               => [
                 'title'                => 'インポートマッピング',
                 'back-btn'             => '戻る',
                 'save'                 => '保存',
