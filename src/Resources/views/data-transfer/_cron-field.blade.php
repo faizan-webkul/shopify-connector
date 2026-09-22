@@ -1,7 +1,11 @@
 {{--
     The expression field of the schedule card, shared by the create and edit
-    screens: a text input that fills itself from the preset that was picked.
+    screens. It is core's own text control: a preset fills it and holds it,
+    Custom hands it back to the merchant. The field belongs to the schedule
+    section, so it is only on screen once a schedule is picked.
 --}}
+@php($shopifyPresets = \Webkul\Shopify\Support\ShopifySchedule::presets())
+
 @pushOnce('scripts')
     <script type="text/x-template" id="v-field-cron-template">
         <input
@@ -11,7 +15,8 @@
             :value="modelValue"
             :placeholder="field.placeholder"
             :disabled="disabled"
-            :class="inputClass"
+            :readonly="!editable"
+            :class="[inputClass, editable ? '' : 'bg-gray-50 dark:bg-cherry-800 cursor-not-allowed']"
             :aria-invalid="hasErrors"
             autocomplete="off"
             @change="setValue($event.target.value)"
@@ -22,48 +27,57 @@
         /** Core defines the shared field base further down the stack, so registration waits for the document. */
         document.addEventListener('DOMContentLoaded', () => {
             const PRESET_FIELD = 'schedule_cron_preset';
-            const NO_EXPRESSION = ['disabled', 'custom'];
-
-            /**
-             * The expression field is hidden until a preset is picked, so it mounts
-             * after the change that should fill it. The pick is remembered here and
-             * read again on mount.
-             */
-            let pickedPreset = null;
-
-            app.config.globalProperties.$emitter.on('filter-value-changed', ({ filterName, value }) => {
-                if (filterName === PRESET_FIELD) {
-                    pickedPreset = NO_EXPRESSION.includes(value) ? null : value;
-                }
-            });
+            const EXPRESSIONS = @json(array_keys($shopifyPresets));
+            const CUSTOM = @json(\Webkul\Shopify\Support\ShopifySchedule::CUSTOM);
 
             app.component('v-field-cron', {
                 template: '#v-field-cron-template',
 
                 mixins: [window.unopim.fieldBase],
 
-                mounted() {
-                    this.applyPreset();
+                data() {
+                    /** The field engine scopes the selected preset in as a query param, so the field knows it the moment it mounts. */
+                    return { preset: ((this.field.query_params || {}).preset || []).join(',') || null };
+                },
 
-                    this.$emitter.on('filter-value-changed', this.onPresetChange);
+                computed: {
+                    /** Only Custom is typed by hand; a preset keeps the expression it names. */
+                    editable() {
+                        return this.preset === null || this.preset === CUSTOM;
+                    },
+                },
+
+                mounted() {
+                    this.$emitter.on('filter-value-changed', this.onFilterChange);
+
+                    /**
+                     * The field is part of the schedule section, so the first preset mounts
+                     * it: that change was emitted before this listener existed, and the
+                     * expression is filled here instead of waiting for a second one.
+                     */
+                    this.applyPreset(this.preset);
                 },
 
                 beforeUnmount() {
-                    this.$emitter.off('filter-value-changed', this.onPresetChange);
+                    this.$emitter.off('filter-value-changed', this.onFilterChange);
                 },
 
                 methods: {
-                    onPresetChange({ filterName }) {
-                        if (filterName === PRESET_FIELD) {
-                            this.$nextTick(this.applyPreset);
+                    /** A preset owns its expression; Custom and Disabled leave the value alone. */
+                    applyPreset(preset) {
+                        if (EXPRESSIONS.includes(preset) && preset !== this.modelValue) {
+                            this.setValue(preset);
                         }
                     },
 
-                    /** A named preset carries its own expression; Custom leaves the one already typed. */
-                    applyPreset() {
-                        if (pickedPreset && pickedPreset !== this.modelValue) {
-                            this.setValue(pickedPreset);
+                    onFilterChange({ filterName, value }) {
+                        if (filterName !== PRESET_FIELD) {
+                            return;
                         }
+
+                        this.preset = value ?? null;
+
+                        this.applyPreset(this.preset);
                     },
                 },
             });

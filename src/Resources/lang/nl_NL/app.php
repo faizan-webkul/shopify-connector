@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Planning',
-            'preset'    => 'Vooraf Ingestelde Planningen',
-            'cron'      => 'Cron-expressie',
-            'cron-info' => 'Hiervoor moeten de serverplanner en een queue worker draaien.',
-            'timezone'  => 'Tijdzone',
-            'type'      => 'Planningstype',
+            'title'       => 'Planning',
+            'preset'      => 'Vooraf Ingestelde Planningen',
+            'preset-info' => 'Kies een kant-en-klaar schema, of Aangepast om je eigen cron-expressie in te voeren.',
+            'cron'        => 'Cron-expressie',
+            'cron-info'   => 'Hiervoor moeten de serverplanner en een queue worker draaien.',
+            'timezone'    => 'Tijdzone',
+            'type'        => 'Planningstype',
 
             'presets' => [
                 'disabled'         => 'Uitgeschakeld',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro is geïnstalleerd, dus de functies zijn hier beschikbaar.',
             'upgrade'                   => 'Upgraden naar Pro',
             'upgrade-action'            => 'Upgraden',
             'tagline'                   => 'Ontgrendel deze geavanceerde functies en til je winkel naar een hoger niveau.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Metavelddefinitie succesvol bijgewerkt',
             'created'             => 'Metavelddefinitie succesvol aangemaakt',
             'mass-delete-success' => 'Metavelddefinities succesvol in bulk verwijderd',
+            'no-selected'         => 'Selecteer minstens één metafielddefinitie om te verwijderen.',
         ],
     ],
 ];

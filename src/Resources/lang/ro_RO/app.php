@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Programare',
-            'preset'    => 'Programări Predefinite',
-            'cron'      => 'Expresie Cron',
-            'cron-info' => 'Necesită ca planificatorul serverului și un worker de coadă să ruleze.',
-            'timezone'  => 'Fus Orar',
-            'type'      => 'Tip Programare',
+            'title'       => 'Programare',
+            'preset'      => 'Programări Predefinite',
+            'preset-info' => 'Alege o programare gata făcută sau Personalizat pentru a introduce propria expresie cron.',
+            'cron'        => 'Expresie Cron',
+            'cron-info'   => 'Necesită ca planificatorul serverului și un worker de coadă să ruleze.',
+            'timezone'    => 'Fus Orar',
+            'type'        => 'Tip Programare',
 
             'presets' => [
                 'disabled'         => 'Dezactivat',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro este instalat, așa că funcțiile sale sunt disponibile aici.',
             'upgrade'                   => 'Treci la Pro',
             'upgrade-action'            => 'Actualizează',
             'tagline'                   => 'Deblochează aceste funcții avansate și du-ți magazinul la nivelul următor.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Definiția metafield a fost actualizată cu succes',
             'created'             => 'Definiția metafield a fost creată cu succes',
             'mass-delete-success' => 'Ștergerea în masă a definițiilor metafield a reușit',
+            'no-selected'         => 'Selectează cel puțin o definiție de metacâmp pentru ștergere.',
         ],
     ],
 ];

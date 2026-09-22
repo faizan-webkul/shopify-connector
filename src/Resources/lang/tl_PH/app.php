@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Iskedyul',
-            'preset'    => 'Mga Preset na Iskedyul',
-            'cron'      => 'Cron Expression',
-            'cron-info' => 'Kailangang tumatakbo ang scheduler ng server at isang queue worker.',
-            'timezone'  => 'Timezone',
-            'type'      => 'Uri ng Iskedyul',
+            'title'       => 'Iskedyul',
+            'preset'      => 'Mga Preset na Iskedyul',
+            'preset-info' => 'Pumili ng handang iskedyul, o Custom para maglagay ng sarili mong cron expression.',
+            'cron'        => 'Cron Expression',
+            'cron-info'   => 'Kailangang tumatakbo ang scheduler ng server at isang queue worker.',
+            'timezone'    => 'Timezone',
+            'type'        => 'Uri ng Iskedyul',
 
             'presets' => [
                 'disabled'         => 'Naka-off',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Naka-install ang Shopify Pro, kaya magagamit dito ang mga tampok nito.',
             'upgrade'                   => 'Mag-upgrade sa Pro',
             'upgrade-action'            => 'Mag-upgrade',
             'tagline'                   => 'I-unlock ang mga advanced na tampok na ito at iangat ang iyong tindahan sa susunod na antas.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Matagumpay na Na-update ang Depinisyon ng MetaField',
             'created'             => 'Matagumpay na Nagawa ang Depinisyon ng Metafield',
             'mass-delete-success' => 'Matagumpay na Maramihang Natanggal ang Depinisyon ng Metafield',
+            'no-selected'         => 'Pumili ng kahit isang metafield definition na buburahin.',
         ],
     ],
 ];

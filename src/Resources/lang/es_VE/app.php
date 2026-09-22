@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Programación',
-            'preset'    => 'Horarios predefinidos',
-            'cron'      => 'Expresión Cron',
-            'cron-info' => 'Requiere que el programador del servidor y un trabajador de cola estén en ejecución.',
-            'timezone'  => 'Zona horaria',
-            'type'      => 'Tipo de programación',
+            'title'       => 'Programación',
+            'preset'      => 'Horarios predefinidos',
+            'preset-info' => 'Elija una programación predefinida, o Personalizada para introducir su propia expresión cron.',
+            'cron'        => 'Expresión Cron',
+            'cron-info'   => 'Requiere que el programador del servidor y un trabajador de cola estén en ejecución.',
+            'timezone'    => 'Zona horaria',
+            'type'        => 'Tipo de programación',
 
             'presets' => [
                 'disabled'         => 'Desactivado',
@@ -277,6 +278,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro está instalado, por lo que sus funciones están disponibles aquí.',
             'upgrade'                   => 'Actualizar a Pro',
             'upgrade-action'            => 'Mejorar',
             'tagline'                   => 'Desbloquea estas funciones avanzadas y lleva tu tienda al siguiente nivel.',
@@ -819,6 +821,7 @@ return [
             'update-success'      => 'Definición de Metacampo actualizada con éxito',
             'created'             => 'Definición de Metacampo creada con éxito',
             'mass-delete-success' => 'Definiciones de Metacampo eliminadas con éxito',
+            'no-selected'         => 'Seleccione al menos una definición de metacampo para eliminar.',
         ],
     ],
 ];

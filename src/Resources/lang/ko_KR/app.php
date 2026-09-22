@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => '일정',
-            'preset'    => '사전 설정 일정',
-            'cron'      => 'Cron 표현식',
-            'cron-info' => '서버 스케줄러와 큐 워커가 실행 중이어야 합니다.',
-            'timezone'  => '시간대',
-            'type'      => '일정 유형',
+            'title'       => '일정',
+            'preset'      => '사전 설정 일정',
+            'preset-info' => '미리 준비된 일정을 선택하거나, 직접 cron 식을 입력하려면 사용자 지정을 선택하세요.',
+            'cron'        => 'Cron 표현식',
+            'cron-info'   => '서버 스케줄러와 큐 워커가 실행 중이어야 합니다.',
+            'timezone'    => '시간대',
+            'type'        => '일정 유형',
 
             'presets' => [
                 'disabled'         => '사용 안 함',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro가 설치되어 있어 해당 기능을 여기에서 사용할 수 있습니다.',
             'upgrade'                   => 'Pro로 업그레이드',
             'upgrade-action'            => '업그레이드',
             'tagline'                   => '고급 기능을 잠금 해제하고 스토어를 한 단계 끌어올리세요.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => '메타필드 정의가 성공적으로 업데이트되었습니다',
             'created'             => '메타필드 정의가 성공적으로 생성되었습니다',
             'mass-delete-success' => '메타필드 정의가 성공적으로 일괄 삭제되었습니다',
+            'no-selected'         => '삭제할 메타필드 정의를 하나 이상 선택하세요.',
         ],
     ],
 ];

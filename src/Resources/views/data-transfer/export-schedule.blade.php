@@ -23,7 +23,7 @@
         <fieldset @disabled(! $shopifyProInstalled)>
             <x-admin::data-transfer.filter-fields
                 :entity-type="$shopifyEntityType"
-                :values="$shopifyExport?->filters ?? []"
+                :values="\Webkul\Shopify\Support\ShopifySchedule::fill($shopifyExport?->filters ?? [])"
                 :exporter-config="config('exporters')"
                 :only="$shopifySchedule->implode(',')"
                 grid-class="grid grid-cols-1"

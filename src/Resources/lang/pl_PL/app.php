@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Harmonogram',
-            'preset'    => 'Predefiniowane Harmonogramy',
-            'cron'      => 'Wyrażenie Cron',
-            'cron-info' => 'Wymaga działającego harmonogramu serwera i procesu kolejki.',
-            'timezone'  => 'Strefa Czasowa',
-            'type'      => 'Typ Harmonogramu',
+            'title'       => 'Harmonogram',
+            'preset'      => 'Predefiniowane Harmonogramy',
+            'preset-info' => 'Wybierz gotowy harmonogram albo Niestandardowy, aby wpisać własne wyrażenie cron.',
+            'cron'        => 'Wyrażenie Cron',
+            'cron-info'   => 'Wymaga działającego harmonogramu serwera i procesu kolejki.',
+            'timezone'    => 'Strefa Czasowa',
+            'type'        => 'Typ Harmonogramu',
 
             'presets' => [
                 'disabled'         => 'Wyłączone',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro jest zainstalowany, więc jego funkcje są tu dostępne.',
             'upgrade'                   => 'Przejdź na Pro',
             'upgrade-action'            => 'Ulepsz',
             'tagline'                   => 'Odblokuj te zaawansowane funkcje i przenieś swój sklep na wyższy poziom.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Definicja metapola zaktualizowana pomyślnie',
             'created'             => 'Definicja metapola utworzona pomyślnie',
             'mass-delete-success' => 'Masowe usuwanie definicji metapól zakończone pomyślnie',
+            'no-selected'         => 'Wybierz co najmniej jedną definicję metapola do usunięcia.',
         ],
     ],
 ];

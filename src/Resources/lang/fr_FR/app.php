@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Planification',
-            'preset'    => 'Planifications prédéfinies',
-            'cron'      => 'Expression cron',
-            'cron-info' => 'Nécessite que le planificateur du serveur et un worker de file d\'attente soient en cours d\'exécution.',
-            'timezone'  => 'Fuseau horaire',
-            'type'      => 'Type de planification',
+            'title'       => 'Planification',
+            'preset'      => 'Planifications prédéfinies',
+            'preset-info' => 'Choisissez une planification prête à l\'emploi, ou Personnalisée pour saisir votre propre expression cron.',
+            'cron'        => 'Expression cron',
+            'cron-info'   => 'Nécessite que le planificateur du serveur et un worker de file d\'attente soient en cours d\'exécution.',
+            'timezone'    => 'Fuseau horaire',
+            'type'        => 'Type de planification',
 
             'presets' => [
                 'disabled'         => 'Désactivé',
@@ -277,6 +278,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro est installé, ses fonctionnalités sont donc disponibles ici.',
             'upgrade'                   => 'Passer à Pro',
             'upgrade-action'            => 'Mettre à niveau',
             'tagline'                   => 'Débloquez ces fonctionnalités avancées et faites passer votre boutique au niveau supérieur.',
@@ -819,6 +821,7 @@ return [
             'update-success'      => 'Définition du champ méta mise à jour avec succès',
             'created'             => 'Définition du champ méta créée avec succès',
             'mass-delete-success' => 'Définitions des champs méta supprimées avec succès',
+            'no-selected'         => 'Sélectionnez au moins une définition de métachamp à supprimer.',
         ],
     ],
 ];

@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => '排程',
-            'preset'    => '預設排程',
-            'cron'      => 'Cron 表達式',
-            'cron-info' => '需要伺服器排程器與佇列工作程序保持執行。',
-            'timezone'  => '時區',
-            'type'      => '排程類型',
+            'title'       => '排程',
+            'preset'      => '預設排程',
+            'preset-info' => '選擇現成的排程，或選擇「自訂」來輸入自己的 cron 運算式。',
+            'cron'        => 'Cron 表達式',
+            'cron-info'   => '需要伺服器排程器與佇列工作程序保持執行。',
+            'timezone'    => '時區',
+            'type'        => '排程類型',
 
             'presets' => [
                 'disabled'         => '已停用',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => '已安裝 Shopify Pro，其功能在此可用。',
             'upgrade'                   => '升級至 Pro',
             'upgrade-action'            => '升級',
             'tagline'                   => '解鎖這些進階功能，讓您的商店更上一層樓。',
@@ -829,6 +831,7 @@ return [
             'update-success'      => '中繼欄位定義更新成功',
             'created'             => '中繼欄位定義建立成功',
             'mass-delete-success' => '批次刪除中繼欄位定義成功',
+            'no-selected'         => '請至少選擇一個要刪除的中繼欄位定義。',
         ],
     ],
 ];

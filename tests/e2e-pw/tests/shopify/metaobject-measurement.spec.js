@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { skipUnlessShopifyPro } from '../../helpers/shopify-pro.js';
 
 test.use({ storageState: 'storage/auth.json' });
 
@@ -15,6 +16,12 @@ const clearOverlays = (page) =>
     });
 
 test.describe('metaobject measurement support', () => {
+    test.beforeEach(async ({ page }, testInfo) => {
+        if (testInfo.title !== 'reports no failed extension') {
+            await skipUnlessShopifyPro(page, testInfo);
+        }
+    });
+
     test('renders every measurement field as a number input', async ({ page }) => {
         await page.goto(definitionUrl);
         await clearOverlays(page);
@@ -37,14 +44,17 @@ test.describe('metaobject measurement support', () => {
         });
 
         await page.goto(definitionUrl);
-        await page.waitForTimeout(2000);
+        await page.waitForFunction(() => window.app?.component('v-metaobject-entries'));
 
         expect(warnings).toEqual([]);
     });
 
     test('validates pro measurement values the way shopify does', async ({ page }) => {
         await page.goto(definitionUrl);
-        await page.waitForTimeout(2000);
+        await page.waitForFunction(() => {
+            return window.app?.component('v-metaobject-entries')
+                && window.app?.component('v-metaobject-field-form');
+        });
 
         const result = await page.evaluate(() => {
             const entries = window.app.component('v-metaobject-entries');

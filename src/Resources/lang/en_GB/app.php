@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Schedule',
-            'preset'    => 'Preset Schedules',
-            'cron'      => 'Cron Expression',
-            'cron-info' => 'Needs the server scheduler and a queue worker to be running.',
-            'timezone'  => 'Timezone',
-            'type'      => 'Schedule Type',
+            'title'       => 'Schedule',
+            'preset'      => 'Preset Schedules',
+            'preset-info' => 'Pick a ready-made schedule, or Custom to enter your own cron expression.',
+            'cron'        => 'Cron Expression',
+            'cron-info'   => 'Needs the server scheduler and a queue worker to be running.',
+            'timezone'    => 'Timezone',
+            'type'        => 'Schedule Type',
 
             'presets' => [
                 'disabled'         => 'Disabled',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro is installed, so its features are available here.',
             'upgrade'                   => 'Upgrade to Pro',
             'upgrade-action'            => 'Upgrade',
             'tagline'                   => 'Unlock these advanced features and take your store to the next level.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'MetaField Definition Updated successfully',
             'created'             => 'Create Metafield Definition successfully',
             'mass-delete-success' => 'Mass Delete Metafield Definition successfully',
+            'no-selected'         => 'Select at least one metafield definition to delete.',
         ],
     ],
 ];

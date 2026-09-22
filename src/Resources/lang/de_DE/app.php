@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Zeitplan',
-            'preset'    => 'Vordefinierte Zeitpläne',
-            'cron'      => 'Cron-Ausdruck',
-            'cron-info' => 'Erfordert, dass der Server-Scheduler und ein Queue-Worker laufen.',
-            'timezone'  => 'Zeitzone',
-            'type'      => 'Zeitplantyp',
+            'title'       => 'Zeitplan',
+            'preset'      => 'Vordefinierte Zeitpläne',
+            'preset-info' => 'Wählen Sie einen fertigen Zeitplan oder „Benutzerdefiniert“, um einen eigenen Cron-Ausdruck einzugeben.',
+            'cron'        => 'Cron-Ausdruck',
+            'cron-info'   => 'Erfordert, dass der Server-Scheduler und ein Queue-Worker laufen.',
+            'timezone'    => 'Zeitzone',
+            'type'        => 'Zeitplantyp',
 
             'presets' => [
                 'disabled'         => 'Deaktiviert',
@@ -277,6 +278,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro ist installiert, seine Funktionen stehen hier zur Verfügung.',
             'upgrade'                   => 'Auf Pro upgraden',
             'upgrade-action'            => 'Upgrade',
             'tagline'                   => 'Schalten Sie diese erweiterten Funktionen frei und bringen Sie Ihren Shop auf die nächste Stufe.',
@@ -819,6 +821,7 @@ return [
             'update-success'      => 'Metafeldd Definition erfolgreich aktualisiert',
             'created'             => 'Metafeldd Definition erfolgreich erstellt',
             'mass-delete-success' => 'Metafeldd Definitionen erfolgreich gelöscht',
+            'no-selected'         => 'Wählen Sie mindestens eine Metafeld-Definition zum Löschen aus.',
         ],
     ],
 ];

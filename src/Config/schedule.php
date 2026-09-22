@@ -6,7 +6,7 @@ $presets = ShopifySchedule::presets();
 
 $scheduled = [
     'field'  => 'schedule_cron_preset',
-    'values' => [...array_keys($presets), ShopifySchedule::CUSTOM],
+    'values' => ShopifySchedule::schedulingValues(),
 ];
 
 return [
@@ -46,6 +46,7 @@ return [
             'type'         => 'cron',
             'placeholder'  => '* * * * *',
             'visible_when' => $scheduled,
+            'depends_on'   => ['field' => 'schedule_cron_preset', 'as' => 'preset'],
         ], [
             'name'         => 'schedule_timezone',
             'title'        => 'shopify::app.export.schedule.timezone',

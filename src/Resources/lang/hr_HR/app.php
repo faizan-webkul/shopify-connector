@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Raspored',
-            'preset'    => 'Unaprijed definirani rasporedi',
-            'cron'      => 'Cron izraz',
-            'cron-info' => 'Zahtijeva da rade poslužiteljski raspoređivač i radnik reda čekanja.',
-            'timezone'  => 'Vremenska zona',
-            'type'      => 'Vrsta rasporeda',
+            'title'       => 'Raspored',
+            'preset'      => 'Unaprijed definirani rasporedi',
+            'preset-info' => 'Odaberite gotov raspored ili Prilagođeno za unos vlastitog cron izraza.',
+            'cron'        => 'Cron izraz',
+            'cron-info'   => 'Zahtijeva da rade poslužiteljski raspoređivač i radnik reda čekanja.',
+            'timezone'    => 'Vremenska zona',
+            'type'        => 'Vrsta rasporeda',
 
             'presets' => [
                 'disabled'         => 'Onemogućeno',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro je instaliran, pa su njegove značajke dostupne ovdje.',
             'upgrade'                   => 'Nadogradi na Pro',
             'upgrade-action'            => 'Nadogradi',
             'tagline'                   => 'Otključajte ove napredne značajke i podignite svoju trgovinu na višu razinu.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Definicija metapolja uspješno ažurirana',
             'created'             => 'Definicija metapolja uspješno stvorena',
             'mass-delete-success' => 'Definicije metapolja uspješno skupno izbrisane',
+            'no-selected'         => 'Odaberite barem jednu definiciju metapolja za brisanje.',
         ],
     ],
 ];

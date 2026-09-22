@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Schema',
-            'preset'    => 'Förinställda scheman',
-            'cron'      => 'Cron-uttryck',
-            'cron-info' => 'Kräver att serverns schemaläggare och en köarbetare körs.',
-            'timezone'  => 'Tidszon',
-            'type'      => 'Schematyp',
+            'title'       => 'Schema',
+            'preset'      => 'Förinställda scheman',
+            'preset-info' => 'Välj ett färdigt schema, eller Anpassat för att skriva ett eget cron-uttryck.',
+            'cron'        => 'Cron-uttryck',
+            'cron-info'   => 'Kräver att serverns schemaläggare och en köarbetare körs.',
+            'timezone'    => 'Tidszon',
+            'type'        => 'Schematyp',
 
             'presets' => [
                 'disabled'         => 'Inaktiverat',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro är installerat, så funktionerna är tillgängliga här.',
             'upgrade'                   => 'Uppgradera till Pro',
             'upgrade-action'            => 'Uppgradera',
             'tagline'                   => 'Lås upp dessa avancerade funktioner och lyft din butik till nästa nivå.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Metafältsdefinitionen uppdaterades',
             'created'             => 'Metafältsdefinitionen skapades',
             'mass-delete-success' => 'Massradering av metafältsdefinitioner lyckades',
+            'no-selected'         => 'Välj minst en metafältsdefinition att ta bort.',
         ],
     ],
 ];

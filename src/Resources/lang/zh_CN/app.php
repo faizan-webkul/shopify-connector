@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => '计划',
-            'preset'    => '预设计划',
-            'cron'      => 'Cron 表达式',
-            'cron-info' => '需要服务器计划任务和队列进程保持运行。',
-            'timezone'  => '时区',
-            'type'      => '计划类型',
+            'title'       => '计划',
+            'preset'      => '预设计划',
+            'preset-info' => '选择现成的计划，或选择“自定义”来输入自己的 cron 表达式。',
+            'cron'        => 'Cron 表达式',
+            'cron-info'   => '需要服务器计划任务和队列进程保持运行。',
+            'timezone'    => '时区',
+            'type'        => '计划类型',
 
             'presets' => [
                 'disabled'         => '已停用',
@@ -277,6 +278,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => '已安装 Shopify Pro，其功能在此可用。',
             'upgrade'                   => '升级到 Pro',
             'upgrade-action'            => '升级',
             'tagline'                   => '解锁这些高级功能，让您的商店更上一层楼。',
@@ -819,6 +821,7 @@ return [
             'update-success'      => '元字段定义更新成功',
             'created'             => '元字段定义创建成功',
             'mass-delete-success' => '元字段定义批量删除成功',
+            'no-selected'         => '请至少选择一个要删除的元字段定义。',
         ],
     ],
 ];

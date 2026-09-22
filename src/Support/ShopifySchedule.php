@@ -17,6 +17,42 @@ class ShopifySchedule
     public const ONE_TIME = 'one_time';
 
     /**
+     * The filters as the schedule card shows them, and as they are stored. A
+     * preset names its own cron expression, so the expression is filled from
+     * the preset rather than left to the merchant; without a schedule it is
+     * dropped, so a disabled profile keeps no expression to run later.
+     *
+     * @param  array<string, mixed>  $filters
+     * @return array<string, mixed>
+     */
+    public static function fill(array $filters): array
+    {
+        $preset = (string) ($filters['schedule_cron_preset'] ?? self::DISABLED);
+
+        if (isset(self::presets()[$preset])) {
+            $filters['schedule_cron_expression'] = $preset;
+
+            return $filters;
+        }
+
+        if ($preset !== self::CUSTOM) {
+            unset($filters['schedule_cron_expression']);
+        }
+
+        return $filters;
+    }
+
+    /**
+     * The preset values that put a profile on a schedule, Custom included.
+     *
+     * @return array<int, string>
+     */
+    public static function schedulingValues(): array
+    {
+        return [...array_keys(self::presets()), self::CUSTOM];
+    }
+
+    /**
      * Ready made expressions, keyed by the label they are named with.
      *
      * @return array<string, string>

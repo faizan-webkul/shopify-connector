@@ -978,9 +978,11 @@ class Importer extends AbstractImporter
     {
         $variantSku = $rowData['node']['variants']['edges'][0]['node']['sku'];
         $variantData = $this->findProductBySkuCached($variantSku);
-        if ($variantData?->parent?->sku) {
-            $parentSkuFromUnopim = $variantData?->parent?->sku;
-            $configProductExist = $this->findProductBySkuCached($variantData?->parent?->sku);
+        $rootFromVariant = $this->rootProductOf($variantData);
+
+        if ($rootFromVariant) {
+            $parentSkuFromUnopim = $rootFromVariant->sku;
+            $configProductExist = $rootFromVariant;
         } else {
             $parentSkuFromUnopim = $rowData['node']['handle'];
             $configProductExist = $this->findProductBySkuCached($rowData['node']['handle']);
@@ -1034,6 +1036,22 @@ class Importer extends AbstractImporter
         }
 
         return $configId;
+    }
+
+    /**
+     * The configurable a variant belongs to. A two-level structure puts a
+     * variant_group between the leaf and the root, and only the root may carry
+     * the product level values, so the walk continues to the top.
+     */
+    public function rootProductOf(mixed $product): mixed
+    {
+        $root = $product?->parent;
+
+        while ($root?->parent) {
+            $root = $root->parent;
+        }
+
+        return $root;
     }
 
     /**
@@ -1126,7 +1144,11 @@ class Importer extends AbstractImporter
             $variantKey = $existingIdBySku[$leafSku] ?? 'variant_'.count($groups[$groupKey]['variants']);
 
             unset($variant['values']['common'][$level1Code]);
-            $groups[$groupKey]['variants'][$variantKey] = $variant;
+
+            $groups[$groupKey]['variants'][$variantKey] = $this->keepOwnedCommonValues(
+                $variant,
+                $this->findProductBySkuCached($leafSku)
+            );
         }
 
         return $groups;

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { dismissPromos } from '../../../helpers/ui.js';
+import { dismissPromos, openDataGridFilters } from '../../../helpers/ui.js';
 
 test.use({ storageState: 'storage/auth.json' });
 
@@ -30,7 +30,7 @@ test.describe('Shopify Metaobject definitions Page', () => {
   });
 
   test('Click on Filter button', async ({ page }) => {
-    await page.getByText('Filter', { exact: true }).click();
+    await openDataGridFilters(page);
   });
 
   test('Verify pagination dropdown', async ({ page }) => {

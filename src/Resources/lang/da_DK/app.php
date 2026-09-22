@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Tidsplan',
-            'preset'    => 'Foruddefinerede tidsplaner',
-            'cron'      => 'Cron-udtryk',
-            'cron-info' => 'Kræver, at serverens planlægger og en køarbejder kører.',
-            'timezone'  => 'Tidszone',
-            'type'      => 'Tidsplanstype',
+            'title'       => 'Tidsplan',
+            'preset'      => 'Foruddefinerede tidsplaner',
+            'preset-info' => 'Vælg en færdig tidsplan, eller Brugerdefineret for at indtaste dit eget cron-udtryk.',
+            'cron'        => 'Cron-udtryk',
+            'cron-info'   => 'Kræver, at serverens planlægger og en køarbejder kører.',
+            'timezone'    => 'Tidszone',
+            'type'        => 'Tidsplanstype',
 
             'presets' => [
                 'disabled'         => 'Deaktiveret',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro er installeret, så funktionerne er tilgængelige her.',
             'upgrade'                   => 'Opgrader til Pro',
             'upgrade-action'            => 'Opgrader',
             'tagline'                   => 'Lås op for disse avancerede funktioner, og løft din butik til næste niveau.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Metafeltdefinition opdateret',
             'created'             => 'Metafeltdefinition oprettet',
             'mass-delete-success' => 'Metafeltdefinitioner slettet i massevis',
+            'no-selected'         => 'Vælg mindst én metafelt-definition, der skal slettes.',
         ],
     ],
 ];

@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Jadwal',
-            'preset'    => 'Jadwal Preset',
-            'cron'      => 'Ekspresi Cron',
-            'cron-info' => 'Memerlukan penjadwal server dan pekerja antrean yang sedang berjalan.',
-            'timezone'  => 'Zona Waktu',
-            'type'      => 'Tipe Jadwal',
+            'title'       => 'Jadwal',
+            'preset'      => 'Jadwal Preset',
+            'preset-info' => 'Pilih jadwal siap pakai, atau Kustom untuk memasukkan ekspresi cron Anda sendiri.',
+            'cron'        => 'Ekspresi Cron',
+            'cron-info'   => 'Memerlukan penjadwal server dan pekerja antrean yang sedang berjalan.',
+            'timezone'    => 'Zona Waktu',
+            'type'        => 'Tipe Jadwal',
 
             'presets' => [
                 'disabled'         => 'Nonaktif',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro terpasang, jadi fiturnya tersedia di sini.',
             'upgrade'                   => 'Tingkatkan ke Pro',
             'upgrade-action'            => 'Tingkatkan',
             'tagline'                   => 'Buka fitur-fitur lanjutan ini dan bawa toko Anda ke tingkat berikutnya.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Definisi Metafield berhasil diperbarui',
             'created'             => 'Definisi Metafield berhasil dibuat',
             'mass-delete-success' => 'Penghapusan Massal Definisi Metafield berhasil',
+            'no-selected'         => 'Pilih setidaknya satu definisi metafield untuk dihapus.',
         ],
     ],
 ];

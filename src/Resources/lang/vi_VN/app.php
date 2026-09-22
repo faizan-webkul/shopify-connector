@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Lịch trình',
-            'preset'    => 'Lịch trình có sẵn',
-            'cron'      => 'Biểu thức Cron',
-            'cron-info' => 'Cần bộ lập lịch của máy chủ và một tiến trình hàng đợi đang chạy.',
-            'timezone'  => 'Múi giờ',
-            'type'      => 'Loại lịch trình',
+            'title'       => 'Lịch trình',
+            'preset'      => 'Lịch trình có sẵn',
+            'preset-info' => 'Chọn một lịch có sẵn, hoặc Tùy chỉnh để nhập biểu thức cron của riêng bạn.',
+            'cron'        => 'Biểu thức Cron',
+            'cron-info'   => 'Cần bộ lập lịch của máy chủ và một tiến trình hàng đợi đang chạy.',
+            'timezone'    => 'Múi giờ',
+            'type'        => 'Loại lịch trình',
 
             'presets' => [
                 'disabled'         => 'Đã tắt',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro đã được cài đặt nên các tính năng của nó khả dụng tại đây.',
             'upgrade'                   => 'Nâng cấp lên Pro',
             'upgrade-action'            => 'Nâng cấp',
             'tagline'                   => 'Mở khóa các tính năng nâng cao này và đưa cửa hàng của bạn lên tầm cao mới.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Đã cập nhật định nghĩa Metafield thành công',
             'created'             => 'Đã tạo định nghĩa Metafield thành công',
             'mass-delete-success' => 'Đã xóa hàng loạt định nghĩa Metafield thành công',
+            'no-selected'         => 'Chọn ít nhất một định nghĩa metafield để xóa.',
         ],
     ],
 ];

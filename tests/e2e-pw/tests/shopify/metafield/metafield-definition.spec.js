@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { dismissPromos } from '../../../helpers/ui.js';
+import { dismissPromos, openDataGridFilters } from '../../../helpers/ui.js';
 
 test.use({ storageState: 'storage/auth.json' });
 // test.use({ launchOptions: { slowMo: 500 } });
@@ -35,7 +35,7 @@ test.describe('Shopify Metafield definitions Page', () => {
   });
 
   test('Click on Filter button', async ({ page }) => {
-    await page.getByText('Filter', { exact: true }).click();
+    await openDataGridFilters(page);
   });
 
   test('Verify pagination dropdown', async ({ page }) => {
@@ -95,7 +95,11 @@ test.describe.serial('Shopify Create Metafield Definition Page', () => {
     }
 
     await page.locator('input[name="code"]').locator('..').locator('.multiselect__placeholder').click();
-    await page.getByText('Name', { exact: true }).click();
+    await page
+      .locator('input[name="code"]')
+      .locator('..')
+      .locator('.multiselect__option', { hasText: /^Name$/ })
+      .click();
 
     await page.locator('input[name="type"]').locator('..').locator('.multiselect__placeholder').click();
     // await page.getByText('Single line text', { exact: true }).click();

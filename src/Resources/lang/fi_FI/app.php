@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Aikataulu',
-            'preset'    => 'Esiasetetut aikataulut',
-            'cron'      => 'Cron-lauseke',
-            'cron-info' => 'Edellyttää, että palvelimen ajastin ja jonotyöntekijä ovat käynnissä.',
-            'timezone'  => 'Aikavyöhyke',
-            'type'      => 'Aikataulun tyyppi',
+            'title'       => 'Aikataulu',
+            'preset'      => 'Esiasetetut aikataulut',
+            'preset-info' => 'Valitse valmis aikataulu tai Mukautettu ja kirjoita oma cron-lauseke.',
+            'cron'        => 'Cron-lauseke',
+            'cron-info'   => 'Edellyttää, että palvelimen ajastin ja jonotyöntekijä ovat käynnissä.',
+            'timezone'    => 'Aikavyöhyke',
+            'type'        => 'Aikataulun tyyppi',
 
             'presets' => [
                 'disabled'         => 'Ei käytössä',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro on asennettu, joten sen ominaisuudet ovat käytettävissä täällä.',
             'upgrade'                   => 'Päivitä Pro-versioon',
             'upgrade-action'            => 'Päivitä',
             'tagline'                   => 'Avaa nämä edistyneet ominaisuudet ja vie kauppasi uudelle tasolle.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Metakentän määritys päivitetty onnistuneesti',
             'created'             => 'Metakentän määritys luotu onnistuneesti',
             'mass-delete-success' => 'Metakentän määritykset poistettu joukkona onnistuneesti',
+            'no-selected'         => 'Valitse vähintään yksi poistettava metakentän määritys.',
         ],
     ],
 ];

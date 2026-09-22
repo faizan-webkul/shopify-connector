@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Zamanlama',
-            'preset'    => 'Hazır Zamanlamalar',
-            'cron'      => 'Cron İfadesi',
-            'cron-info' => 'Sunucu zamanlayıcısının ve bir kuyruk işçisinin çalışıyor olması gerekir.',
-            'timezone'  => 'Saat Dilimi',
-            'type'      => 'Zamanlama Türü',
+            'title'       => 'Zamanlama',
+            'preset'      => 'Hazır Zamanlamalar',
+            'preset-info' => 'Hazır bir zamanlama seçin veya kendi cron ifadenizi girmek için Özel seçeneğini kullanın.',
+            'cron'        => 'Cron İfadesi',
+            'cron-info'   => 'Sunucu zamanlayıcısının ve bir kuyruk işçisinin çalışıyor olması gerekir.',
+            'timezone'    => 'Saat Dilimi',
+            'type'        => 'Zamanlama Türü',
 
             'presets' => [
                 'disabled'         => 'Kapalı',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro kurulu, bu nedenle özellikleri burada kullanılabilir.',
             'upgrade'                   => 'Pro\'ya yükselt',
             'upgrade-action'            => 'Yükselt',
             'tagline'                   => 'Bu gelişmiş özellikleri açın ve mağazanızı bir üst seviyeye taşıyın.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'MetaField Tanımı başarıyla güncellendi',
             'created'             => 'Metafield Tanımı başarıyla oluşturuldu',
             'mass-delete-success' => 'Metafield Tanımı toplu olarak başarıyla silindi',
+            'no-selected'         => 'Silmek için en az bir metafield tanımı seçin.',
         ],
     ],
 ];

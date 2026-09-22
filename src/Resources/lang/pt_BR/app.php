@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Agendamento',
-            'preset'    => 'Agendamentos Predefinidos',
-            'cron'      => 'Expressão Cron',
-            'cron-info' => 'Requer que o agendador do servidor e um worker de fila estejam a funcionar.',
-            'timezone'  => 'Fuso Horário',
-            'type'      => 'Tipo de Agendamento',
+            'title'       => 'Agendamento',
+            'preset'      => 'Agendamentos Predefinidos',
+            'preset-info' => 'Escolha um agendamento pronto, ou Personalizado para digitar sua própria expressão cron.',
+            'cron'        => 'Expressão Cron',
+            'cron-info'   => 'Requer que o agendador do servidor e um worker de fila estejam a funcionar.',
+            'timezone'    => 'Fuso Horário',
+            'type'        => 'Tipo de Agendamento',
 
             'presets' => [
                 'disabled'         => 'Desativado',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'O Shopify Pro está instalado, então seus recursos estão disponíveis aqui.',
             'upgrade'                   => 'Atualizar para Pro',
             'upgrade-action'            => 'Atualizar',
             'tagline'                   => 'Desbloqueie esses recursos avançados e leve sua loja para o próximo nível.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Definição de Metafield atualizada com sucesso',
             'created'             => 'Definição de Metafield criada com sucesso',
             'mass-delete-success' => 'Exclusão em massa de definições de Metafield realizada com sucesso',
+            'no-selected'         => 'Selecione pelo menos uma definição de metacampo para excluir.',
         ],
     ],
 ];

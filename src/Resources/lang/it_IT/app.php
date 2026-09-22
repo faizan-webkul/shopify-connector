@@ -55,12 +55,13 @@ return [
 
     'export' => [
         'schedule' => [
-            'title'     => 'Pianificazione',
-            'preset'    => 'Pianificazioni Predefinite',
-            'cron'      => 'Espressione Cron',
-            'cron-info' => 'Richiede che lo scheduler del server e un worker della coda siano in esecuzione.',
-            'timezone'  => 'Fuso Orario',
-            'type'      => 'Tipo di Pianificazione',
+            'title'       => 'Pianificazione',
+            'preset'      => 'Pianificazioni Predefinite',
+            'preset-info' => 'Scegli una pianificazione predefinita, oppure Personalizzata per inserire la tua espressione cron.',
+            'cron'        => 'Espressione Cron',
+            'cron-info'   => 'Richiede che lo scheduler del server e un worker della coda siano in esecuzione.',
+            'timezone'    => 'Fuso Orario',
+            'type'        => 'Tipo di Pianificazione',
 
             'presets' => [
                 'disabled'         => 'Disattivato',
@@ -278,6 +279,7 @@ return [
 
         'pro' => [
             'badge'                     => 'Pro',
+            'active'                    => 'Shopify Pro è installato, quindi le sue funzioni sono disponibili qui.',
             'upgrade'                   => 'Passa a Pro',
             'upgrade-action'            => 'Aggiorna',
             'tagline'                   => 'Sblocca queste funzionalità avanzate e porta il tuo negozio al livello successivo.',
@@ -829,6 +831,7 @@ return [
             'update-success'      => 'Definizione metafield aggiornata con successo',
             'created'             => 'Definizione metafield creata con successo',
             'mass-delete-success' => 'Eliminazione massiva delle definizioni metafield riuscita',
+            'no-selected'         => 'Seleziona almeno una definizione di metacampo da eliminare.',
         ],
     ],
 ];

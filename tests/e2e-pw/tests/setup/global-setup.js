@@ -23,7 +23,7 @@ async function globalSetup() {
     await page.click('.primary-button');
 
     // Wait for successful login (Adjust selector based on actual dashboard page)
-    await page.waitForURL(new URL('/admin/dashboard', baseUrl).toString());
+    await page.waitForURL(/\/admin\/dashboard$/);
 
     // Save authentication state
     await context.storageState({ path: 'storage/auth.json' });
@@ -33,7 +33,7 @@ async function globalSetup() {
         throw new Error('Auth storage file was not created.');
     }
 
-    // await browser.close();
+    await browser.close();
 }
 
 export default globalSetup;
