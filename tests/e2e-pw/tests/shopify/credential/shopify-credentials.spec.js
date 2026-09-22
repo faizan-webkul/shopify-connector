@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { openDataGridFilters } from '../../../helpers/ui.js';
+import { openDataGridFilters, gotoAdmin } from '../../../helpers/ui.js';
 test.use({ storageState: 'storage/auth.json' });
 // test.use({ launchOptions: { slowMo: 500 } }); // Slow down actions by 1 second
 // Reuse login session
@@ -38,7 +38,7 @@ const filterCredentialsByShopUrl = async (page, shopUrl) => {
 test.describe('Shopify Credentials Page', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the Shopify Credentials Page
-    await page.goto('admin/shopify/credentials');
+    await gotoAdmin(page, 'admin/shopify/credentials');
   });
 
   test('Verify Shopify Credentials page title is visible', async ({ page }) => {
@@ -99,7 +99,7 @@ test.describe('Shopify Credentials Page', () => {
 test.describe.serial('Shopify Create credential Page', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the Shopify Credentials Page
-    await page.goto('admin/shopify/credentials');
+    await gotoAdmin(page, 'admin/shopify/credentials');
   });
 
   test('Checked credential form and validation', async ({ page }) => {

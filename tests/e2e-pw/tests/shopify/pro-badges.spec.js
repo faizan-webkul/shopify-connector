@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { dismissPromos } from '../../helpers/ui.js';
+import { dismissPromos, gotoAdmin } from '../../helpers/ui.js';
 
 test.use({ storageState: 'storage/auth.json' });
 
@@ -31,18 +31,23 @@ test.describe('Shopify Pro badges', () => {
         ['import', 'admin/shopify/import-mapping/3'],
     ]) {
         test(`badges the association mapping section on the ${screen} mapping screen`, async ({ page }) => {
-            await page.goto(url);
+            await gotoAdmin(page, url);
             await dismissPromos(page);
 
-            const heading = page.locator('p', { hasText: 'Association Mapping' }).first();
+            // The badge sits beside the notice title, not inside it, so the
+            // notice card is what carries both.
+            const notice = page
+                .locator('.shopify-pro-notice')
+                .filter({ hasText: 'Association Mapping' })
+                .first();
 
-            await expect(heading).toBeVisible();
-            await expect(heading.locator('.shopify-pro-badge')).toHaveText('Pro');
+            await expect(notice.locator('.shopify-pro-notice__title')).toHaveText('Association Mapping');
+            await expect(notice.locator('.shopify-pro-badge')).toHaveText('Pro');
         });
     }
 
     test('badges the pro filters on the shopify product export', async ({ page }) => {
-        await page.goto('admin/data-transfer/exports/create');
+        await gotoAdmin(page, 'admin/data-transfer/exports/create');
         await dismissPromos(page);
 
         await selectExportType(page, 'Shopify Product');
@@ -58,7 +63,7 @@ test.describe('Shopify Pro badges', () => {
     });
 
     test('leaves the core shopify filters unbadged', async ({ page }) => {
-        await page.goto('admin/data-transfer/exports/create');
+        await gotoAdmin(page, 'admin/data-transfer/exports/create');
         await dismissPromos(page);
 
         await selectExportType(page, 'Shopify Product');
@@ -73,7 +78,7 @@ test.describe('Shopify Pro badges', () => {
         }
     });
     test('suffixes the pro metafield types on the definition screen', async ({ page }) => {
-        await page.goto('admin/shopify/metafields');
+        await gotoAdmin(page, 'admin/shopify/metafields');
         await dismissPromos(page);
 
         const source = await page.content();

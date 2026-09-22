@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { skipUnlessShopifyPro } from '../../helpers/shopify-pro.js';
+import { definitionFields, measurementFields } from '../../helpers/metaobject.js';
+import { gotoAdmin } from '../../helpers/ui.js';
 
 test.use({ storageState: 'storage/auth.json' });
 
@@ -16,14 +18,18 @@ const clearOverlays = (page) =>
     });
 
 test.describe('metaobject measurement support', () => {
+    // Every test here covers what the Pro package adds to the metaobject
+    // screens, so the whole file stands down when Pro is not installed.
     test.beforeEach(async ({ page }, testInfo) => {
-        if (testInfo.title !== 'reports no failed extension') {
-            await skipUnlessShopifyPro(page, testInfo);
-        }
+        await skipUnlessShopifyPro(page, testInfo);
     });
 
     test('renders every measurement field as a number input', async ({ page }) => {
-        await page.goto(definitionUrl);
+        const measurements = measurementFields(await definitionFields(page, definitionUrl));
+
+        expect(measurements.length, 'the definition under test carries no measurement field').toBeGreaterThan(0);
+
+        await gotoAdmin(page, definitionUrl);
         await clearOverlays(page);
 
         await page.locator('button', { hasText: 'Add Entry' }).first().click();
@@ -31,7 +37,7 @@ test.describe('metaobject measurement support', () => {
 
         const numeric = page.locator('input[type="number"]');
 
-        await expect(numeric).toHaveCount(5);
+        await expect(numeric).toHaveCount(measurements.length);
         await expect(numeric.first()).toHaveAttribute('step', 'any');
     });
 
@@ -43,14 +49,14 @@ test.describe('metaobject measurement support', () => {
             }
         });
 
-        await page.goto(definitionUrl);
+        await gotoAdmin(page, definitionUrl);
         await page.waitForFunction(() => window.app?.component('v-metaobject-entries'));
 
         expect(warnings).toEqual([]);
     });
 
     test('validates pro measurement values the way shopify does', async ({ page }) => {
-        await page.goto(definitionUrl);
+        await gotoAdmin(page, definitionUrl);
         await page.waitForFunction(() => {
             return window.app?.component('v-metaobject-entries')
                 && window.app?.component('v-metaobject-field-form');
@@ -97,7 +103,7 @@ test.describe('metaobject measurement support', () => {
         expect(result.textHasUnit).toBe(false);
     });
     test('offers a unit and bounds when a pro measurement type is chosen', async ({ page }) => {
-        await page.goto(definitionUrl);
+        await gotoAdmin(page, definitionUrl);
         await clearOverlays(page);
 
         await page.locator('button', { hasText: 'Add Field' }).first().click();

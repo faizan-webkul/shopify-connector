@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { dismissPromos, openDataGridFilters } from '../../../helpers/ui.js';
+import { dismissPromos, openDataGridFilters, gotoAdmin } from '../../../helpers/ui.js';
 
 test.use({ storageState: 'storage/auth.json' });
 // test.use({ launchOptions: { slowMo: 500 } });
@@ -10,7 +10,7 @@ const namespaceKey = `custom.e2e${uniqueSuffix}`;
 
 test.describe('Shopify Metafield definitions Page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('admin/shopify/metafields');
+    await gotoAdmin(page, 'admin/shopify/metafields');
     await dismissPromos(page);
   });
 
@@ -58,7 +58,7 @@ test.describe('Shopify Metafield definitions Page', () => {
 
 test.describe.serial('Shopify Create Metafield Definition Page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('admin/shopify/metafields');
+    await gotoAdmin(page, 'admin/shopify/metafields');
     await dismissPromos(page);
   });
 

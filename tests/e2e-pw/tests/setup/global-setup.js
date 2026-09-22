@@ -16,14 +16,16 @@ async function globalSetup() {
         );
     }
 
-    // Perform login
-    await page.goto(baseUrl);
+    // Perform login. The login screen only needs its form, and the dashboard
+    // that follows only needs to have been reached, so neither waits for the
+    // last asset on the page - that is what stalls this step on a remote host.
+    await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
     await page.fill('input[name="email"]', adminEmail);
     await page.fill('input[name="password"]', adminPassword);
     await page.click('.primary-button');
 
     // Wait for successful login (Adjust selector based on actual dashboard page)
-    await page.waitForURL(/\/admin\/dashboard$/);
+    await page.waitForURL(/\/admin\/dashboard$/, { waitUntil: 'commit', timeout: 60000 });
 
     // Save authentication state
     await context.storageState({ path: 'storage/auth.json' });
