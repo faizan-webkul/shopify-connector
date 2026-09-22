@@ -20,9 +20,18 @@ export async function openDataGridFilters(page) {
 
     // Vue replaces the v-drawer custom element with its rendered trigger, so
     // locating an ancestor <v-drawer> only works in the unmounted template.
-    // The app root scopes the match away from the debug bar, which carries its
-    // own "Filter" controls outside #app.
-    const toggle = page.locator('#app').getByText('Filter', { exact: true }).first();
+    //
+    // The grid's own hook comes first: once the toolbar is condensed - under
+    // 1000px of measured width, which is where a 1280px run lands - the word
+    // "Filter" is rendered screen-reader only and cannot be clicked. The label
+    // stays as the fallback for cores that predate the hook. Both are scoped to
+    // the app root, away from the debug bar's own "Filter" controls.
+    const hook = page.locator('#app [data-grid-filter]').first();
+    const label = page.locator('#app').getByText('Filter', { exact: true }).first();
+
+    await hook.or(label).first().waitFor();
+
+    const toggle = await hook.count() ? hook : label;
 
     await toggle.scrollIntoViewIfNeeded();
     await toggle.click();
