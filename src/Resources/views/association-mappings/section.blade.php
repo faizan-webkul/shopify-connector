@@ -11,15 +11,15 @@
                     :note="trans('shopify::app.shopify.pro.association-note')"
                 />
 
-                <div class="grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300">
+                <div class="shopify-map-row grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300">
                     <p class="break-words">@lang('shopify::app.shopify.association-mapping.related-products')</p>
                     <x-admin::form.control-group class="!mb-0"><x-admin::form.control-group.control type="select" name="association_mapping_related" :value="data_get($associationMapping, 'related_products')" :options="json_encode($associationTypes)" track-by="id" label-by="label" :label="trans('shopify::app.shopify.association-mapping.unopim-association')" :placeholder="trans('shopify::app.shopify.association-mapping.unopim-association')" /></x-admin::form.control-group>
                 </div>
-                <div class="grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300">
+                <div class="shopify-map-row grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300">
                     <p class="break-words">@lang('shopify::app.shopify.association-mapping.complementary-products')</p>
                     <x-admin::form.control-group class="!mb-0"><x-admin::form.control-group.control type="select" name="association_mapping_complementary" :value="data_get($associationMapping, 'complementary_products')" :options="json_encode($associationTypes)" track-by="id" label-by="label" :label="trans('shopify::app.shopify.association-mapping.unopim-association')" :placeholder="trans('shopify::app.shopify.association-mapping.unopim-association')" /></x-admin::form.control-group>
                 </div>
-                <div class="grid grid-cols-2 gap-2.5 items-center px-4 py-4 text-gray-600 dark:text-gray-300">
+                <div class="shopify-map-row grid grid-cols-2 gap-2.5 items-center px-4 py-4 text-gray-600 dark:text-gray-300">
                     <p class="break-words">@lang('shopify::app.shopify.association-mapping.bundle-products')</p>
                     <x-admin::form.control-group class="!mb-0"><x-admin::form.control-group.control type="select" name="association_mapping_bundle" :value="data_get($associationMapping, 'bundle_products')" :options="json_encode($associationTypes)" track-by="id" label-by="label" :label="trans('shopify::app.shopify.association-mapping.unopim-association')" :placeholder="trans('shopify::app.shopify.association-mapping.unopim-association')" /></x-admin::form.control-group>
                 </div>

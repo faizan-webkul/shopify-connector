@@ -287,6 +287,86 @@
         color: #6b7280;
     }
 
+
+    /*
+     * The real-time toggle row. The unsaved tracker appends its badge to the
+     * control group, so the row is the group itself and the parts are ordered
+     * around it: the badge follows the heading, the switch goes to the far
+     * end, the notes drop to their own line.
+     *
+     * It lives here, in the head, rather than in a pushed stack on the page:
+     * ajax navigation swaps only the content, so a stack pushed there never
+     * reaches the head and the row would stay unstyled until a full reload.
+     */
+    .realtime-toggle {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .realtime-toggle__title {
+        order: 1;
+    }
+
+    .realtime-toggle .unsaved-badge {
+        order: 2;
+    }
+
+    .realtime-toggle__switch {
+        display: flex;
+        align-items: center;
+        order: 3;
+        margin-inline-start: auto;
+    }
+
+    .realtime-toggle__note {
+        order: 4;
+        flex-basis: 100%;
+        margin: 0;
+    }
+
+    /*
+     * A mapping row names its field on the left and holds the control in the
+     * middle. The unsaved tracker appends its badge to the control group, which
+     * pushes the row taller and narrows the control, so the injected badge is
+     * put away and the row wears its own, right after the field name.
+     */
+    .shopify-map-row [data-control-group] > .unsaved-badge {
+        display: none !important;
+    }
+
+    /* The badge is parked at the end of the name column, never over the control. */
+    .shopify-map-row > :first-child {
+        position: relative;
+    }
+
+    .shopify-map-row:has([data-control-group].unsaved-dirty) > :first-child > p.break-words > span:first-child::after,
+    .shopify-map-row:has([data-control-group].unsaved-dirty) > :first-child > p.break-words:not(:has(> span))::after,
+    .shopify-map-row:has([data-control-group].unsaved-dirty) > p.break-words::after {
+        content: "{{ trans('admin::app.components.form.unsaved-changes.field-badge') }}";
+        /* In flow, right where the name ends, so it covers nothing. */
+        display: inline-flex;
+        align-items: center;
+        margin-inline-start: 0.375rem;
+        padding: 0.05rem 0.4rem;
+        border-radius: 0.25rem;
+        font-size: 0.625rem;
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+        vertical-align: middle;
+        color: #854d0e;
+        background: #fef9c3;
+    }
+
+    .dark .shopify-map-row:has([data-control-group].unsaved-dirty) > :first-child > p.break-words > span:first-child::after,
+    .dark .shopify-map-row:has([data-control-group].unsaved-dirty) > :first-child > p.break-words:not(:has(> span))::after,
+    .dark .shopify-map-row:has([data-control-group].unsaved-dirty) > p.break-words::after {
+        color: #fde68a;
+        background: #713f12;
+    }
+
 </style>
 
 @unless ($shopifyProInstalled)

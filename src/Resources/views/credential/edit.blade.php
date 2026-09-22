@@ -229,13 +229,13 @@
                         </p>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300">
+                    <div class="shopify-map-row grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300">
                         <p class="break-words font-bold">@lang('shopify::app.shopify.credential.index.locations')</p>
                         <p class="break-words font-bold">@lang('shopify::app.shopify.credential.index.location_inventory_attribute')</p>
                     </div>
 
                     @foreach ($locationAll as $location)
-                        <div class="grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300 transition-all hover:bg-violet-50 hover:bg-opacity-30 dark:hover:bg-cherry-800">
+                        <div class="shopify-map-row grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300 transition-all hover:bg-violet-50 hover:bg-opacity-30 dark:hover:bg-cherry-800">
                             <p class="break-words">{{ $location['name'] }}</p>
                             <x-admin::form.control-group class="!mb-0">
                                 <x-admin::form.control-group.control
@@ -256,7 +256,7 @@
                     <p class="text-base text-gray-800 dark:text-white font-semibold mb-4">
                         @lang('shopify::app.shopify.credential.export.locales')
                     </p>
-                    <div class="grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300 transition-all hover:bg-violet-50 hover:bg-opacity-30 dark:hover:bg-cherry-800">
+                    <div class="shopify-map-row grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300 transition-all hover:bg-violet-50 hover:bg-opacity-30 dark:hover:bg-cherry-800">
                         <p class="break-words font-bold"> @lang('shopify::app.shopify.credential.shopify.locale')</p>
                         
                         <p class="break-words font-bold">@lang('shopify::app.shopify.credential.unopim.locale')</p>
@@ -287,7 +287,7 @@
                                     $primary = $locale['primary'] ? '(Default)' : '';
                                     $selectedLocale = $storelocaleMapping[$localeCode] ?? null;
                                 @endphp
-                           <div class="grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300 transition-all hover:bg-violet-50 hover:bg-opacity-30 dark:hover:bg-cherry-800">
+                           <div class="shopify-map-row grid grid-cols-2 gap-2.5 items-center px-4 py-4 border-b dark:border-cherry-800 text-gray-600 dark:text-gray-300 transition-all hover:bg-violet-50 hover:bg-opacity-30 dark:hover:bg-cherry-800">
                                 <x-admin::form.control-group.label class="{{ $locale['primary'] ? 'required' : '' }}">
                                     <p class="break-words">{{ $locale['name'].' '.$locale['locale'].' '.$primary }}</p>
                                 </x-admin::form.control-group.label>

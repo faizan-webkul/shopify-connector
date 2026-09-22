@@ -15,7 +15,7 @@
                     'external_image_attribute' => ['label' => 'image', 'value' => $externalImageAttribute],
                     'external_video_attribute' => ['label' => 'video', 'value' => $externalVideoAttribute],
                 ] as $fieldName => $field)
-                    <div class="grid grid-cols-2 gap-2.5 items-center px-4 py-4 text-gray-600 dark:text-gray-300 @unless ($loop->last) border-b dark:border-cherry-800 @endunless">
+                    <div class="shopify-map-row grid grid-cols-2 gap-2.5 items-center px-4 py-4 text-gray-600 dark:text-gray-300 @unless ($loop->last) border-b dark:border-cherry-800 @endunless">
                         <div>
                             <p class="break-words">@lang('shopify::app.shopify.external-media.'.$field['label'])</p>
 

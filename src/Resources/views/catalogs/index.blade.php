@@ -65,6 +65,13 @@
                         @lang('shopify::app.shopify.catalogs.create')
                     </button>
 
+                    {{--
+                        The overlay is fixed to the viewport, so it only covers the
+                        whole screen from the body: inside the page it is trapped in
+                        the content column's own stacking context. The form travels
+                        with it so the field stays part of the submission.
+                    --}}
+                    <teleport to="body">
                     <x-admin::form
                         v-slot="{ meta, errors, handleSubmit }"
                         as="div"
@@ -102,6 +109,7 @@
                             </x-admin::modal>
                         </form>
                     </x-admin::form>
+                    </teleport>
                 </div>
             </script>
 

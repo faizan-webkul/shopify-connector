@@ -1,35 +1,3 @@
-@push('styles')
-    <style>
-        .realtime-toggle {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .realtime-toggle__title {
-            order: 1;
-        }
-
-        .realtime-toggle .unsaved-badge {
-            order: 2;
-        }
-
-        .realtime-toggle__switch {
-            display: flex;
-            align-items: center;
-            order: 3;
-            margin-inline-start: auto;
-        }
-
-        .realtime-toggle__note {
-            order: 4;
-            flex-basis: 100%;
-            margin: 0;
-        }
-    </style>
-@endpush
-
 <x-admin::layouts.with-history
     :history-id="$credential->id"
     active-tab="realtime"
