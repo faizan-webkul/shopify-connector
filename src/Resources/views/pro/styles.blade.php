@@ -295,19 +295,25 @@
          * A menu entry can only name a route, and the sidebar rebuilds its links
          * as menus open and close, so the visit is taken over on the way out
          * instead of rewriting an element that will be replaced.
+         *
+         * The admin's own ajax navigation claims link clicks from a capture
+         * listener on the document and stands down only for a click that is
+         * already prevented, so this one captures on the window, which the
+         * event reaches first. Taking it later would send the tab to the
+         * upgrade page as well as opening it.
          */
-        document.addEventListener('click', (event) => {
+        window.addEventListener('click', (event) => {
             if (event.button || event.ctrlKey || event.metaKey || event.shiftKey) {
                 return;
             }
 
-            if (! event.target.closest?.('#unopim-sidebar a[href$="{{ $menuPath }}"]')) {
+            if (! event.target.closest?.('a[href$="{{ $menuPath }}"]')) {
                 return;
             }
 
             event.preventDefault();
 
             window.open(@json($upgradeUrl), '_blank', 'noopener');
-        });
+        }, true);
     </script>
 @endunless
