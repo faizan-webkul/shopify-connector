@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Điều kiện thuộc tính',
             'conditions-note'           => 'Lọc một lần xuất theo điều kiện thuộc tính có trong Shopify Pro.',
             'metafield-types'           => 'Kiểu metafield',
+
+            'comparison' => [
+                'title'        => 'Community Edition và Pro',
+                'intro'        => 'Những gì trình kết nối tự cung cấp và những gì Shopify Pro bổ sung.',
+                'feature'      => 'Tính năng',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Có',
+                'not-included' => 'Không có',
+
+                'groups' => [
+                    'transfer'   => 'Nhập và xuất',
+                    'filters'    => 'Bộ lọc xuất',
+                    'mapping'    => 'Ánh xạ',
+                    'automation' => 'Tự động hóa',
+                    'pricing'    => 'Định giá',
+                ],
+
+                'features' => [
+                    'product'          => 'Xuất và nhập sản phẩm',
+                    'category'         => 'Đồng bộ danh mục và bộ sưu tập',
+                    'metafield'        => 'Định nghĩa và giá trị metafield',
+                    'metaobject'       => 'Định nghĩa và mục metaobject',
+                    'attribute-import' => 'Nhập thuộc tính và nhóm thuộc tính',
+                    'base-filters'     => 'Lọc bản xuất theo kênh, tiền tệ, SKU và trạng thái',
+                    'base-mapping'     => 'Ánh xạ thuộc tính sang trường Shopify',
+                    'manual-run'       => 'Chạy bản xuất hoặc nhập khi cần',
+                    'base-price'       => 'Giá sản phẩm từ ánh xạ xuất',
+                    'catalogs'         => 'Danh mục và giá danh mục',
+                ],
+            ],
         ],
 
         'acl' => [

@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Kondisi atribut',
             'conditions-note'           => 'Memfilter ekspor berdasarkan kondisi atribut tersedia di Shopify Pro.',
             'metafield-types'           => 'Tipe metafield',
+
+            'comparison' => [
+                'title'        => 'Community Edition vs Pro',
+                'intro'        => 'Apa yang disediakan konektor sendiri, dan apa yang ditambahkan Shopify Pro.',
+                'feature'      => 'Fitur',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Termasuk',
+                'not-included' => 'Tidak termasuk',
+
+                'groups' => [
+                    'transfer'   => 'Impor & Ekspor',
+                    'filters'    => 'Filter Ekspor',
+                    'mapping'    => 'Pemetaan',
+                    'automation' => 'Otomatisasi',
+                    'pricing'    => 'Harga',
+                ],
+
+                'features' => [
+                    'product'          => 'Ekspor dan impor produk',
+                    'category'         => 'Sinkronisasi kategori dan koleksi',
+                    'metafield'        => 'Definisi dan nilai metafield',
+                    'metaobject'       => 'Definisi dan entri metaobject',
+                    'attribute-import' => 'Impor atribut dan famili',
+                    'base-filters'     => 'Memfilter ekspor menurut saluran, mata uang, SKU, dan status',
+                    'base-mapping'     => 'Pemetaan atribut ke field Shopify',
+                    'manual-run'       => 'Menjalankan ekspor atau impor sesuai kebutuhan',
+                    'base-price'       => 'Harga produk dari pemetaan ekspor',
+                    'catalogs'         => 'Katalog dan harga katalog',
+                ],
+            ],
         ],
 
         'acl' => [

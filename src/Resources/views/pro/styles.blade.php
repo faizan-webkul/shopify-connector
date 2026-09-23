@@ -4,7 +4,6 @@
     all; only their look lives here.
 --}}
 @php
-    $upgradeUrl = resolve(\Webkul\Shopify\Support\ProFeatures::class)->upgradeUrl();
     $menuPath = parse_url(route('shopify.upgrade'), PHP_URL_PATH);
 @endphp
 
@@ -369,31 +368,3 @@
 
 </style>
 
-@unless ($shopifyProInstalled)
-    <script>
-        /**
-         * A menu entry can only name a route, and the sidebar rebuilds its links
-         * as menus open and close, so the visit is taken over on the way out
-         * instead of rewriting an element that will be replaced.
-         *
-         * The admin's own ajax navigation claims link clicks from a capture
-         * listener on the document and stands down only for a click that is
-         * already prevented, so this one captures on the window, which the
-         * event reaches first. Taking it later would send the tab to the
-         * upgrade page as well as opening it.
-         */
-        window.addEventListener('click', (event) => {
-            if (event.button || event.ctrlKey || event.metaKey || event.shiftKey) {
-                return;
-            }
-
-            if (! event.target.closest?.('a[href$="{{ $menuPath }}"]')) {
-                return;
-            }
-
-            event.preventDefault();
-
-            window.open(@json($upgradeUrl), '_blank', 'noopener');
-        }, true);
-    </script>
-@endunless

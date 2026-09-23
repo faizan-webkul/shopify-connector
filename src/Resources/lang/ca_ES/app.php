@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Condicions d\'atribut',
             'conditions-note'           => 'Filtrar una exportació per condicions d\'atribut està disponible a Shopify Pro.',
             'metafield-types'           => 'Tipus de metafield',
+
+            'comparison' => [
+                'title'        => 'Edició Community i Pro',
+                'intro'        => 'Què ofereix el connector per si sol i què hi afegeix Shopify Pro.',
+                'feature'      => 'Funcionalitat',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Inclòs',
+                'not-included' => 'No inclòs',
+
+                'groups' => [
+                    'transfer'   => 'Importació i exportació',
+                    'filters'    => 'Filtres d\'exportació',
+                    'mapping'    => 'Assignació',
+                    'automation' => 'Automatització',
+                    'pricing'    => 'Preus',
+                ],
+
+                'features' => [
+                    'product'          => 'Exportació i importació de productes',
+                    'category'         => 'Sincronització de categories i col·leccions',
+                    'metafield'        => 'Definicions i valors de metacamps',
+                    'metaobject'       => 'Definicions i entrades de metaobjectes',
+                    'attribute-import' => 'Importació d\'atributs i famílies',
+                    'base-filters'     => 'Filtrar una exportació per canal, moneda, SKU i estat',
+                    'base-mapping'     => 'Assignació d\'atributs a camps de Shopify',
+                    'manual-run'       => 'Executar una exportació o importació quan calgui',
+                    'base-price'       => 'Preu del producte des de l\'assignació d\'exportació',
+                    'catalogs'         => 'Catàlegs i preus de catàleg',
+                ],
+            ],
         ],
 
         'acl' => [

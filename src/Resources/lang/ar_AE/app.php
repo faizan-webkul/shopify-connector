@@ -302,6 +302,37 @@ return [
             'attribute-conditions'      => 'شروط السمات',
             'conditions-note'           => 'تصفية التصدير حسب شروط السمات متاحة في Shopify Pro.',
             'metafield-types'           => 'أنواع حقول Metafield',
+
+            'comparison' => [
+                'title'        => 'الإصدار المجتمعي مقابل Pro',
+                'intro'        => 'ما يوفّره الموصّل بمفرده، وما يضيفه Shopify Pro.',
+                'feature'      => 'الميزة',
+                'community'    => 'المجتمعي',
+                'pro'          => 'Pro',
+                'included'     => 'متوفّرة',
+                'not-included' => 'غير متوفّرة',
+
+                'groups' => [
+                    'transfer'   => 'الاستيراد والتصدير',
+                    'filters'    => 'مرشّحات التصدير',
+                    'mapping'    => 'الربط',
+                    'automation' => 'الأتمتة',
+                    'pricing'    => 'التسعير',
+                ],
+
+                'features' => [
+                    'product'          => 'تصدير المنتجات واستيرادها',
+                    'category'         => 'مزامنة الفئات والمجموعات',
+                    'metafield'        => 'تعريفات الحقول الوصفية وقيمها',
+                    'metaobject'       => 'تعريفات الكائنات الوصفية ومدخلاتها',
+                    'attribute-import' => 'استيراد السمات والعائلات',
+                    'base-filters'     => 'تصفية التصدير حسب القناة والعملة ورمز SKU والحالة',
+                    'base-mapping'     => 'ربط السمات بحقول Shopify',
+                    'manual-run'       => 'تشغيل التصدير أو الاستيراد عند الطلب',
+                    'base-price'       => 'سعر المنتج من ربط التصدير',
+                    'catalogs'         => 'الكتالوجات وأسعار الكتالوجات',
+                ],
+            ],
         ],
 
         'acl' => [

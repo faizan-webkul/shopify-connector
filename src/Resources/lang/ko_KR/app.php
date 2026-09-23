@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => '속성 조건',
             'conditions-note'           => '속성 조건으로 내보내기를 필터링하는 기능은 Shopify Pro에서 사용할 수 있습니다.',
             'metafield-types'           => '메타필드 유형',
+
+            'comparison' => [
+                'title'        => 'Community Edition과 Pro',
+                'intro'        => '커넥터 자체가 제공하는 기능과 Shopify Pro가 추가하는 기능입니다.',
+                'feature'      => '기능',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => '포함',
+                'not-included' => '미포함',
+
+                'groups' => [
+                    'transfer'   => '가져오기 및 내보내기',
+                    'filters'    => '내보내기 필터',
+                    'mapping'    => '매핑',
+                    'automation' => '자동화',
+                    'pricing'    => '가격 책정',
+                ],
+
+                'features' => [
+                    'product'          => '제품 내보내기 및 가져오기',
+                    'category'         => '카테고리 및 컬렉션 동기화',
+                    'metafield'        => '메타필드 정의 및 값',
+                    'metaobject'       => '메타오브젝트 정의 및 항목',
+                    'attribute-import' => '속성 및 패밀리 가져오기',
+                    'base-filters'     => '채널, 통화, SKU, 상태로 내보내기 필터링',
+                    'base-mapping'     => '속성과 Shopify 필드 매핑',
+                    'manual-run'       => '필요할 때 내보내기 또는 가져오기 실행',
+                    'base-price'       => '내보내기 매핑의 제품 가격',
+                    'catalogs'         => '카탈로그 및 카탈로그 가격',
+                ],
+            ],
         ],
 
         'acl' => [

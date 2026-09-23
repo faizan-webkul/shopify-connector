@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => '属性条件',
             'conditions-note'           => '属性条件でエクスポートを絞り込む機能は Shopify Pro でご利用いただけます。',
             'metafield-types'           => 'メタフィールドの種類',
+
+            'comparison' => [
+                'title'        => 'Community Edition と Pro',
+                'intro'        => 'コネクタ単体で使える機能と、Shopify Pro が追加する機能。',
+                'feature'      => '機能',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => '利用可能',
+                'not-included' => '利用不可',
+
+                'groups' => [
+                    'transfer'   => 'インポートとエクスポート',
+                    'filters'    => 'エクスポートフィルター',
+                    'mapping'    => 'マッピング',
+                    'automation' => '自動化',
+                    'pricing'    => '価格設定',
+                ],
+
+                'features' => [
+                    'product'          => '商品のエクスポートとインポート',
+                    'category'         => 'カテゴリとコレクションの同期',
+                    'metafield'        => 'メタフィールドの定義と値',
+                    'metaobject'       => 'メタオブジェクトの定義とエントリ',
+                    'attribute-import' => '属性とファミリーのインポート',
+                    'base-filters'     => 'チャネル・通貨・SKU・ステータスでのエクスポート絞り込み',
+                    'base-mapping'     => '属性と Shopify フィールドのマッピング',
+                    'manual-run'       => '必要なときにエクスポートやインポートを実行',
+                    'base-price'       => 'エクスポートマッピングからの商品価格',
+                    'catalogs'         => 'カタログとカタログ価格',
+                ],
+            ],
         ],
 
         'acl' => [

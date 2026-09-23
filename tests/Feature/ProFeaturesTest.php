@@ -98,7 +98,7 @@ it('names a pro section and offers to unlock it while the package is absent', fu
         ->toContain('Mapped on Pro.')
         ->toContain(trans('shopify::app.shopify.pro.badge'))
         ->toContain(trans('shopify::app.shopify.pro.unlock'))
-        ->toContain(config('shopify.pro.url'));
+        ->toContain(route('shopify.upgrade'));
 });
 
 it('sums a pro screen up once while the package is absent', function () {
@@ -175,12 +175,17 @@ it('serves the shopify screens while the pro package is absent', function () {
         ->assertSee(':locked="true"', false);
 });
 
-it('sends the upgrade entry to where pro is sold', function () {
+it('sends the upgrade entry to the comparison, which is what leads on to the store', function () {
     withoutShopifyPro();
 
     $this->loginAsAdmin();
 
-    get(route('shopify.upgrade'))->assertRedirect(config('shopify.pro.url'));
+    $html = get(route('shopify.upgrade'))->assertOk()->getContent();
+
+    expect($html)
+        ->toContain(trans('shopify::app.shopify.pro.comparison.title'))
+        ->toContain(trans('shopify::app.shopify.pro.comparison.community'))
+        ->toContain(config('shopify.pro.url'));
 });
 
 it('keeps the upgrade menu entry out of the sidebar while pro is installed', function () {

@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Warunki atrybutów',
             'conditions-note'           => 'Filtrowanie eksportu według warunków atrybutów jest dostępne w Shopify Pro.',
             'metafield-types'           => 'Typy metapól',
+
+            'comparison' => [
+                'title'        => 'Edycja Community i Pro',
+                'intro'        => 'Co konektor oferuje sam, a co dodaje Shopify Pro.',
+                'feature'      => 'Funkcja',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'W zestawie',
+                'not-included' => 'Brak',
+
+                'groups' => [
+                    'transfer'   => 'Import i eksport',
+                    'filters'    => 'Filtry eksportu',
+                    'mapping'    => 'Mapowanie',
+                    'automation' => 'Automatyzacja',
+                    'pricing'    => 'Ceny',
+                ],
+
+                'features' => [
+                    'product'          => 'Eksport i import produktów',
+                    'category'         => 'Synchronizacja kategorii i kolekcji',
+                    'metafield'        => 'Definicje i wartości metapól',
+                    'metaobject'       => 'Definicje i wpisy metaobiektów',
+                    'attribute-import' => 'Import atrybutów i rodzin',
+                    'base-filters'     => 'Filtrowanie eksportu według kanału, waluty, SKU i statusu',
+                    'base-mapping'     => 'Mapowanie atrybutów na pola Shopify',
+                    'manual-run'       => 'Uruchamianie eksportu lub importu na żądanie',
+                    'base-price'       => 'Cena produktu z mapowania eksportu',
+                    'catalogs'         => 'Katalogi i ceny katalogowe',
+                ],
+            ],
         ],
 
         'acl' => [

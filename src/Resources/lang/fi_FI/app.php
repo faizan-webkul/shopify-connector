@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Attribuuttiehdot',
             'conditions-note'           => 'Viennin suodattaminen attribuuttiehdoilla on käytettävissä Shopify Prossa.',
             'metafield-types'           => 'Metakenttätyypit',
+
+            'comparison' => [
+                'title'        => 'Community Edition ja Pro',
+                'intro'        => 'Mitä liitin tarjoaa itsessään ja mitä Shopify Pro lisää.',
+                'feature'      => 'Ominaisuus',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Sisältyy',
+                'not-included' => 'Ei sisälly',
+
+                'groups' => [
+                    'transfer'   => 'Tuonti ja vienti',
+                    'filters'    => 'Vientisuodattimet',
+                    'mapping'    => 'Määritys',
+                    'automation' => 'Automaatio',
+                    'pricing'    => 'Hinnoittelu',
+                ],
+
+                'features' => [
+                    'product'          => 'Tuotteiden vienti ja tuonti',
+                    'category'         => 'Kategorioiden ja kokoelmien synkronointi',
+                    'metafield'        => 'Metakenttien määritykset ja arvot',
+                    'metaobject'       => 'Metaobjektien määritykset ja tietueet',
+                    'attribute-import' => 'Attribuuttien ja perheiden tuonti',
+                    'base-filters'     => 'Viennin suodatus kanavan, valuutan, SKU:n ja tilan mukaan',
+                    'base-mapping'     => 'Attribuuttien määritys Shopify-kenttiin',
+                    'manual-run'       => 'Viennin tai tuonnin ajaminen tarvittaessa',
+                    'base-price'       => 'Tuotteen hinta vientimäärityksestä',
+                    'catalogs'         => 'Luettelot ja luettelohinnat',
+                ],
+            ],
         ],
 
         'acl' => [

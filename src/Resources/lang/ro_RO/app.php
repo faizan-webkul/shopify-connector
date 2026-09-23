@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Condiții de atribut',
             'conditions-note'           => 'Filtrarea unui export după condiții de atribut este disponibilă în Shopify Pro.',
             'metafield-types'           => 'Tipuri de metacâmp',
+
+            'comparison' => [
+                'title'        => 'Ediția Community și Pro',
+                'intro'        => 'Ce oferă conectorul singur și ce adaugă Shopify Pro.',
+                'feature'      => 'Funcționalitate',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Inclus',
+                'not-included' => 'Neinclus',
+
+                'groups' => [
+                    'transfer'   => 'Import și export',
+                    'filters'    => 'Filtre de export',
+                    'mapping'    => 'Mapare',
+                    'automation' => 'Automatizare',
+                    'pricing'    => 'Prețuri',
+                ],
+
+                'features' => [
+                    'product'          => 'Export și import de produse',
+                    'category'         => 'Sincronizarea categoriilor și colecțiilor',
+                    'metafield'        => 'Definiții și valori de metacâmpuri',
+                    'metaobject'       => 'Definiții și intrări de metaobiecte',
+                    'attribute-import' => 'Import de atribute și familii',
+                    'base-filters'     => 'Filtrarea unui export după canal, monedă, SKU și stare',
+                    'base-mapping'     => 'Maparea atributelor la câmpurile Shopify',
+                    'manual-run'       => 'Rularea unui export sau import la cerere',
+                    'base-price'       => 'Prețul produsului din maparea de export',
+                    'catalogs'         => 'Cataloage și prețuri de catalog',
+                ],
+            ],
         ],
 
         'acl' => [

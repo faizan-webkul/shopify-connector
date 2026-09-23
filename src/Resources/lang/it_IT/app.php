@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Condizioni sugli attributi',
             'conditions-note'           => 'Filtrare un\'esportazione per condizioni sugli attributi è disponibile in Shopify Pro.',
             'metafield-types'           => 'Tipi di metafield',
+
+            'comparison' => [
+                'title'        => 'Edizione Community e Pro',
+                'intro'        => 'Ciò che il connettore offre da solo e ciò che Shopify Pro aggiunge.',
+                'feature'      => 'Funzionalità',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Incluso',
+                'not-included' => 'Non incluso',
+
+                'groups' => [
+                    'transfer'   => 'Importazione ed esportazione',
+                    'filters'    => 'Filtri di esportazione',
+                    'mapping'    => 'Mappatura',
+                    'automation' => 'Automazione',
+                    'pricing'    => 'Prezzi',
+                ],
+
+                'features' => [
+                    'product'          => 'Esportazione e importazione di prodotti',
+                    'category'         => 'Sincronizzazione di categorie e collection',
+                    'metafield'        => 'Definizioni e valori dei metacampi',
+                    'metaobject'       => 'Definizioni e voci dei metaoggetti',
+                    'attribute-import' => 'Importazione di attributi e famiglie',
+                    'base-filters'     => 'Filtrare un\'esportazione per canale, valuta, SKU e stato',
+                    'base-mapping'     => 'Mappatura degli attributi sui campi Shopify',
+                    'manual-run'       => 'Eseguire un\'esportazione o importazione su richiesta',
+                    'base-price'       => 'Prezzo del prodotto dalla mappatura di esportazione',
+                    'catalogs'         => 'Cataloghi e prezzi di catalogo',
+                ],
+            ],
         ],
 
         'acl' => [

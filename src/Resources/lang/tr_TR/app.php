@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Öznitelik koşulları',
             'conditions-note'           => 'Bir dışa aktarmayı öznitelik koşullarına göre filtrelemek Shopify Pro\'da sunulur.',
             'metafield-types'           => 'Metafield türleri',
+
+            'comparison' => [
+                'title'        => 'Community Edition ve Pro',
+                'intro'        => 'Bağlayıcının tek başına sunduğu ve Shopify Pro\'nun eklediği özellikler.',
+                'feature'      => 'Özellik',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Dahil',
+                'not-included' => 'Dahil değil',
+
+                'groups' => [
+                    'transfer'   => 'İçe ve dışa aktarma',
+                    'filters'    => 'Dışa aktarma filtreleri',
+                    'mapping'    => 'Eşleme',
+                    'automation' => 'Otomasyon',
+                    'pricing'    => 'Fiyatlandırma',
+                ],
+
+                'features' => [
+                    'product'          => 'Ürün dışa ve içe aktarma',
+                    'category'         => 'Kategori ve koleksiyon eşitleme',
+                    'metafield'        => 'Meta alan tanımları ve değerleri',
+                    'metaobject'       => 'Meta nesne tanımları ve kayıtları',
+                    'attribute-import' => 'Öznitelik ve aile içe aktarma',
+                    'base-filters'     => 'Dışa aktarmayı kanal, para birimi, SKU ve duruma göre filtreleme',
+                    'base-mapping'     => 'Öznitelikleri Shopify alanlarıyla eşleme',
+                    'manual-run'       => 'Dışa veya içe aktarmayı istendiğinde çalıştırma',
+                    'base-price'       => 'Dışa aktarma eşlemesinden ürün fiyatı',
+                    'catalogs'         => 'Kataloglar ve katalog fiyatları',
+                ],
+            ],
         ],
 
         'acl' => [

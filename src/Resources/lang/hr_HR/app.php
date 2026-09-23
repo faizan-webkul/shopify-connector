@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Uvjeti atributa',
             'conditions-note'           => 'Filtriranje izvoza prema uvjetima atributa dostupno je u Shopify Pro.',
             'metafield-types'           => 'Vrste metapolja',
+
+            'comparison' => [
+                'title'        => 'Community Edition i Pro',
+                'intro'        => 'Što konektor nudi sam po sebi, a što dodaje Shopify Pro.',
+                'feature'      => 'Značajka',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Uključeno',
+                'not-included' => 'Nije uključeno',
+
+                'groups' => [
+                    'transfer'   => 'Uvoz i izvoz',
+                    'filters'    => 'Filtri izvoza',
+                    'mapping'    => 'Mapiranje',
+                    'automation' => 'Automatizacija',
+                    'pricing'    => 'Cijene',
+                ],
+
+                'features' => [
+                    'product'          => 'Izvoz i uvoz proizvoda',
+                    'category'         => 'Sinkronizacija kategorija i kolekcija',
+                    'metafield'        => 'Definicije i vrijednosti metapolja',
+                    'metaobject'       => 'Definicije i unosi metaobjekata',
+                    'attribute-import' => 'Uvoz atributa i obitelji',
+                    'base-filters'     => 'Filtriranje izvoza po kanalu, valuti, SKU-u i statusu',
+                    'base-mapping'     => 'Mapiranje atributa na Shopify polja',
+                    'manual-run'       => 'Pokretanje izvoza ili uvoza po potrebi',
+                    'base-price'       => 'Cijena proizvoda iz mapiranja izvoza',
+                    'catalogs'         => 'Katalozi i katalološke cijene',
+                ],
+            ],
         ],
 
         'acl' => [

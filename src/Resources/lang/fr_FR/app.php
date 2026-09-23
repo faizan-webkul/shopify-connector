@@ -302,6 +302,37 @@ return [
             'attribute-conditions'      => 'Conditions d\'attribut',
             'conditions-note'           => 'Filtrer un export par conditions d\'attribut est disponible dans Shopify Pro.',
             'metafield-types'           => 'Types de métachamp',
+
+            'comparison' => [
+                'title'        => 'Édition Community et Pro',
+                'intro'        => 'Ce que le connecteur apporte seul, et ce que Shopify Pro y ajoute.',
+                'feature'      => 'Fonctionnalité',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Inclus',
+                'not-included' => 'Non inclus',
+
+                'groups' => [
+                    'transfer'   => 'Import et export',
+                    'filters'    => 'Filtres d\'export',
+                    'mapping'    => 'Correspondance',
+                    'automation' => 'Automatisation',
+                    'pricing'    => 'Tarification',
+                ],
+
+                'features' => [
+                    'product'          => 'Export et import de produits',
+                    'category'         => 'Synchronisation des catégories et collections',
+                    'metafield'        => 'Définitions et valeurs de métachamps',
+                    'metaobject'       => 'Définitions et entrées de métaobjets',
+                    'attribute-import' => 'Import d\'attributs et de familles',
+                    'base-filters'     => 'Filtrer un export par canal, devise, SKU et statut',
+                    'base-mapping'     => 'Correspondance entre attributs et champs Shopify',
+                    'manual-run'       => 'Lancer un export ou un import à la demande',
+                    'base-price'       => 'Prix produit issu de la correspondance d\'export',
+                    'catalogs'         => 'Catalogues et prix de catalogue',
+                ],
+            ],
         ],
 
         'acl' => [

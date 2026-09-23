@@ -302,6 +302,37 @@ return [
             'attribute-conditions'      => '属性条件',
             'conditions-note'           => '按属性条件筛选导出在 Shopify Pro 中提供。',
             'metafield-types'           => '元字段类型',
+
+            'comparison' => [
+                'title'        => '社区版与专业版对比',
+                'intro'        => '连接器本身提供的功能，以及 Shopify Pro 额外带来的功能。',
+                'feature'      => '功能',
+                'community'    => '社区版',
+                'pro'          => '专业版',
+                'included'     => '包含',
+                'not-included' => '不包含',
+
+                'groups' => [
+                    'transfer'   => '导入与导出',
+                    'filters'    => '导出筛选',
+                    'mapping'    => '映射',
+                    'automation' => '自动化',
+                    'pricing'    => '定价',
+                ],
+
+                'features' => [
+                    'product'          => '产品导出与导入',
+                    'category'         => '分类与产品系列同步',
+                    'metafield'        => '元字段定义与值',
+                    'metaobject'       => '元对象定义与条目',
+                    'attribute-import' => '属性与属性族导入',
+                    'base-filters'     => '按渠道、货币、SKU 和状态筛选导出',
+                    'base-mapping'     => '属性与 Shopify 字段映射',
+                    'manual-run'       => '按需运行导出或导入',
+                    'base-price'       => '来自导出映射的产品价格',
+                    'catalogs'         => '目录与目录价格',
+                ],
+            ],
         ],
 
         'acl' => [

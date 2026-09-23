@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Attributbetingelser',
             'conditions-note'           => 'At filtrere en eksport efter attributbetingelser er tilgængeligt i Shopify Pro.',
             'metafield-types'           => 'Metafelt-typer',
+
+            'comparison' => [
+                'title'        => 'Community Edition og Pro',
+                'intro'        => 'Hvad connectoren giver i sig selv, og hvad Shopify Pro lægger oveni.',
+                'feature'      => 'Funktion',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Inkluderet',
+                'not-included' => 'Ikke inkluderet',
+
+                'groups' => [
+                    'transfer'   => 'Import og eksport',
+                    'filters'    => 'Eksportfiltre',
+                    'mapping'    => 'Tilknytning',
+                    'automation' => 'Automatisering',
+                    'pricing'    => 'Priser',
+                ],
+
+                'features' => [
+                    'product'          => 'Eksport og import af produkter',
+                    'category'         => 'Synkronisering af kategorier og kollektioner',
+                    'metafield'        => 'Metafelt-definitioner og -værdier',
+                    'metaobject'       => 'Metaobjekt-definitioner og -poster',
+                    'attribute-import' => 'Import af attributter og familier',
+                    'base-filters'     => 'Filtrer en eksport efter kanal, valuta, SKU og status',
+                    'base-mapping'     => 'Tilknytning af attributter til Shopify-felter',
+                    'manual-run'       => 'Kør en eksport eller import efter behov',
+                    'base-price'       => 'Produktpris fra eksporttilknytningen',
+                    'catalogs'         => 'Kataloger og katalogpriser',
+                ],
+            ],
         ],
 
         'acl' => [

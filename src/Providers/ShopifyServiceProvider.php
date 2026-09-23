@@ -524,5 +524,8 @@ class ShopifyServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../Config/pro.php', 'shopify.pro'
         );
+        $this->mergeConfigFrom(
+            __DIR__.'/../Config/pro-comparison.php', 'shopify.pro.comparison'
+        );
     }
 }

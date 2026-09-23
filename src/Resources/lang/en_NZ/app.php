@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Attribute Conditions',
             'conditions-note'           => 'Filtering an export by attribute conditions is available in Shopify Pro.',
             'metafield-types'           => 'Metafield Types',
+
+            'comparison' => [
+                'title'        => 'Community Edition vs Pro',
+                'intro'        => 'What the connector ships on its own, and what Shopify Pro adds.',
+                'feature'      => 'Feature',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Included',
+                'not-included' => 'Not included',
+
+                'groups' => [
+                    'transfer'   => 'Import & Export',
+                    'filters'    => 'Export Filters',
+                    'mapping'    => 'Mapping',
+                    'automation' => 'Automation',
+                    'pricing'    => 'Pricing',
+                ],
+
+                'features' => [
+                    'product'          => 'Product export and import',
+                    'category'         => 'Category and collection sync',
+                    'metafield'        => 'Metafield definitions and values',
+                    'metaobject'       => 'Metaobject definitions and entries',
+                    'attribute-import' => 'Attribute and family import',
+                    'base-filters'     => 'Filter an export by channel, currency, SKU and status',
+                    'base-mapping'     => 'Attribute to Shopify field mapping',
+                    'manual-run'       => 'Run an export or import on demand',
+                    'base-price'       => 'Product price from the export mapping',
+                    'catalogs'         => 'Catalogues and catalogue prices',
+                ],
+            ],
         ],
 
         'acl' => [

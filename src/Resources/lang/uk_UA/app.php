@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Умови за атрибутами',
             'conditions-note'           => 'Фільтрування експорту за умовами атрибутів доступне в Shopify Pro.',
             'metafield-types'           => 'Типи метаполів',
+
+            'comparison' => [
+                'title'        => 'Community Edition і Pro',
+                'intro'        => 'Що конектор дає сам по собі та що додає Shopify Pro.',
+                'feature'      => 'Можливість',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Включено',
+                'not-included' => 'Не включено',
+
+                'groups' => [
+                    'transfer'   => 'Імпорт та експорт',
+                    'filters'    => 'Фільтри експорту',
+                    'mapping'    => 'Зіставлення',
+                    'automation' => 'Автоматизація',
+                    'pricing'    => 'Ціни',
+                ],
+
+                'features' => [
+                    'product'          => 'Експорт та імпорт товарів',
+                    'category'         => 'Синхронізація категорій і колекцій',
+                    'metafield'        => 'Визначення та значення метаполів',
+                    'metaobject'       => 'Визначення та записи метаоб\'єктів',
+                    'attribute-import' => 'Імпорт атрибутів і сімейств',
+                    'base-filters'     => 'Фільтрація експорту за каналом, валютою, SKU і статусом',
+                    'base-mapping'     => 'Зіставлення атрибутів із полями Shopify',
+                    'manual-run'       => 'Запуск експорту або імпорту на вимогу',
+                    'base-price'       => 'Ціна товару із зіставлення експорту',
+                    'catalogs'         => 'Каталоги та ціни каталогів',
+                ],
+            ],
         ],
 
         'acl' => [

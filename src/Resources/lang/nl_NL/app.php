@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Attribuutvoorwaarden',
             'conditions-note'           => 'Een export filteren op attribuutvoorwaarden is beschikbaar in Shopify Pro.',
             'metafield-types'           => 'Metafield-typen',
+
+            'comparison' => [
+                'title'        => 'Community Edition versus Pro',
+                'intro'        => 'Wat de connector zelf biedt en wat Shopify Pro daaraan toevoegt.',
+                'feature'      => 'Functie',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Inbegrepen',
+                'not-included' => 'Niet inbegrepen',
+
+                'groups' => [
+                    'transfer'   => 'Import en export',
+                    'filters'    => 'Exportfilters',
+                    'mapping'    => 'Toewijzing',
+                    'automation' => 'Automatisering',
+                    'pricing'    => 'Prijzen',
+                ],
+
+                'features' => [
+                    'product'          => 'Product exporteren en importeren',
+                    'category'         => 'Categorieën en collecties synchroniseren',
+                    'metafield'        => 'Metafield-definities en -waarden',
+                    'metaobject'       => 'Metaobject-definities en -items',
+                    'attribute-import' => 'Attributen en families importeren',
+                    'base-filters'     => 'Een export filteren op kanaal, valuta, SKU en status',
+                    'base-mapping'     => 'Attributen toewijzen aan Shopify-velden',
+                    'manual-run'       => 'Een export of import op aanvraag uitvoeren',
+                    'base-price'       => 'Productprijs uit de exporttoewijzing',
+                    'catalogs'         => 'Catalogi en catalogusprijzen',
+                ],
+            ],
         ],
 
         'acl' => [

@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => '屬性條件',
             'conditions-note'           => '依屬性條件篩選匯出在 Shopify Pro 中提供。',
             'metafield-types'           => '中繼欄位類型',
+
+            'comparison' => [
+                'title'        => '社群版與專業版比較',
+                'intro'        => '連接器本身提供的功能，以及 Shopify Pro 額外帶來的功能。',
+                'feature'      => '功能',
+                'community'    => '社群版',
+                'pro'          => '專業版',
+                'included'     => '包含',
+                'not-included' => '不包含',
+
+                'groups' => [
+                    'transfer'   => '匯入與匯出',
+                    'filters'    => '匯出篩選',
+                    'mapping'    => '對應',
+                    'automation' => '自動化',
+                    'pricing'    => '定價',
+                ],
+
+                'features' => [
+                    'product'          => '產品匯出與匯入',
+                    'category'         => '分類與商品系列同步',
+                    'metafield'        => '中繼欄位定義與值',
+                    'metaobject'       => '中繼物件定義與項目',
+                    'attribute-import' => '屬性與屬性族匯入',
+                    'base-filters'     => '依管道、貨幣、SKU 與狀態篩選匯出',
+                    'base-mapping'     => '屬性與 Shopify 欄位對應',
+                    'manual-run'       => '隨時執行匯出或匯入',
+                    'base-price'       => '來自匯出對應的產品價格',
+                    'catalogs'         => '型錄與型錄價格',
+                ],
+            ],
         ],
 
         'acl' => [

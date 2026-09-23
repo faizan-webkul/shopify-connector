@@ -11,6 +11,7 @@ use Webkul\Shopify\Http\Controllers\MetaFieldController;
 use Webkul\Shopify\Http\Controllers\MetaobjectController;
 use Webkul\Shopify\Http\Controllers\MetaobjectEntryController;
 use Webkul\Shopify\Http\Controllers\OptionController;
+use Webkul\Shopify\Http\Controllers\ProController;
 use Webkul\Shopify\Http\Controllers\RealtimeController;
 use Webkul\Shopify\Http\Controllers\SaasAutoLoginController;
 use Webkul\Shopify\Http\Controllers\SettingController;
@@ -50,7 +51,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
             Route::delete('{id}', 'destroy')->name('shopify.metafield.delete')->whereNumber('id');
         });
 
-        Route::redirect('upgrade', config('shopify.pro.url'))->name('shopify.upgrade');
+        Route::get('upgrade', [ProController::class, 'index'])->name('shopify.upgrade');
 
         /**
          * The real-time screens and the catalogs they belong to sit under the

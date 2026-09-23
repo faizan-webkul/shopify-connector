@@ -303,6 +303,37 @@ return [
             'attribute-conditions'      => 'Mga kondisyon ng attribute',
             'conditions-note'           => 'Available sa Shopify Pro ang pag-filter ng export ayon sa mga kondisyon ng attribute.',
             'metafield-types'           => 'Mga uri ng metafield',
+
+            'comparison' => [
+                'title'        => 'Community Edition laban sa Pro',
+                'intro'        => 'Ang kayang ibigay ng connector nang mag-isa, at ang idinaragdag ng Shopify Pro.',
+                'feature'      => 'Tampok',
+                'community'    => 'Community',
+                'pro'          => 'Pro',
+                'included'     => 'Kasama',
+                'not-included' => 'Hindi kasama',
+
+                'groups' => [
+                    'transfer'   => 'Import at Export',
+                    'filters'    => 'Mga Filter sa Export',
+                    'mapping'    => 'Pagmamapa',
+                    'automation' => 'Awtomasyon',
+                    'pricing'    => 'Presyo',
+                ],
+
+                'features' => [
+                    'product'          => 'Pag-export at pag-import ng produkto',
+                    'category'         => 'Pag-sync ng kategorya at koleksyon',
+                    'metafield'        => 'Mga kahulugan at halaga ng metafield',
+                    'metaobject'       => 'Mga kahulugan at entry ng metaobject',
+                    'attribute-import' => 'Pag-import ng attribute at family',
+                    'base-filters'     => 'Pag-filter ng export ayon sa channel, pera, SKU at status',
+                    'base-mapping'     => 'Pagmamapa ng attribute sa field ng Shopify',
+                    'manual-run'       => 'Pagpapatakbo ng export o import kapag kailangan',
+                    'base-price'       => 'Presyo ng produkto mula sa pagmamapa ng export',
+                    'catalogs'         => 'Mga katalogo at presyo ng katalogo',
+                ],
+            ],
         ],
 
         'acl' => [
