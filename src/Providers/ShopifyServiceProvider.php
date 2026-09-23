@@ -3,7 +3,6 @@
 namespace Webkul\Shopify\Providers;
 
 use Illuminate\Routing\Router;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -182,13 +181,6 @@ class ShopifyServiceProvider extends ServiceProvider
                     ->all());
         });
 
-        View::composer([
-            'admin::settings.data-transfer.exports.create',
-            'admin::settings.data-transfer.imports.create',
-        ], function (): void {
-            $this->hideUnavailableJobs();
-        });
-
         Event::listen('unopim.admin.layout.head', static function (ViewRenderEventManager $viewRenderEventManager): void {
             $viewRenderEventManager->addTemplate('shopify::pro.styles');
         });
@@ -349,22 +341,6 @@ class ShopifyServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerConfig();
-    }
-
-    /**
-     * A job the connector only advertises is left out of the pickers, so a store
-     * without Pro is never offered work its package cannot do. The saved job
-     * keeps its type, so one created with Pro still opens and still runs.
-     */
-    protected function hideUnavailableJobs(): void
-    {
-        if (resolve(ProFeatures::class)->isInstalled()) {
-            return;
-        }
-
-        foreach ((array) config('shopify.pro.jobs', []) as $group => $types) {
-            config([$group => Arr::except((array) config($group, []), $types)]);
-        }
     }
 
     /**

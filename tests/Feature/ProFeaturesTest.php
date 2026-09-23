@@ -234,18 +234,15 @@ it('offers the mapping sections and the schedule read only while the pro package
         ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
 });
 
-it('keeps the pro jobs out of the pickers while the package is absent', function () {
-    withoutShopifyPro();
+it('leaves the pro jobs for the pro package to declare', function () {
+    $config = fn (string $group): array => require dirname(__DIR__, 2)."/src/Config/{$group}.php";
 
-    $this->loginAsAdmin();
+    expect(array_keys($config('exporters')))->not->toContain('shopifyCatalog');
+    expect(array_keys($config('importers')))->not->toContain('shopifyCatalog', 'shopifyCatalogPrice');
 
-    get(route('admin.settings.data_transfer.exports.create'))
-        ->assertOk()
-        ->assertDontSee(trans('shopify::app.exporters.shopify.catalog'));
-
-    get(route('admin.settings.data_transfer.imports.create'))
-        ->assertOk()
-        ->assertDontSee(trans('shopify::app.importers.shopify.catalog-price'));
+    expect(config('exporters.shopifyCatalog.exporter'))->toStartWith('Webkul\\ShopifyPro\\');
+    expect(config('importers.shopifyCatalog.importer'))->toStartWith('Webkul\\ShopifyPro\\');
+    expect(config('importers.shopifyCatalogPrice.importer'))->toStartWith('Webkul\\ShopifyPro\\');
 });
 
 it('refuses a pro metafield type while the package is absent', function () {

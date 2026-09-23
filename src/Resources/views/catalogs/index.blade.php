@@ -34,11 +34,13 @@
                 </div>
             </div>
 
-            @if ($shopifyProInstalled
-                && bouncer()->hasPermission('shopify.credentials.catalogs.create'))
-                <div class="flex items-center gap-2.5">
-                    <v-create-catalog-form></v-create-catalog-form>
-                </div>
+            {{--
+                Two guards, for two states: the flag covers a store that holds
+                the package without it being on, the include covers a store
+                that does not hold it at all.
+            --}}
+            @if ($shopifyProInstalled)
+                @includeIf('shopify_pro::catalogs._create-button')
             @endif
         </div>
     </x-slot>
@@ -54,84 +56,6 @@
     </x-slot>
 
     @if ($shopifyProInstalled)
-        @pushOnce('scripts')
-            <script type="text/x-template" id="v-create-catalog-form-template">
-                <div>
-                    <button
-                        type="button"
-                        class="primary-button"
-                        @click="$refs.catalogCreateModal.toggle()"
-                    >
-                        @lang('shopify::app.shopify.catalogs.create')
-                    </button>
-
-                    {{--
-                        The overlay is fixed to the viewport, so it only covers the
-                        whole screen from the body: inside the page it is trapped in
-                        the content column's own stacking context. The form travels
-                        with it so the field stays part of the submission.
-                    --}}
-                    <teleport to="body">
-                    <x-admin::form
-                        v-slot="{ meta, errors, handleSubmit }"
-                        as="div"
-                    >
-                        <form @submit="handleSubmit($event, create)" ref="catalogCreateForm">
-                            <x-admin::modal ref="catalogCreateModal">
-                                <x-slot:header>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-white">
-                                        @lang('shopify::app.shopify.catalogs.create')
-                                    </p>
-                                </x-slot>
-
-                                <x-slot:content>
-                                    <x-admin::form.control-group>
-                                        <x-admin::form.control-group.label class="required">
-                                            @lang('shopify::app.shopify.catalogs.form.title')
-                                        </x-admin::form.control-group.label>
-
-                                        <x-admin::form.control-group.control
-                                            type="text"
-                                            name="title"
-                                            rules="required"
-                                            :label="trans('shopify::app.shopify.catalogs.form.title')"
-                                        />
-
-                                        <x-admin::form.control-group.error control-name="title" />
-                                    </x-admin::form.control-group>
-                                </x-slot>
-
-                                <x-slot:footer>
-                                    <button type="submit" class="primary-button">
-                                        @lang('shopify::app.shopify.catalogs.form.save')
-                                    </button>
-                                </x-slot>
-                            </x-admin::modal>
-                        </form>
-                    </x-admin::form>
-                    </teleport>
-                </div>
-            </script>
-
-            <script type="module">
-                app.component('v-create-catalog-form', {
-                    template: '#v-create-catalog-form-template',
-
-                    methods: {
-                        create(params, { setErrors }) {
-                            this.$axios.post("{{ route('shopify.credentials.catalogs.store', $credential->id) }}", new FormData(this.$refs.catalogCreateForm))
-                                .then((response) => {
-                                    this.$navigate(response.data.data.redirect_url);
-                                })
-                                .catch(error => {
-                                    if (error.response.status == 422) {
-                                        setErrors(error.response.data.errors);
-                                    }
-                                });
-                        },
-                    },
-                });
-            </script>
-        @endPushOnce
+        @includeIf('shopify_pro::catalogs._create-form')
     @endif
 </x-admin::layouts.with-history>
