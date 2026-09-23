@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Webkul\Shopify\Http\Controllers\CatalogController;
-use Webkul\Shopify\Http\Controllers\CatalogOptionController;
 use Webkul\Shopify\Http\Controllers\CollectionMappingController;
 use Webkul\Shopify\Http\Controllers\CredentialController;
 use Webkul\Shopify\Http\Controllers\ImportMappingController;
@@ -67,19 +66,14 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
                 ->whereNumber('credentialId')
                 ->name('shopify.credentials.realtime.toggle');
 
-            Route::prefix('{credentialId}/catalogs')->whereNumber('credentialId')->group(function (): void {
-                Route::get('options/markets', [CatalogOptionController::class, 'markets'])
-                    ->name('shopify.credentials.catalogs.options.markets');
-
-                Route::controller(CatalogController::class)->group(function (): void {
-                    Route::get('', 'index')->name('shopify.credentials.catalogs.index');
-                    Route::post('create', 'store')->name('shopify.credentials.catalogs.store');
-                    Route::post('mass-destroy', 'massDestroy')->name('shopify.credentials.catalogs.mass_destroy');
-                    Route::get('{id}/edit', 'edit')->name('shopify.credentials.catalogs.edit')->whereNumber('id');
-                    Route::put('{id}', 'update')->name('shopify.credentials.catalogs.update')->whereNumber('id');
-                    Route::delete('{id}', 'destroy')->name('shopify.credentials.catalogs.destroy')->whereNumber('id');
-                });
-            });
+            /**
+             * Only the screen itself, because the tab that leads to it is the
+             * connector's. What a catalog is then read from or written to is
+             * Pro's, and ships with Pro.
+             */
+            Route::get('{credentialId}/catalogs', [CatalogController::class, 'index'])
+                ->whereNumber('credentialId')
+                ->name('shopify.credentials.catalogs.index');
         });
 
         Route::controller(SettingController::class)->prefix('export-settings')->group(function (): void {

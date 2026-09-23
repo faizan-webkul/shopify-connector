@@ -53,7 +53,6 @@ it('leaves the credentials menu active on the screens that belong to a credentia
 })->with([
     'credential edit'     => ['shopify.credentials.edit', [1]],
     'catalogs'            => ['shopify.credentials.catalogs.index', [1]],
-    'catalog edit'        => ['shopify.credentials.catalogs.edit', [1, 2]],
     'credential realtime' => ['shopify.credentials.realtime.index', [1]],
 ]);
 

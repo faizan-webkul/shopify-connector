@@ -16,10 +16,14 @@
         <x-admin::data-transfer.filter-fields
             ::entity-type="entityType"
             :exporter-config="config('exporters')"
-            only="schedule_cron_preset,schedule_cron_expression,schedule_timezone,schedule_type"
+            :only="$shopifyProInstalled
+                ? 'schedule_cron_preset,schedule_cron_expression,schedule_timezone,schedule_type'
+                : 'schedule_cron_preset'"
             grid-class="grid grid-cols-1"
         />
     </fieldset>
 </div>
 
-@include('shopify::data-transfer._cron-field')
+@if ($shopifyProInstalled)
+    @include('shopify::data-transfer._cron-field')
+@endif

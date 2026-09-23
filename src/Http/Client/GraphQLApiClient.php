@@ -2,6 +2,7 @@
 
 namespace Webkul\Shopify\Http\Client;
 
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
 class GraphQLApiClient
@@ -83,6 +84,12 @@ class GraphQLApiClient
                 'code' => $response->status(),
                 'body' => $response->json(),
             ];
+        } catch (RequestException $e) {
+            return [
+                'code'    => $e->response->status(),
+                'body'    => $e->response->json(),
+                'message' => $e->getMessage(),
+            ];
         } catch (\Exception $e) {
             return [
                 'message' => $e->getMessage(),
@@ -104,7 +111,7 @@ class GraphQLApiClient
 
         $response = $this->createResponse($request);
 
-        if (isset($response['body']['errors'])) {
+        if (is_array($response['body']['errors'] ?? null)) {
             $error = array_column($response['body']['errors'], 'message');
             if (in_array('Throttled', $error)) {
                 return $this->request($endpoint, $parameters, $payload, $logger);

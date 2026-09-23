@@ -102,21 +102,6 @@ return [
         'route' => 'shopify.credentials.catalogs.index',
         'sort'  => 9,
     ], [
-        'key'   => 'shopify.credentials.catalogs.create',
-        'name'  => 'shopify::app.shopify.catalogs.acl.create',
-        'route' => 'shopify.credentials.catalogs.store',
-        'sort'  => 1,
-    ], [
-        'key'   => 'shopify.credentials.catalogs.edit',
-        'name'  => 'shopify::app.shopify.catalogs.acl.edit',
-        'route' => 'shopify.credentials.catalogs.edit',
-        'sort'  => 2,
-    ], [
-        'key'   => 'shopify.credentials.catalogs.delete',
-        'name'  => 'shopify::app.shopify.catalogs.acl.delete',
-        'route' => 'shopify.credentials.catalogs.destroy',
-        'sort'  => 3,
-    ], [
         'key'   => 'shopify.upgrade',
         'name'  => 'shopify::app.components.layouts.sidebar.upgrade',
         'route' => 'shopify.upgrade',

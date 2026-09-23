@@ -24,8 +24,12 @@
     </script>
 
     <script type="module">
-        /** Core defines the shared field base further down the stack, so registration waits for the document. */
-        document.addEventListener('DOMContentLoaded', () => {
+        /**
+         * Core defines the shared field base further down the stack, so registration waits
+         * for the document. Ajax navigation re-runs this script long after that event has
+         * fired, so an already-loaded document registers straight away.
+         */
+        const registerCronField = () => {
             const PRESET_FIELD = 'schedule_cron_preset';
             const EXPRESSIONS = @json(array_keys($shopifyPresets));
             const CUSTOM = @json(\Webkul\Shopify\Support\ShopifySchedule::CUSTOM);
@@ -81,6 +85,12 @@
                     },
                 },
             });
-        });
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', registerCronField, { once: true });
+        } else {
+            registerCronField();
+        }
     </script>
 @endPushOnce

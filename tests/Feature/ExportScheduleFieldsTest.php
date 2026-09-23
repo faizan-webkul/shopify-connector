@@ -84,65 +84,27 @@ it('offers the schedule on every shopify export that can run unattended', functi
     }
 });
 
-it('ships the schedule fields to the create screen, expression bound to custom', function () {
-    $this->loginAsAdmin();
-
-    $html = get(route('admin.settings.data_transfer.exports.create'))->assertOk()->getContent();
-
-    expect($html)->toContain('schedule_cron_preset')
-        ->toContain('"name":"schedule_cron_expression","type":"cron"')
-        ->toContain('v-field-cron');
-});
-
-it('fills the expression as soon as the first preset mounts the field', function () {
-    $this->loginAsAdmin();
-
-    $html = get(route('admin.settings.data_transfer.exports.create'))->assertOk()->getContent();
-
-    expect($html)->toContain('this.applyPreset(this.preset)')
-        ->toContain('query_params || {}).preset');
-});
-
-it('opens a saved preset on the edit screen without asking for an expression', function () {
+/**
+ * Without Pro the connector offers the preset alone: the expression, timezone
+ * and run type shape a schedule nothing would run, and the cron field they
+ * need never ships. What Pro then adds lives in Pro's own suite.
+ */
+it('offers the preset alone while the pro package is absent', function () {
     $this->loginAsAdmin();
 
     $job = JobInstancesProxy::create([
-        'code'        => 'schedule-edit-'.uniqid(),
+        'code'        => 'schedule-teaser-'.uniqid(),
         'type'        => 'export',
         'entity_type' => 'shopifyProduct',
         'action'      => 'export',
-        'filters'     => ['schedule_cron_preset' => '*/5 * * * *', 'schedule_type' => ShopifySchedule::RECURRING],
+        'filters'     => ['schedule_cron_preset' => '*/5 * * * *'],
     ]);
 
     $html = get(route('admin.settings.data_transfer.exports.edit', $job->id))->assertOk()->getContent();
 
-    expect($html)->toContain('schedule_cron_preset')
-        ->toContain('"schedule_cron_expression":"*\/5 * * * *"')
-        ->toContain('v-field-cron');
-});
-
-it('asks for an expression only once a schedule is picked', function (array $filters, bool $valid) {
-    $validator = resolve(config('exporters.shopifyProduct.validator'));
-
-    $data = array_merge([
-        'code'        => 'schedule-rules-'.uniqid(),
-        'entity_type' => 'shopifyProduct',
-        'action'      => 'export',
-        'filters'     => array_merge(['credentials' => 1, 'channels' => 'default', 'currencies' => 'USD'], $filters),
-    ], []);
-
-    $run = fn () => $validator->validate($data);
-
-    $valid ? expect($run)->not->toThrow(Exception::class) : expect($run)->toThrow(Exception::class);
-})->with([
-    'preset needs nothing typed'     => [['schedule_cron_preset' => '0 * * * *'], true],
-    'custom needs an expression'     => [['schedule_cron_preset' => ShopifySchedule::CUSTOM], false],
-    'custom with a blank expression' => [['schedule_cron_preset' => ShopifySchedule::CUSTOM, 'schedule_cron_expression' => ''], false],
-    'custom with an expression'      => [['schedule_cron_preset' => ShopifySchedule::CUSTOM, 'schedule_cron_expression' => '0 * * * *'], true],
-    'disabled needs nothing'         => [['schedule_cron_preset' => ShopifySchedule::DISABLED], true],
-    'disabled keeps no expression'   => [['schedule_cron_preset' => ShopifySchedule::DISABLED, 'schedule_cron_expression' => ''], true],
-    'no schedule at all'             => [[], true],
-]);
+    expect($html)->toContain('only="schedule_cron_preset"')
+        ->not->toContain('v-field-cron');
+})->skip(fn (): bool => shopifyProBooted(), 'Pro is the one that ships the rest of the card.');
 
 it('saves a profile with no schedule without asking for an expression', function () {
     $this->loginAsAdmin();

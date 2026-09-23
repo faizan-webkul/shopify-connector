@@ -10,6 +10,14 @@
         ->pluck('name')
         ->intersect(['schedule_cron_preset', 'schedule_cron_expression', 'schedule_timezone', 'schedule_type'])
         ->values();
+
+    /**
+     * Without Pro only the preset is offered: the rest shape a schedule that
+     * cannot run, so they are noise beside what is being sold.
+     */
+    if (! $shopifyProInstalled) {
+        $shopifySchedule = $shopifySchedule->intersect(['schedule_cron_preset'])->values();
+    }
 @endphp
 
 @if ($shopifySchedule->isNotEmpty())
@@ -31,5 +39,7 @@
         </fieldset>
     </div>
 
-    @include('shopify::data-transfer._cron-field')
+    @if ($shopifyProInstalled)
+        @include('shopify::data-transfer._cron-field')
+    @endif
 @endif
