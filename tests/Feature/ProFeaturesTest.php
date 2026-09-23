@@ -234,15 +234,16 @@ it('offers the mapping sections and the schedule read only while the pro package
         ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
 });
 
+/**
+ * The connector's own files are read straight from disk, because what matters
+ * is what it declares alone: a suite running beside Pro sees the merged config.
+ * That Pro then declares these lives in Pro's own suite.
+ */
 it('leaves the pro jobs for the pro package to declare', function () {
     $config = fn (string $group): array => require dirname(__DIR__, 2)."/src/Config/{$group}.php";
 
     expect(array_keys($config('exporters')))->not->toContain('shopifyCatalog');
     expect(array_keys($config('importers')))->not->toContain('shopifyCatalog', 'shopifyCatalogPrice');
-
-    expect(config('exporters.shopifyCatalog.exporter'))->toStartWith('Webkul\\ShopifyPro\\');
-    expect(config('importers.shopifyCatalog.importer'))->toStartWith('Webkul\\ShopifyPro\\');
-    expect(config('importers.shopifyCatalogPrice.importer'))->toStartWith('Webkul\\ShopifyPro\\');
 });
 
 it('refuses a pro metafield type while the package is absent', function () {
