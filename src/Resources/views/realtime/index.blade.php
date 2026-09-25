@@ -3,6 +3,8 @@
     :history-id="\Webkul\Shopify\Support\ShopifyMapping::EXPORT_ID"
     :tab-items="$tabItems ?? []"
 >
+    @php($realtimeAvailable = $shopifyProInstalled && \Illuminate\Support\Facades\Route::has('shopify.realtime.store'))
+
     <x-slot:entityName>
         shopify_exportmapping
     </x-slot>
@@ -33,7 +35,7 @@
                 </div>
             </div>
 
-            @if ($shopifyProInstalled && request('history') === null)
+            @if ($realtimeAvailable && request('history') === null)
                 <button
                     type="submit"
                     form="realtime-settings-form"
@@ -51,11 +53,11 @@
 
         <x-admin::form
             id="realtime-settings-form"
-            :action="route('shopify.realtime.store', \Webkul\Shopify\Support\ShopifyMapping::EXPORT_ID)"
+            :action="$realtimeAvailable ? route('shopify.realtime.store', \Webkul\Shopify\Support\ShopifyMapping::EXPORT_ID) : '#'"
             method="PUT"
             :ajax="true"
         >
-            <fieldset @disabled(! $shopifyProInstalled) class="contents">
+            <fieldset @disabled(! $realtimeAvailable) class="contents">
             <div class="p-4 bg-white dark:bg-cherry-900 rounded box-shadow grid grid-cols-2 max-sm:grid-cols-1 gap-x-5">
                 <x-admin::form.control-group>
                     <x-admin::form.control-group.label>

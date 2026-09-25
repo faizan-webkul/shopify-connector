@@ -98,7 +98,31 @@ it('names a pro section and offers to unlock it while the package is absent', fu
         ->toContain('Mapped on Pro.')
         ->toContain(trans('shopify::app.shopify.pro.badge'))
         ->toContain(trans('shopify::app.shopify.pro.unlock'))
-        ->toContain(route('shopify.upgrade'));
+        ->toContain(config('shopify.pro.url'))
+        ->toContain('target="_blank"')
+        ->toContain('rel="noopener noreferrer"');
+});
+
+it('opens the sidebar upgrade link in a new tab', function () {
+    $menu = require dirname(__DIR__, 2).'/src/Config/menu.php';
+    $upgradeMenuItem = collect($menu)->firstWhere('key', 'shopify.upgrade');
+
+    config(['menu.admin' => [...config('menu.admin'), $upgradeMenuItem]]);
+
+    $this->loginAsAdmin();
+
+    get(route('shopify.credentials.index'))
+        ->assertOk()
+        ->assertSee('href="'.config('shopify.pro.url').'"', false);
+
+    $html = view('shopify::pro.styles')->render();
+
+    expect($html)
+        ->toContain(json_encode(config('shopify.pro.url')))
+        ->toContain('a[href="'.config('shopify.pro.url').'"]')
+        ->toContain("link.target = '_blank'")
+        ->toContain("link.rel = 'noopener noreferrer'")
+        ->toContain("'unopim:navigate:success'");
 });
 
 it('sums a pro screen up once while the package is absent', function () {
@@ -214,11 +238,13 @@ it('offers the real time screens read only while the pro package is absent', fun
 
     get(route('shopify.realtime.index', 1))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.summary'))
+        ->assertSee('action="#"', false);
 
     get(route('shopify.credentials.realtime.index', $credential->id))
         ->assertOk()
-        ->assertSeeText(trans('shopify::app.shopify.pro.summary'));
+        ->assertSeeText(trans('shopify::app.shopify.pro.summary'))
+        ->assertSee('action="#"', false);
 });
 
 it('offers the mapping sections and the schedule read only while the pro package is absent', function () {

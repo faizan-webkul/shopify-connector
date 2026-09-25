@@ -20,19 +20,11 @@ class ProFeatures
         return (bool) config('shopify.pro.installed', false);
     }
 
-    /**
-     * Where the screens send a store that wants Pro: the comparison screen,
-     * which is the one place that then offers the store selling it.
-     */
     public function upgradeUrl(): string
     {
-        return route('shopify.upgrade');
+        return $this->storeUrl();
     }
 
-    /**
-     * Where Pro is actually bought. Only the comparison screen leads out here,
-     * so the destination stays in one place.
-     */
     public function storeUrl(): string
     {
         return (string) config('shopify.pro.url');

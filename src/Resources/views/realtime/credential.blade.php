@@ -4,6 +4,8 @@
     :history-url="route('shopify.credentials.edit', $credential->id).'?history=1'"
     :tab-items="$tabItems ?? []"
 >
+    @php($realtimeAvailable = $shopifyProInstalled && \Illuminate\Support\Facades\Route::has('shopify.credentials.realtime.toggle'))
+
     <x-slot:entityName>
         shopify_credentials
     </x-slot>
@@ -34,7 +36,7 @@
                 </div>
             </div>
 
-            @if ($shopifyProInstalled)
+            @if ($realtimeAvailable)
                 <button
                     type="submit"
                     form="realtime-credential-form"
@@ -52,11 +54,11 @@
 
         <x-admin::form
             id="realtime-credential-form"
-            :action="route('shopify.credentials.realtime.toggle', $credential->id)"
+            :action="$realtimeAvailable ? route('shopify.credentials.realtime.toggle', $credential->id) : '#'"
             method="PUT"
             :ajax="true"
         >
-            <fieldset @disabled(! $shopifyProInstalled) class="contents">
+            <fieldset @disabled(! $realtimeAvailable) class="contents">
             <div class="p-4 bg-white dark:bg-cherry-900 rounded box-shadow">
                 {{--
                     The tracker appends its badge to the control group, so the row

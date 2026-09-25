@@ -2,16 +2,10 @@
 
 namespace Webkul\Shopify\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Shopify\Repositories\ShopifyCredentialRepository;
 
-/**
- * The real-time sync screens as the connector alone can serve them: the design
- * is here, while the Pro package binds the implementation that pushes products
- * and stores the settings over this one.
- */
 class RealtimeController extends Controller
 {
     public function __construct(protected ShopifyCredentialRepository $credentialRepository) {}
@@ -29,25 +23,5 @@ class RealtimeController extends Controller
             'blocker'    => null,
             'blocking'   => false,
         ]);
-    }
-
-    public function store(): JsonResponse
-    {
-        return $this->unavailable();
-    }
-
-    public function toggle(int $credentialId): JsonResponse
-    {
-        return $this->unavailable();
-    }
-
-    /**
-     * Real-time sync is run by Pro, so without it there is nothing to store.
-     */
-    protected function unavailable(): JsonResponse
-    {
-        return new JsonResponse([
-            'message' => trans('shopify::app.shopify.pro.realtime-note'),
-        ], 403);
     }
 }

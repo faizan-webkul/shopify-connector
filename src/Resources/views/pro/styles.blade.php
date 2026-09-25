@@ -5,6 +5,7 @@
 --}}
 @php
     $menuPath = parse_url(route('shopify.upgrade'), PHP_URL_PATH);
+    $storeUrl = config('shopify.pro.url');
 @endphp
 
 {{--
@@ -12,7 +13,9 @@
     is worn either way and must be styled either way.
 --}}
 <style>
-    #unopim-sidebar a[href$="{{ $menuPath }}"] {
+    #unopim-sidebar a[href$="{{ $menuPath }}"],
+    #unopim-sidebar a[href="{{ $storeUrl }}"],
+    #unopim-sidebar a.shopify-pro-menu-link {
         display: block;
         margin-block: 0.625rem 0.25rem;
         margin-inline-end: 1rem;
@@ -25,12 +28,18 @@
 
     /** The fly-out panel drops the menu's indent, so the button brings its own. */
     #unopim-sidebar [data-menu-item].inactive a[href$="{{ $menuPath }}"],
-    .sidebar-collapsed #unopim-sidebar a[href$="{{ $menuPath }}"] {
+    #unopim-sidebar [data-menu-item].inactive a[href="{{ $storeUrl }}"],
+    #unopim-sidebar [data-menu-item].inactive a.shopify-pro-menu-link,
+    .sidebar-collapsed #unopim-sidebar a[href$="{{ $menuPath }}"],
+    .sidebar-collapsed #unopim-sidebar a[href="{{ $storeUrl }}"],
+    .sidebar-collapsed #unopim-sidebar a.shopify-pro-menu-link {
         margin-block: 0.5rem 0.75rem;
         margin-inline: 0.75rem;
     }
 
     #unopim-sidebar a[href$="{{ $menuPath }}"],
+    #unopim-sidebar a[href="{{ $storeUrl }}"],
+    #unopim-sidebar a.shopify-pro-menu-link,
     .shopify-pro-cta {
         background-color: #f6b81c;
         color: #2b2000;
@@ -41,6 +50,8 @@
     }
 
     #unopim-sidebar a[href$="{{ $menuPath }}"]:hover,
+    #unopim-sidebar a[href="{{ $storeUrl }}"]:hover,
+    #unopim-sidebar a.shopify-pro-menu-link:hover,
     .shopify-pro-cta:hover {
         background-color: #e9ab0c;
         color: #2b2000;
@@ -368,3 +379,24 @@
 
 </style>
 
+<script>
+    const configureShopifyProLinks = () => {
+        const upgradeRoute = @json(route('shopify.upgrade'));
+        const storeUrl = @json(config('shopify.pro.url'));
+
+        document.querySelectorAll(`a[href="${upgradeRoute}"], a[href="${storeUrl}"]`).forEach((link) => {
+            link.href = storeUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.classList.add('shopify-pro-menu-link');
+        });
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', configureShopifyProLinks);
+    } else {
+        configureShopifyProLinks();
+    }
+
+    document.addEventListener('unopim:navigate:success', configureShopifyProLinks);
+</script>

@@ -185,6 +185,18 @@ class ShopifyServiceProvider extends ServiceProvider
             $viewRenderEventManager->addTemplate('shopify::pro.styles');
         });
 
+        $this->app->booted(static function (): void {
+            View::composer('admin::components.layouts.sidebar.index', static function ($view): void {
+                $menu = $view->getData()['menu'];
+
+                if (! isset($menu->items['shopify']['children']['upgrade'])) {
+                    return;
+                }
+
+                $menu->items['shopify']['children']['upgrade']['url'] = config('shopify.pro.url');
+            });
+        });
+
         /**
          * The Pro cards belong to the mapping form, and they move themselves
          * next to its media card once mounted. The history tab carries neither,

@@ -30,7 +30,8 @@
 @elseif ($isStore || ! $installed)
     <a
         href="{{ $isStore ? $proFeatures->storeUrl() : $proFeatures->upgradeUrl() }}"
-        @if ($isStore) target="_blank" rel="noopener noreferrer" @endif
+        target="_blank"
+        rel="noopener noreferrer"
         {{ $attributes->merge(['class' => 'shrink-0 '.($classes[$variant] ?? $classes['button'])]) }}
     >
         {{ trans($labels[$variant] ?? $labels['button']) }}

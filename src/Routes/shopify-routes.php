@@ -62,10 +62,6 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
                 ->whereNumber('credentialId')
                 ->name('shopify.credentials.realtime.index');
 
-            Route::put('{credentialId}/realtime', [RealtimeController::class, 'toggle'])
-                ->whereNumber('credentialId')
-                ->name('shopify.credentials.realtime.toggle');
-
             /**
              * Only the screen itself, because the tab that leads to it is the
              * connector's. What a catalog is then read from or written to is
@@ -94,8 +90,6 @@ Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], f
          */
         Route::prefix('export-mapping/{id}')->whereNumber('id')->group(function (): void {
             Route::get('realtime', [RealtimeController::class, 'index'])->name('shopify.realtime.index');
-
-            Route::put('realtime', [RealtimeController::class, 'store'])->name('shopify.realtime.store');
         });
 
         Route::controller(CollectionMappingController::class)->prefix('collection-mapping')->group(function (): void {
