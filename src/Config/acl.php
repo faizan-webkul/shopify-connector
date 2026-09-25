@@ -101,10 +101,5 @@ return [
         'name'  => 'shopify::app.shopify.catalogs.title',
         'route' => 'shopify.credentials.catalogs.index',
         'sort'  => 9,
-    ], [
-        'key'   => 'shopify.upgrade',
-        'name'  => 'shopify::app.components.layouts.sidebar.upgrade',
-        'route' => 'shopify.upgrade',
-        'sort'  => 7,
     ],
 ];

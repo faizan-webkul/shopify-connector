@@ -189,8 +189,7 @@ it('sends the upgrade entry to the comparison, which is what leads on to the sto
 });
 
 it('keeps the upgrade menu entry out of the sidebar while pro is installed', function () {
-    expect(collect(config('menu.admin'))->pluck('key'))->not->toContain('shopify.upgrade')
-        ->and(collect(config('acl'))->pluck('key'))->not->toContain('shopify.upgrade');
+    expect(collect(config('menu.admin'))->pluck('key'))->not->toContain('shopify.upgrade');
 })->skip(fn (): bool => ! shopifyProBooted(), 'The Pro package is the one that hides the entry.');
 
 it('offers the catalog screen without its list while the pro package is absent', function () {
